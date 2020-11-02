@@ -16,4 +16,18 @@ public abstract class User {
         this.userID = UUID.randomUUID();
         this.username = username;
     }
+
+    /**
+     * @return the User's ID
+     */
+    public UUID getUserID() {
+        return userID;
+    }
+
+    /**
+     * @return the User's name
+     */
+    public String getUsername() {
+        return username;
+    }
 }
