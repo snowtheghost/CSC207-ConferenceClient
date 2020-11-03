@@ -1,6 +1,6 @@
 ##### Actors & Responsibilities #####  
 - Tanuj Devjani - Programmer: User (User, Attendee, Organizer, Speaker)  
-- Derrick Wang - Programmer: User (User, Attendee, Organizer, Speaker)
+- Zihan Wang - Programmer: User (User, Attendee, Organizer, Speaker)
 - Arya Joshi - Tester: User (User, Attendee, Organizer, Speaker)
 - Kaiyi Liu - Tester: User (User, Attendee, Organizer, Speaker) & UML Designer
 
