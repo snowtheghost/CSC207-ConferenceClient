@@ -1,12 +1,13 @@
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Represents an Attendee
  */
 public class Attendee extends User {
-    private ArrayList<Message> messages;
-    private ArrayList<User> contacts;
-    private ArrayList<Event> events;
+    private ArrayList<UUID> messages;
+    private ArrayList<UUID> contacts;
+    private ArrayList<UUID> events;
 
     /**
      * Creates a new Attendee with a unique ID, a username,
@@ -23,21 +24,28 @@ public class Attendee extends User {
     /**
      * @return the Attendee's Events
      */
-    public ArrayList<Event> getEvents() {
+    public ArrayList<UUID> getEvents() {
         return events;
     }
 
     /**
      * @return the Attendee's Messages
      */
-    public ArrayList<Message> getMessages() {
+    public ArrayList<UUID> getMessages() {
         return messages;
     }
 
     /**
      * @return the Attendee's Contacts
      */
-    public ArrayList<User> getContacts() {
+    public ArrayList<UUID> getContacts() {
         return contacts;
     }
+
+    /**
+     * Add another User to the Attendee's Contacts
+     * @param user Another User
+     */
+    public void addContact(User user){contacts.add(user.getUserID());}
+
 }
