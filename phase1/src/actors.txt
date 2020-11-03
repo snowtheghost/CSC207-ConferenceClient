@@ -1,5 +1,5 @@
 ##### Entities #####
 Zachariah Vincze - Messaging System (Message)
 Tanuj Devjani - User System (User, Attendee, Organizer, Speaker)
-Justin Chan - Room System (Event, Room)
+Kerry Zhu - Room System (Event, Room)
 
