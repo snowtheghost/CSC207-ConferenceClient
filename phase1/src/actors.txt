@@ -1,4 +1,5 @@
-##### Actors #####
-Zachariah Vincze - Messaging System (Message, MessageManager
-Tanuj Devjani - User System (User, Attendee, Organizer, Speaker, UserManager)
-Justin Chan - Room System (Event, Room, RoomManager)
+##### Entities #####
+Zachariah Vincze - Messaging System (Message)
+Tanuj Devjani - User System (User, Attendee, Organizer, Speaker)
+Justin Chan - Room System (Event, Room)
+
