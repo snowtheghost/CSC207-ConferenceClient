@@ -2,7 +2,7 @@
 - Tanuj Devjani - Programmer: User (User, Attendee, Organizer, Speaker)  
 - Zihan Wang - Programmer: User (User, Attendee, Organizer, Speaker)
 - Arya Joshi - Tester: User (User, Attendee, Organizer, Speaker)
-- Kaiyi Liu - Tester: User (User, Attendee, Organizer, Speaker) & UML Designer
+- Kaiyi Liu - Tester: User (User, Attendee, Organizer, Speaker)
 
 - Kerry Zhu - Programmer & Tester: Login System, Igateway Interface  
 
