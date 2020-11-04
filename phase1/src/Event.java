@@ -40,9 +40,10 @@ public class Event {
      * @param startTime the startTime of the event using GregorianCalendar object.
      * @param endTime the time of the event using GregorianCalendar object.
      *
-     * Note: We may want a precondition that limits the available precision of start and end times
+     * Precondition: startTime.before(endTime)
+     * Precondition: startTime has the same date as endTime
      */
-    Event(String eventTitle, Speaker speaker, GregorianCalendar startTime, GregorianCalendar endTime) {
+    Event(String eventTitle, Speaker speaker, Calendar startTime, Calendar endTime) {
         eventID = UUID.randomUUID();
         this.title = eventTitle;
         this.speakerID = speaker.getUserID();

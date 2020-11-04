@@ -12,6 +12,8 @@ import java.util.*;
  * Add Event to schedule
  * Remove Event from schedule
  *
+ * Assumptions: Event starts and ends on the same day
+ *
  * @author Justin Chan
  */
 
@@ -34,7 +36,7 @@ public class Room {
     public HashMap<UUID, ArrayList<Event>> getSpeakerIDSchedule() {
         HashMap<UUID, ArrayList<Event>> speakerIDSchedule = new HashMap<>();
         for (Event event : schedule.values()) {
-            speakerIDSchedule.putIfAbsent(event.getSpeakerID(), new ArrayList<Event>());
+            speakerIDSchedule.putIfAbsent(event.getSpeakerID(), new ArrayList<>());
             speakerIDSchedule.get(event.getSpeakerID()).add(event);
         }
         return speakerIDSchedule;
@@ -43,7 +45,7 @@ public class Room {
     public HashMap<String, ArrayList<Event>> getTitleSchedule() {
         HashMap<String, ArrayList<Event>> titleSchedule = new HashMap<>();
         for (Event event : schedule.values()) {
-            titleSchedule.putIfAbsent(event.getTitle(), new ArrayList<Event>());
+            titleSchedule.putIfAbsent(event.getTitle(), new ArrayList<>());
             titleSchedule.get(event.getTitle()).add(event);
         }
         return titleSchedule;
@@ -61,7 +63,7 @@ public class Room {
     public ArrayList<Event> getEventsByTime(GregorianCalendar startTime, GregorianCalendar endTime) {
         ArrayList<Event> eventsInInterval = new ArrayList<>();
         for (Calendar time : schedule.keySet()) {
-            if (time.after(startTime) && time.before(endTime)) {
+            if (!time.before(startTime) && time.before(endTime)) { // One sided boundary acceptance
                 eventsInInterval.add(schedule.get(time));
             }
         }
@@ -71,7 +73,7 @@ public class Room {
     public ArrayList<Event> getEventsByTitle(String title) {
         ArrayList<Event> eventsWithTitle = getTitleSchedule().get(title);
         if (eventsWithTitle == null) {
-            eventsWithTitle = new ArrayList<Event>();
+            eventsWithTitle = new ArrayList<>();
         }
         return eventsWithTitle;
     }
@@ -79,35 +81,55 @@ public class Room {
     public ArrayList<Event> getEventsBySpeakerID(Speaker speaker) {
         ArrayList<Event> eventsBySpeakerID = getSpeakerIDSchedule().get(speaker.getUserID());
         if (eventsBySpeakerID == null) {
-            eventsBySpeakerID = new ArrayList<Event>();
+            eventsBySpeakerID = new ArrayList<>();
         }
         return eventsBySpeakerID;
     }
 
-    private boolean eventIsOverlapping(Event newEvent, Event comparisonEvent) {
+    private boolean eventOverlapping(Event newEvent, Event comparisonEvent) {
         Calendar[] newEventTimes = { newEvent.getStartTime(), newEvent.getEndTime() };
         Calendar[] comparisonEventTimes = { comparisonEvent.getStartTime(), comparisonEvent.getEndTime()};
 
+        // Check for exact same times
+        if (newEvent.getStartTime().equals(comparisonEvent.getStartTime()) || newEvent.getEndTime().equals(comparisonEvent.getEndTime())) {
+            return true;
+        }
+
         for (int i = 0; i <= 1; i++) {
-            if ((newEventTimes[i].after(comparisonEventTimes[0]) && newEventTimes[i].before(comparisonEventTimes[1]) ||
-                    comparisonEventTimes[i].after(newEventTimes[0]) && comparisonEventTimes[i].before(newEventTimes[1]) )) {
-                return false;
+            if ((newEventTimes[i].after(comparisonEventTimes[0]) && newEventTimes[i].before(comparisonEventTimes[1])) ||
+                    (comparisonEventTimes[i].after(newEventTimes[0]) && comparisonEventTimes[i].before(newEventTimes[1]) )) {
+                return true;
             }
         }
-        return true;
+        return false;
+    }
+
+    private boolean eventOutOfBounds(Event newEvent) {
+        int startHour = newEvent.getStartTime().get(Calendar.HOUR_OF_DAY);
+        int endMinute = newEvent.getEndTime().get(Calendar.MINUTE);
+        int endHour = newEvent.getEndTime().get(Calendar.HOUR_OF_DAY);
+        return (startHour < 9 || (endHour == 17 && endMinute != 0) || endHour > 17);
+
+
     }
 
     /**
      * Adds an Event to all three schedule types and returns true if the Event is valid, and returns false if the Event
-     * could not be added.
+     * could not be added due to overlap or time.
      *
      * @param eventToAdd the event to be added
      * @return true if the event was added or false if there was a conflict
+     *
+     * Precondition: eventToAdd.getStartTime() is in the same day as eventToAdd.getEndTime()
      */
     public boolean addEvent(Event eventToAdd) {
+        if (eventOutOfBounds(eventToAdd)) {
+            return false;
+        }
+
         for (Calendar time : schedule.keySet()) {
             Event comparisonEvent = schedule.get(time);
-            if (eventIsOverlapping(eventToAdd, comparisonEvent)) {
+            if (eventOverlapping(eventToAdd, comparisonEvent)) {
                 return false;
             }
         }

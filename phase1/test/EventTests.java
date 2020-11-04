@@ -1,8 +1,7 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 
-import java.util.GregorianCalendar;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Justin Chan
@@ -19,8 +18,8 @@ public class EventTests {
     @Before
     public void setUpBefore() {
         event1 = new Event("event1", speaker1,
-                new GregorianCalendar(2000, 20, 1, 100, 0, 0),
-                new GregorianCalendar(2000, 20, 1, 100, 30, 0));
+                new GregorianCalendar(2000, Calendar.MAY, 1, 100, 0, 0),
+                new GregorianCalendar(2000, Calendar.MAY, 1, 100, 30, 0));
     }
 
     // initial number of candies
@@ -37,12 +36,12 @@ public class EventTests {
 
     @Test
     public void testGetStartTime() {
-        assertEquals(event1.getStartTime(), new GregorianCalendar(2000, 20, 1, 100, 0, 0));
+        assertEquals(event1.getStartTime(), new GregorianCalendar(2000, Calendar.MAY, 1, 100, 0, 0));
     }
 
     @Test
     public void testGetEndTime() {
-        assertEquals(event1.getEndTime(), new GregorianCalendar(2000, 20, 1, 100, 30, 0));
+        assertEquals(event1.getEndTime(), new GregorianCalendar(2000, Calendar.MAY, 1, 100, 30, 0));
     }
 
     @Test
