@@ -5,9 +5,9 @@ import java.util.UUID;
  * @author Zachariah Vincze
  */
 public class Message {
-    private UUID senderID;
-    private UUID messageID;
-    private String messageContent;
+    private final UUID senderID;
+    private final UUID messageID;
+    private final String messageContent;
 
     /**
      * Create a new message object.
@@ -26,14 +26,6 @@ public class Message {
      */
     public String getMessageContent() {
         return this.messageContent;
-    }
-
-    /**
-     * Set's the message's content.
-     * @param messageContent the updated message content.
-     */
-    public void setMessageContent(String messageContent) {
-        this.messageContent = messageContent;
     }
 
     /**
