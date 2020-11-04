@@ -1,6 +1,7 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import java.util.GregorianCalendar;
 import java.util.UUID;
 
 /**
@@ -17,13 +18,15 @@ public class EventTests {
 
     @Before
     public void setUpBefore() {
-        event1 = new Event("event1", speaker1, new int[]{10, 1, 2021}, 0100);
+        event1 = new Event("event1", speaker1,
+                new GregorianCalendar(2000, 20, 1, 100, 0, 0),
+                new GregorianCalendar(2000, 20, 1, 100, 30, 0));
     }
 
     // initial number of candies
     @Test
-    public void testGetName() {
-        assertEquals("event1", event1.getName());
+    public void testGetTitle() {
+        assertEquals("event1", event1.getTitle());
     }
 
     @Test
@@ -33,16 +36,13 @@ public class EventTests {
     }
 
     @Test
-    public void testGetDate() {
-        int[] arrayCompare = new int[]{10, 01, 2021};
-        for (int i = 0; i < 3; i++) {
-            assertEquals(event1.getDate()[i], arrayCompare[i]);
-        }
+    public void testGetStartTime() {
+        assertEquals(event1.getStartTime(), new GregorianCalendar(2000, 20, 1, 100, 0, 0));
     }
 
     @Test
-    public void testGetTime() {
-        assertEquals(event1.getTime(), 0100);
+    public void testGetEndTime() {
+        assertEquals(event1.getEndTime(), new GregorianCalendar(2000, 20, 1, 100, 30, 0));
     }
 
     @Test

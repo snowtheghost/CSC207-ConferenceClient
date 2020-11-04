@@ -1,18 +1,14 @@
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Represents an Event
  *
  * Responsibilities:
- * Store name
- * Get name
+ * Store title
+ * Get title
  *
  * Store eventID
  * Get eventID
- *
- * Store date
- * Get date
  *
  * Store time
  * Get time
@@ -29,43 +25,45 @@ import java.util.UUID;
  */
 
 public class Event {
-    private final String name;
+    private final String title;
     private final UUID eventID;
-    private final int[] date; // The date of the event in the format of { mm, dd, yyyy }
-    private final int time; // The time of the event in the format of military time
+    private final Calendar startTime;
+    private final Calendar endTime;
     private final UUID speakerID;  // The UUID of the Speaker
-    private final ArrayList<UUID> attendeeIDs = new ArrayList<UUID>();  // List of attendees by UUID
+    private final ArrayList<UUID> attendeeIDs = new ArrayList<>();  // List of attendees by UUID
 
     /**
      * Event constructor
      *
-     * @param eventName the name of the event
+     * @param eventTitle the title of the event
      * @param speaker the speaker of the event
-     * @param date the date of the event in the format of { m, d, y }; Precondition: the date is valid
-     * @param time the time of the event in military time; Precondition: 0 <= time < 2400
+     * @param startTime the startTime of the event using GregorianCalendar object.
+     * @param endTime the time of the event using GregorianCalendar object.
+     *
+     * Note: We may want a precondition that limits the available precision of start and end times
      */
-    Event(String eventName, Speaker speaker, int[] date, int time) {
+    Event(String eventTitle, Speaker speaker, GregorianCalendar startTime, GregorianCalendar endTime) {
         eventID = UUID.randomUUID();
-        this.name = eventName;
+        this.title = eventTitle;
         this.speakerID = speaker.getUserID();
-        this.date = date;
-        this.time = time;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     public UUID getEventID() {
         return eventID;
     }
 
-    public int[] getDate() {
-        return date;
+    public Calendar getStartTime() {
+        return startTime;
     }
 
-    public int getTime() {
-        return time;
+    public Calendar getEndTime() {
+        return endTime;
     }
 
     public ArrayList<UUID> getAttendeeIDs() {
@@ -109,5 +107,10 @@ public class Event {
 
     public UUID getSpeakerID() {
         return speakerID;
+    }
+
+    @Override
+    public String toString() {
+        return "Event: " + title + '\n' + "Time: " + startTime.getTime() + " to " + endTime.getTime();
     }
 }
