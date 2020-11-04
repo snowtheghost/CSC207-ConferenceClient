@@ -48,4 +48,18 @@ public class Attendee extends User {
      */
     public void addContact(User user){contacts.add(user.getUserID());}
 
+    /**
+     * Add all all the UUIDs of the Events in EventstoAdd to the Attendee's events except duplication.
+     * @param EventsToAdd An array of Events to be added.
+     * @return the number of Event that were not be added
+     */
+    public int addEvents(Event[] EventsToAdd){
+        int res = 0;
+        for(Event E: EventsToAdd){
+            if(events.contains(E.getEventID())){res ++;}
+            else events.add(E.getEventID());
+        }
+        return res;
+    }
+
 }
