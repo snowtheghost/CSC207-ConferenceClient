@@ -3,6 +3,10 @@ import static org.junit.Assert.*;
 
 import java.util.UUID;
 
+/**
+ * @author Justin Chan
+ */
+
 public class EventTests {
     Speaker speaker1 = new Speaker("speaker1");
     Attendee attendee1 = new Attendee("attendee1");
