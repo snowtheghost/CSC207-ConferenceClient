@@ -41,8 +41,8 @@ public class Event {
      *
      * @param eventName the name of the event
      * @param speaker the speaker of the event
-     * @param date the date of the event in the format of { mm, dd, yyyy }
-     * @param time the time of the event in military time
+     * @param date the date of the event in the format of { m, d, y }; Precondition: the date is valid
+     * @param time the time of the event in military time; Precondition: 0 <= time < 2400
      */
     Event(String eventName, Speaker speaker, int[] date, int time) {
         eventID = UUID.randomUUID();
@@ -76,16 +76,22 @@ public class Event {
      * This method adds all the UUIDs of the Attendees in attendeesToAdd to the Event attendees. Duplicate members will
      * not be added.
      *
-     * @param attendeesToAdd an ArrayList of Attendee objects to be added to the Event attendees.
-     *                     Note that we take an ArrayList of Attendees and NOT UUIDs.
+     * @param attendeesToAdd an array of Attendee objects to be added to the Event attendees.
+     *                       Note that we take an ArrayList of Attendees and NOT UUIDs.
+     *
+     * @return the number of Attendees that were not added (as a result to an already present UUID)
      */
-    public void addAttendeeIDs(ArrayList<Attendee> attendeesToAdd) {
+    public int addAttendeeIDs(Attendee[] attendeesToAdd) {
+        int attendeesNotAdded = 0;
         for (Attendee attendee : attendeesToAdd) {
             UUID attendeeID = attendee.getUserID();
-            if (!attendeeIDs.contains(attendeeID)) {
+            if (attendeeIDs.contains(attendeeID)) {
+                attendeesNotAdded++;
+            } else {
                 attendeeIDs.add(attendeeID);
             }
         }
+        return attendeesNotAdded;
     }
 
     /**
@@ -94,6 +100,8 @@ public class Event {
      *
      * @param attendeeToRemove an Attendee object to be removed from the Event attendees.
      *                         Note that we take an Attendee and NOT its UUID
+     *
+     * @return true if the Attendee was removed and false if the Attendee was not present in the first place
      */
     public boolean removeAttendeeID(Attendee attendeeToRemove) {
         return attendeeIDs.remove(attendeeToRemove.getUserID());
