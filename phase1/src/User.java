@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Represents an abstract User
@@ -9,7 +7,7 @@ import java.util.UUID;
 public abstract class User {
     private UUID userID;
     private String username;
-    private List<UUID> messages;
+    private Map<UUID, List<UUID>> conversations;
 
     /**
      * Creates a new user with a unique ID and a username.
@@ -18,7 +16,7 @@ public abstract class User {
     public User(String username) {
         this.userID = UUID.randomUUID();
         this.username = username;
-        messages = new ArrayList<>();
+        this.conversations = new HashMap<UUID, List<UUID>>();
     }
 
     /**
@@ -35,9 +33,24 @@ public abstract class User {
         return username;
     }
 
-    public List<UUID> getMessages() {return messages;}
+    /**
+     * Returns a list of message UUIDs that this user has received from a specific sender.
+     * @param sender the UUID of the sender of the messages.
+     * @return a list of messages UUIDs that have been sent by sender.
+     */
+    public List<UUID> getMessages(User sender) {
+        return this.conversations.get(sender.getUserID());
+    }
 
-    public void addMessage(Message message){
-        messages.add(message.getMessageID());
+    /**
+     * Adds a message to this user's received message history.
+     * @param sender the UUID of the user who sent this message.
+     * @param message the UUID of the message that was sent.
+     */
+    public void addMessage(User sender, Message message) {
+        if (!this.conversations.containsKey(sender.getUserID())) {
+            this.conversations.put(sender.getUserID(), new ArrayList<UUID>());
+        }
+        this.conversations.get(sender.getUserID()).add(message.getMessageID());
     }
 }
