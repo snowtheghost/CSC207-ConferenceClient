@@ -37,7 +37,7 @@ public abstract class User {
 
     public List<UUID> getMessages() {return messages;}
 
-    public void receiveMessage(Message message){this.messages.add(message.getMessageID());}
+    private void receiveMessage(Message message){this.messages.add(message.getMessageID());}
 
     protected void sendMessageHelper(User recipient, String content){
         Message m = new Message(content, this.userID);
