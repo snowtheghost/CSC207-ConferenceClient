@@ -1,4 +1,4 @@
-public class Organizer extends User {
+public class Organizer extends Attendee {
 
     /**
      * Creates a new user with a unique ID and a username.
@@ -7,5 +7,10 @@ public class Organizer extends User {
      */
     public Organizer(String username) {
         super(username);
+    }
+
+    @Override
+    public boolean isOrganizer() {
+        return true;
     }
 }
