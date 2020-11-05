@@ -6,7 +6,6 @@ import java.util.UUID;
  * @author Zihan Wang
  */
 public class Attendee extends User {
-    private ArrayList<UUID> messages;
     private ArrayList<UUID> contacts;
     private ArrayList<UUID> events;
 
@@ -17,7 +16,6 @@ public class Attendee extends User {
      */
     public Attendee(String username){
         super(username);
-        messages = new ArrayList<>();
         contacts = new ArrayList<>();
         events = new ArrayList<>();
     }
@@ -27,13 +25,6 @@ public class Attendee extends User {
      */
     public ArrayList<UUID> getEvents() {
         return events;
-    }
-
-    /**
-     * @return the Attendee's Messages
-     */
-    public ArrayList<UUID> getMessages() {
-        return messages;
     }
 
     /**
@@ -72,7 +63,22 @@ public class Attendee extends User {
         return this.events.remove(event.getEventID());
     }
 
+    /**
+     * @return whether the Attendee is an Organizer
+     */
     public boolean isOrganizer(){
+        return false;
+    }
+
+    /**
+     * send message from this Attendee to another User who is in this.contacts
+     * @param recipient the User wo receive the message
+     * @param content the content of the Message
+     * @return whether the Message has been sent successfully
+     */
+    public boolean sendMessage(User recipient, String content) {
+        if(contacts.contains(recipient.getUserID())) return false;
+        super.sendMessageHelper(recipient, content);
         return false;
     }
 }

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -7,6 +8,7 @@ import java.util.UUID;
 public abstract class User {
     private UUID userID;
     private String username;
+    private ArrayList<UUID> messages;
 
     /**
      * Creates a new user with a unique ID and a username.
@@ -15,6 +17,7 @@ public abstract class User {
     public User(String username) {
         this.userID = UUID.randomUUID();
         this.username = username;
+        messages = new ArrayList<>();
     }
 
     /**
@@ -29,5 +32,14 @@ public abstract class User {
      */
     public String getUsername() {
         return username;
+    }
+
+    public ArrayList<UUID> getMessages() {return messages;}
+
+    public void receiveMessage(Message message){this.messages.add(message.getMessageID());}
+
+    protected void sendMessageHelper(User recipient, String content){
+        Message m = new Message(content, this.userID);
+        recipient.receiveMessage(m);
     }
 }
