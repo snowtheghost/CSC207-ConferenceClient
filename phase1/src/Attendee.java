@@ -3,6 +3,7 @@ import java.util.UUID;
 
 /**
  * Represents an Attendee
+ * @author Zihan Wang
  */
 public class Attendee extends User {
     private ArrayList<UUID> messages;
@@ -62,4 +63,16 @@ public class Attendee extends User {
         return res;
     }
 
+    /**
+     * Remove the eventID from this.event.
+     * @param event the Event object to be removed from this.events
+     * @return true if it is successfully removed, and false if it failed.
+     */
+    public boolean removeReservedEvents(Event event){
+        return this.events.remove(event.getEventID());
+    }
+
+    public boolean isOrganizer(){
+        return false;
+    }
 }
