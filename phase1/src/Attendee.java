@@ -69,16 +69,4 @@ public class Attendee extends User {
     public boolean isOrganizer(){
         return false;
     }
-
-    /**
-     * send message from this Attendee to another User who is in this.contacts
-     * @param recipient the User wo receive the message
-     * @param content the content of the Message
-     * @return whether the Message has been sent successfully
-     */
-    public boolean sendMessage(User recipient, String content) {
-        if(contacts.contains(recipient.getUserID())) return false;
-        super.sendMessageHelper(recipient, content);
-        return false;
-    }
 }
