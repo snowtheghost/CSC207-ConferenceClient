@@ -23,14 +23,14 @@ public class MessageManager {
     /**
      * Sends messages from a single user to a list of recipients.
      * @param messageContent the string content of the message.
-     * @param sender the user sending the message.
-     * @param recipients a list of users that are receiving the message.
+     * @param senderID the user sending the message.
+     * @param recipientIDs a list of users that are receiving the message.
      */
-    public void sendMessages(String messageContent, User sender, List<User> recipients) {
-        Message message = new Message(messageContent, sender, recipients);
+    public void sendMessages(String messageContent, UUID senderID, List<UUID> recipientIDs) {
+        Message message = new Message(messageContent, senderID, recipientIDs);
         messages.put(message.getMessageID(), message);
-        for (User user : recipients) {
-            this.userManager.getUser(user.getUserID()).addMessage(sender, message);
+        for (UUID id : recipientIDs) {
+            this.userManager.getUser(id).addMessage(senderID, message.getMessageID());
         }
     }
 }

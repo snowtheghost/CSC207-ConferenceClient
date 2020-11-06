@@ -45,12 +45,12 @@ public abstract class User {
     /**
      * Adds a message to this user's received message history.
      * @param sender the UUID of the user who sent this message.
-     * @param message the UUID of the message that was sent.
+     * @param messageID the UUID of the message that was sent.
      */
-    public void addMessage(User sender, Message message) {
-        if (!this.conversations.containsKey(sender.getUserID())) {
-            this.conversations.put(sender.getUserID(), new ArrayList<UUID>());
+    public void addMessage(UUID sender, UUID messageID) {
+        if (!this.conversations.containsKey(sender)) {
+            this.conversations.put(sender, new ArrayList<UUID>());
         }
-        this.conversations.get(sender.getUserID()).add(message.getMessageID());
+        this.conversations.get(sender).add(messageID);
     }
 }

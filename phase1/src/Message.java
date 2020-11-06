@@ -15,16 +15,13 @@ public class Message {
     /**
      * Creates a new message.
      * @param messageContent the string content of this message.
-     * @param sender the sender of this message.
-     * @param recipients a list of recipients of this message.
+     * @param senderID the sender of this message.
+     * @param recipientIDs a list of recipients of this message.
      */
-    public Message(String messageContent, User sender, List<User> recipients) {
+    public Message(String messageContent, UUID senderID, List<UUID> recipientIDs) {
         this.messageID = UUID.randomUUID();
-        this.senderID = sender.getUserID();
-        this.recipientIDs = new ArrayList<UUID>();
-        for (User user : recipients) {
-            this.recipientIDs.add(user.getUserID());
-        }
+        this.senderID = senderID;
+        this.recipientIDs = recipientIDs;
         this.messageContent = messageContent;
     }
 
