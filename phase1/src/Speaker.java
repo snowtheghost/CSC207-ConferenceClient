@@ -17,4 +17,6 @@ public class Speaker extends User {
     public List<UUID> getEventsSpeaking() {
         return eventsSpeaking;
     }
+
+    public void addEvent(Event event){eventsSpeaking.add(event.getEventID());}
 }
