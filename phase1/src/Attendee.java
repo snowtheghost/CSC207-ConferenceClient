@@ -42,6 +42,20 @@ public class Attendee extends User {
     public void addContact(User user){contacts.add(user.getUserID());}
 
     /**
+     * Remove a list of Users from this.contacts
+     * @param ContactsToRemove A list of User who will be removed
+     * @return the number of User in ContactsTo Remove who is not in this.contacts
+     */
+    public int removeContacts(User[] ContactsToRemove){
+        int res = 0;
+        for(User contact: ContactsToRemove){
+        if(!contacts.contains(contact.getUserID())) res += 1;
+        else {contacts.remove(contact.getUserID());}
+        }
+        return res;
+    }
+
+    /**
      * Add all all the UUIDs of the Events in EventstoAdd to the Attendee's events except duplication.
      * @param EventsToAdd An array of Events to be added.
      * @return the number of Event that were not be added
