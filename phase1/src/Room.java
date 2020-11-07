@@ -19,6 +19,7 @@ import java.util.*;
 
 public class Room {
     private final UUID roomID;
+    private final HashMap<UUID, Event> events = new HashMap<>();
     private final HashMap<Calendar, Event> schedule = new HashMap<>();
 
     public Room() {
@@ -27,6 +28,10 @@ public class Room {
 
     public UUID getRoomID() {
         return roomID;
+    }
+
+    public HashMap<UUID, Event> getEvents() {
+        return events;
     }
 
     public HashMap<Calendar, Event> getSchedule() {
@@ -134,6 +139,7 @@ public class Room {
             }
         }
 
+        events.put(eventToAdd.getEventID(), eventToAdd);
         schedule.put(eventToAdd.getStartTime(), eventToAdd);
         return true;
     }
@@ -148,9 +154,18 @@ public class Room {
         for (Calendar time : schedule.keySet()) {
             if (schedule.get(time).getEventID().equals(eventToRemove.getEventID())) {
                 schedule.remove(time);
+                events.remove(eventToRemove.getEventID());
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     *
+     * @return the list of eventIDs in the schedule
+     */
+    public ArrayList<UUID> getEventIDs() {
+        return new ArrayList<>(events.keySet());
     }
 }
