@@ -35,4 +35,15 @@ public class MessageManager {
             this.userManager.getUser(id).addMessage(senderID, message.getMessageID());
         }
     }
+
+    /**
+     * Sends a message from an organizer to all Attendees in the system.
+     * @param messageContent the string content of the message.
+     */
+    public void sendMessageToAllAttendees(String messageContent) {
+        List<UUID> attendees = userManager.getAttendees();
+        this.sendMessages(messageContent, attendees);
+    }
+
+    public void sendMessageToEvent
 }
