@@ -4,10 +4,9 @@ import java.util.UUID;
 
 /**
  * Represents an Organizer, the most powerful form of User
- * Author: Tanuj Devjani
+ *
  */
 public class Organizer extends Attendee {
-    private List<UUID> eventsOrganized;
     /**
      * Creates a new user with a unique ID and a username.
      *
@@ -15,7 +14,6 @@ public class Organizer extends Attendee {
      */
     public Organizer(String username) {
         super(username);
-        eventsOrganized = new ArrayList<>();
     }
 
     @Override
@@ -25,9 +23,5 @@ public class Organizer extends Attendee {
     public boolean isOrganizer() {
         return true;
     }
-    public List<UUID> getEvents() {
-        return eventsOrganized;
-    }
-
 
 }
