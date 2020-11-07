@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.List;
 
 public class UserManager {
     private Map<UUID, User> users;
@@ -24,7 +25,24 @@ public class UserManager {
         return this.users.get(userID);
     }
 
+    /**
+     * Returns the currently logged in User.
+     * @return the currently logged in User.
+     */
     public User getCurrentUser() { return currentUser; }
 
+    /**
+     * Sets the currently logged in user.
+     * @param currentUser the logged in user.
+     */
     public void setCurrentUser(User currentUser) { this.currentUser = currentUser; }
+
+    /**
+     * Returns a list of all Attendee UUIDs.
+     * @return list of all Attendee UUIDs.
+     */
+    public List<UUID> getAttendees() {
+        // TODO: Implement this method please - Zachary
+        return new ArrayList<UUID>();
+    }
 }
