@@ -282,4 +282,15 @@ public class RoomTests {
         assertTrue(room.getEventIDs().contains(eventNormal3.getEventID()));
         assertEquals(room.getEventIDs().size(), 2);
     }
+
+    @Test
+    public void testGetEvent() {
+        assertTrue(room.addEvent(eventNormal1));
+        assertTrue(room.addEvent(eventNormal2));
+        assertTrue(room.addEvent(eventNormal3));
+
+        assertEquals(room.getEvent(eventNormal1.getEventID()), eventNormal1);
+        assertEquals(room.getEvent(eventNormal2.getEventID()), eventNormal2);
+        assertEquals(room.getEvent(eventNormal3.getEventID()), eventNormal3);
+    }
 }

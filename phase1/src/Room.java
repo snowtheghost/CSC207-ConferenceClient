@@ -121,6 +121,20 @@ public class Room {
 
     }
 
+    public boolean eventIsValid(Event newEvent) {
+        if (eventOutOfBounds(newEvent)) {
+            return false;
+        }
+
+        for (Calendar time : getTimeSchedule().keySet()) {
+            Event comparisonEvent = getTimeSchedule().get(time);
+            if (eventOverlapping(newEvent, comparisonEvent)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Adds an Event to all three schedule types and returns true if the Event is valid, and returns false if the Event
      * could not be added due to overlap or time.
@@ -131,19 +145,11 @@ public class Room {
      * Precondition: eventToAdd.getStartTime() is in the same day as eventToAdd.getEndTime()
      */
     public boolean addEvent(Event eventToAdd) {
-        if (eventOutOfBounds(eventToAdd)) {
-            return false;
+        if (eventIsValid(eventToAdd)) {
+            events.put(eventToAdd.getEventID(), eventToAdd);
+            return true;
         }
-
-        for (Calendar time : getTimeSchedule().keySet()) {
-            Event comparisonEvent = getTimeSchedule().get(time);
-            if (eventOverlapping(eventToAdd, comparisonEvent)) {
-                return false;
-            }
-        }
-
-        events.put(eventToAdd.getEventID(), eventToAdd);
-        return true;
+        return false;
     }
 
     /**
@@ -167,5 +173,9 @@ public class Room {
      */
     public ArrayList<UUID> getEventIDs() {
         return new ArrayList<>(events.keySet());
+    }
+
+    public Event getEvent(UUID eventID) {
+        return events.get(eventID);
     }
 }
