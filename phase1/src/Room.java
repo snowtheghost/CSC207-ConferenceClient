@@ -3,7 +3,7 @@ import java.util.*;
 /**
  * Represents a Room
  *
- * Store schedule of time -> Event
+ * Store UUID to events
  *
  * Get Event at given time
  * Get Events of a given title
@@ -20,7 +20,6 @@ import java.util.*;
 public class Room {
     private final UUID roomID;
     private final HashMap<UUID, Event> events = new HashMap<>();
-    private final HashMap<Calendar, Event> schedule = new HashMap<>();
 
     public Room() {
         this.roomID = UUID.randomUUID();
@@ -34,13 +33,17 @@ public class Room {
         return events;
     }
 
-    public HashMap<Calendar, Event> getSchedule() {
-        return schedule;
+    public HashMap<Calendar, Event> getTimeSchedule() {
+        HashMap<Calendar, Event> timeSchedule = new HashMap<>();
+        for (Event event : events.values()) {
+            timeSchedule.putIfAbsent(event.getStartTime(), event);
+        }
+        return timeSchedule;
     }
 
     public HashMap<UUID, ArrayList<Event>> getSpeakerIDSchedule() {
         HashMap<UUID, ArrayList<Event>> speakerIDSchedule = new HashMap<>();
-        for (Event event : schedule.values()) {
+        for (Event event : events.values()) {
             speakerIDSchedule.putIfAbsent(event.getSpeakerID(), new ArrayList<>());
             speakerIDSchedule.get(event.getSpeakerID()).add(event);
         }
@@ -49,7 +52,7 @@ public class Room {
 
     public HashMap<String, ArrayList<Event>> getTitleSchedule() {
         HashMap<String, ArrayList<Event>> titleSchedule = new HashMap<>();
-        for (Event event : schedule.values()) {
+        for (Event event : events.values()) {
             titleSchedule.putIfAbsent(event.getTitle(), new ArrayList<>());
             titleSchedule.get(event.getTitle()).add(event);
         }
@@ -67,9 +70,9 @@ public class Room {
      */
     public ArrayList<Event> getEventsByTime(GregorianCalendar startTime, GregorianCalendar endTime) {
         ArrayList<Event> eventsInInterval = new ArrayList<>();
-        for (Calendar time : schedule.keySet()) {
+        for (Calendar time : getTimeSchedule().keySet()) {
             if (!time.before(startTime) && time.before(endTime)) { // One sided boundary acceptance
-                eventsInInterval.add(schedule.get(time));
+                eventsInInterval.add(getTimeSchedule().get(time));
             }
         }
         return eventsInInterval;
@@ -132,15 +135,14 @@ public class Room {
             return false;
         }
 
-        for (Calendar time : schedule.keySet()) {
-            Event comparisonEvent = schedule.get(time);
+        for (Calendar time : getTimeSchedule().keySet()) {
+            Event comparisonEvent = getTimeSchedule().get(time);
             if (eventOverlapping(eventToAdd, comparisonEvent)) {
                 return false;
             }
         }
 
         events.put(eventToAdd.getEventID(), eventToAdd);
-        schedule.put(eventToAdd.getStartTime(), eventToAdd);
         return true;
     }
 
@@ -151,9 +153,8 @@ public class Room {
      * @return true if the event was removed or false if there was no such event in the schedule
      */
     public boolean removeEvent(Event eventToRemove) {
-        for (Calendar time : schedule.keySet()) {
-            if (schedule.get(time).getEventID().equals(eventToRemove.getEventID())) {
-                schedule.remove(time);
+        for (Calendar time : getTimeSchedule().keySet()) {
+            if (getTimeSchedule().get(time).getEventID().equals(eventToRemove.getEventID())) {
                 events.remove(eventToRemove.getEventID());
                 return true;
             }
@@ -162,7 +163,6 @@ public class Room {
     }
 
     /**
-     *
      * @return the list of eventIDs in the schedule
      */
     public ArrayList<UUID> getEventIDs() {

@@ -89,13 +89,13 @@ public class RoomTests {
 
     @Test
     public void testInitialSchedule() {
-        assertEquals(room.getSchedule().size(), 0);
+        assertEquals(room.getTimeSchedule().size(), 0);
     }
 
     @Test
     public void testAddEventNormal() {
         assertTrue(room.addEvent(eventNormal));
-        assertEquals(room.getSchedule().size(), 1);
+        assertEquals(room.getTimeSchedule().size(), 1);
         assertEquals(room.getEvents().size(), 1);
     }
 
@@ -103,10 +103,10 @@ public class RoomTests {
     public void testAddEventBoundaries() {
         assertTrue(room.addEvent(eventEarlyBoundary)); // Start at 9
         assertTrue(room.addEvent(eventLateBoundary)); // End at 17
-        assertEquals(room.getSchedule().size(), 2);
+        assertEquals(room.getTimeSchedule().size(), 2);
         assertEquals(room.getEvents().size(), 2);
-        assertEquals(room.getSchedule().get(timeStartEarlyBoundary), eventEarlyBoundary);
-        assertEquals(room.getSchedule().get(timeStartLateBoundary), eventLateBoundary);
+        assertEquals(room.getTimeSchedule().get(timeStartEarlyBoundary), eventEarlyBoundary);
+        assertEquals(room.getTimeSchedule().get(timeStartLateBoundary), eventLateBoundary);
     }
 
     @Test
@@ -115,7 +115,7 @@ public class RoomTests {
         assertFalse(room.addEvent(eventOutOfBounds2A)); // Both oob late
         assertFalse(room.addEvent(eventOutOfBounds2B)); // Both oob early
         assertFalse(room.addEvent(eventOutOfBounds3)); // Start oob end in bound
-        assertEquals(room.getSchedule().size(), 0);
+        assertEquals(room.getTimeSchedule().size(), 0);
         assertEquals(room.getEvents().size(), 0);
     }
 
@@ -135,22 +135,22 @@ public class RoomTests {
         room.addEvent(eventNormal2);
         room.addEvent(eventNormal3);
 
-        assertEquals(room.getSchedule().size(), 3);
+        assertEquals(room.getTimeSchedule().size(), 3);
         assertEquals(room.getEvents().size(), 3);
 
         assertTrue(room.removeEvent(eventNormal1));
-        assertEquals(room.getSchedule().size(), 2);
+        assertEquals(room.getTimeSchedule().size(), 2);
         assertEquals(room.getEvents().size(), 2);
-        assertFalse(room.getSchedule().containsValue(eventNormal1));
-        assertTrue(room.getSchedule().containsValue(eventNormal2));
-        assertTrue(room.getSchedule().containsValue(eventNormal3));
+        assertFalse(room.getTimeSchedule().containsValue(eventNormal1));
+        assertTrue(room.getTimeSchedule().containsValue(eventNormal2));
+        assertTrue(room.getTimeSchedule().containsValue(eventNormal3));
 
         assertFalse(room.removeEvent(eventNormal1));
-        assertEquals(room.getSchedule().size(), 2);
+        assertEquals(room.getTimeSchedule().size(), 2);
         assertEquals(room.getEvents().size(), 2);
-        assertFalse(room.getSchedule().containsValue(eventNormal1));
-        assertTrue(room.getSchedule().containsValue(eventNormal2));
-        assertTrue(room.getSchedule().containsValue(eventNormal3));
+        assertFalse(room.getTimeSchedule().containsValue(eventNormal1));
+        assertTrue(room.getTimeSchedule().containsValue(eventNormal2));
+        assertTrue(room.getTimeSchedule().containsValue(eventNormal3));
     }
 
     @Test
@@ -216,6 +216,15 @@ public class RoomTests {
         room.addEvent(eventNormal2);
         room.addEvent(eventNormal3);
         assertEquals(room.getTitleSchedule().size(), 2); // 2 and 3 same title
+    }
+
+    @Test
+    public void testGetTimeSchedule() {
+        assertEquals(room.getTimeSchedule().size(), 0);
+        room.addEvent(eventNormal1);
+        room.addEvent(eventNormal2);
+        room.addEvent(eventNormal3);
+        assertEquals(room.getTimeSchedule().size(), 3); 
     }
 
     @Test
