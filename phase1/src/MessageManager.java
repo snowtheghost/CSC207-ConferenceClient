@@ -44,6 +44,4 @@ public class MessageManager {
         List<UUID> attendees = userManager.getAttendees();
         this.sendMessages(messageContent, attendees);
     }
-
-    public void sendMessageToEvent
 }
