@@ -38,23 +38,29 @@ public class RoomManager {
     }
 
     /**
-     *
      * @param eventTitle the title of the event
      * @param speaker the speaker of the event
      * @param startTime the start time of the event
      * @param endTime the end time of the event
      * @param roomID the roomID of the event
-     * @return true if the event can be added and false if the event cannot be added
+     * @return true if the event can be added and false if the event cannot be added. An event may not be added if
+     * the time is out of bounds, is overlapping another event in the same room, or the speaker is giving a talk
+     * at the same time.
      *
      * Preconditions: roomID exists
      */
     public boolean newEventValid(String eventTitle, Speaker speaker, Calendar startTime, Calendar endTime, UUID roomID) {
         Event newEvent = new Event(eventTitle, speaker, startTime, endTime);
-        return rooms.get(roomID).eventIsValid(newEvent);
+        for (UUID eventID : speaker.getEventsSpeaking()) {
+            // TODO: write the false condition. Dependent on Speaker which has not been correctly implemented at the moment.
+            if (!false) { // if condition involving speaker and overlap
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
-     *
      * @param eventTitle the title of the event
      * @param speaker the speaker of the event
      * @param startTime the start time of the event
@@ -62,11 +68,13 @@ public class RoomManager {
      * @param roomID the roomID of the room that the event should be added to
      * @return the UUID of the created event
      *
+     * This method adds the newEvent to the specified room and the specified speaker.
      * Precondition: the event can be added to the room and the roomID exists
      */
     public UUID newEvent(String eventTitle, Speaker speaker, Calendar startTime, Calendar endTime, UUID roomID) {
         Event newEvent = new Event(eventTitle, speaker, startTime, endTime);
         rooms.get(roomID).addEvent(newEvent);
+        speaker.addEvent(newEvent);
         return newEvent.getEventID();
     }
 
