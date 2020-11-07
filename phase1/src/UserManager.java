@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public class UserManager {
     private Map<UUID, User> users;
+    private User currentUser;
 
     /**
      * Creates a new UserManager.
@@ -22,4 +23,8 @@ public class UserManager {
     public User getUser(UUID userID) {
         return this.users.get(userID);
     }
+
+    public User getCurrentUser() { return currentUser; }
+
+    public void setCurrentUser(User currentUser) { this.currentUser = currentUser; }
 }

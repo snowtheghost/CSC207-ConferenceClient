@@ -25,10 +25,10 @@ public class MessageManager {
     /**
      * Sends messages from a single user to a list of recipients.
      * @param messageContent the string content of the message.
-     * @param senderID the user sending the message.
      * @param recipientIDs a list of users that are receiving the message.
      */
-    public void sendMessages(String messageContent, UUID senderID, List<UUID> recipientIDs) {
+    public void sendMessages(String messageContent, List<UUID> recipientIDs) {
+        UUID senderID = userManager.getCurrentUser().getUserID();
         Message message = new Message(messageContent, senderID, recipientIDs);
         messages.put(message.getMessageID(), message);
         for (UUID id : recipientIDs) {
