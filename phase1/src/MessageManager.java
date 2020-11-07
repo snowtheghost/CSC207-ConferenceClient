@@ -10,13 +10,15 @@ import java.util.UUID;
 public class MessageManager {
     private Map<UUID, Message> messages;
     private UserManager userManager;
+    private RoomManager roomManager;
 
     /**
      * Creates a new MessageManager.
      * @param userManager the users that this message system will be sending messages to.
      */
-    public MessageManager(UserManager userManager) {
+    public MessageManager(UserManager userManager, RoomManager roomManager) {
         this.userManager = userManager;
+        this.roomManager = roomManager;
         this.messages = new HashMap<UUID, Message>();
     }
 
