@@ -10,6 +10,8 @@ import java.util.*;
  * Get events from rooms by UUID
  * Get all events from room
  *
+ * Reschedule an event
+ *
  * Sign up an attendee for an Event
  * Remove an attendee from an Event
  *
@@ -124,13 +126,19 @@ public class RoomManager {
     }
 
     /**
-     * Removes a desired Event from the list of events.
+     * Removes a desired Event from the list of events and all participants
      *
      * @param room the UUID of the room containing the event
      * @param event the event to be removed
      * @return true if the event was removed or false if there was no such event in the schedule
      */
-    public boolean removeEvent(Room room, Event event) {
+    public boolean removeEvent(UserManager um, Room room, Event event) {
+        for (UUID attendeeID : event.getAttendeeIDs()) {
+            Attendee attendee = (Attendee) um.getUser(attendeeID);
+            attendee.removeReservedEvents(event);
+        }
+        Speaker speaker = (Speaker) um.getUser(event.getSpeakerID());
+        speaker.removeEvent(room, event);
         return room.removeEvent(event);
     }
 
@@ -154,6 +162,23 @@ public class RoomManager {
             event.removeAttendee(attendee);
             return true;
         }
+        return false;
+    }
+
+    /**
+     * @param room the room containing the event
+     * @param event the event to be rescheduled
+     * @param startTime the new start time
+     * @param endTime the new end time
+     * @return true if the event could be rescheduled and false if no changes were made due to failed reschedule
+     */
+    public boolean rescheduleEvent(UserManager um, Room room, Event event, Calendar startTime, Calendar endTime) {
+        room.removeEvent(event);
+        if (newEventValid(event.getTitle(), (Speaker) um.getUser(event.getSpeakerID()), startTime, endTime, room)) {
+            event.setTime(startTime, endTime);
+            return true;
+        }
+        room.addEvent(event);
         return false;
     }
 }

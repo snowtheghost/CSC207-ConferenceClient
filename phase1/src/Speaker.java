@@ -35,4 +35,11 @@ public class Speaker extends User {
         eventsSpeaking.putIfAbsent(room.getRoomID(), new ArrayList<>());
         eventsSpeaking.get(room.getRoomID()).add(event.getEventID());
     }
+
+    public void removeEvent(Room room, Event event){
+        eventsSpeaking.get(room.getRoomID()).remove(event.getEventID());
+        if (eventsSpeaking.get(room.getRoomID()).isEmpty()) {
+            eventsSpeaking.remove(room.getRoomID());
+        }
+    }
 }
