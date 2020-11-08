@@ -6,10 +6,10 @@
 
 - Kerry Zhu - Programmer & Tester: Login System
 
-- Zachariah Vincze - Programmer: Messaging System & User System (Message, User) & Controller Interface
+- Zachariah Vincze - Programmer: Messaging System, User System (Message, User), Controller Interface & State Switcher
 - Liam Ogilvie - Tester: Messaging System (Message) & UML Designer
 
-- Justin Chan - Programmer & Tester: Schedule System + User System (Event, Room, Speaker, RoomManager)  
+- Justin Chan - Programmer & Tester: Schedule System (Event, Room, RoomManager) & Programmer: User System (Speaker, UserManager)
 
 ##### Deadlines #####  
  - Saturday, November 7 - All entities written and tested
