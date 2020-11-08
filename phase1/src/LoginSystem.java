@@ -1,3 +1,6 @@
+import sun.rmi.runtime.Log;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -10,27 +13,49 @@ public class LoginSystem {
     private SpeakerPanel spPanel;
 
     public static void main(String[] args) {
+        // creates and stores all other controllers
+        LoginSystem loginSys = new LoginSystem(new UserManager(), new AttendeePanel(), new OrganizerPanel(),
+                new SpeakerPanel());
+        // creates input obj and asks user if they want to login or create account
         Scanner input = new Scanner(System.in);
+        while (true) {
+            System.out.println("\"Login\" or \"Create account\"?");
+            String decision = input.nextLine();
+            // if user wants to login
+            if (decision.equals("login")) {
+                System.out.println("Enter account name");
+                String userName = input.nextLine();
+                // TODO: check if user name exists, if so pass it onto the correct Panel
+            }
+            // if they want to create account
+            else if (decision.equals("create account")) {
+                ArrayList<String> validTypes = new ArrayList<>();
+                validTypes.add("speaker");
+                validTypes.add("organizer");
+                validTypes.add("attendee");
+                System.out.println("Enter account type (speaker/organizer/attendee):");
+                String accountType = input.nextLine();
+                // keep asking for account type until valid account type given
+                while (!validTypes.contains(accountType)) {
+                    System.out.println(accountType + " is not a valid account type. Please try again");
+                    accountType = input.nextLine();
+                }
+                ;
+                // keep asking for account name until unique account name given
+                System.out.println("Enter account name:");
+                String accountName = input.nextLine();
+                while (!loginSys.userMan.createAccount(accountName, false)) {
+                    System.out.println("Username taken, please try a different name:");
+                    accountName = input.nextLine();
+                }
+                ;
+                System.out.println("Successfully created " + accountType + "account, username: " +
+                        accountName);
 
-        // Enter username and press Enter
-        System.out.println("\"Login\" or \"Create account\"?");
-        String decision = input.nextLine();
 
-        if (decision.equals("login")) {
-            System.out.println("To create account, enter account name");
-            String userName = input.nextLine();
-            // TO DO check if user name exists, if so pass it onto the correct Panel
-
-        }
-        else if (decision.equals("create account")) {
-            System.out.println("Enter new username name and type");
-            String userName = input.nextLine();
-            // have a while loop, asking the user for a account name and type
-            // until unique account name and type given, then create account
-            // in user manager and pass onto correct panel
-        }
-        else {
-            System.out.println("invalid input");
+            } else {
+                System.out.println("invalid input");
+            }
         }
     }
     /**
