@@ -24,14 +24,6 @@ public class Organizer extends Attendee {
     public boolean isOrganizer() {
         return true;
     }
-    /**
-     * @return true as this instance is an Attendee, otherwise return false
-     * */
-    @Override
-    public boolean isAttendee() {
-        return false;
-    }
-
 
 
 

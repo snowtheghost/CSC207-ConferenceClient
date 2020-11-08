@@ -60,9 +60,5 @@ public abstract class User {
      * */
     public abstract boolean isOrganizer();
 
-    /**
-     * Checks if User is an Attendee.
-     * @return returns true if User is an Attendee, otherwise return false.
-     * */
-    public abstract boolean isAttendee();
+
 }
