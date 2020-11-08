@@ -218,15 +218,23 @@ public class RoomManagerTests {
 
         // Pieced together method of adding an attendee until UserManager implements the relevant methods
         // The next two lines should be a method in UserManager
-        attendee1.addEvents(event);
-        event.addAttendee(attendee1);
+        assertTrue(rm.addEventAttendee(attendee1, event));
+        assertFalse(rm.addEventAttendee(attendee1, event));
         assertEquals(rm.getEventAttendeeIDs(event).size(), 1);
 
-        attendee2.addEvents(event);
-        event.addAttendee(attendee2);
+        assertTrue(rm.addEventAttendee(attendee2, event));
+        assertFalse(rm.addEventAttendee(attendee2, event));
         assertEquals(rm.getEventAttendeeIDs(event).size(), 2);
 
         assertTrue(rm.getEvents(rooms.get(0)).contains(event));
+
+        assertTrue(rm.removeEventAttendee(attendee1, event));
+        assertFalse(rm.removeEventAttendee(attendee1, event));
+        assertEquals(rm.getEventAttendeeIDs(event).size(), 1);
+
+        assertTrue(rm.removeEventAttendee(attendee2, event));
+        assertFalse(rm.removeEventAttendee(attendee2, event));
+        assertEquals(rm.getEventAttendeeIDs(event).size(), 0);
     }
 
     @Test

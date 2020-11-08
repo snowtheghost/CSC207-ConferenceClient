@@ -99,7 +99,7 @@ public class Event {
      *
      * @return true if the Attendee was removed and false if the Attendee was not present in the first place
      */
-    public boolean removeAttendeeID(Attendee attendeeToRemove) {
+    public boolean removeAttendee(Attendee attendeeToRemove) {
         return attendeeIDs.remove(attendeeToRemove.getUserID());
     }
 

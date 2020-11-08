@@ -10,8 +10,8 @@ import java.util.*;
  * Get events from rooms by UUID
  * Get all events from room
  *
- * TODO: Sign up an attendee for an Event
- * TODO: Remove an attendee from an Event
+ * Sign up an attendee for an Event
+ * Remove an attendee from an Event
  *
  * @author Justin Chan
  */
@@ -132,5 +132,28 @@ public class RoomManager {
      */
     public boolean removeEvent(Room room, Event event) {
         return room.removeEvent(event);
+    }
+
+    /**
+     * @param attendee the attendee that is applying
+     * @param event the event being applied for
+     * @return true if the sign up was successful, or false if the attendee could not sign up (as they're already signed up)
+     */
+    public boolean addEventAttendee(Attendee attendee, Event event) {
+        if (event.getAttendeeIDs().contains(attendee.getUserID())) {
+            return false;
+        }
+        attendee.addEvents(event);
+        event.addAttendee(attendee);
+        return true;
+    }
+
+    public boolean removeEventAttendee(Attendee attendee, Event event) {
+        if (event.getAttendeeIDs().contains(attendee.getUserID())) {
+            attendee.removeReservedEvents(event);
+            event.removeAttendee(attendee);
+            return true;
+        }
+        return false;
     }
 }
