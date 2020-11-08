@@ -71,11 +71,35 @@ public class UserManager {
     }
 
     /**
+     * @return list of attendeesUUIDs in existence
+     * Last modified: Justin Chan
+     */
+    public ArrayList<UUID> getAttendeeUUIDs() {
+        ArrayList<UUID> attendeeUUIDs = new ArrayList<>();
+        for (Attendee attendee : getAttendees()) {
+            attendeeUUIDs.add(attendee.getUserID());
+        }
+        return attendeeUUIDs;
+    }
+
+    /**
      * Created: Justin Chan
      * @return list of speakers in existence
      */
     public ArrayList<Speaker> getSpeakers() {
         return speakers;
+    }
+
+    /**
+     * @return list of speakersUUIDs in existence
+     * Last modified: Justin Chan
+     */
+    public ArrayList<UUID> getSpeakerUUIDs() {
+        ArrayList<UUID> speakerUUIDs = new ArrayList<>();
+        for (Speaker speaker : getSpeakers()) {
+            speakerUUIDs.add(speaker.getUserID());
+        }
+        return speakerUUIDs;
     }
 
     /**
@@ -110,6 +134,18 @@ public class UserManager {
         Attendee attendee = new Attendee(username);
         attendees.add(attendee);
         return true;
+    }
+
+    /**
+     * @return list of organizersUUIDs in existence
+     * Last modified: Justin Chan
+     */
+    public ArrayList<UUID> getOrganizerUUIDs() {
+        ArrayList<UUID> organizerUUIDs = new ArrayList<>();
+        for (Organizer organizer : getOrganizers()) {
+            organizerUUIDs.add(organizer.getUserID());
+        }
+        return organizerUUIDs;
     }
 
     /**
