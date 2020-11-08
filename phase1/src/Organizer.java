@@ -1,11 +1,13 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
- * Represents an Organizer, the most powerful form of User
+ * Represent an Organizer
  *
+ *
+ *
+ * @author Justin Chan, TODO: Add your name here for the non-room related method contributor
  */
+
 public class Organizer extends Attendee {
     /**
      * Creates a new user with a unique ID and a username.
@@ -17,9 +19,6 @@ public class Organizer extends Attendee {
     }
 
     @Override
-    /*
-     method used as an attribute to check whether or not a given user is an organizer or not
-     */
     public boolean isOrganizer() {
         return true;
     }

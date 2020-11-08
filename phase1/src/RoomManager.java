@@ -13,16 +13,24 @@ import java.util.*;
  */
 
 public class RoomManager {
-    private final HashMap<UUID, Room> rooms = new HashMap<>();
+    private final ArrayList<Room> rooms = new ArrayList<>();
 
     RoomManager() { }
+
+    public HashMap<UUID, Room> getRoomIDToRoom() {
+        HashMap<UUID, Room> RoomIDToRoom = new HashMap<>();
+        for (Room room : rooms) {
+            RoomIDToRoom.put(room.getRoomID(), room);
+        }
+        return RoomIDToRoom;
+    }
 
     /**
      * @return the UUID of the created room
      */
     public UUID newRoom() {
         Room roomToCreate = new Room();
-        rooms.put(roomToCreate.getRoomID(), roomToCreate);
+        rooms.add(roomToCreate);
         return roomToCreate.getRoomID();
     }
 
@@ -34,7 +42,31 @@ public class RoomManager {
      * Precondition: the roomID is a key in rooms
      */
     public Room getRoom(UUID roomID) {
-        return rooms.get(roomID);
+        return getRoomIDToRoom().get(roomID);
+    }
+
+    /**
+     *
+     * @param roomID the roomID for the room that this event belongs to
+     * @param eventID the eventID of the event
+     * @return the event corresponding to the eventID
+     *
+     * Precondition: roomID must exist and eventID must exist within the corresponding room
+     */
+    public Event getEvent(UUID roomID, UUID eventID) {
+        return getRoom(roomID).getEvent(eventID);
+    }
+
+    /**
+     *
+     * @param roomID the roomID for the room that this event belongs to
+     * @param eventID the eventID of the event
+     * @return an ArrayList of AttendeeIDs that are attending the specified event in the specified room
+     *
+     * Precondition: roomID must exist and eventID must exist within the corresponding room
+     */
+    public ArrayList<UUID> getEventAttendeeIDs(UUID roomID, UUID eventID) {
+        return getEvent(roomID, eventID).getAttendeeIDs();
     }
 
     /**
@@ -51,13 +83,14 @@ public class RoomManager {
      */
     public boolean newEventValid(String eventTitle, Speaker speaker, Calendar startTime, Calendar endTime, UUID roomID) {
         Event newEvent = new Event(eventTitle, speaker, startTime, endTime);
-        for (UUID eventID : speaker.getEventsSpeaking()) {
-            // TODO: write the false condition. Dependent on Speaker which has not been correctly implemented at the moment.
-            if (!false) { // if condition involving speaker and overlap
-                return false;
+        for (UUID existingRoomID : speaker.getEventsSpeaking().keySet()) {
+            for (Event event : getRoom(existingRoomID).getEvents()) {
+                if (getRoom(existingRoomID).eventOverlapping(newEvent, event)) {
+                    return false;
+                }
             }
         }
-        return true;
+        return getRoom(roomID).eventIsValid(newEvent);
     }
 
     /**
@@ -73,32 +106,8 @@ public class RoomManager {
      */
     public UUID newEvent(String eventTitle, Speaker speaker, Calendar startTime, Calendar endTime, UUID roomID) {
         Event newEvent = new Event(eventTitle, speaker, startTime, endTime);
-        rooms.get(roomID).addEvent(newEvent);
-        speaker.addEvent(newEvent);
+        getRoom(roomID).addEvent(newEvent);
+        speaker.addEvent(getRoom(roomID), newEvent);
         return newEvent.getEventID();
-    }
-
-    /**
-     *
-     * @param roomID the roomID for the room that this event belongs to
-     * @param eventID the eventID of the event
-     * @return the event corresponding to the eventID
-     *
-     * Precondition: roomID must exist and eventID must exist within the corresponding room
-     */
-    public Event getEvent(UUID roomID, UUID eventID) {
-        return rooms.get(roomID).getEvent(eventID);
-    }
-
-    /**
-     *
-     * @param roomID the roomID for the room that this event belongs to
-     * @param eventID the eventID of the event
-     * @return an ArrayList of AttendeeIDs that are attending the specified event in the specified room
-     *
-     * Precondition: roomID must exist and eventID must exist within the corresponding room
-     */
-    public ArrayList<UUID> getEventAttendeeIDs(UUID roomID, UUID eventID) {
-        return getEvent(roomID, eventID).getAttendeeIDs();
     }
 }
