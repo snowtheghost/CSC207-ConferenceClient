@@ -57,15 +57,21 @@ public class Attendee extends User {
 
     /**
      * Add all all the UUIDs of the Events in EventstoAdd to the Attendee's events except duplication.
-     * @param EventsToAdd An array of Events to be added.
+     * @param eventsToAdd An array of Events to be added.
      * @return the number of Event that were not be added
      */
-    public int addEvents(Event[] EventsToAdd){
+    public int addEvents(Event eventsToAdd){
         int res = 0;
-        for(Event E: EventsToAdd){
-            if(events.contains(E.getEventID())){res ++;}
-            else events.add(E.getEventID());
+        if(this.events.contains(eventsToAdd.getEventID())){
+            res++;
+        } else {
+            this.events.add(eventsToAdd.getEventID());
         }
+
+//        for(Event E: EventsToAdd){
+//            if(events.contains(E.getEventID())){res ++;}
+//            else events.add(E.getEventID());
+//        }
         return res;
     }
 
