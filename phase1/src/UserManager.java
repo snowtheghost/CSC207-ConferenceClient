@@ -1,35 +1,93 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.List;
+import java.util.*;
+
+/**
+ * Get list of all users, attendees, speakers, or organizers in existence
+ *
+ * Get a list of all usernames in existence
+ *
+ * @author Zihan Wang, Justin Chan, Kaiyi Liu
+ * Last modified: Justin Chan
+ */
 
 public class UserManager {
-    private Map<UUID, User> users;
-    private List<String> userNames;
+    private final ArrayList<Attendee> attendees = new ArrayList<>();
+    private final ArrayList<Organizer> organizers = new ArrayList<>();
+    private final ArrayList<Speaker> speakers = new ArrayList<>();
     private User currentUser;
 
     /**
-     * Creates a new UserManager.
+     * Last modified: Justin Chan
      */
-    public UserManager() {
-        this.users = new HashMap<UUID, User>();
-        this.userNames = new ArrayList<>();
+    public UserManager() { }
+
+    /**
+     * Created: Justin Chan
+     * @return an ArrayList of all users in existence
+     */
+    public ArrayList<User> getUsers() {
+        ArrayList<User> users = new ArrayList<>();
+        users.addAll(attendees);
+        users.addAll(organizers);
+        users.addAll(speakers);
+        return users;
     }
 
+    public ArrayList<String> getUsernames() {
+        ArrayList<String> usernames = new ArrayList<>();
+        for (User user : getUsers()) {
+            usernames.add(user.getUsername());
+        }
+        return usernames;
+    }
+
+    /**
+     * Created: Justin Chan
+     * @return a dictionary mapping UserID to User
+     */
+    public HashMap<UUID, User> getUserIDToUser() {
+        HashMap<UUID, User> userIDToUser =  new HashMap<>();
+        for (User user : getUsers()) {
+            userIDToUser.put(user.getUserID(), user);
+        }
+        return userIDToUser;
+    }
 
     /**
      * Returns a User object based on their UUID.
      * @param userID the UUID of the user you wish to return.
      * @return the User that the provided UUID belongs to or null if that user is not found.
+     * Last modified: Justin Chan
      */
     public User getUser(UUID userID) {
-        return this.users.get(userID);
+        return getUserIDToUser().get(userID);
     }
 
     /**
-     * Returns the currently logged in User.
-     * @return the currently logged in User.
+     * @return list of attendees in existence
+     * Last modified: Justin Chan
+     */
+    public ArrayList<Attendee> getAttendees() {
+        return attendees;
+    }
+
+    /**
+     * Created: Justin Chan
+     * @return list of speakers in existence
+     */
+    public ArrayList<Speaker> getSpeakers() {
+        return speakers;
+    }
+
+    /**
+     * Created: Justin Chan
+     * @return list of organizers in existence
+     */
+    public ArrayList<Organizer> getOrganizers() {
+        return organizers;
+    }
+
+    /**
+     * @return currently logged in User.
      */
     public User getCurrentUser() { return currentUser; }
 
@@ -37,73 +95,46 @@ public class UserManager {
      * Sets the currently logged in user.
      * @param currentUser the logged in user.
      */
-    public void setCurrentUser(User currentUser) { this.currentUser = currentUser; }
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
 
     /**
-     * Returns a list of all Attendee UUIDs.
-     * @return list of all Attendee UUIDs.
-     * */
-    public List<UUID> getAttendees() {
-        List<UUID> attendees = new ArrayList<>();
-        for(UUID userID : this.users.keySet()){
-            if(!(this.users.get(userID)).isOrganizer()){
-                attendees.add(userID);
-            }
-        }
-        return attendees;
-    }
-    /**
-     * Creates a user account with the specified username
-     * @return true if user account was successfully made, else return false.
-     *
-     * */
-    /* public boolean createAccount(String userName, boolean isOrganizer){
-        if(this.userNames.contains(userName)){
+     * @param username unique username requested
+     * @return true if the account was created and false if the account could not be created
+     */
+    public boolean createAttendeeAccount(String username){
+        if (getUsernames().contains(username)) {
             return false;
-        } else {
-            User newUser;
-            UUID userID = UUID.randomUUID();
-            if(isOrganizer){
-                newUser = new Organizer(userName);
-            } else {
-                newUser = new Attendee(userName);
-            }
-            this.users.put(userID, newUser);
-            this.userNames.add(userName);
-            return true;
         }
-    } */
-    private void addNewUser(User u){
-        this.users.put(u.getUserID(), u);
-        this.userNames.add(u.getUsername());
-    }
-
-    public boolean createAttendeeAccount(String userName){
-        if(this.userNames.contains(userName)) return false;
-        User newUser = new Attendee(userName);
-        this.addNewUser(newUser);
-        return true;
-    }
-
-    public boolean createOrganizerAccount(String userName){
-        if(this.userNames.contains(userName))return false;
-        User newUser = new Organizer(userName);
-        this.addNewUser(newUser);
-        return true;
-    }
-
-    public boolean createSpeakerAccount(String userName){
-        if(this.userNames.contains(userName))return false;
-        User newUser = new Speaker(userName);
-        this.addNewUser(newUser);
+        Attendee attendee = new Attendee(username);
+        attendees.add(attendee);
         return true;
     }
 
     /**
-     * @return list of user names
-     * */
-    public List<String> getUserNames(){
-        return new ArrayList<>(this.userNames);
+     * @param username unique username requested
+     * @return true if the account was created and false if the account could not be created
+     */
+    public boolean createOrganizerAccount(String username){
+        if (getUsernames().contains(username)) {
+            return false;
+        }
+        Organizer organizer = new Organizer(username);
+        organizers.add(organizer);
+        return true;
     }
 
+    /**
+     * @param username unique username requested
+     * @return true if the account was created and false if the account could not be created
+     */
+    public boolean createSpeakerAccount(String username){
+        if (getUsernames().contains(username)) {
+            return false;
+        }
+        Speaker speaker = new Speaker(username);
+        speakers.add(speaker);
+        return true;
+    }
 }
