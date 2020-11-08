@@ -1,3 +1,4 @@
+import javax.jws.soap.SOAPBinding;
 import java.util.*;
 
 /**
@@ -50,6 +51,18 @@ public class UserManager {
             userIDToUser.put(user.getUserID(), user);
         }
         return userIDToUser;
+    }
+
+    /**
+     * Created: Zihan Wang
+     * @return a dictionary mapping UserName to User
+     */
+    public HashMap<String, User> getUsernameToUser(){
+        HashMap<String, User> usernameToUser = new HashMap<>();
+        for(User user: getUsers()){
+            usernameToUser.put(user.getUsername(), user);
+        }
+        return usernameToUser;
     }
 
     /**
@@ -121,6 +134,15 @@ public class UserManager {
      */
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    /**
+     * Created: Zihan Wang
+     * Sets the currently logged in user from username.
+     * @param UserName the username of the logged in user.
+     */
+    public void setCurrentUserFromUserName(String UserName){
+        this.currentUser = getUsernameToUser().get(UserName);
     }
 
     /**
