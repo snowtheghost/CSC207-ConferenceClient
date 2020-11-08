@@ -56,7 +56,7 @@ public class UserManager {
      * @return true if user account was successfully made, else return false.
      *
      * */
-    public boolean createAccount(String userName, boolean isOrganizer){
+    /* public boolean createAccount(String userName, boolean isOrganizer){
         if(this.userNames.contains(userName)){
             return false;
         } else {
@@ -71,7 +71,33 @@ public class UserManager {
             this.userNames.add(userName);
             return true;
         }
+    } */
+    private void addNewUser(User u){
+        this.users.put(u.getUserID(), u);
+        this.userNames.add(u.getUsername());
     }
+
+    public boolean createAttendeeAccount(String userName){
+        if(this.userNames.contains(userName)) return false;
+        User newUser = new Attendee(userName);
+        this.addNewUser(newUser);
+        return true;
+    }
+
+    public boolean createOrganizerAccount(String userName){
+        if(this.userNames.contains(userName))return false;
+        User newUser = new Organizer(userName);
+        this.addNewUser(newUser);
+        return true;
+    }
+
+    public boolean createSpeakerAccount(String userName){
+        if(this.userNames.contains(userName))return false;
+        User newUser = new Speaker(userName);
+        this.addNewUser(newUser);
+        return true;
+    }
+
     /**
      * @return list of user names
      * */

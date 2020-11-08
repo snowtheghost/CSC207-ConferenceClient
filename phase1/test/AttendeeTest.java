@@ -11,25 +11,28 @@ public class AttendeeTest {
     Speaker speaker1 = new Speaker("speaker1");
     Speaker speaker2 = new Speaker("speaker2");
     Event event1 = new Event("event1",speaker1,
-            new GregorianCalendar(2000, Calendar.MAY, 1, 100, 0, 0),
-            new GregorianCalendar(2000, Calendar.MAY, 1, 100, 30, 0));
+            new GregorianCalendar(2000, Calendar.MAY, 1, 99, 0, 0),
+            new GregorianCalendar(2000, Calendar.MAY, 1, 99, 30, 0));
     Event event2 = new Event("event2",speaker2,
             new GregorianCalendar(2000, Calendar.MAY, 1, 100, 0, 0),
             new GregorianCalendar(2000, Calendar.MAY, 1, 100, 30, 0));
+    Room room = new Room();
     Attendee attendee1 = new Attendee("attendee1");
     Attendee attendee2 = new Attendee("attendee2");
 
-    //@Before
-    //public void setUpBefore(){ Attendee attendee1 = new Attendee("attendee1");}
-
     @Test
-    public void TestGetEvents(){
-        List<UUID> e = new ArrayList<>();
+    public void TestAddGetRemoveEvents(){
+        Map<UUID, List<UUID>> e = new HashMap<>();
         assertEquals(attendee1.getEvents(),e);
-        e.add(event1.getEventID());
-        e.add(event2.getEventID());
-        attendee1.addEvents(event1);
-        attendee1.addEvents(event2);
+        e.get(room.getRoomID()).add(event1.getEventID());
+        e.get(room.getRoomID()).add(event2.getEventID());
+        attendee1.addEvents(room,event1);
+        attendee1.addEvents(room,event1);
+        attendee1.addEvents(room,event2);
+        assertEquals(attendee1.getEvents(),e);
+        e.get(room.getRoomID()).remove(event1.getEventID());
+        attendee1.removeReservedEvents(room, event1);
+        attendee1.removeReservedEvents(room, event1);
         assertEquals(attendee1.getEvents(),e);
     }
 

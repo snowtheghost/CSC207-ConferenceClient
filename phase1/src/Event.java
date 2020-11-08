@@ -27,8 +27,8 @@ import java.util.*;
 public class Event {
     private final String title;
     private final UUID eventID;
-    private final Calendar startTime;
-    private final Calendar endTime;
+    private Calendar startTime;
+    private Calendar endTime;
     private final UUID speakerID;  // The UUID of the Speaker
     private final ArrayList<UUID> attendeeIDs = new ArrayList<>();  // List of attendees by UUID
 
@@ -42,7 +42,6 @@ public class Event {
      *
      * Precondition: startTime.before(endTime)
      * Precondition: startTime has the same date as endTime
-     *                TODO: We need to add the eventID to the Speaker involved
      */
     Event(String eventTitle, Speaker speaker, Calendar startTime, Calendar endTime) {
         eventID = UUID.randomUUID();
@@ -66,6 +65,16 @@ public class Event {
 
     public Calendar getEndTime() {
         return endTime;
+    }
+
+    /**
+     * @param startTime the start time of the event
+     *
+     * Precondition: the modified event does not overlap any existing events
+     */
+    public void setTime(Calendar startTime, Calendar endTime) {
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public ArrayList<UUID> getAttendeeIDs() {
@@ -99,7 +108,7 @@ public class Event {
      *
      * @return true if the Attendee was removed and false if the Attendee was not present in the first place
      */
-    public boolean removeAttendeeID(Attendee attendeeToRemove) {
+    public boolean removeAttendee(Attendee attendeeToRemove) {
         return attendeeIDs.remove(attendeeToRemove.getUserID());
     }
 

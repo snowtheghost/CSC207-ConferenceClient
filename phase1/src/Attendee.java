@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.UUID;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents an Attendee
@@ -8,7 +6,7 @@ import java.util.List;
  */
 public class Attendee extends User {
     private List<UUID> contacts;
-    private List<UUID> events;
+    private Map<UUID, ArrayList<UUID>> events;
 
     /**
      * Creates a new Attendee with a unique ID, a username,
@@ -18,13 +16,13 @@ public class Attendee extends User {
     public Attendee(String username){
         super(username);
         contacts = new ArrayList<>();
-        events = new ArrayList<>();
+        events = new HashMap<>();
     }
 
     /**
      * @return the Attendee's Events
      */
-    public List<UUID> getEvents() {
+    public Map<UUID, ArrayList<UUID>> getEvents() {
         return events;
     }
 
@@ -58,14 +56,13 @@ public class Attendee extends User {
     /**
      * Add all all the UUIDs of the Events in EventstoAdd to the Attendee's events except duplication.
      * @param event An Event to be added.
+     * @param room the Room of the Event.
      * @return whether the Event be added successfully
      */
-    public boolean addEvents(Event event){
-        if(this.events.contains(event.getEventID())){
-            return false;
-        } else {
-            this.events.add(event.getEventID());
-        }
+    public boolean addEvents(Room room, Event event){
+        events.putIfAbsent(room.getRoomID(), new ArrayList<>());
+        if(events.get(room.getRoomID()).contains(event.getEventID()))return false;
+        events.get(room.getRoomID()).add(event.getEventID());
         return true;
     }
 
@@ -74,8 +71,10 @@ public class Attendee extends User {
      * @param event the Event object to be removed from this.events
      * @return true if it is successfully removed, and false if it failed.
      */
-    public boolean removeReservedEvents(Event event){
-        return this.events.remove(event.getEventID());
+    public boolean removeReservedEvents(Room room, Event event){
+        if(!events.get(room.getRoomID()).contains(event.getEventID())) return false;
+        events.get(room.getRoomID()).remove(event.getEventID());
+        return true;
     }
 
     @Override
