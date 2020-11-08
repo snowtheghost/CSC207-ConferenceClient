@@ -42,7 +42,6 @@ public class Event {
      *
      * Precondition: startTime.before(endTime)
      * Precondition: startTime has the same date as endTime
-     *                TODO: We need to add the eventID to the Speaker involved
      */
     Event(String eventTitle, Speaker speaker, Calendar startTime, Calendar endTime) {
         eventID = UUID.randomUUID();

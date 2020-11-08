@@ -250,4 +250,8 @@ public class RoomManagerTests {
 
         assertEquals(rm.getEvent(rooms.get(0), event.getEventID()), event);
     }
+
+    // TODO: Restructure tests
+    // TODO: Test rescheduleEvent
+    // TODO: Finish test removeEvent
 }

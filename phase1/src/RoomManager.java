@@ -74,6 +74,17 @@ public class RoomManager {
         return RoomIDToRoom;
     }
 
+    public Room getEventRoom(Event event) {
+        for (Room room : rooms) {
+            for (Event comparisonEvent : room.getEvents()) {
+                if (event.equals(comparisonEvent)) {
+                    return room;
+                }
+            }
+        }
+        return new Room();
+    }
+
     /**
      * @return the created room
      */
@@ -135,7 +146,7 @@ public class RoomManager {
     public boolean removeEvent(UserManager um, Room room, Event event) {
         for (UUID attendeeID : event.getAttendeeIDs()) {
             Attendee attendee = (Attendee) um.getUser(attendeeID);
-            attendee.removeReservedEvents(event);
+            attendee.removeReservedEvents(room, event);
         }
         Speaker speaker = (Speaker) um.getUser(event.getSpeakerID());
         speaker.removeEvent(room, event);
@@ -151,14 +162,14 @@ public class RoomManager {
         if (event.getAttendeeIDs().contains(attendee.getUserID())) {
             return false;
         }
-        attendee.addEvents(event);
+        attendee.addEvents(getEventRoom(event), event);
         event.addAttendee(attendee);
         return true;
     }
 
     public boolean removeEventAttendee(Attendee attendee, Event event) {
         if (event.getAttendeeIDs().contains(attendee.getUserID())) {
-            attendee.removeReservedEvents(event);
+            attendee.removeReservedEvents(getEventRoom(event), event);
             event.removeAttendee(attendee);
             return true;
         }

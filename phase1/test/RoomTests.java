@@ -263,7 +263,7 @@ public class RoomTests {
         assertEquals(room.getEventIDToEvent().size(), 2);
     }
 
-    // TODO: @Test
+    @Test
     public void testGetEventIDs() {
         assertTrue(room.addEvent(eventNormal1));
         assertTrue(room.addEvent(eventNormal2));
@@ -293,7 +293,4 @@ public class RoomTests {
         assertEquals(room.getEvent(eventNormal2.getEventID()), eventNormal2);
         assertEquals(room.getEvent(eventNormal3.getEventID()), eventNormal3);
     }
-
-    // TODO: Test rescheduleEvent
-    // TODO: Finish test removeEvent
 }
