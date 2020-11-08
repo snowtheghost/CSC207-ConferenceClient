@@ -14,6 +14,7 @@ public class UserManager {
      */
     public UserManager() {
         this.users = new HashMap<UUID, User>();
+        this.userNames = new ArrayList<>();
     }
 
 

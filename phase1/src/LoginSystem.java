@@ -1,5 +1,5 @@
 import sun.rmi.runtime.Log;
-
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,10 +7,10 @@ import java.util.Scanner;
  * The login system.
  */
 public class LoginSystem {
-    private UserManager userMan;
-    private AttendeePanel attenPanel;
-    private OrganizerPanel orgPanel;
-    private SpeakerPanel spPanel;
+    private final UserManager userMan;
+    private final AttendeePanel attenPanel;
+    private final OrganizerPanel orgPanel;
+    private final SpeakerPanel spPanel;
 
     public static void main(String[] args) {
         // creates and stores all other controllers
@@ -22,13 +22,20 @@ public class LoginSystem {
             System.out.println("\"Login\" or \"Create account\"?");
             String decision = input.nextLine();
             // if user wants to login
-            if (decision.equals("login")) {
+            if (decision.equals("Login")) {
                 System.out.println("Enter account name");
                 String userName = input.nextLine();
-                // TODO: check if user name exists, if so pass it onto the correct Panel
+                List<String> existingUsers = loginSys.userMan.getUserNames();
+                // keeps asking for until matching one found
+                while (!existingUsers.contains(userName)) {
+                    System.out.println("User name not found, please try again.");
+                    input.nextLine();
+                }
+                //loginSys.userMan.setCurrentUser(userName);
+
             }
             // if they want to create account
-            else if (decision.equals("create account")) {
+            else if (decision.equals("Create account")) {
                 ArrayList<String> validTypes = new ArrayList<>();
                 validTypes.add("speaker");
                 validTypes.add("organizer");
@@ -39,20 +46,18 @@ public class LoginSystem {
                 while (!validTypes.contains(accountType)) {
                     System.out.println(accountType + " is not a valid account type. Please try again");
                     accountType = input.nextLine();
-                }
-                ;
+                };
                 // keep asking for account name until unique account name given
                 System.out.println("Enter account name:");
                 String accountName = input.nextLine();
-                while (!loginSys.userMan.createAccount(accountName, false)) {
-                    System.out.println("Username taken, please try a different name:");
-                    accountName = input.nextLine();
-                }
-                ;
+                boolean success = loginSys.attemptCreateAccount(accountName, accountType);
+                while (!success) {
+                        System.out.println("Username taken, please try a different name:");
+                        accountName = input.nextLine();
+                        success = loginSys.attemptCreateAccount(accountName, accountType);
+                    }
                 System.out.println("Successfully created " + accountType + "account, username: " +
                         accountName);
-
-
             } else {
                 System.out.println("invalid input");
             }
@@ -85,9 +90,20 @@ public class LoginSystem {
      * Returns true if accountName not taken and account can be
      * created, false otherwise.
      * @param accountName the string representing a possible account name
+     * @param accountType the string representing a the account type
      */
-    public Boolean createAccount(String accountName, String accountType) {
-        return false;
+    private Boolean attemptCreateAccount(String accountName, String accountType) {
+        boolean success = false;
+        if (accountType.equals("attendee")){
+            success = this.userMan.createAttendeeAccount(accountName);
+        }
+        else if (accountType.equals("organizer")){
+            success = this.userMan.createOrganizerAccount(accountName);
+        }
+        else if (accountType.equals("speaker")){
+            success = this.userMan.createSpeakerAccount(accountName);
+        }
+        return success;
     }
 
 }
