@@ -42,7 +42,12 @@ public class UserManager {
      * @return list of all Attendee UUIDs.
      */
     public List<UUID> getAttendees() {
-        // TODO: Implement this method please - Zachary
-        return new ArrayList<UUID>();
+        List<UUID> attendees = new ArrayList<>();
+        for(UUID userID : this.users.keySet()){
+            if((this.users.get(userID)).isAttendee()){
+                attendees.add(userID);
+            }
+        }
+        return attendees;
     }
 }

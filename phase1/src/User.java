@@ -53,4 +53,16 @@ public abstract class User {
         }
         this.conversations.get(sender).add(messageID);
     }
+
+    /**
+     * Checks if User is an Organizer.
+     * @return returns true if User is an Organizer, otherwise return false.
+     * */
+    public abstract boolean isOrganizer();
+
+    /**
+     * Checks if User is an Attendee.
+     * @return returns true if User is an Attendee, otherwise return false.
+     * */
+    public abstract boolean isAttendee();
 }

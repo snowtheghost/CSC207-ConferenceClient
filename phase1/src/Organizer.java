@@ -15,13 +15,22 @@ public class Organizer extends Attendee {
     public Organizer(String username) {
         super(username);
     }
-
+    /**
+     * @return true as this instance is an Organizer, otherwise return false
+     * */
     @Override
-    /*
-     method used as an attribute to check whether or not a given user is an organizer or not
-     */
     public boolean isOrganizer() {
         return true;
     }
+    /**
+     * @return true as this instance is an Attendee, otherwise return false
+     * */
+    @Override
+    public boolean isAttendee() {
+        return false;
+    }
+
+
+
 
 }

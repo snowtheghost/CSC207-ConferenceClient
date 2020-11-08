@@ -84,4 +84,9 @@ public class Attendee extends User {
     public boolean isOrganizer(){
         return false;
     }
+
+    @Override
+    public boolean isAttendee() {
+        return true;
+    }
 }
