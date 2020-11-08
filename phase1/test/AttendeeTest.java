@@ -24,6 +24,7 @@ public class AttendeeTest {
     public void TestAddGetRemoveEvents(){
         Map<UUID, List<UUID>> e = new HashMap<>();
         assertEquals(attendee1.getEvents(),e);
+        e.put(room.getRoomID(), new ArrayList<>());
         e.get(room.getRoomID()).add(event1.getEventID());
         e.get(room.getRoomID()).add(event2.getEventID());
         attendee1.addEvents(room,event1);
