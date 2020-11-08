@@ -17,9 +17,10 @@ public class Organizer extends Attendee {
     public Organizer(String username) {
         super(username);
     }
+
     /**
-     * @return true as this instance is an Organizer, otherwise return false
-     * */
+     * @return true as this instance is an Organizer
+     */
     @Override
     public boolean isOrganizer() {
         return true;
