@@ -5,7 +5,7 @@ import java.util.*;
  *
  *
  *
- * @author Justin Chan, TODO: Add your name here for the non-room related method contributor
+ * @author Justin Chan, Tanuj Devjani
  */
 
 public class Organizer extends Attendee {
