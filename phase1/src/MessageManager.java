@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
@@ -8,8 +9,8 @@ import java.util.UUID;
  * @author Zachariah Vincze
  */
 public class MessageManager {
-    private Map<UUID, Message> messages;
-    private UserManager userManager;
+    private final Map<UUID, Message> messages;
+    private final UserManager userManager;
     private RoomManager roomManager;
 
     /**
@@ -43,5 +44,20 @@ public class MessageManager {
     public void sendMessageToAllAttendees(String messageContent) {
         List<UUID> attendees = userManager.getAttendees();
         this.sendMessages(messageContent, attendees);
+    }
+
+    /**
+     * Return a list of messages that were sent by a specific user to
+     * the current user.
+     * @param senderID the UUID of the user who sent this message.
+     * @return a string list of messages sent from another user.
+     */
+    public List<String> getMessagesFromUser(UUID senderID) {
+        ArrayList<String> messageContents = new ArrayList<String>();
+        List<UUID> messageIDs = userManager.getCurrentUser().getMessages(senderID);
+        for (UUID id : messageIDs) {
+            messageContents.add(messages.get(id).getMessageContent());
+        }
+        return messageContents;
     }
 }

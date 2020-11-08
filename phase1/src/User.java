@@ -38,8 +38,8 @@ public abstract class User {
      * @param sender the UUID of the sender of the messages.
      * @return a list of messages UUIDs that have been sent by sender.
      */
-    public List<UUID> getMessages(User sender) {
-        return this.conversations.get(sender.getUserID());
+    public List<UUID> getMessages(UUID sender) {
+        return this.conversations.get(sender);
     }
 
     /**
