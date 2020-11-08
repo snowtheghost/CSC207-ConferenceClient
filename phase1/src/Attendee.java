@@ -78,10 +78,12 @@ public class Attendee extends User {
         return this.events.remove(event.getEventID());
     }
 
+    @Override
     /**
      * @return whether the Attendee is an Organizer
      */
     public boolean isOrganizer(){
         return false;
     }
+
 }
