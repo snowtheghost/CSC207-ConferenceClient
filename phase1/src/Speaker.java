@@ -9,7 +9,7 @@ import java.util.*;
  *
  *
  *
- * @author Justin Chan, Zihan Wang
+ * @author Zihan Wang, Justin Chan
  */
 
 public class Speaker extends User {

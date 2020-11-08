@@ -5,7 +5,7 @@ import java.util.*;
  *
  *
  *
- * @author Justin Chan, Tanuj Devjani
+ * @author Tanuj Devjani
  */
 
 public class Organizer extends Attendee {
