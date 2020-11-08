@@ -17,6 +17,10 @@ public class RoomManager {
 
     RoomManager() { }
 
+    public ArrayList<Room> getRooms() {
+        return rooms;
+    }
+
     public HashMap<UUID, Room> getRoomIDToRoom() {
         HashMap<UUID, Room> RoomIDToRoom = new HashMap<>();
         for (Room room : rooms) {
@@ -109,5 +113,16 @@ public class RoomManager {
         getRoom(roomID).addEvent(newEvent);
         speaker.addEvent(getRoom(roomID), newEvent);
         return newEvent.getEventID();
+    }
+
+    /**
+     * Removes a desired Event from the list of events.
+     *
+     * @param roomID the UUID of the room containing the event
+     * @param eventID the UUID of the event to be removed
+     * @return true if the event was removed or false if there was no such event in the schedule
+     */
+    public boolean removeEvent(UUID roomID, UUID eventID) {
+        return getRoom(roomID).removeEvent(getEvent(roomID, eventID));
     }
 }
