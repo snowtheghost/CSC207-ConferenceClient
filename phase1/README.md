@@ -15,3 +15,4 @@
  - Saturday, November 7 - All entities written and tested
  - Monday, November 9 - All Use Cases written and tested
  - Monday, November 16 - Complete Phase 1
+ 
