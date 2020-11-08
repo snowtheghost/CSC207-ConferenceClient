@@ -217,7 +217,8 @@ public class RoomManagerTests {
         assertEquals(rm.getEventAttendeeIDs(roomIDs.get(0), eventID).size(), 0);
 
         // Pieced together method of adding an attendee until UserManager implements the relevant methods
-        attendee1.addEvents(new Event[] {rm.getEvent(roomIDs.get(0), eventID)}); // This implementation in User may change
+        // The next two lines should be a method in UserManager
+        attendee1.addEvents(rm.getEvent(roomIDs.get(0), eventID));
         rm.getEvent(roomIDs.get(0), eventID).addAttendee(attendee1);
         assertEquals(rm.getEventAttendeeIDs(roomIDs.get(0), eventID).size(), 1);
     }
