@@ -19,7 +19,7 @@ import java.util.*;
 
 public class Room {
     private final UUID roomID;
-    private final HashMap<UUID, Event> events = new HashMap<>();
+    private final ArrayList<Event> events = new ArrayList<>();
 
     public Room() {
         this.roomID = UUID.randomUUID();
@@ -29,13 +29,21 @@ public class Room {
         return roomID;
     }
 
-    public HashMap<UUID, Event> getEvents() {
+    public ArrayList<Event> getEvents() {
         return events;
+    }
+
+    public HashMap<UUID, Event> getEventIDToEvent() {
+        HashMap<UUID, Event> eventIDToEvent = new HashMap<>();
+        for (Event event : events) {
+            eventIDToEvent.put(event.getEventID(), event);
+        }
+        return eventIDToEvent;
     }
 
     public HashMap<Calendar, Event> getTimeSchedule() {
         HashMap<Calendar, Event> timeSchedule = new HashMap<>();
-        for (Event event : events.values()) {
+        for (Event event : events) {
             timeSchedule.putIfAbsent(event.getStartTime(), event);
         }
         return timeSchedule;
@@ -43,7 +51,7 @@ public class Room {
 
     public HashMap<UUID, ArrayList<Event>> getSpeakerIDSchedule() {
         HashMap<UUID, ArrayList<Event>> speakerIDSchedule = new HashMap<>();
-        for (Event event : events.values()) {
+        for (Event event : events) {
             speakerIDSchedule.putIfAbsent(event.getSpeakerID(), new ArrayList<>());
             speakerIDSchedule.get(event.getSpeakerID()).add(event);
         }
@@ -52,7 +60,7 @@ public class Room {
 
     public HashMap<String, ArrayList<Event>> getTitleSchedule() {
         HashMap<String, ArrayList<Event>> titleSchedule = new HashMap<>();
-        for (Event event : events.values()) {
+        for (Event event : events) {
             titleSchedule.putIfAbsent(event.getTitle(), new ArrayList<>());
             titleSchedule.get(event.getTitle()).add(event);
         }
@@ -94,7 +102,18 @@ public class Room {
         return eventsBySpeakerID;
     }
 
-    private boolean eventOverlapping(Event newEvent, Event comparisonEvent) {
+    /**
+     * @return the list of eventIDs in the schedule
+     */
+    public ArrayList<UUID> getEventIDs() {
+        return new ArrayList<>(getEventIDToEvent().keySet());
+    }
+
+    public Event getEvent(UUID eventID) {
+        return getEventIDToEvent().get(eventID);
+    }
+
+    public boolean eventOverlapping(Event newEvent, Event comparisonEvent) {
         Calendar[] newEventTimes = { newEvent.getStartTime(), newEvent.getEndTime() };
         Calendar[] comparisonEventTimes = { comparisonEvent.getStartTime(), comparisonEvent.getEndTime()};
 
@@ -146,7 +165,7 @@ public class Room {
      */
     public boolean addEvent(Event eventToAdd) {
         if (eventIsValid(eventToAdd)) {
-            events.put(eventToAdd.getEventID(), eventToAdd);
+            events.add(eventToAdd);
             return true;
         }
         return false;
@@ -159,23 +178,10 @@ public class Room {
      * @return true if the event was removed or false if there was no such event in the schedule
      */
     public boolean removeEvent(Event eventToRemove) {
-        for (Calendar time : getTimeSchedule().keySet()) {
-            if (getTimeSchedule().get(time).getEventID().equals(eventToRemove.getEventID())) {
-                events.remove(eventToRemove.getEventID());
-                return true;
-            }
+        if (events.contains(eventToRemove)) {
+            events.remove(eventToRemove);
+            return true;
         }
         return false;
-    }
-
-    /**
-     * @return the list of eventIDs in the schedule
-     */
-    public ArrayList<UUID> getEventIDs() {
-        return new ArrayList<>(events.keySet());
-    }
-
-    public Event getEvent(UUID eventID) {
-        return events.get(eventID);
     }
 }

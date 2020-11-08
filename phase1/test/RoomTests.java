@@ -244,23 +244,23 @@ public class RoomTests {
     }
 
     @Test
-    public void testGetEvents() {
+    public void testGetEventIDToEvent() {
         assertTrue(room.addEvent(eventNormal1));
         assertTrue(room.addEvent(eventNormal2));
         assertTrue(room.addEvent(eventNormal3));
 
-        assertTrue(room.getEvents().containsKey(eventNormal1.getEventID()));
-        assertTrue(room.getEvents().containsKey(eventNormal2.getEventID()));
-        assertTrue(room.getEvents().containsKey(eventNormal3.getEventID()));
-        assertEquals(room.getEvents().size(), 3);
+        assertTrue(room.getEventIDToEvent().containsKey(eventNormal1.getEventID()));
+        assertTrue(room.getEventIDToEvent().containsKey(eventNormal2.getEventID()));
+        assertTrue(room.getEventIDToEvent().containsKey(eventNormal3.getEventID()));
+        assertEquals(room.getEventIDToEvent().size(), 3);
 
         assertTrue(room.removeEvent(eventNormal1));
         assertFalse(room.removeEvent(eventNormal1));
 
-        assertFalse(room.getEvents().containsKey(eventNormal1.getEventID()));
-        assertTrue(room.getEvents().containsKey(eventNormal2.getEventID()));
-        assertTrue(room.getEvents().containsKey(eventNormal3.getEventID()));
-        assertEquals(room.getEvents().size(), 2);
+        assertFalse(room.getEventIDToEvent().containsKey(eventNormal1.getEventID()));
+        assertTrue(room.getEventIDToEvent().containsKey(eventNormal2.getEventID()));
+        assertTrue(room.getEventIDToEvent().containsKey(eventNormal3.getEventID()));
+        assertEquals(room.getEventIDToEvent().size(), 2);
     }
 
     @Test
