@@ -48,31 +48,29 @@ public class EventTests {
     public void testGetAddRemoveAttendeeIDs() {
         assertEquals(event1.getAttendeeIDs().size(), 0);
 
-        assertEquals(event1.addAttendeeIDs(new Attendee[] {attendee1}), 0);
+        assertTrue(event1.addAttendee(attendee1));
         assertEquals(event1.getAttendeeIDs().size(), 1);
         assertEquals(event1.getAttendeeIDs().get(0), attendee1.getUserID());
 
-        assertEquals(event1.addAttendeeIDs(new Attendee[] {attendee1}), 1);
+        assertFalse(event1.addAttendee(attendee1));
         assertEquals(event1.getAttendeeIDs().size(), 1);
         assertEquals(event1.getAttendeeIDs().get(0), attendee1.getUserID());
 
-        Attendee[] attendees = new Attendee[] {attendee1, attendee2, attendee3};
-        assertEquals(event1.addAttendeeIDs(attendees), 1);
+        assertTrue(event1.addAttendee(attendee2));
+        assertTrue(event1.addAttendee(attendee3));
         assertEquals(event1.getAttendeeIDs().size(), 3);
 
-        for (Attendee attendee : attendees) {
-            assertTrue(event1.getAttendeeIDs().contains(attendee.getUserID()));
-        }
+        assertTrue(event1.getAttendeeIDs().contains(attendee1.getUserID()));
+        assertTrue(event1.getAttendeeIDs().contains(attendee2.getUserID()));
+        assertTrue(event1.getAttendeeIDs().contains(attendee3.getUserID()));
+
 
         assertTrue(event1.removeAttendeeID(attendee1));
         assertEquals(event1.getAttendeeIDs().size(), 2);
-        for (Attendee attendee : attendees) {
-            if (attendee1.equals(attendee)) {
-                assertFalse(event1.getAttendeeIDs().contains(attendee.getUserID()));
-            } else {
-                assertTrue(event1.getAttendeeIDs().contains(attendee.getUserID()));
-            }
-        }
+
+        assertFalse(event1.getAttendeeIDs().contains(attendee1.getUserID()));
+        assertTrue(event1.getAttendeeIDs().contains(attendee2.getUserID()));
+        assertTrue(event1.getAttendeeIDs().contains(attendee3.getUserID()));
     }
 
     @Test

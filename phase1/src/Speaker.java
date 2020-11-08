@@ -20,6 +20,11 @@ public class Speaker extends User {
         super(username);
     }
 
+    @Override
+    public boolean isOrganizer() {
+        return false;
+    }
+
     // Last modified: Justin Chan
     public HashMap<UUID, ArrayList<UUID>> getEventsSpeaking() { // Changed return type
         return eventsSpeaking;

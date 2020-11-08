@@ -42,6 +42,7 @@ public class Event {
      *
      * Precondition: startTime.before(endTime)
      * Precondition: startTime has the same date as endTime
+     *                TODO: We need to add the eventID to the Speaker involved
      */
     Event(String eventTitle, Speaker speaker, Calendar startTime, Calendar endTime) {
         eventID = UUID.randomUUID();
@@ -72,25 +73,21 @@ public class Event {
     }
 
     /**
-     * This method adds all the UUIDs of the Attendees in attendeesToAdd to the Event attendees. Duplicate members will
+     * This method adds all the UUIDs of the Attendees in attendeeToAdd to the Event attendees. Duplicate members will
      * not be added.
      *
-     * @param attendeesToAdd an array of Attendee objects to be added to the Event attendees.
+     * @param attendeeToAdd an array of Attendee objects to be added to the Event attendees.
      *                       Note that we take an ArrayList of Attendees and NOT UUIDs.
      *
      * @return the number of Attendees that were not added (as a result to an already present UUID)
+     * TODO: We need to add the eventID to the attendee involved
      */
-    public int addAttendeeIDs(Attendee[] attendeesToAdd) {
-        int attendeesNotAdded = 0;
-        for (Attendee attendee : attendeesToAdd) {
-            UUID attendeeID = attendee.getUserID();
-            if (attendeeIDs.contains(attendeeID)) {
-                attendeesNotAdded++;
-            } else {
-                attendeeIDs.add(attendeeID);
-            }
+    public boolean addAttendee(Attendee attendeeToAdd) {
+        if (attendeeIDs.contains(attendeeToAdd.getUserID())) {
+            return false;
         }
-        return attendeesNotAdded;
+        attendeeIDs.add(attendeeToAdd.getUserID());
+        return true;
     }
 
     /**
