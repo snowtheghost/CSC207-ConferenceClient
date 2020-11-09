@@ -55,4 +55,9 @@ public class AttendeeTest {
         assertEquals(attendee1.isOrganizer(), false);
     }
 
+    @Test
+    public void TestIsAttendee(){assertTrue(attendee1.isAttendee());}
+
+    @Test
+    public void TestIsSpeaker(){assertFalse(attendee1.isSpeaker());}
 }

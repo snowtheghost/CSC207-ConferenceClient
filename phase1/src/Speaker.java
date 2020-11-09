@@ -50,4 +50,14 @@ public class Speaker extends User {
         }
         return true;
     }
+
+    @Override
+    public boolean isSpeaker() {
+        return true;
+    }
+
+    @Override
+    public boolean isAttendee() {
+        return false;
+    }
 }

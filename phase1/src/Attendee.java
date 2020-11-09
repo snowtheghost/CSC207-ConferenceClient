@@ -88,11 +88,15 @@ public class Attendee extends User {
     }
 
     @Override
-    /**
-     * @return whether the Attendee is an Organizer
-     */
     public boolean isOrganizer(){
         return false;
     }
 
+    @Override
+    public boolean isAttendee(){return true;}
+
+    @Override
+    public boolean isSpeaker() {
+        return false;
+    }
 }
