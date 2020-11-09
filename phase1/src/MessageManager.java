@@ -89,8 +89,8 @@ public class MessageManager {
      * @param messageContent the content of the message to send.
      */
     public void sendMessageToEventAttendees(UUID senderID, UUID eventID, String messageContent) {
-        // TODO: Waiting on RoomManager implementation to continue this
-        ArrayList<UUID> attendeeIDs = new ArrayList<>();
+        Event event = roomManager.getEvent(eventID);
+        ArrayList<UUID> attendeeIDs = roomManager.getEventAttendeeIDs(event);
         sendMessages(senderID, attendeeIDs, messageContent);
     }
 }
