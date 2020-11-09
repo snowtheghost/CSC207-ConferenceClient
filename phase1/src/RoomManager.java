@@ -33,26 +33,36 @@ public class RoomManager {
         return getRoomIDToRoom().get(roomID);
     }
 
+    /**
+     * @return an ArrayList of all rooms in existence
+     */
     public ArrayList<Room> getRooms() {
         return rooms;
     }
 
     /**
-     * @param room the room that this event belongs to
      * @param eventID the eventID of the event
      * @return the event corresponding to the eventID
      *
-     * Precondition: roomID must exist and eventID must exist within the corresponding room
+     * Precondition: event must exist in one of the rooms
      */
-    public Event getEvent(Room room, UUID eventID) {
-        return room.getEvent(eventID);
+    public Event getEvent(UUID eventID) {
+        return getEventIDToEvent().get(eventID);
+    }
+
+    public ArrayList<Event> getEvents() {
+        ArrayList<Event> events = new ArrayList<>();
+        for (Room room : rooms) {
+            events.addAll(room.getEvents());
+        }
+        return events;
     }
 
     /**
      * @param room the room that contains the desired events
      * @return an ArrayList of Events in the Room
      */
-    public ArrayList<Event> getEvents(Room room) {
+    public ArrayList<Event> getEventsFromRoom(Room room) {
         return room.getEvents();
     }
 
@@ -72,6 +82,16 @@ public class RoomManager {
             RoomIDToRoom.put(room.getRoomID(), room);
         }
         return RoomIDToRoom;
+    }
+
+    public HashMap<UUID, Event> getEventIDToEvent() {
+        HashMap<UUID, Event> EventIDToEvent = new HashMap<>();
+        for (Room room : rooms) {
+            for (Event event : room.getEvents()) {
+                EventIDToEvent.put(event.getEventID(), event);
+            }
+        }
+        return EventIDToEvent;
     }
 
     public Room getEventRoom(Event event) {
@@ -127,7 +147,7 @@ public class RoomManager {
      * @return the UUID of the created event
      *
      * This method adds the newEvent to the specified room and the specified speaker.
-     * Precondition: the event can be added to the room and the room exists
+     * Precondition: the event can be added to the room without conflict and the room exists
      */
     public Event newEvent(String eventTitle, Speaker speaker, Calendar startTime, Calendar endTime, Room room) {
         Event newEvent = new Event(eventTitle, speaker, startTime, endTime);
@@ -139,15 +159,16 @@ public class RoomManager {
     /**
      * Removes a desired Event from the list of events and all participants
      *
-     * @param room the UUID of the room containing the event
      * @param event the event to be removed
      * @return true if the event was removed or false if there was no such event in the schedule
      */
-    public boolean removeEvent(UserManager um, Room room, Event event) {
+    public boolean removeEvent(UserManager um, Event event) {
+        Room room = getEventRoom(event);
         for (UUID attendeeID : event.getAttendeeIDs()) {
             Attendee attendee = (Attendee) um.getUser(attendeeID);
             attendee.removeReservedEvents(room, event);
         }
+
         Speaker speaker = (Speaker) um.getUser(event.getSpeakerID());
         speaker.removeEvent(room, event);
         return room.removeEvent(event);
@@ -177,13 +198,13 @@ public class RoomManager {
     }
 
     /**
-     * @param room the room containing the event
      * @param event the event to be rescheduled
      * @param startTime the new start time
      * @param endTime the new end time
      * @return true if the event could be rescheduled and false if no changes were made due to failed reschedule
      */
-    public boolean rescheduleEvent(UserManager um, Room room, Event event, Calendar startTime, Calendar endTime) {
+    public boolean rescheduleEvent(UserManager um, Event event, Calendar startTime, Calendar endTime) {
+        Room room = getEventRoom(event);
         room.removeEvent(event);
         if (newEventValid(event.getTitle(), (Speaker) um.getUser(event.getSpeakerID()), startTime, endTime, room)) {
             event.setTime(startTime, endTime);

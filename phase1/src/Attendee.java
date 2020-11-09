@@ -70,10 +70,20 @@ public class Attendee extends User {
      * Remove the eventID from this.event.
      * @param event the Event object to be removed from this.events
      * @return true if it is successfully removed, and false if it failed.
+     *
+     * Last modified for bug fix: Justin Chan
      */
     public boolean removeReservedEvents(Room room, Event event){
-        if(!events.get(room.getRoomID()).contains(event.getEventID())) return false;
+        if (!events.containsKey(room.getRoomID())) {
+            return false;
+        }
+        if (!events.get(room.getRoomID()).contains(event.getEventID())) {
+            return false;
+        }
         events.get(room.getRoomID()).remove(event.getEventID());
+        if (events.get(room.getRoomID()).isEmpty()) {
+            events.remove(room.getRoomID());
+        }
         return true;
     }
 

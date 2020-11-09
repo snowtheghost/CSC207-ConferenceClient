@@ -147,15 +147,15 @@ public class UserManager {
 
     /**
      * @param username unique username requested
-     * @return true if the account was created and false if the account could not be created
+     * @return the Attendee that was created
+     * Last modified: Justin Chan
+     *
+     * Precondition: isValidUsername(username)
      */
-    public boolean createAttendeeAccount(String username){
-        if (getUsernames().contains(username)) {
-            return false;
-        }
+    public Attendee createAttendeeAccount(String username) {
         Attendee attendee = new Attendee(username);
         attendees.add(attendee);
-        return true;
+        return attendee;
     }
 
     /**
@@ -172,27 +172,35 @@ public class UserManager {
 
     /**
      * @param username unique username requested
-     * @return true if the account was created and false if the account could not be created
+     * @return the Organizer that was created
+     * Last modified: Justin Chan
+     *
+     * Precondition: isValidUsername(username)
      */
-    public boolean createOrganizerAccount(String username){
-        if (getUsernames().contains(username)) {
-            return false;
-        }
+    public Organizer createOrganizerAccount(String username) {
         Organizer organizer = new Organizer(username);
         organizers.add(organizer);
-        return true;
+        return organizer;
     }
 
     /**
      * @param username unique username requested
-     * @return true if the account was created and false if the account could not be created
+     * @return the speaker that was created
+     * Last modified: Justin Chan
+     *
+     * Precondition: isValidUsername(username)
      */
-    public boolean createSpeakerAccount(String username){
-        if (getUsernames().contains(username)) {
-            return false;
-        }
+    public Speaker createSpeakerAccount(String username) {
         Speaker speaker = new Speaker(username);
         speakers.add(speaker);
-        return true;
+        return speaker;
+    }
+
+    /**
+     * @param username the desired username to create
+     * @return true if the username is unique or false if the username already exists
+     */
+    public boolean isValidUsername(String username) {
+        return !getUsernames().contains(username);
     }
 }
