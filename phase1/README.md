@@ -1,18 +1,32 @@
-##### Actors & Responsibilities #####  
-- Tanuj Devjani - Programmer: User (User, Organizer, OrganizerPanel)  
-- Zihan Wang - Programmer: User (User, Attendee, Speaker, UserManager)
-- Arya Joshi - Tester: User (User, Attendee, Organizer, Speaker)
-- Kaiyi Liu - Tester: User (UserManager)
+##### Contributors: Planning #####
+UML Editor: Liam Ogilvie
 
-- Kerry Zhu - Programmer & Tester: Login System
+##### Contributors: Entities #####  
+User: Zachariah Vincze (Programmer) \
+Attendee: Zihan Wang (Programmer & Tester) \
+Speaker: Zihan Wang (Programmer), Justin Chan (Programmer) [MISSING TESTER]\
+Organizer: Tanuj Devjani (Programmer), Zihan Wang (Tester) \
+Message: Zachariah Vincze (Programmer & Tester) \
+Event: Justin Chan (Programmer & Tester) \
+Room: Justin Chan (Programmer & Tester) 
 
-- Zachariah Vincze - Programmer: Messaging System, User System (Message, User), Controller Interface & State Switcher
-- Liam Ogilvie - Tester: Messaging System (Message) & UML Designer
+##### Contributors: Use Cases #####
+UserManager: Zihan Wang (Programmer), Justin Chan (Programmer), Kaiyi Liu (Programmer) [MISSING TESTER] \
+MessageManager: Zachary Vincze (Programmer), Liam Ogilvie (Tester) \
+RoomManager: Justin Chan (Programmer & Tester)
 
-- Justin Chan - Programmer & Tester: Schedule System (Event, Room, RoomManager) & Programmer: User System (Speaker, UserManager)
+##### Contributors: Controllers #####
+Controller Interface: Zachariah Vincze (Programmer) \
+OrganizerPanel: Tanuj Devjani (Programmer), Justin Chan (Programmer & Tester) \
+SpeakerPanel: Liam Ogilvie (Programmer & Tester) \
+AttendeePanel: [MISSING PROGRAMMER & TESTER]
+
+##### Contributors: System #####
+LoginSystem: Kerry Zhu (Programmer & Tester), Zachariah Vincze (Programmer)
 
 ##### Deadlines #####  
- - Saturday, November 7 - All entities written and tested
- - Monday, November 9 - All Use Cases written and tested
- - Monday, November 16 - Complete Phase 1
+ - Saturday, November 7: All entities written and tested
+ - Monday, November 9: All Use Cases written and tested
+ - Tuesday, November 10: Catch up deadline - **members that do not complete their tasks by this deadline will have their responsibilities passed on to other members** as decided by the group
+ - Monday, November 16: Complete Phase 1
  
