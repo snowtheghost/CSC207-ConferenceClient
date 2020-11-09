@@ -140,8 +140,12 @@ public class UserManager {
      * Sets the currently logged in user from username.
      * @param UserName the username of the logged in user.
      */
-    public void setCurrentUserFromUserName(String UserName){
-        this.currentUser = getUsernameToUser().get(UserName);
+    public boolean setCurrentUserFromUserName(String UserName){
+        if(getUsernameToUser().containsKey(UserName)){
+            this.currentUser = getUsernameToUser().get(UserName);
+            return true;}
+        System.out.println("This Username doesn't exists, please try another Username.");
+        return false;
     }
 
     /**
