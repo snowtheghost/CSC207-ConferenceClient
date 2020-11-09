@@ -19,6 +19,23 @@ public class AttendeeTest {
     Room room = new Room();
     Attendee attendee1 = new Attendee("attendee1");
     Attendee attendee2 = new Attendee("attendee2");
+    Message message1 = new Message("message1");
+    Message message2 = new Message("message2");
+
+    @Test
+    public void TestGetUserName(){assertEquals("attendee1", attendee1.getUsername()); }
+
+    @Test
+    public void TestGetAddMessages(){
+        ArrayList<UUID> res = new ArrayList<>();
+        assertEquals(res, attendee1.getMessages(attendee2.getUserID()));
+        attendee1.addMessage(attendee2.getUserID(), message1.getMessageID());
+        res.add(message1.getMessageID());
+        assertEquals(res, attendee1.getMessages(attendee2.getUserID()));
+        res.add(message2.getMessageID());
+        attendee1.addMessage(attendee2.getUserID(), message2.getMessageID());
+        assertEquals(res, attendee1.getMessages(attendee2.getUserID()));
+    }
 
     @Test
     public void TestAddGetRemoveEvents(){

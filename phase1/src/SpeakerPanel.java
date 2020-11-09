@@ -1,21 +1,7 @@
 public class SpeakerPanel implements IController {
     @Override
-    public void run() {
-
-    }
-
-    @Override
-    public boolean isQuitting() {
-        return false;
-    }
-
-    @Override
-    public boolean isChangingState() {
-        return false;
-    }
-
-    @Override
-    public int getNewState() {
-        return 0;
+    public int run() {
+        System.out.println("This is the speaker panel.");
+        return Definitions.QUIT_APP;
     }
 }
