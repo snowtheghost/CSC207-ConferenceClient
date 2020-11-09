@@ -9,9 +9,8 @@ public class MessageManager {
 
     /**
      * Creates a new MessageManager.
-     * @param userManager the users that this message system will be sending messages to.
      */
-    public MessageManager(UserManager userManager, RoomManager roomManager) {
+    public MessageManager() {
         this.messages = new HashMap<>();
     }
 

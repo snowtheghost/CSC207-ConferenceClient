@@ -13,8 +13,6 @@ public class Message {
     /**
      * Creates a new message.
      * @param messageContent the string content of this message.
-     * @param senderID the sender of this message.
-     * @param recipientIDs a list of recipients of this message.
      */
     public Message(String messageContent) {
         this.messageID = UUID.randomUUID();
