@@ -12,6 +12,7 @@ public class AppMain {
         AltLoginSystem loginSystem = new AltLoginSystem(userManager);
         AttendeePanel attendeePanel = new AttendeePanel();
         OrganizerPanel organizerPanel = new OrganizerPanel();
+        SpeakerPanel speakerPanel = new SpeakerPanel();
         IController currentController = loginSystem;
 
         while (applicationRunning) {
@@ -21,15 +22,10 @@ public class AppMain {
 
             else if (currentController.isChangingState()) {
                 switch (currentController.getNewState()) {
-                    case 0:
-                        currentController = loginSystem;
-                        break;
-                    case 1:
-                        currentController = attendeePanel;
-                        break;
-                    case 2:
-                        currentController = organizerPanel;
-                        break;
+                    case Definitions.LOGIN_SYSTEM -> currentController = loginSystem;
+                    case Definitions.ATTENDEE_PANEL -> currentController = attendeePanel;
+                    case Definitions.ORGANIZER_PANEL -> currentController = organizerPanel;
+                    case Definitions.SPEAKER_PANEL -> currentController = speakerPanel;
                 }
             }
         }
