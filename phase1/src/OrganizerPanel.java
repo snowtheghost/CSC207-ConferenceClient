@@ -1,4 +1,6 @@
-
+/**
+ * @author Justin Chan, Tanuj Devjani, Zachariah Vincze
+ */
 public class OrganizerPanel implements IController {
     private boolean quitting = false;
 
