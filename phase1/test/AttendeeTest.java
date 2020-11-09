@@ -38,19 +38,6 @@ public class AttendeeTest {
     }
 
     @Test
-    public void TestGetAddRemoveContact(){
-        ArrayList<UUID> a = new ArrayList<>();
-        assertEquals(a, attendee1.getContacts());
-        a.add(attendee2.getUserID());
-        attendee1.addContact(attendee2);
-        assertEquals(a, attendee1.getContacts());
-        a.remove(attendee2.getUserID());
-        User[] l = {attendee2};
-        attendee1.removeContacts(l);
-        assertEquals(a, attendee1.getContacts());
-    }
-
-    @Test
     public void TestIsOrganizer(){
         assertEquals(attendee1.isOrganizer(), false);
     }
