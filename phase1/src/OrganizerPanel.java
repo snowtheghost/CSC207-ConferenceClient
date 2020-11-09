@@ -22,24 +22,9 @@ public class OrganizerPanel implements IController {
     }
 
     @Override
-    public void run() {
+    public int run() {
         System.out.print("This is the OrganizerPanel");
-        this.quitting = true;
-    }
-
-    @Override
-    public boolean isQuitting() {
-        return this.quitting;
-    }
-
-    @Override
-    public boolean isChangingState() {
-        return false;
-    }
-
-    @Override
-    public int getNewState() {
-        return 0;
+        return Definitions.QUIT_APP;
     }
 
 }

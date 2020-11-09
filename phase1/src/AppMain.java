@@ -16,17 +16,12 @@ public class AppMain {
         IController currentController = loginSystem;
 
         while (applicationRunning) {
-            currentController.run();
-
-            if (currentController.isQuitting()) applicationRunning = false;
-
-            else if (currentController.isChangingState()) {
-                switch (currentController.getNewState()) {
-                    case Definitions.LOGIN_SYSTEM -> currentController = loginSystem;
-                    case Definitions.ATTENDEE_PANEL -> currentController = attendeePanel;
-                    case Definitions.ORGANIZER_PANEL -> currentController = organizerPanel;
-                    case Definitions.SPEAKER_PANEL -> currentController = speakerPanel;
-                }
+            switch(currentController.run()) {
+                case Definitions.LOGIN_SYSTEM -> currentController = loginSystem;
+                case Definitions.ATTENDEE_PANEL -> currentController = attendeePanel;
+                case Definitions.ORGANIZER_PANEL -> currentController = organizerPanel;
+                case Definitions.SPEAKER_PANEL -> currentController = speakerPanel;
+                case Definitions.QUIT_APP -> applicationRunning = false;
             }
         }
     }
