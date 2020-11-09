@@ -17,11 +17,21 @@ public class AppMain {
 
         while (applicationRunning) {
             switch(currentController.run()) {
-                case Definitions.LOGIN_SYSTEM -> currentController = loginSystem;
-                case Definitions.ATTENDEE_PANEL -> currentController = attendeePanel;
-                case Definitions.ORGANIZER_PANEL -> currentController = organizerPanel;
-                case Definitions.SPEAKER_PANEL -> currentController = speakerPanel;
-                case Definitions.QUIT_APP -> applicationRunning = false;
+                case Definitions.LOGIN_SYSTEM:
+                    currentController = loginSystem;
+                    break;
+                case Definitions.ATTENDEE_PANEL:
+                    currentController = attendeePanel;
+                    break;
+                case Definitions.ORGANIZER_PANEL:
+                    currentController = organizerPanel;
+                    break;
+                case Definitions.SPEAKER_PANEL:
+                    currentController = speakerPanel;
+                    break;
+                case Definitions.QUIT_APP:
+                    applicationRunning = false;
+                    break;
             }
         }
     }
