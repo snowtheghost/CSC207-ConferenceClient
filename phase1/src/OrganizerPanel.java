@@ -1,12 +1,17 @@
+import java.util.*;
+
 /**
  * @author Justin Chan, Tanuj Devjani, Zachariah Vincze
  */
 public class OrganizerPanel implements IController {
     private boolean quitting = false;
+    private final Scanner sc = new Scanner(System.in);
 
-    public boolean createEvent(){
-        return true;
+    public void createEvent(){
+        System.out.print("Room: ");
+        String room = sc.nextLine();
     }
+
     public boolean deleteEvent(){
         return true;
     }
