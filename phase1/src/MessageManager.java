@@ -64,11 +64,11 @@ public class MessageManager {
      * @param senderID the UUID of the user who sent this message.
      * @return a string list of messages sent from another user.
      */
-    public List<String> getMessagesFromUser(UserManager userManager, UUID recipientID, UUID senderID) {
-        ArrayList<String> messageContents = new ArrayList<>();
+    public List<Message> getMessagesFromUser(UserManager userManager, UUID recipientID, UUID senderID) {
+        ArrayList<Message> messageContents = new ArrayList<>();
         List<UUID> messageIDs = userManager.getUser(recipientID).getMessages(senderID);
         for (UUID id : messageIDs) {
-            messageContents.add(messages.get(id).getMessageContent());
+            messageContents.add(messages.get(id));
         }
         return messageContents;
     }
