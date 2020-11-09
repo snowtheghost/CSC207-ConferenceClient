@@ -5,7 +5,6 @@ import java.util.*;
  * @author Zihan Wang
  */
 public class Attendee extends User {
-    private List<UUID> contacts;
     private Map<UUID, ArrayList<UUID>> events;
 
     /**
@@ -15,7 +14,6 @@ public class Attendee extends User {
      */
     public Attendee(String username){
         super(username);
-        contacts = new ArrayList<>();
         events = new HashMap<>();
     }
 
@@ -24,33 +22,6 @@ public class Attendee extends User {
      */
     public Map<UUID, ArrayList<UUID>> getEvents() {
         return events;
-    }
-
-    /**
-     * @return the Attendee's Contacts
-     */
-    public List<UUID> getContacts() {
-        return contacts;
-    }
-
-    /**
-     * Add another User to the Attendee's Contacts
-     * @param user Another User
-     */
-    public void addContact(User user){contacts.add(user.getUserID());}
-
-    /**
-     * Remove a list of Users from this.contacts
-     * @param ContactsToRemove A list of User who will be removed
-     * @return the number of User in ContactsTo Remove who is not in this.contacts
-     */
-    public int removeContacts(User[] ContactsToRemove){
-        int res = 0;
-        for(User contact: ContactsToRemove){
-        if(!contacts.contains(contact.getUserID())) res += 1;
-        else {contacts.remove(contact.getUserID());}
-        }
-        return res;
     }
 
     /**
