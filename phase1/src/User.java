@@ -39,6 +39,7 @@ public abstract class User {
      * @return a list of messages UUIDs that have been sent by sender.
      */
     public List<UUID> getMessages(UUID sender) {
+        if(!conversations.containsKey(sender)) conversations.put(sender, new ArrayList<>());
         return this.conversations.get(sender);
     }
 
@@ -49,7 +50,7 @@ public abstract class User {
      */
     public void addMessage(UUID sender, UUID messageID) {
         if (!this.conversations.containsKey(sender)) {
-            this.conversations.put(sender, new ArrayList<UUID>());
+            this.conversations.put(sender, new ArrayList<>());
         }
         this.conversations.get(sender).add(messageID);
     }
