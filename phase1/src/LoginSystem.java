@@ -19,6 +19,8 @@ public class LoginSystem implements IController {
     public int run() {
         // creates input obj and asks user if they want to login or create account
         Scanner input = new Scanner(System.in);
+        // DUMMY ACCOUNT FOR TESTING
+        this.userMan.createAttendeeAccount("kerry");
 
         System.out.println("\"Login\" or \"Create account\"?");
         String decision = input.nextLine();
