@@ -8,10 +8,12 @@ public class AppMain {
         boolean applicationRunning = true;
 
         UserManager userManager = new UserManager();
+        RoomManager roomManager = new RoomManager();
+        MessageManager messageManager = new MessageManager();
 
         LoginSystem loginSystem = new LoginSystem(userManager);
         AttendeePanel attendeePanel = new AttendeePanel();
-        OrganizerPanel organizerPanel = new OrganizerPanel();
+        OrganizerPanel organizerPanel = new OrganizerPanel(userManager, roomManager);
         SpeakerPanel speakerPanel = new SpeakerPanel();
         IController currentController = loginSystem;
 
