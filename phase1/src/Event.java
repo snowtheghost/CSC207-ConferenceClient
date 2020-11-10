@@ -118,6 +118,6 @@ public class Event {
 
     @Override
     public String toString() {
-        return "Event: " + title + '\n' + "Time: " + startTime.getTime() + " to " + endTime.getTime();
+        return title + " at " + startTime.getTime() + " to " + endTime.getTime();
     }
 }
