@@ -324,6 +324,7 @@ public class OrganizerPanel implements IController {
         }
     }
 
+
     /**
      * Author: Justin Chan
      */
@@ -442,10 +443,65 @@ public class OrganizerPanel implements IController {
      */
     private void printHelp() {
         System.out.println("createspeaker - Create a new Speaker\n" +
-                "createroom - Create a new Room\n" + "createevent - Create a new Event\n" + "cancelevent - Remove an existing Event\n" +
+                "createroom - Create a new Room\n" + "createevent - Create a new Event\n" + "rescheduleevent - Reschedules an existing event\n"+"cancelevent - Remove an existing Event\n" +
                 "viewspeakers - See available Speakers\n" + "viewrooms - See available Rooms\n" + "viewevents - See available events in specified room\n" + "quit - Log out as Organizer");
     }
 
+    private void rescheduleEvent() {
+        System.out.println("Rescheduling an event. To cancel the process, enter \"-1\" in any input.");
+        printAvailableRooms();
+        int roomNumber = inputRoomFiltered();
+        if (cancelRequested(Integer.toString(roomNumber))) {
+            return;
+        }
+        // Find the event
+        printEventsInRoom(roomNumber);
+        int eventNumber = inputEventNumberFiltered(roomNumber);
+        if (cancelRequested(Integer.toString(eventNumber))) {
+            return;
+        }
+        int year = inputYearFiltered();
+        if (cancelRequested(Integer.toString(year))) {
+            return;
+        }
+
+        // User inputs the month of the event
+        int month = inputMonthFiltered(year);
+        if (cancelRequested(Integer.toString(month))) {
+            return;
+        }
+
+        // User inputs the day of the event
+        int day = inputDayFiltered(year, month);
+        if (cancelRequested(Integer.toString(day))) {
+            return;
+        }
+
+        // User inputs the hour of the event
+        int hour = inputHourFiltered(year, month, day);
+        if (cancelRequested(Integer.toString(hour))) {
+            return;
+        }
+
+        // User inputs the minute of the event
+        int minute;
+        if (hour != START_HOUR_LATEST) {
+            minute = inputMinuteFiltered();
+            if (cancelRequested(Integer.toString(minute))) {
+                return;
+            }
+        } else {
+            minute = 0; // prevent out of bound time
+        }
+        //noinspection MagicConstant
+        if (rm.rescheduleEvent(um,rm.getEventsFromRoom(roomNumber).get(eventNumber),new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0) )){
+            System.out.println("Event has been successfully rescheduled");
+            printEventsInRoom(roomNumber);
+            return;
+        }
+        System.out.println("The event was unable to be rescheduled: the Speaker may be speaking in another room, or the Room may be in use at this time");
+
+    }
     /**
      * Author: Justin Chan
      * This is the method to call when we are running an Organizer.
@@ -463,6 +519,8 @@ public class OrganizerPanel implements IController {
                     createRoom(); break;
                 case "createevent":
                     createEvent(); break;
+                case "rescheduleevent":
+                    rescheduleEvent();break;
                 case "cancelevent":
                     cancelEvent(); break;
                 case "viewspeakers":
