@@ -176,7 +176,7 @@ public class UserManager {
         if(getUsernameToUser().containsKey(UserName)){
             this.currentUser = getUsernameToUser().get(UserName);
             return true;}
-        System.out.println("This Username doesn't exists, please try another Username.");
+        System.out.println("This Username doesn't exist, please try another Username.");
         return false;
     }
 

@@ -31,7 +31,7 @@ public class LoginSystem implements IController {
             String userName = input.nextLine();
             // keeps asking for until matching one found
             while (!this.userMan.setCurrentUserFromUserName(userName)) {
-                System.out.println("Username not found, please try again or type 'back' to go back");
+                System.out.println("Or, if you wish to return, type 'back' to go back");
                 userName = input.nextLine();
                 if (userName.equals("back")) {
                     return Definitions.LOGIN_SYSTEM;
