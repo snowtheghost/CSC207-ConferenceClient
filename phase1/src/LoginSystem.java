@@ -66,7 +66,9 @@ public class LoginSystem implements IController {
             System.out.println("Enter account name:");
             String accountName = input.nextLine();
             ArrayList<String> existingUsers = this.userMan.getUsernames();
-            while (existingUsers.contains(accountName) || accountName.equals("back")) {
+
+            while (existingUsers.contains(accountName) || accountName.equals("back") ||
+                    accountName.equals("all")) {
                 System.out.println("Account name taken or invalid name, please try a different name.");
                 accountName = input.nextLine();
             }
