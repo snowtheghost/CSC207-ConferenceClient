@@ -12,7 +12,7 @@ public class AppMain {
         MessageManager messageManager = new MessageManager();
 
         LoginSystem loginSystem = new LoginSystem(userManager);
-        AttendeePanel attendeePanel = new AttendeePanel();
+        AttendeePanel attendeePanel = new AttendeePanel(userManager, messageManager, roomManager);
         OrganizerPanel organizerPanel = new OrganizerPanel(userManager, roomManager);
         SpeakerPanel speakerPanel = new SpeakerPanel();
         IController currentController = loginSystem;
