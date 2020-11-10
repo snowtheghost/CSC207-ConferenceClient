@@ -230,7 +230,7 @@ public class UserManager {
             if (user.isOrganizer()) {
                 return "organizer";
             } else if (user.isAttendee()) {
-                return "Attendee but not Organizer";
+                return "Attendee";
             } else {
                 return "speaker";
             }
