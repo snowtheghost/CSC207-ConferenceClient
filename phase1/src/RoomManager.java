@@ -213,4 +213,12 @@ public class RoomManager {
         room.addEvent(event);
         return false;
     }
+
+    public ArrayList<Event> getEventsFromRoom(int roomNumber) {
+        return getEventsFromRoom(getRooms().get(roomNumber));
+    }
+
+    public Room getRoom(int roomNumber) {
+        return getRooms().get(roomNumber);
+    }
 }
