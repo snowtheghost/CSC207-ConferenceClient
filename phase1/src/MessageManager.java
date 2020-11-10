@@ -23,7 +23,7 @@ public class MessageManager {
      * @return True iff this message was sent successfully.
      */
     public boolean sendMessage(UserManager userManager, UUID senderID, UUID recipientID, String messageContent) {
-        if (userManager.userExists(senderID) || userManager.userExists(recipientID)) {
+        if (!userManager.userExists(senderID) || !userManager.userExists(recipientID)) {
             return false;
         }
         Message message = new Message(messageContent);
