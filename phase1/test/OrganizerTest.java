@@ -19,7 +19,7 @@ public class OrganizerTest {
     }
 
     @Test
-    public void TestIsAttendee(){assertTrue(organizer1.isAttendee());}
+    public void TestIsAttendee(){assertFalse(organizer1.isAttendee());}
 
     @Test
     public void TestIsSpeaker(){assertFalse(organizer1.isSpeaker());}
