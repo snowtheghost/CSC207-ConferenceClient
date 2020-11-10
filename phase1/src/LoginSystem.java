@@ -24,6 +24,7 @@ public class LoginSystem implements IController {
 
         System.out.println("\"Login\" or \"Create account\"?");
         String decision = input.nextLine();
+
         // if user wants to login
         if (decision.equals("Login")) {
             System.out.println("Enter account name");
@@ -31,10 +32,12 @@ public class LoginSystem implements IController {
             // keeps asking for until matching one found
             while (!this.userMan.setCurrentUserFromUserName(userName)) {
                 System.out.println("Username not found, please try again or type 'back' to go back");
-                if (input.nextLine().equals("back")) {
+                userName = input.nextLine();
+                if (userName.equals("back")) {
                     return Definitions.LOGIN_SYSTEM;
                 };
             }
+
             String accountType = this.userMan.userType(userName);
             System.out.println("Loggined into " + accountType + " account, username: " + userName);
             switch (accountType) {
@@ -65,6 +68,7 @@ public class LoginSystem implements IController {
             ArrayList<String> existingUsers = this.userMan.getUsernames();
             while (existingUsers.contains(accountName) || accountName.equals("back")) {
                 System.out.println("Account name taken or invalid name, please try a different name.");
+                accountName = input.nextLine();
             }
             switch (accountType) {
                 case "speaker":
