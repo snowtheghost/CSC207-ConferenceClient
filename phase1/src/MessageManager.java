@@ -20,11 +20,16 @@ public class MessageManager {
      * @param senderID the UUID of the message sender.
      * @param recipientID the UUID of the message receiver.
      * @param messageContent the string content of the message.
+     * @return True iff this message was sent successfully.
      */
-    public void sendMessage(UserManager userManager, UUID senderID, UUID recipientID, String messageContent) {
+    public boolean sendMessage(UserManager userManager, UUID senderID, UUID recipientID, String messageContent) {
+        if (userManager.userExists(senderID) || userManager.userExists(recipientID)) {
+            return false;
+        }
         Message message = new Message(messageContent);
         messages.put(message.getMessageID(), message);
         userManager.getUser(recipientID).addMessage(senderID, message.getMessageID());
+        return true;
     }
 
     /**
@@ -32,13 +37,18 @@ public class MessageManager {
      * @param userManager the UserManager where the users are stored.
      * @param messageContent the string content of the message.
      * @param recipientIDs a list of users that are receiving the message.
+     * @return True iff the messages were sent successfully.
      */
-    private void sendMessages(UserManager userManager, UUID senderID, List<UUID> recipientIDs, String messageContent) {
+    private boolean sendMessages(UserManager userManager, UUID senderID, List<UUID> recipientIDs, String messageContent) {
+        if (!userManager.userExists(senderID) || !userManager.usersExist(recipientIDs)) {
+            return false;
+        }
         Message message = new Message(messageContent);
         messages.put(message.getMessageID(), message);
         for (UUID id : recipientIDs) {
             userManager.getUser(id).addMessage(senderID, message.getMessageID());
         }
+        return true;
     }
 
     /**
@@ -48,9 +58,10 @@ public class MessageManager {
      *
      * @param userManager the UserManager where the users are stored.
      * @param messageContent the string content of the message.
+     * @return True iff the messages were sent successfully.
      */
-    public void sendMessageToAllAttendees(UserManager userManager, UUID senderID, String messageContent) {
-        sendMessages(userManager, senderID, userManager.getAttendeeUUIDs(), messageContent);
+    public boolean sendMessageToAllAttendees(UserManager userManager, UUID senderID, String messageContent) {
+        return sendMessages(userManager, senderID, userManager.getAttendeeUUIDs(), messageContent);
     }
 
     /**
@@ -83,11 +94,12 @@ public class MessageManager {
      * @param senderID the UUID of the sender of this message.
      * @param eventID the UUID of the event that the users are in.
      * @param messageContent the content of the message to send.
+     * @return True iff the messages were sent successfully.
      */
-    public void sendMessageToEventAttendees(UserManager userManager, RoomManager roomManager,
+    public boolean sendMessageToEventAttendees(UserManager userManager, RoomManager roomManager,
                                             UUID senderID, UUID eventID, String messageContent) {
         Event event = roomManager.getEvent(eventID);
         ArrayList<UUID> attendeeIDs = roomManager.getEventAttendeeIDs(event);
-        sendMessages(userManager, senderID, attendeeIDs, messageContent);
+        return sendMessages(userManager, senderID, attendeeIDs, messageContent);
     }
 }

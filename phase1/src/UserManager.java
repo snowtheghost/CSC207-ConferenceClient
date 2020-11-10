@@ -30,6 +30,19 @@ public class UserManager {
     }
 
     /**
+     * Created: Zachariah Vincze
+     * @param userIDs the list of UUIDs to check.
+     * @return True iff all users exist in the system.
+     */
+    public boolean usersExist(List<UUID> userIDs) {
+        HashMap<UUID, User> users = getUserIDToUser();
+        for (UUID id : userIDs) {
+            if (!users.containsKey(id)) return false;
+        }
+        return true;
+    }
+
+    /**
      * Created: Justin Chan
      * @return an ArrayList of all users in existence
      */
