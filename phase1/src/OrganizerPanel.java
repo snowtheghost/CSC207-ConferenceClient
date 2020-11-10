@@ -81,8 +81,8 @@ public class OrganizerPanel implements IController {
     private void printEventsInRoom(int roomNumber) {
         System.out.println("Events in Room " + roomNumber + ": ");
         ArrayList<Event> events = rm.getEvents();
-        for (int i = 0; i < events.size(); i++) {
-            System.out.println(events.get(i).toString());
+        for (Event event : events) {
+            System.out.println(event.toString());
         }
     }
 
@@ -95,8 +95,8 @@ public class OrganizerPanel implements IController {
             }
         }
 
-        for (int i = 0; i < events.size(); i++) {
-            System.out.println(events.get(i).toString());
+        for (Event event : events) {
+            System.out.println(event.toString());
         }
     }
 
@@ -340,8 +340,9 @@ public class OrganizerPanel implements IController {
 
         // Create event
         Speaker speaker = (Speaker) um.getUsernameToUser().get(speakerName);
+        //noinspection MagicConstant
         if (rm.newEventValid(title, speaker, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), rm.getRooms().get(roomNumber))) {
-            Event event = rm.newEvent(title, speaker, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), rm.getRooms().get(roomNumber));
+            @SuppressWarnings("MagicConstant") Event event = rm.newEvent(title, speaker, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), rm.getRooms().get(roomNumber));
             System.out.println("Event scheduled: " + event.toString());
             return true;
         }
