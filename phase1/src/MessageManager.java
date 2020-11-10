@@ -1,3 +1,4 @@
+import java.security.MessageDigestSpi;
 import java.util.*;
 
 /**
@@ -69,17 +70,35 @@ public class MessageManager {
      * the current user. If no messages were sent to this user from senderID,
      * then an empty list is returned.
      *
-     * Precondition: The recipientID must belong to the currently logged in user.
-     *
      * @param userManager the UserManager where the users are stored.
+     * @param recipientID the UUID of the user who has received these messages.
      * @param senderID the UUID of the user who sent this message.
-     * @return a string list of messages sent from another user.
+     * @return a list of message entities from another user.
      */
-    public List<Message> getMessagesFromUser(UserManager userManager, UUID recipientID, UUID senderID) {
+    public ArrayList<Message> getMessagesFromUser(UserManager userManager, UUID recipientID, UUID senderID) {
         ArrayList<Message> messageContents = new ArrayList<>();
         List<UUID> messageIDs = userManager.getUser(recipientID).getMessages(senderID);
         for (UUID id : messageIDs) {
             messageContents.add(messages.get(id));
+        }
+        return messageContents;
+    }
+
+    /**
+     * Return a list of messages that were sent by a specific user to
+     * the current user. If no messages were sent to this user from senderID,
+     * then an empty list is returned.
+     *
+     * @param userManager the UserManager where the users are stored.
+     * @param recipientID the UUID of the user who has received these messages.
+     * @param senderID the UUID of the user who sent this message.
+     * @return a list of message entities from another user.
+     */
+    public List<String> getMessageContentsFromUser(UserManager userManager, UUID recipientID, UUID senderID) {
+        ArrayList<Message> messages = getMessagesFromUser(userManager, recipientID, senderID);
+        ArrayList<String> messageContents = new ArrayList<>();
+        for (Message message : messages) {
+            messageContents.add(message.getMessageContent());
         }
         return messageContents;
     }
