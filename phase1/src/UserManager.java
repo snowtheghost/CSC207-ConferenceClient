@@ -230,7 +230,7 @@ public class UserManager {
             if (user.isOrganizer()) {
                 return "organizer";
             } else if (user.isAttendee()) {
-                return "Attendee";
+                return "attendee";
             } else {
                 return "speaker";
             }
