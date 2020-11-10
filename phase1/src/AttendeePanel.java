@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.UUID;
 
 public class AttendeePanel implements IController {
     private final UserManager userMan;
@@ -32,30 +33,18 @@ public class AttendeePanel implements IController {
                     System.out.println("Here are the available commands: \n" + commands);
                     break;
 
-                case "Add contact":
-                    System.out.println("Enter contact name or type back to go back");
-                    String response = input.nextLine();
-                    if (response.equals("back")){return Definitions.ATTENDEE_PANEL;};
-                    //TODO: Call MessageManager to add contact with contact name.
-                    break;
-
-                case "View contacts":
-                    //TODO: Call UserManager to get contacts
-                    System.out.println("Call UserManager to get contacts");
-                    break;
-
-                case "Delete contact":
-                    System.out.println("Enter contact name or type back to go back");
-                    response = input.nextLine();
-                    if (response.equals("back")){return Definitions.ATTENDEE_PANEL;};
-                    //TODO: Call UserManager to delete contact with contact name
-                    break;
-
                 case "Message":
                     System.out.println("Enter contact name or type back to go back");
-                    response = input.nextLine();
-                    if (response.equals("back")){return Definitions.ATTENDEE_PANEL;};
+                    String response = input.nextLine();
+                    if (response.equals("back")){return Definitions.ATTENDEE_PANEL;}
                     //TODO: Call MessageManager to send message to contact
+                    else if (!this.userMan.getUsernames().contains(response)) {
+                        System.out.println("The recipient does not exist");
+                    }
+
+                    UUID sender = this.userMan.getCurrentUser().getUserID();
+                    UUID recipient = this.userMan.getUser(response).getUserID();
+
                     break;
 
                 case "View messages":
