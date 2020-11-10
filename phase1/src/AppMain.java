@@ -9,7 +9,7 @@ public class AppMain {
 
         UserManager userManager = new UserManager();
 
-        AltLoginSystem loginSystem = new AltLoginSystem(userManager);
+        LoginSystem loginSystem = new LoginSystem(userManager);
         AttendeePanel attendeePanel = new AttendeePanel();
         OrganizerPanel organizerPanel = new OrganizerPanel();
         SpeakerPanel speakerPanel = new SpeakerPanel();
