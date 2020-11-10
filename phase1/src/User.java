@@ -4,7 +4,7 @@ import java.util.*;
  * Represents an abstract User
  * @author Zachariah Vincze
  */
-public abstract class User {
+public abstract class   User {
     private UUID userID;
     private String username;
     private Map<UUID, List<UUID>> conversations;
