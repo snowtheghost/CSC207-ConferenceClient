@@ -72,4 +72,9 @@ public abstract class   User {
      * @return returns true if User is an Speaker, otherwise return false.
      */
     public abstract boolean isSpeaker();
+
+    /**
+     * @return the user's type as a string representation.
+     */
+    public abstract String getStringType();
 }

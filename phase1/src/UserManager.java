@@ -21,6 +21,15 @@ public class UserManager {
     public UserManager() { }
 
     /**
+     * Created: Zachariah Vincze
+     * @param userID the UUID of the user to check.
+     * @return True iff there exists a user with this UUID.
+     */
+    public boolean userExists(UUID userID) {
+        return getUserIDToUser().containsKey(userID);
+    }
+
+    /**
      * Created: Justin Chan
      * @return an ArrayList of all users in existence
      */

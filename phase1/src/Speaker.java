@@ -60,4 +60,9 @@ public class Speaker extends User {
     public boolean isAttendee() {
         return false;
     }
+
+    @Override
+    public String getStringType() {
+        return "speaker";
+    }
 }

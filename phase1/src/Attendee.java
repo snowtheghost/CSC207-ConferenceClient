@@ -70,4 +70,9 @@ public class Attendee extends User {
     public boolean isSpeaker() {
         return false;
     }
+
+    @Override
+    public String getStringType() {
+        return "attendee";
+    }
 }

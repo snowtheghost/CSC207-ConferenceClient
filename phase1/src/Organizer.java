@@ -29,4 +29,9 @@ public class Organizer extends Attendee {
     @Override
     public boolean isAttendee() { return false;}
 
+    @Override
+    public String getStringType() {
+        return "organizer";
+    }
+
 }
