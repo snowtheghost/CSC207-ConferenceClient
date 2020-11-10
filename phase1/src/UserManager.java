@@ -227,10 +227,10 @@ public class UserManager {
     public String userType(String username) {
         if (getUsernames().contains(username)) {
             User user = getUser(username);
-            if (user.isAttendee()) {
-                return "attendee";
-            } else if (user.isOrganizer()) {
+            if (user.isOrganizer()) {
                 return "organizer";
+            } else if (user.isAttendee()) {
+                return "Attendee but not Organizer";
             } else {
                 return "speaker";
             }
