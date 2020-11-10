@@ -1,10 +1,10 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * @author Liam Ogilvie
@@ -13,26 +13,42 @@ import static org.junit.Assert.assertEquals;
 public class MessageManagerTests {
     private MessageManager messageManager = new MessageManager();
     private UserManager userManager = new UserManager();
-    private Attendee attendee1;
-    private Attendee attendee2;
-    private Attendee attendee3;
-    private UUID a1UUID;
-    private UUID a2UUID;
-    private UUID a3UUID;
-    private String messageContent;
-    private List<UUID> recipientIDs;
+    private RoomManager roomManager;
+    private ArrayList<Room> rooms;
+    private Room room;
 
     @Before
     public void setupBefore() {
         messageManager = new MessageManager();
         userManager = new UserManager();
-        //Attendee attendee1 = userManager.createAttendeeAccount("attendee1");
-        //Attendee attendee2 = userManager.createAttendeeAccount("attendee2");
-        //UUID a1UUID = attendee1.getUserID();
-        //UUID a2UUID = attendee2.getUserID();
-        //String messageContent = "hello";
-    }
+        roomManager = new RoomManager();
+        rooms = new ArrayList<>();
 
+    }
+    /*
+     * newEvent()
+     * newEventValid()
+     * getEvents()
+     * getEventsFromRoom()
+     * getEvent()
+     * getEventRoom()
+     * addEventAttendee()
+     * removeEventAttendee()
+     * removeEvent()
+     */
+    @Test
+    public void testSendMessageRecipDoesntExist() {
+        Attendee attendee1 = userManager.createAttendeeAccount("attendee1");
+        UUID a1UUID = attendee1.getUserID();
+        UUID a2UUID = UUID.randomUUID();
+        String messageContent = "You Do Not Exist";
+
+        assertFalse(messageManager.sendMessage(userManager, a1UUID, a2UUID, messageContent));
+    }
+    /*
+     * sendMessage()
+     * getMessageContentsFromUser()
+     */
     @Test
     public void testSendMessageA1toA2() {
         Attendee attendee1 = userManager.createAttendeeAccount("attendee1");
@@ -42,37 +58,18 @@ public class MessageManagerTests {
         String messageContent = "hello";
 
         messageManager.sendMessage(userManager, a1UUID, a2UUID, messageContent);
-        List<Message> msg = messageManager.getMessagesFromUser(userManager, a2UUID, a1UUID);
-        assertEquals(msg.get(0).getMessageContent(), "hello");
+        List<String> msg = messageManager.getMessageContentsFromUser(userManager, a2UUID, a1UUID);
+        assertEquals(msg.get(0), "hello");
     }
-/* @Liam: Shouldn't sendmessages be available publicly so organizers can send group messages?
-          Or maybe I'm just misunderstanding the hierarchy of MessageManager.
-
-    @Test
-    public void testSendMessagesA1toA2andA3() {
-        Attendee attendee1 = userManager.createAttendeeAccount("attendee1");
-        Attendee attendee2 = userManager.createAttendeeAccount("attendee2");
-        Attendee attendee3 = userManager.createAttendeeAccount("attendee2");
-        System.out.println(userManager.getAttendees());
-        UUID a1UUID = attendee1.getUserID();
-        UUID a2UUID = attendee2.getUserID();
-        UUID a3UUID = attendee3.getUserID();
-        String messageContent = "hello";
-        List<UUID> recips = Arrays.asList(a2UUID, a3UUID);
-
-        messageManager.sendMessages(userManager, a1UUID, recips,messageContent);
-        List<Message> msg1 = messageManager.getMessagesFromUser(userManager, a2UUID, a1UUID);
-        List<Message> msg2 = messageManager.getMessagesFromUser(userManager, a3UUID, a1UUID);
-        assertEquals(msg1.get(0).getMessageContent(), "hello");
-        assertEquals(msg2.get(0).getMessageContent(), "hello");
-    }
- */
+    /*
+     * sendMessageToAllAttendees()
+     * getMessagesFromUser()
+     */
     @Test
     public void testSendMessagesToAllAttendeesA1toA2andA3() {
         Attendee attendee1 = userManager.createAttendeeAccount("attendee1");
         Attendee attendee2 = userManager.createAttendeeAccount("attendee2");
         Attendee attendee3 = userManager.createAttendeeAccount("attendee2");
-        //System.out.println(userManager.getAttendees());
         UUID a1UUID = attendee1.getUserID();
         UUID a2UUID = attendee2.getUserID();
         UUID a3UUID = attendee3.getUserID();
@@ -83,6 +80,40 @@ public class MessageManagerTests {
         assertEquals(msg1.get(0).getMessageContent(), "goodbye");
         List<Message> msg2 = messageManager.getMessagesFromUser(userManager, a3UUID, a1UUID);
         assertEquals(msg2.get(0).getMessageContent(), "goodbye");
+        List<Message> msg3 = messageManager.getMessagesFromUser(userManager, a1UUID, a1UUID);
+        assertEquals(msg3.get(0).getMessageContent(), "goodbye");
+    }
+    /*
+     * sendMessageToEventAttendees()
+     * getMessagesFromUSer()
+     */
+    @Test
+    public void testSendMessagesToAllEventAttendeesSpeakerToA1andA2() {
+        Attendee attendee1 = userManager.createAttendeeAccount("attendee1");
+        Attendee attendee2 = userManager.createAttendeeAccount("attendee2");
+        UUID a1UUID = attendee1.getUserID();
+        UUID a2UUID = attendee2.getUserID();
+
+        room = roomManager.newRoom();
+        Speaker speaker = userManager.createSpeakerAccount("speaker");
+        String messageContent = "event";
+        UUID speakerUUID = speaker.getUserID();
+
+        Event event = roomManager.newEvent("1", speaker,
+                new GregorianCalendar(2000, Calendar.MAY, 1, 11, 0, 0),
+                new GregorianCalendar(2000, Calendar.MAY, 1, 12, 0, 0),
+                room);
+        UUID eventUUID = event.getEventID();
+        roomManager.addEventAttendee(attendee1, event);
+        roomManager.addEventAttendee(attendee2, event);
+
+        messageManager.sendMessageToEventAttendees(userManager, roomManager,
+                speakerUUID, eventUUID, messageContent);
+        List<Message> msg1 = messageManager.getMessagesFromUser(userManager, a1UUID, speakerUUID);
+        assertEquals(msg1.get(0).getMessageContent(), "event");
+        List<Message> msg2 = messageManager.getMessagesFromUser(userManager, a2UUID, speakerUUID);
+        assertEquals(msg2.get(0).getMessageContent(), "event");
+        List<Message> msg3 = messageManager.getMessagesFromUser(userManager, speakerUUID, speakerUUID);
+        assertEquals(msg3.size(), 0);
     }
 }
-    //
