@@ -42,9 +42,11 @@ public class OrganizerPanel implements IController {
     public boolean deleteEvent(){
         return true;
     }
+
     public boolean createGroupMessage(){
         return true;
     }
+
     public void viewGroupAttendees(){
         System.out.println("The list of attendees in the group are ");
     }

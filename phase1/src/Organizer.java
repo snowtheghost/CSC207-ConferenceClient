@@ -26,6 +26,7 @@ public class Organizer extends Attendee {
         return true;
     }
 
-
+    @Override
+    public boolean isAttendee() { return false; }
 
 }

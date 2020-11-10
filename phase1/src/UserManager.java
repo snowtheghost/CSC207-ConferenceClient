@@ -74,6 +74,10 @@ public class UserManager {
         return getUserIDToUser().get(userID);
     }
 
+    public User getUser(String username) {
+        return getUsernameToUser().get(username);
+    }
+
     /**
      * @return list of attendees in existence
      * Last modified: Justin Chan
@@ -129,10 +133,16 @@ public class UserManager {
 
     /**
      * Sets the currently logged in user.
-     * @param currentUser the logged in user.
+     * @param username the username of the logged in user.
+     *
+     * Last modified: Justin Chan
      */
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
+    public boolean setCurrentUser(String username) {
+        if (getUsernames().contains(username)) {
+            this.currentUser = getUser(username);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -205,5 +215,26 @@ public class UserManager {
      */
     public boolean isValidUsername(String username) {
         return !getUsernames().contains(username);
+    }
+
+    /**
+     * @param username the username of the user
+     * @return the String of the type of user
+     *
+     * Created: Justin Chan
+     * TODO: This code was thrown together - needs optimizing!
+     */
+    public String userType(String username) {
+        if (getUsernames().contains(username)) {
+            User user = getUser(username);
+            if (user.isAttendee()) {
+                return "attendee";
+            } else if (user.isOrganizer()) {
+                return "organizer";
+            } else {
+                return "speaker";
+            }
+        }
+        return "";
     }
 }
