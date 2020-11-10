@@ -26,15 +26,7 @@ public class MessageManagerTests {
 
     }
     /*
-     * newEvent()
-     * newEventValid()
-     * getEvents()
-     * getEventsFromRoom()
-     * getEvent()
-     * getEventRoom()
-     * addEventAttendee()
-     * removeEventAttendee()
-     * removeEvent()
+     * sendMessage()
      */
     @Test
     public void testSendMessageRecipDoesntExist() {
@@ -66,22 +58,22 @@ public class MessageManagerTests {
      * getMessagesFromUser()
      */
     @Test
-    public void testSendMessagesToAllAttendeesA1toA2andA3() {
-        Attendee attendee1 = userManager.createAttendeeAccount("attendee1");
+    public void testSendMessagesToAllAttendeesOrganizerToA2andA3() {
+        Organizer organizer = userManager.createOrganizerAccount("organizer");
         Attendee attendee2 = userManager.createAttendeeAccount("attendee2");
         Attendee attendee3 = userManager.createAttendeeAccount("attendee2");
-        UUID a1UUID = attendee1.getUserID();
+        UUID orgUUID = organizer.getUserID();
         UUID a2UUID = attendee2.getUserID();
         UUID a3UUID = attendee3.getUserID();
         String messageContent = "goodbye";
 
-        messageManager.sendMessageToAllAttendees(userManager, a1UUID, messageContent);
-        List<Message> msg1 = messageManager.getMessagesFromUser(userManager, a2UUID, a1UUID);
+        messageManager.sendMessageToAllAttendees(userManager, orgUUID, messageContent);
+        List<Message> msg1 = messageManager.getMessagesFromUser(userManager, a2UUID, orgUUID);
         assertEquals(msg1.get(0).getMessageContent(), "goodbye");
-        List<Message> msg2 = messageManager.getMessagesFromUser(userManager, a3UUID, a1UUID);
+        List<Message> msg2 = messageManager.getMessagesFromUser(userManager, a3UUID, orgUUID);
         assertEquals(msg2.get(0).getMessageContent(), "goodbye");
-        List<Message> msg3 = messageManager.getMessagesFromUser(userManager, a1UUID, a1UUID);
-        assertEquals(msg3.get(0).getMessageContent(), "goodbye");
+        List<Message> msg3 = messageManager.getMessagesFromUser(userManager, orgUUID, orgUUID);
+        assertEquals(msg3.size(), 0);
     }
     /*
      * sendMessageToEventAttendees()
