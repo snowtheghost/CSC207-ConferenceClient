@@ -28,11 +28,21 @@ public class LoginSystem implements IController {
             String userName = input.nextLine();
             // keeps asking for until matching one found
             while (!this.userMan.setCurrentUserFromUserName(userName)) {
-                System.out.println("User name not found, please try again.");
-                input.nextLine();
+                System.out.println("Username not found, please try again or type 'back' to go back");
+                if (input.nextLine().equals("back")) {
+                    return Definitions.LOGIN_SYSTEM;
+                };
             }
-            return Definitions.ATTENDEE_PANEL;
-
+            String accountType = this.userMan.userType(userName);
+            System.out.println("Loggined into " + accountType + " account, username: " + userName);
+            switch (accountType) {
+                case "speaker":
+                    return Definitions.SPEAKER_PANEL;
+                case "attendee":
+                    return Definitions.ATTENDEE_PANEL;
+                case "organizer":
+                    return Definitions.ORGANIZER_PANEL;
+            }
         }
         // if they want to create account
         else if (decision.equals("Create account")) {
@@ -50,15 +60,28 @@ public class LoginSystem implements IController {
             // keep asking for account name until unique account name given
             System.out.println("Enter account name:");
             String accountName = input.nextLine();
-
-            this.userMan.createAttendeeAccount(accountName);
-            System.out.println("Successfully created " + "ATTENDEE FOR NOW" + "account, username: " +
+            ArrayList<String> existingUsers = this.userMan.getUsernames();
+            while (existingUsers.contains(accountName) || accountName.equals("back")) {
+                System.out.println("Account name taken or invalid name, please try a different name.");
+            }
+            switch (accountType) {
+                case "speaker":
+                    this.userMan.createSpeakerAccount(accountName);
+                    break;
+                case "organizer":
+                    this.userMan.createOrganizerAccount(accountName);
+                    break;
+                case "attendee":
+                    this.userMan.createAttendeeAccount(accountName);
+                    break;
+            }
+            System.out.println("Successfully created " + accountType + " account, username: " +
                     accountName);
             return Definitions.LOGIN_SYSTEM;
-        } else {
-            System.out.println("invalid input");
-            return Definitions.LOGIN_SYSTEM;
         }
-
+        else {
+            System.out.println("invalid input");
+        }
+        return Definitions.LOGIN_SYSTEM;
     }
 }
