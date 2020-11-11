@@ -35,4 +35,9 @@ public class OrganizerTest {
         res.add(message1.getMessageID());
         assertEquals(res, organizer1.getMessages(attendee1.getUserID()));
     }
+
+    @Test
+    public void TestGetStringType(){
+        assertEquals("organizer", organizer1.getStringType());
+    }
 }
