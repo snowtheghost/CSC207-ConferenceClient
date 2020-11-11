@@ -60,7 +60,7 @@ public class AttendeePanel implements IController {
                     break;
 
                 case "Join event":
-                    nextMove= joinEvent();
+                    nextMove= joinEvent(currUserID, this.userMan);
                     if (nextMove != null){return nextMove;}
                     break;
 
@@ -150,7 +150,6 @@ public class AttendeePanel implements IController {
 
     /**
      * Prints all existing events
-     * TODO: Review fixes made from RoomManager refactor
      */
     private void viewAllEvents(){
         System.out.println(roomMan.stringEventInfoAll());
@@ -159,7 +158,6 @@ public class AttendeePanel implements IController {
     /**
      * Prints all events the user signed up for
      * @param currUserID The current users UUID
-     *                   TODO: Review fixed made from RoomManager refactor
      */
     private void viewSignedUpEvents(UUID currUserID){
         System.out.println(roomMan.stringEventInfoAttending(currUserID));
@@ -169,10 +167,11 @@ public class AttendeePanel implements IController {
      * Asks user for an event name and prints whether it successfully signed up.
      * @return Returns an integer if user wants to go back out of the command, null otherwise
      */
-    private Integer joinEvent(){
+    private Integer joinEvent(UUID currUserID, UserManager userMan){
         System.out.println("Enter event name or type 'back' to go back");
         String response = input.nextLine();
         if (response.equals("back")){return Definitions.ATTENDEE_PANEL;}
+        //else if (this.roomMan.addEventAttendee(currUserID, userMan.))
         //TODO: Call UserManager/RoomManager to sign user up for event
 //        UUID eventID;
 //        for (Event event : this.roomMan.getEvents()){
