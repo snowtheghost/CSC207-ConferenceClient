@@ -259,4 +259,31 @@ public class UserManager {
         }
         return "";
     }
+
+    public String getUsername(UUID speakerID) {
+        return getUser(speakerID).getUsername();
+    }
+
+    public ArrayList<UUID> getSpeakerEventIDs(String speakerName) {
+        Speaker speaker = (Speaker) getUser(speakerName);
+
+        ArrayList<UUID> eventIDs = new ArrayList<>();
+        for (ArrayList<UUID> speakerEventIDs : speaker.getEventsSpeaking().values()) {
+            speakerEventIDs.addAll(eventIDs);
+        } return eventIDs;
+    }
+
+    public ArrayList<UUID> getSpeakerEventIDs(UUID speakerID) {
+        Speaker speaker = (Speaker) getUser(speakerID);
+
+        ArrayList<UUID> eventIDs = new ArrayList<>();
+        for (ArrayList<UUID> speakerEventIDs : speaker.getEventsSpeaking().values()) {
+            speakerEventIDs.addAll(eventIDs);
+        } return eventIDs;
+    }
+
+    public void speakerAddEvent(String speakerName, UUID roomID, UUID eventID) {
+        Speaker speaker = (Speaker) getUser(speakerName);
+        speaker.addEvent(roomID, eventID);
+    }
 }

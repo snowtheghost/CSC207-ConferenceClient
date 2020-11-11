@@ -31,9 +31,9 @@ public class Speaker extends User {
     }
 
     // Last modified: Justin Chan
-    public void addEvent(Room room, Event event){
-        eventsSpeaking.putIfAbsent(room.getRoomID(), new ArrayList<>());
-        eventsSpeaking.get(room.getRoomID()).add(event.getEventID());
+    public void addEvent(UUID roomID, UUID eventID){
+        eventsSpeaking.putIfAbsent(roomID, new ArrayList<>());
+        eventsSpeaking.get(roomID).add(eventID);
     }
 
     // Last modified: Justin Chan

@@ -54,9 +54,9 @@ public class OrganizerPanel implements IController {
      */
     private void printAvailableRooms() {
         System.out.print("Rooms available: ");
-        for (int room = 1; room <= rm.getRooms().size(); room++) {
+        for (int room = 1; room <= rm.getNumRooms(); room++) {
             System.out.print("Room " + room);
-            if (room < rm.getRooms().size()) {
+            if (room < rm.getNumRooms()) {
                 System.out.print(", ");
             }
         } System.out.print('\n');
@@ -78,13 +78,7 @@ public class OrganizerPanel implements IController {
     }
 
     private void printEventsInRoom(int roomNumber) {
-        System.out.println("Events in Room " + (roomNumber + 1) + ": ");
-        ArrayList<Event> events = rm.getEventsFromRoom(roomNumber);
-        for (int i = 0; i < events.size(); i++) {
-            Event event = events.get(i);
-            int eventNumber = i + 1;
-            System.out.println("(" + eventNumber + ") " + event.toString());
-        }
+        System.out.print(rm.stringEventsOfRoom(roomNumber));
     }
 
     private void printEventsInRoomInteractive() {
@@ -95,20 +89,8 @@ public class OrganizerPanel implements IController {
         } printEventsInRoom(roomNumber);
     }
 
-    private void printEventsOfSpeaker(Speaker speaker) {
-        System.out.println("Events by Speaker " + speaker.getUsername() + ": ");
-        ArrayList<Event> events = new ArrayList<>();
-        for (ArrayList<UUID> eventIDs : speaker.getEventsSpeaking().values()) {
-            for (UUID eventID : eventIDs) {
-                events.add(rm.getEvent(eventID));
-            }
-        }
-
-        for (int i = 0; i < events.size(); i++) {
-            Event event = events.get(i);
-            int eventNumber = i + 1;
-            System.out.println("(" + eventNumber + ") " + event.toString());
-        }
+    private void printEventsOfSpeaker(String speakerName) {
+        System.out.print(rm.stringEventsOfSpeaker(um, speakerName));
     }
 
     /**
@@ -124,7 +106,7 @@ public class OrganizerPanel implements IController {
                 if (roomNumber == -1) {
                     return -1; // send cancel signal
                 } else {
-                    if (0 < roomNumber && roomNumber <= rm.getRooms().size()) {
+                    if (0 < roomNumber && roomNumber <= rm.getNumRooms()) {
                         return roomNumber - 1;
                     } else {
                         System.out.println("Room does not exist - please try again.");
@@ -145,7 +127,7 @@ public class OrganizerPanel implements IController {
                 if (eventNumber == -1) {
                     return -1; // send cancel signal
                 } else {
-                    if (0 < eventNumber && eventNumber <= rm.getEventsFromRoom(roomNumber).size()) {
+                    if (0 < eventNumber && eventNumber <= rm.getNumEventsInRoom(roomNumber)) {
                         return eventNumber - 1;
                     } else {
                         System.out.println("Event does not exist - please try again.");
@@ -347,7 +329,7 @@ public class OrganizerPanel implements IController {
         String speakerName = inputSpeakerUsernameFiltered();
         if (cancelRequested(speakerName)) {
             return;
-        } printEventsOfSpeaker((Speaker) um.getUser(speakerName));
+        } printEventsOfSpeaker(speakerName);
 
         // User inputs the year of the event
         int year = inputYearFiltered();
@@ -385,11 +367,9 @@ public class OrganizerPanel implements IController {
         }
 
         // Create event
-        Speaker speaker = (Speaker) um.getUsernameToUser().get(speakerName);
-        //noinspection MagicConstant
-        if (rm.newEventValid(title, speaker, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), rm.getRoom(roomNumber))) {
-            @SuppressWarnings("MagicConstant") Event event = rm.newEvent(title, speaker, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), rm.getRoom(roomNumber));
-            System.out.println("Event scheduled: " + event.toString());
+        if (rm.newEventValid(title, speakerName, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), roomNumber, um)) {
+            String eventAsString = rm.newEvent(title, speakerName, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), roomNumber, um);
+            System.out.println("Event scheduled: " + eventAsString);
             return;
         }
 
@@ -402,7 +382,7 @@ public class OrganizerPanel implements IController {
     private void createRoom() {
         System.out.print("Creating a new room: Room ");
         rm.newRoom();
-        System.out.println(rm.getRooms().size());
+        System.out.println(rm.getNumRooms());
         printAvailableRooms();
     }
 
@@ -433,7 +413,7 @@ public class OrganizerPanel implements IController {
         int eventNumber = inputEventNumberFiltered(roomNumber);
         if (cancelRequested(Integer.toString(eventNumber))) {
             return;
-        } rm.removeEvent(um, rm.getEventsFromRoom(roomNumber).get(eventNumber));
+        } rm.removeEvent(um, roomNumber, eventNumber);
         System.out.println("The event has been removed.");
         printEventsInRoom(roomNumber);
     }
@@ -493,8 +473,7 @@ public class OrganizerPanel implements IController {
         } else {
             minute = 0; // prevent out of bound time
         }
-        //noinspection MagicConstant
-        if (rm.rescheduleEvent(um,rm.getEventsFromRoom(roomNumber).get(eventNumber),new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0) )){
+        if (rm.rescheduleEvent(um, roomNumber, eventNumber,new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0) )){
             System.out.println("Event has been successfully rescheduled");
             printEventsInRoom(roomNumber);
             return;

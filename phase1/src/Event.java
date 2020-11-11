@@ -18,8 +18,8 @@ import java.util.*;
  * Add AttendeeIDs
  * Remove AttendeeID
  *
- * Store SpeakerID
- * Get SpeakerID
+ * Store SpeakerName
+ * Get SpeakerName
  *
  * @author Justin Chan
  */
@@ -29,24 +29,24 @@ public class Event {
     private final UUID eventID;
     private Calendar startTime;
     private Calendar endTime;
-    private final UUID speakerID;  // The UUID of the Speaker
+    private final String speakerName;  // The UUID of the Speaker
     private final ArrayList<UUID> attendeeIDs = new ArrayList<>();  // List of attendees by UUID
 
     /**
      * Event constructor
      *
      * @param eventTitle the title of the event
-     * @param speaker the speaker of the event
+     * @param speakerName the speaker of the event
      * @param startTime the startTime of the event using GregorianCalendar object.
      * @param endTime the time of the event using GregorianCalendar object.
      *
      * Precondition: startTime.before(endTime)
      * Precondition: startTime has the same date as endTime
      */
-    Event(String eventTitle, Speaker speaker, Calendar startTime, Calendar endTime) {
+    Event(String eventTitle, String speakerName, Calendar startTime, Calendar endTime) {
         eventID = UUID.randomUUID();
         this.title = eventTitle;
-        this.speakerID = speaker.getUserID();
+        this.speakerName = speakerName;
         this.startTime = startTime;
         this.endTime = endTime;
     }
@@ -112,8 +112,8 @@ public class Event {
         return attendeeIDs.remove(attendeeToRemove.getUserID());
     }
 
-    public UUID getSpeakerID() {
-        return speakerID;
+    public String getSpeakerName() {
+        return speakerName;
     }
 
     @Override

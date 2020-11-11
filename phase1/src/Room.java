@@ -49,13 +49,13 @@ public class Room {
         return timeSchedule;
     }
 
-    public HashMap<UUID, ArrayList<Event>> getSpeakerIDSchedule() {
-        HashMap<UUID, ArrayList<Event>> speakerIDSchedule = new HashMap<>();
+    public HashMap<String, ArrayList<Event>> getSpeakerNameSchedule() {
+        HashMap<String, ArrayList<Event>> speakerNameSchedule = new HashMap<>();
         for (Event event : events) {
-            speakerIDSchedule.putIfAbsent(event.getSpeakerID(), new ArrayList<>());
-            speakerIDSchedule.get(event.getSpeakerID()).add(event);
+            speakerNameSchedule.putIfAbsent(event.getSpeakerName(), new ArrayList<>());
+            speakerNameSchedule.get(event.getSpeakerName()).add(event);
         }
-        return speakerIDSchedule;
+        return speakerNameSchedule;
     }
 
     public HashMap<String, ArrayList<Event>> getTitleSchedule() {
@@ -95,7 +95,7 @@ public class Room {
     }
 
     public ArrayList<Event> getEventsBySpeakerID(Speaker speaker) {
-        ArrayList<Event> eventsBySpeakerID = getSpeakerIDSchedule().get(speaker.getUserID());
+        ArrayList<Event> eventsBySpeakerID = getSpeakerNameSchedule().get(speaker.getUsername());
         if (eventsBySpeakerID == null) {
             eventsBySpeakerID = new ArrayList<>();
         }

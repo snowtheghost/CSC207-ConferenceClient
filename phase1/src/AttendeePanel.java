@@ -150,29 +150,19 @@ public class AttendeePanel implements IController {
 
     /**
      * Prints all existing events
+     * TODO: Review fixes made from RoomManager refactor
      */
     private void viewAllEvents(){
-        StringBuilder eventInfo = new StringBuilder("All events: \n");
-        for (Event event : this.roomMan.getEvents()){
-            eventInfo.append(event.getTitle()).append(" ").append(event.getStartTime())
-                    .append("-").append(event.getEndTime()).append("\n");
-        }
-        System.out.println(eventInfo);
+        System.out.println(roomMan.stringEventInfoAll());
     }
 
     /**
      * Prints all events the user signed up for
      * @param currUserID The current users UUID
+     *                   TODO: Review fixed made from RoomManager refactor
      */
     private void viewSignedUpEvents(UUID currUserID){
-        StringBuilder myEventInfo = new StringBuilder("All events: \n");
-        for (Event event : this.roomMan.getEvents()){
-            if (this.roomMan.getEventAttendeeIDs(event).contains(currUserID)){
-                myEventInfo.append(event.getTitle()).append(" ").append(event.getStartTime())
-                        .append("-").append(event.getEndTime()).append("\n");
-            }
-        }
-        System.out.println(myEventInfo);
+        System.out.println(roomMan.stringEventInfoAttending(currUserID));
     }
 
     /**
@@ -184,13 +174,13 @@ public class AttendeePanel implements IController {
         String response = input.nextLine();
         if (response.equals("back")){return Definitions.ATTENDEE_PANEL;}
         //TODO: Call UserManager/RoomManager to sign user up for event
-        UUID eventID;
-        for (Event event : this.roomMan.getEvents()){
-            if (event.getTitle().equals(response)){
-                eventID = event.getEventID();
-                //this.roomMan.addEventAttendee(this.userMan.getCurrentUser(), eventID);
-            }
-        }
+//        UUID eventID;
+//        for (Event event : this.roomMan.getEvents()){
+//            if (event.getTitle().equals(response)){
+//                eventID = event.getEventID();
+//                //this.roomMan.addEventAttendee(this.userMan.getCurrentUser(), eventID);
+//            }
+//        }
         return null;
     }
     /**
@@ -200,7 +190,7 @@ public class AttendeePanel implements IController {
     private Integer leaveEvent(){
         System.out.println("Enter event name or type 'back' to go back");
         String response = input.nextLine();
-        if (response.equals("back")){return Definitions.ATTENDEE_PANEL;};
+        if (response.equals("back")){return Definitions.ATTENDEE_PANEL;}
         //TODO: Call UserManager/RoomManager to remove user from event
         return null;
     }

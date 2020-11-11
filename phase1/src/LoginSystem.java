@@ -35,7 +35,7 @@ public class LoginSystem implements IController {
                 userName = input.nextLine();
                 if (userName.equals("back")) {
                     return Definitions.LOGIN_SYSTEM;
-                };
+                }
             }
 
             String accountType = this.userMan.userType(userName);
@@ -61,7 +61,7 @@ public class LoginSystem implements IController {
             while (!validTypes.contains(accountType)) {
                 System.out.println(accountType + " is not a valid account type. Please try again");
                 accountType = input.nextLine();
-            };
+            }
             // keep asking for account name until unique account name given
             System.out.println("Enter account name:");
             String accountName = input.nextLine();

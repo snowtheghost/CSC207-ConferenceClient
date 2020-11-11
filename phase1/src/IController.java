@@ -6,5 +6,5 @@ public interface IController {
     /**
      * This method is run once per iteration.
      */
-    public int run();
+    int run();
 }

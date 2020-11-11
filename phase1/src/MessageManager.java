@@ -117,8 +117,7 @@ public class MessageManager {
      */
     public UUID sendMessageToEventAttendees(UserManager userManager, RoomManager roomManager,
                                             UUID senderID, UUID eventID, String messageContent) {
-        Event event = roomManager.getEvent(eventID);
-        ArrayList<UUID> attendeeIDs = roomManager.getEventAttendeeIDs(event);
+        ArrayList<UUID> attendeeIDs = roomManager.getEventAttendeeIDs(eventID);
         return sendMessages(userManager, senderID, attendeeIDs, messageContent);
     }
 }

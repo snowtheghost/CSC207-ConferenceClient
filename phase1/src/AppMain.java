@@ -4,7 +4,7 @@
  */
 public class AppMain {
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         boolean applicationRunning = true;
 
         UserManager userManager = new UserManager();

@@ -5,7 +5,7 @@ import java.util.*;
  * @author Zihan Wang
  */
 public class Attendee extends User {
-    private Map<UUID, ArrayList<UUID>> events;
+    private final Map<UUID, ArrayList<UUID>> events;
 
     /**
      * Creates a new Attendee with a unique ID, a username,

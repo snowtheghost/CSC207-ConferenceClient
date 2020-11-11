@@ -17,7 +17,7 @@ public class EventTests {
 
     @Before
     public void setUpBefore() {
-        event1 = new Event("event1", speaker1,
+        event1 = new Event("event1", speaker1.getUsername(),
                 new GregorianCalendar(2000, Calendar.MAY, 1, 100, 0, 0),
                 new GregorianCalendar(2000, Calendar.MAY, 1, 100, 30, 0));
     }
@@ -75,6 +75,6 @@ public class EventTests {
 
     @Test
     public void testGetSpeakerID() {
-        assertEquals(event1.getSpeakerID(), speaker1.getUserID());
+        assertEquals(event1.getSpeakerName(), speaker1.getUsername());
     }
 }

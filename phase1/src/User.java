@@ -5,9 +5,9 @@ import java.util.*;
  * @author Zachariah Vincze
  */
 public abstract class   User {
-    private UUID userID;
-    private String username;
-    private Map<UUID, List<UUID>> conversations;
+    private final UUID userID;
+    private final String username;
+    private final Map<UUID, List<UUID>> conversations;
 
     /**
      * Creates a new user with a unique ID and a username.

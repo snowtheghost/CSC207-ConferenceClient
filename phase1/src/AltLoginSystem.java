@@ -5,7 +5,7 @@ import java.util.Scanner;
  * @author Zachariah Vincze
  */
 public class AltLoginSystem implements IController {
-    private UserManager userManager;
+    private final UserManager userManager;
     private String userInput;
 
     public AltLoginSystem(UserManager userManager) {
