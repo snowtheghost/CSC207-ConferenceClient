@@ -64,4 +64,7 @@ public class AttendeeTest {
 
     @Test
     public void TestIsSpeaker(){assertFalse(attendee1.isSpeaker());}
+
+    @Test
+    public void TestGetStringType(){assertEquals(attendee1.getStringType(), "attendee");}
 }

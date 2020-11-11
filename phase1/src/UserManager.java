@@ -151,7 +151,9 @@ public class UserManager {
     /**
      * @return currently logged in User.
      */
-    public UUID getCurrentUser() { return currentUser.getUserID(); }
+    public UUID getCurrentUser() {
+        if(currentUser == null) return null;
+        return currentUser.getUserID(); }
 
     /**
      * Sets the currently logged in user.
@@ -246,7 +248,8 @@ public class UserManager {
      * Created: Justin Chan
      */
     public String userType(String username) {
-        return getUser(username).getStringType();
+        if(getUsernames().contains(username)) return getUser(username).getStringType();
+        return null;
     }
 
     public ArrayList<UUID> getSpeakerEventIDs(String speakerName) {
