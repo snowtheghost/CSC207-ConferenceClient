@@ -29,7 +29,7 @@ public class RoomManager {
      *
      * Precondition: the roomID is a key in rooms
      */
-    public Room getRoom(UUID roomID) {
+    private Room getRoom(UUID roomID) {
         return getRoomIDToRoom().get(roomID);
     }
 

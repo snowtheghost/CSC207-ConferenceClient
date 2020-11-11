@@ -20,7 +20,6 @@ public class RoomManagerTests {
     @Test
     /*
      * getRooms()
-     * getRoom()
      * newRoom()
      */
     public void testRoomsNormal() {
@@ -28,11 +27,9 @@ public class RoomManagerTests {
         rooms.add(rm.newRoom()); // newRoom()
         assertEquals(rooms.size(), 1);
         assertEquals(rooms.get(0), rm.getRooms().get(0)); // getRooms()
-        assertEquals(rooms.get(0), rm.getRoom(rooms.get(0).getRoomID())); // getRoom()
         rooms.add(rm.newRoom()); // newRoom()
         assertEquals(rooms.size(), 2);
         assertEquals(rooms.get(1), rm.getRooms().get(1)); //getRooms()
-        assertEquals(rooms.get(1), rm.getRoom(rooms.get(1).getRoomID())); // getRoom()
     }
 
     @Test
