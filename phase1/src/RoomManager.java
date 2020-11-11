@@ -273,7 +273,7 @@ public class RoomManager {
 
     public boolean removeEventAttendee(Attendee attendee, Event event) {
         if (event.getAttendeeIDs().contains(attendee.getUserID())) {
-            attendee.removeReservedEvents(getEventRoom(event), event);
+            attendee.removeReservedEvents(getEventRoom(event).getRoomID(), event.getEventID());
             event.removeAttendee(attendee);
             return true;
         }

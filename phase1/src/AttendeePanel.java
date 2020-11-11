@@ -23,7 +23,7 @@ public class AttendeePanel implements IController {
     @Override
     public int run() {
         // common info used by the switch cases
-        UUID currUserID = this.userMan.getCurrentUser().getUserID();
+        UUID currUserID = this.userMan.getCurrentUser();
         ArrayList<UUID> allUserIds = new ArrayList<>(this.userMan.getAttendeeUUIDs());
         allUserIds.addAll(this.userMan.getOrganizerUUIDs());
         allUserIds.addAll(this.userMan.getSpeakerUUIDs());
@@ -91,6 +91,8 @@ public class AttendeePanel implements IController {
     /**
      * @param currUserID The current user's userid
      * @return Returns an Integer if user wants to exit, null otherwise
+     *
+     * TODO: Check fixes for UM
      */
     private Integer Message(UUID currUserID){
         System.out.println("Enter contact name or type back to go back");
@@ -103,7 +105,7 @@ public class AttendeePanel implements IController {
         }
         System.out.println("Please type message:");
         response = input.nextLine();
-        UUID recipient = this.userMan.getUser(response).getUserID();
+        UUID recipient = this.userMan.getUserID(response);
         this.msgMan.sendMessage(this.userMan, currUserID, recipient, response);
         System.out.println("Message successfully sent");
         return null;
@@ -114,6 +116,8 @@ public class AttendeePanel implements IController {
      * @param allUserIds The UUIDs of all users
      * @param currUserID The UUID of the current user
      * @return Returns an Integer if user wants to exit, null otherwise
+     *
+     * TODO: Check fixes for UM
      */
     private Integer viewMessages(ArrayList<UUID> allUserIds, UUID currUserID){
         System.out.println("Who's messages would you like to see? Type 'all' for all messages.");
@@ -131,7 +135,7 @@ public class AttendeePanel implements IController {
                 List<String> msgsFromPerson = this.msgMan.
                         getMessageContentsFromUser(this.userMan, currUserID, uuid);
                 if (msgsFromPerson.size()!=0){
-                    String senderName = this.userMan.getUser(uuid).getUsername();
+                    String senderName = this.userMan.getUsername(uuid);
                     allMsgs.append(senderName).append(": ");
                     for (String msg : msgsFromPerson) {
                         allMsgs.append(msg).append(", ");
@@ -143,7 +147,7 @@ public class AttendeePanel implements IController {
             return null;
         }
         // if user wants message from specific user
-        UUID recipient = this.userMan.getUser(response).getUserID();
+        UUID recipient = this.userMan.getUserID(response);
         System.out.println(this.msgMan.getMessageContentsFromUser(this.userMan, currUserID, recipient));
         return null;
     }

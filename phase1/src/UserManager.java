@@ -151,7 +151,7 @@ public class UserManager {
     /**
      * @return currently logged in User.
      */
-    private User getCurrentUser() { return currentUser; }
+    public UUID getCurrentUser() { return currentUser.getUserID(); }
 
     /**
      * Sets the currently logged in user.
@@ -260,10 +260,6 @@ public class UserManager {
         return "";
     }
 
-    public String getUsername(UUID speakerID) {
-        return getUser(speakerID).getUsername();
-    }
-
     public ArrayList<UUID> getSpeakerEventIDs(String speakerName) {
         Speaker speaker = (Speaker) getUser(speakerName);
 
@@ -320,5 +316,21 @@ public class UserManager {
             }
         } s.append('\n');
         return s.toString();
+    }
+
+    public List<UUID> getMessagesFromUser(UUID recipientID, UUID senderID) {
+        return getUser(recipientID).getMessages(senderID);
+    }
+
+    public void addMessage(UUID recipientID, UUID senderID, UUID messageID) {
+        getUser(recipientID).addMessage(senderID, messageID);
+    }
+
+    public UUID getUserID(String username) {
+        return getUser(username).getUserID();
+    }
+
+    public String getUsername(UUID UserID) {
+        return getUser(UserID).getUsername();
     }
 }

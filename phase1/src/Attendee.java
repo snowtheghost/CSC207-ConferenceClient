@@ -39,21 +39,21 @@ public class Attendee extends User {
 
     /**
      * Remove the eventID from this.event.
-     * @param event the Event object to be removed from this.events
+     * @param eventID the Event object to be removed from this.events
      * @return true if it is successfully removed, and false if it failed.
      *
      * Last modified for bug fix: Justin Chan
      */
-    public boolean removeReservedEvents(Room room, Event event){
-        if (!events.containsKey(room.getRoomID())) {
+    public boolean removeReservedEvents(UUID roomID, UUID eventID){
+        if (!events.containsKey(roomID)) {
             return false;
         }
-        if (!events.get(room.getRoomID()).contains(event.getEventID())) {
+        if (!events.get(roomID).contains(eventID)) {
             return false;
         }
-        events.get(room.getRoomID()).remove(event.getEventID());
-        if (events.get(room.getRoomID()).isEmpty()) {
-            events.remove(room.getRoomID());
+        events.get(roomID).remove(eventID);
+        if (events.get(roomID).isEmpty()) {
+            events.remove(roomID);
         }
         return true;
     }

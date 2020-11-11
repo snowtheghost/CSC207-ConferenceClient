@@ -28,7 +28,7 @@ public class MessageManager {
         }
         Message message = new Message(messageContent);
         messages.put(message.getMessageID(), message);
-        userManager.getUser(recipientID).addMessage(senderID, message.getMessageID());
+        userManager.addMessage(recipientID, senderID, message.getMessageID());
         return message.getMessageID();
     }
 
@@ -38,6 +38,8 @@ public class MessageManager {
      * @param messageContent the string content of the message.
      * @param recipientIDs a list of users that are receiving the message.
      * @return Return the id of the sent message. If the message was not sent, return null.
+     *
+     * TODO: Review UM fixes made
      */
     private UUID sendMessages(UserManager userManager, UUID senderID, List<UUID> recipientIDs, String messageContent) {
         if (!userManager.userExists(senderID) || !userManager.usersExist(recipientIDs)) {
@@ -46,7 +48,7 @@ public class MessageManager {
         Message message = new Message(messageContent);
         messages.put(message.getMessageID(), message);
         for (UUID id : recipientIDs) {
-            userManager.getUser(id).addMessage(senderID, message.getMessageID());
+            userManager.addMessage(id, senderID, message.getMessageID());
         }
         return message.getMessageID();
     }
@@ -73,10 +75,12 @@ public class MessageManager {
      * @param recipientID the UUID of the user who has received these messages.
      * @param senderID the UUID of the user who sent this message.
      * @return a list of message entities from another user.
+     *
+     * TODO: Check userManager related error fix
      */
     public ArrayList<Message> getMessagesFromUser(UserManager userManager, UUID recipientID, UUID senderID) {
         ArrayList<Message> messageContents = new ArrayList<>();
-        List<UUID> messageIDs = userManager.getUser(recipientID).getMessages(senderID);
+        List<UUID> messageIDs = userManager.getMessagesFromUser(recipientID, senderID);
         for (UUID id : messageIDs) {
             messageContents.add(messages.get(id));
         }
