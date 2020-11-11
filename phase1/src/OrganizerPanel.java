@@ -420,6 +420,9 @@ public class OrganizerPanel implements IController {
                 "viewspeakers - See available Speakers\n" + "viewrooms - See available Rooms\n" + "viewevents - See available events in specified room\n" + "quit - Log out as Organizer");
     }
 
+    /**
+     * Author: Tanuj Devjani
+     */
     private void rescheduleEvent() {
         System.out.println("Rescheduling an event. To cancel the process, enter \"-1\" in any input.");
         printAvailableRooms();
