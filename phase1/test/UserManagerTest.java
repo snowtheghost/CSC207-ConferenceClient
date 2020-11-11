@@ -69,4 +69,12 @@ public class UserManagerTest {
         assertEquals(um.userType("organizer1"), "organizer");
         assertEquals(um.userType("speaker1"), "speaker");
     }
+    @Test
+    public void TestGetUser(){
+        User value = um.getUser("attendee1");
+        assertEquals(value.getUserID(), attendee1ID);
+        User secondValue = um.getUser(organizer1ID);
+        assertEquals(secondValue.getUsername(), "organizer1");
+    }
+    
 }
