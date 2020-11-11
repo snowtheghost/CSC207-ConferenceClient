@@ -271,6 +271,18 @@ public class RoomManager {
         return true;
     }
 
+    public boolean addEventAttendee(UUID attendeeID, int roomNumber, int eventNumber, UserManager um) {
+        Event event = getEvent(roomNumber, eventNumber);
+
+        if (event.getAttendeeIDs().contains(attendeeID)) {
+            return false;
+        }
+
+        um.attendeeAddEvent(attendeeID, getEventRoom(event).getRoomID(), event.getEventID());
+        event.addAttendee(attendeeID);
+        return true;
+    }
+
     public boolean removeEventAttendee(Attendee attendee, Event event) {
         if (event.getAttendeeIDs().contains(attendee.getUserID())) {
             attendee.removeReservedEvents(getEventRoom(event).getRoomID(), event.getEventID());
@@ -305,10 +317,9 @@ public class RoomManager {
     }
 
     public String stringEventInfoAll() {
-        StringBuilder s = new StringBuilder("All events: \n");
-        for (Event event : getEvents()){
-            s.append(event.getTitle()).append(" ").append(event.getStartTime())
-                    .append("-").append(event.getEndTime()).append("\n");
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < rooms.size(); i++) {
+            s.append(stringEventsOfRoom(i));
         }
         return s.toString();
     }

@@ -103,6 +103,7 @@ public class AttendeePanel implements IController {
             response = input.nextLine();
             if (response.contains("back")){return Definitions.ATTENDEE_PANEL;}
         }
+
         System.out.println("Please type message:");
         response = input.nextLine();
         UUID recipient = this.userMan.getUserID(response);

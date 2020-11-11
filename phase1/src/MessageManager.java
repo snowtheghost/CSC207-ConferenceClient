@@ -42,7 +42,7 @@ public class MessageManager {
      * TODO: Review UM fixes made
      */
     private UUID sendMessages(UserManager userManager, UUID senderID, List<UUID> recipientIDs, String messageContent) {
-        if (!userManager.userExists(senderID) || !userManager.usersExist(recipientIDs)) {
+        if (!userManager.userExists(senderID) || recipientIDs.isEmpty() || !userManager.usersExist(recipientIDs)) {
             return null;
         }
         Message message = new Message(messageContent);
@@ -98,10 +98,9 @@ public class MessageManager {
      * @return a list of message entities from another user.
      */
     public List<String> getMessageContentsFromUser(UserManager userManager, UUID recipientID, UUID senderID) {
-        ArrayList<Message> messages = getMessagesFromUser(userManager, recipientID, senderID);
         ArrayList<String> messageContents = new ArrayList<>();
-        for (Message message : messages) {
-            messageContents.add(message.getMessageContent());
+        for (UUID id : userManager.getMessagesFromUser(recipientID, senderID)) {
+            messageContents.add(messages.get(id).getMessageContent());
         }
         return messageContents;
     }
