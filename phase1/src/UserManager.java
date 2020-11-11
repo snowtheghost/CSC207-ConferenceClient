@@ -286,4 +286,9 @@ public class UserManager {
         Speaker speaker = (Speaker) getUser(speakerName);
         speaker.addEvent(roomID, eventID);
     }
+
+    public void attendeeAddEvent(UUID attendeeID, UUID roomID, UUID eventID) {
+        Attendee attendee = (Attendee) getUser(attendeeID);
+        attendee.addEvents(roomID, eventID);
+    }
 }
