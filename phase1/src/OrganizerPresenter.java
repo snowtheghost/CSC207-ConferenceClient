@@ -57,7 +57,7 @@ public class OrganizerPresenter {
     }
 
     public void createRoomStatus(int numRooms) {
-        System.out.print("Creating a new room: Room " + numRooms);
+        System.out.print("Creating a new room: Room " + numRooms + "\n");
     }
 
     public void inputRoomPrompt() {

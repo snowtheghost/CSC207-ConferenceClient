@@ -301,7 +301,7 @@ public class UserManager {
         for (int i = 0; i < speakers.size(); i++) {
             s.append(speakers.get(i).getUsername());
             if (i < speakers.size() - 1) {
-                System.out.print(", ");
+                s.append(", ");
             }
         } s.append('\n');
         return s.toString();
