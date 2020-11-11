@@ -21,6 +21,9 @@ OrganizerPanel: Justin Chan (Programmer & Tester), Tanuj Devjani (Programmer) \
 SpeakerPanel: Liam Ogilvie (Programmer & Tester) [NEEDS SUPPORT PROGRAMMER] \
 AttendeePanel: Kerry Zhu (Programmer & Tester), Zachariah Vincze (Programmer)
 
+##### Contributors: Presenters #####
+OrganizerPresenter: Justin Chan (Programmer & Tester) 
+
 ##### Contributors: System #####
 LoginSystem: Kerry Zhu (Programmer & Tester), Zachariah Vincze (Programmer)
 
