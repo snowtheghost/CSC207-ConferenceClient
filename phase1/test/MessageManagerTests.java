@@ -5,6 +5,7 @@ import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author Liam Ogilvie
@@ -35,7 +36,7 @@ public class MessageManagerTests {
         UUID a2UUID = UUID.randomUUID();
         String messageContent = "You Do Not Exist";
 
-        assertFalse(messageManager.sendMessage(userManager, a1UUID, a2UUID, messageContent));
+        assertNull(messageManager.sendMessage(userManager, a1UUID, a2UUID, messageContent));
     }
     /*
      * sendMessage()

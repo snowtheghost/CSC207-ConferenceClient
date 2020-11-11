@@ -31,7 +31,7 @@ public class LoginSystem implements IController {
             String userName = input.nextLine();
             // keeps asking for until matching one found
             while (!this.userMan.setCurrentUserFromUserName(userName)) {
-                System.out.println("Username not found, please try again or type 'back' to go back");
+                System.out.println("Or, if you wish to return, type 'back' to go back");
                 userName = input.nextLine();
                 if (userName.equals("back")) {
                     return Definitions.LOGIN_SYSTEM;
@@ -66,7 +66,9 @@ public class LoginSystem implements IController {
             System.out.println("Enter account name:");
             String accountName = input.nextLine();
             ArrayList<String> existingUsers = this.userMan.getUsernames();
-            while (existingUsers.contains(accountName) || accountName.equals("back")) {
+
+            while (existingUsers.contains(accountName) || accountName.equals("back") ||
+                    accountName.equals("all")) {
                 System.out.println("Account name taken or invalid name, please try a different name.");
                 accountName = input.nextLine();
             }
