@@ -85,9 +85,7 @@ public class AttendeePanel implements IController {
      */
     private void displayCommands(){
         // displaus all possible commands
-        String commands = "Logout|Add contact|View contacts|Delete contact|" +
-                "|Message|View messages|View all events|View signed up events|" +
-                "Join event|Leave event";
+        String commands = "Logout|Message|View messages|View all events|View signed up events|Join event|Leave event";
         System.out.println("Here are the available commands: \n" + commands);
     }
     /**
