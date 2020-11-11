@@ -319,10 +319,7 @@ public class RoomManager {
     public String stringEventInfoAll() {
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < rooms.size(); i++) {
-            s.append("Events in Room ").append(i+1).append(": \n");
-            for (Event event : getEventsFromRoom(i+1)) {
-                s.append(stringEventsOfRoom(i+1));
-            }
+            s.append(stringEventsOfRoom(i));
         }
         return s.toString();
     }

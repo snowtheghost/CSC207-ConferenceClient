@@ -160,6 +160,10 @@ public class OrganizerPresenter {
         System.out.print(rm.stringEventsOfRoom(roomNumber));
     }
 
+    public void printAllEvents() {
+        System.out.print(rm.stringEventInfoAll());
+    }
+
     public void printAvailableSpeakers() {
         System.out.print(um.stringAvailableSpeakers());
     }
