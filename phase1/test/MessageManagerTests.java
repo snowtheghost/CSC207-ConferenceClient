@@ -90,11 +90,11 @@ public class MessageManagerTests {
 
         messageManager.sendMessageToEventAttendees(userManager, roomManager,
                 speakerUUID, eventID, messageContent);
-        List<Message> msg1 = messageManager.getMessagesFromUser(userManager, a1UUID, speakerUUID);
-        assertEquals(msg1.get(0).getMessageContent(), "event");
-        List<Message> msg2 = messageManager.getMessagesFromUser(userManager, a2UUID, speakerUUID);
-        assertEquals(msg2.get(0).getMessageContent(), "event");
-        List<Message> msg3 = messageManager.getMessagesFromUser(userManager, speakerUUID, speakerUUID);
+        List<String> msg1 = messageManager.getMessageContentsFromUser(userManager, a1UUID, speakerUUID);
+        assertEquals(msg1.get(0), "event");
+        List<String> msg2 = messageManager.getMessageContentsFromUser(userManager, a2UUID, speakerUUID);
+        assertEquals(msg2.get(0), "event");
+        List<String> msg3 = messageManager.getMessageContentsFromUser(userManager, speakerUUID, speakerUUID);
         assertEquals(msg3.size(), 0);
     }
     /*
