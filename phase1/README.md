@@ -31,5 +31,6 @@ LoginSystem: Kerry Zhu (Programmer & Tester), Zachariah Vincze (Programmer)
  - Saturday, November 7: All entities written and tested
  - Monday, November 9: All Use Cases written and tested
  - Tuesday, November 10: Catch up deadline - **members that do not complete their tasks by this deadline will have their responsibilities passed on to other members** as decided by the group
+ - Thursday , November 12: All Controllers and Presenters
  - Monday, November 16: Complete Phase 1
  
