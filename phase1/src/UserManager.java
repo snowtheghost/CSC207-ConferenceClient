@@ -244,20 +244,9 @@ public class UserManager {
      * @return the String of the type of user
      *
      * Created: Justin Chan
-     * TODO: This code was thrown together - needs optimizing!
      */
     public String userType(String username) {
-        if (getUsernames().contains(username)) {
-            User user = getUser(username);
-            if (user.isOrganizer()) {
-                return "organizer";
-            } else if (user.isAttendee()) {
-                return "attendee";
-            } else {
-                return "speaker";
-            }
-        }
-        return "";
+        return getUser(username).getStringType();
     }
 
     public ArrayList<UUID> getSpeakerEventIDs(String speakerName) {
@@ -332,5 +321,13 @@ public class UserManager {
 
     public String getUsername(UUID UserID) {
         return getUser(UserID).getUsername();
+    }
+
+    /**
+     * @param userID The UUID of the user to check.
+     * @return UUIDs of users that this user has received messages from.
+     */
+    Set<UUID> getUserContacts(UUID userID) {
+        return getUser(userID).getContacts();
     }
 }

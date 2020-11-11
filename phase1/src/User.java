@@ -44,6 +44,13 @@ public abstract class   User {
     }
 
     /**
+     * @return a set of UUIDs of users that have sent messages to this user.
+     */
+    public Set<UUID> getContacts() {
+        return this.conversations.keySet();
+    }
+
+    /**
      * Adds a message to this user's received message history.
      * @param sender the UUID of the user who sent this message.
      * @param messageID the UUID of the message that was sent.

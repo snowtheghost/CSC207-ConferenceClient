@@ -78,7 +78,7 @@ public class MessageManager {
      *
      * TODO: Check userManager related error fix
      */
-    public ArrayList<Message> getMessagesFromUser(UserManager userManager, UUID recipientID, UUID senderID) {
+    private ArrayList<Message> getMessagesFromUser(UserManager userManager, UUID recipientID, UUID senderID) {
         ArrayList<Message> messageContents = new ArrayList<>();
         List<UUID> messageIDs = userManager.getMessagesFromUser(recipientID, senderID);
         for (UUID id : messageIDs) {

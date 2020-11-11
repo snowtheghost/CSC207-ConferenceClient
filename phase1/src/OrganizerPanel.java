@@ -365,6 +365,9 @@ public class OrganizerPanel implements IController {
         op.printRoomEvents(roomNumber);
     }
 
+    /**
+     * Author: Tanuj Devjani
+     */
     private void rescheduleEvent() {
         op.rescheduleEventWelcome();
 
