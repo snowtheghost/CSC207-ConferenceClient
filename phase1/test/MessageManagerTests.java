@@ -3,9 +3,7 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * @author Liam Ogilvie
@@ -80,7 +78,7 @@ public class MessageManagerTests {
      * sendMessageToEventAttendees()
      * getMessagesFromUSer()
      */
-     @Test
+    @Test
     public void testSendMessagesToAllEventAttendeesSpeakerToA1andA2() {
         Attendee attendee1 = userManager.createAttendeeAccount("attendee1");
         Attendee attendee2 = userManager.createAttendeeAccount("attendee2");
@@ -96,17 +94,39 @@ public class MessageManagerTests {
                 new GregorianCalendar(2000, Calendar.MAY, 1, 11, 0, 0),
                 new GregorianCalendar(2000, Calendar.MAY, 1, 12, 0, 0),
                 0, userManager);
-        UUID eventUUID = eventID;
         roomManager.addEventAttendee(attendee1.getUserID(), eventID, userManager);
         roomManager.addEventAttendee(attendee2.getUserID(), eventID, userManager);
 
         messageManager.sendMessageToEventAttendees(userManager, roomManager,
-                speakerUUID, eventUUID, messageContent);
+                speakerUUID, eventID, messageContent);
         List<Message> msg1 = messageManager.getMessagesFromUser(userManager, a1UUID, speakerUUID);
         assertEquals(msg1.get(0).getMessageContent(), "event");
         List<Message> msg2 = messageManager.getMessagesFromUser(userManager, a2UUID, speakerUUID);
         assertEquals(msg2.get(0).getMessageContent(), "event");
         List<Message> msg3 = messageManager.getMessagesFromUser(userManager, speakerUUID, speakerUUID);
         assertEquals(msg3.size(), 0);
+    }
+    /*
+     *
+     */
+    @Test
+    public void testSendMessagesToAllEventAttendeesWhoDoNotExist() {
+
+        UUID a1UUID = UUID.randomUUID();
+        UUID a2UUID = UUID.randomUUID();
+
+        roomManager.newRoom();
+        Speaker speaker = userManager.createSpeakerAccount("speaker");
+        String messageContent = "event";
+        UUID speakerUUID = speaker.getUserID();
+
+        UUID eventID = roomManager.newEvent("1", speaker.getUsername(),
+                new GregorianCalendar(2000, Calendar.MAY, 1, 11, 0, 0),
+                new GregorianCalendar(2000, Calendar.MAY, 1, 12, 0, 0),
+                0, userManager);
+        UUID eventUUID = eventID;
+
+        assertSame(null, messageManager.sendMessageToEventAttendees(userManager, roomManager,
+                speakerUUID, eventUUID, messageContent) );
     }
 }
