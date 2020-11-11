@@ -21,16 +21,16 @@ public class MessageManager {
      * @param senderID the UUID of the message sender.
      * @param recipientID the UUID of the message receiver.
      * @param messageContent the string content of the message.
-     * @return True iff this message was sent successfully.
+     * @return Return the id of the sent message. If the message was not sent, return null.
      */
-    public boolean sendMessage(UserManager userManager, UUID senderID, UUID recipientID, String messageContent) {
+    public UUID sendMessage(UserManager userManager, UUID senderID, UUID recipientID, String messageContent) {
         if (!userManager.userExists(senderID) || !userManager.userExists(recipientID)) {
-            return false;
+            return null;
         }
         Message message = new Message(messageContent);
         messages.put(message.getMessageID(), message);
         userManager.getUser(recipientID).addMessage(senderID, message.getMessageID());
-        return true;
+        return message.getMessageID();
     }
 
     /**
@@ -38,18 +38,18 @@ public class MessageManager {
      * @param userManager the UserManager where the users are stored.
      * @param messageContent the string content of the message.
      * @param recipientIDs a list of users that are receiving the message.
-     * @return True iff the messages were sent successfully.
+     * @return Return the id of the sent message. If the message was not sent, return null.
      */
-    private boolean sendMessages(UserManager userManager, UUID senderID, List<UUID> recipientIDs, String messageContent) {
+    private UUID sendMessages(UserManager userManager, UUID senderID, List<UUID> recipientIDs, String messageContent) {
         if (!userManager.userExists(senderID) || !userManager.usersExist(recipientIDs)) {
-            return false;
+            return null;
         }
         Message message = new Message(messageContent);
         messages.put(message.getMessageID(), message);
         for (UUID id : recipientIDs) {
             userManager.getUser(id).addMessage(senderID, message.getMessageID());
         }
-        return true;
+        return message.getMessageID();
     }
 
     /**
@@ -59,9 +59,9 @@ public class MessageManager {
      *
      * @param userManager the UserManager where the users are stored.
      * @param messageContent the string content of the message.
-     * @return True iff the messages were sent successfully.
+     * @return Return the id of the sent message. If the message was not sent, return null.
      */
-    public boolean sendMessageToAllAttendees(UserManager userManager, UUID senderID, String messageContent) {
+    public UUID sendMessageToAllAttendees(UserManager userManager, UUID senderID, String messageContent) {
         return sendMessages(userManager, senderID, userManager.getAttendeeUUIDs(), messageContent);
     }
 
@@ -113,9 +113,9 @@ public class MessageManager {
      * @param senderID the UUID of the sender of this message.
      * @param eventID the UUID of the event that the users are in.
      * @param messageContent the content of the message to send.
-     * @return True iff the messages were sent successfully.
+     * @return Return the id of the sent message. If the message was not sent, return null.
      */
-    public boolean sendMessageToEventAttendees(UserManager userManager, RoomManager roomManager,
+    public UUID sendMessageToEventAttendees(UserManager userManager, RoomManager roomManager,
                                             UUID senderID, UUID eventID, String messageContent) {
         Event event = roomManager.getEvent(eventID);
         ArrayList<UUID> attendeeIDs = roomManager.getEventAttendeeIDs(event);

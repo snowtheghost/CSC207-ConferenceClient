@@ -208,9 +208,20 @@ public class RoomManager {
         room.removeEvent(event);
         if (newEventValid(event.getTitle(), (Speaker) um.getUser(event.getSpeakerID()), startTime, endTime, room)) {
             event.setTime(startTime, endTime);
+            room.addEvent(event);
             return true;
         }
         room.addEvent(event);
         return false;
     }
+
+    public ArrayList<Event> getEventsFromRoom(int roomNumber) {
+        return getEventsFromRoom(getRooms().get(roomNumber));
+    }
+
+    public Room getRoom(int roomNumber) {
+        return getRooms().get(roomNumber);
+    }
+
+
 }

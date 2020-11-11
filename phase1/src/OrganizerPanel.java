@@ -4,7 +4,6 @@ import java.util.*;
  * @author Justin Chan, Tanuj Devjani
  */
 public class OrganizerPanel implements IController {
-    private final boolean quitting = false;
     private final Scanner sc = new Scanner(System.in);
     private final UserManager um;
     private final RoomManager rm;
@@ -79,11 +78,21 @@ public class OrganizerPanel implements IController {
     }
 
     private void printEventsInRoom(int roomNumber) {
-        System.out.println("Events in Room " + roomNumber + ": ");
-        ArrayList<Event> events = rm.getEvents();
-        for (Event event : events) {
-            System.out.println(event.toString());
+        System.out.println("Events in Room " + (roomNumber + 1) + ": ");
+        ArrayList<Event> events = rm.getEventsFromRoom(roomNumber);
+        for (int i = 0; i < events.size(); i++) {
+            Event event = events.get(i);
+            int eventNumber = i + 1;
+            System.out.println("(" + eventNumber + ") " + event.toString());
         }
+    }
+
+    private void printEventsInRoomInteractive() {
+        printAvailableRooms();
+        int roomNumber = inputRoomFiltered(); // take room input from user and make sure it's correct
+        if (cancelRequested(Integer.toString(roomNumber))) {
+            return; // quit and return when the user requests to terminate the method
+        } printEventsInRoom(roomNumber);
     }
 
     private void printEventsOfSpeaker(Speaker speaker) {
@@ -95,17 +104,18 @@ public class OrganizerPanel implements IController {
             }
         }
 
-        for (Event event : events) {
-            System.out.println(event.toString());
+        for (int i = 0; i < events.size(); i++) {
+            Event event = events.get(i);
+            int eventNumber = i + 1;
+            System.out.println("(" + eventNumber + ") " + event.toString());
         }
     }
 
     /**
      * Author: Justin Chan
-     * @param numRooms the number of rooms in the system
      * @return the room index in rm.getRooms(), or -1 if a cancel is requested
      */
-    private int inputRoomFiltered(int numRooms) {
+    private int inputRoomFiltered() {
         while (true) {
             System.out.print("Room: "); // for user to read
             String roomRaw = sc.nextLine(); // get the desired roomNumber from the user
@@ -114,10 +124,31 @@ public class OrganizerPanel implements IController {
                 if (roomNumber == -1) {
                     return -1; // send cancel signal
                 } else {
-                    if (0 < roomNumber && roomNumber <= numRooms) {
+                    if (0 < roomNumber && roomNumber <= rm.getRooms().size()) {
                         return roomNumber - 1;
                     } else {
                         System.out.println("Room does not exist - please try again.");
+                    }
+                }
+            } catch (NumberFormatException e) {
+                invalidInputNotification();
+            }
+        }
+    }
+
+    private int inputEventNumberFiltered(int roomNumber) {
+        while (true) {
+            System.out.print("Event Number: ");
+            String eventRaw = sc.nextLine(); // get the desired roomNumber from the user
+            try {
+                int eventNumber = Integer.parseInt(eventRaw);
+                if (eventNumber == -1) {
+                    return -1; // send cancel signal
+                } else {
+                    if (0 < eventNumber && eventNumber <= rm.getEventsFromRoom(roomNumber).size()) {
+                        return eventNumber - 1;
+                    } else {
+                        System.out.println("Event does not exist - please try again.");
                     }
                 }
             } catch (NumberFormatException e) {
@@ -130,7 +161,7 @@ public class OrganizerPanel implements IController {
      * Author: Justin Chan
      * @return the validated username (username exists and corresponds to a speaker) or -1 if a cancel is requested
      */
-    public String inputSpeakerUsernameFiltered() {
+    private String inputSpeakerUsernameFiltered() {
         while (true) {
             System.out.print("Speaker username: ");
             String speakerName = sc.nextLine();
@@ -146,11 +177,26 @@ public class OrganizerPanel implements IController {
         }
     }
 
+    private String inputNewSpeakerUsernameFiltered() {
+        while (true) {
+            System.out.print("New Speaker username: ");
+            String speakerName = sc.nextLine();
+            if (speakerName.equals("-1")) {
+                return speakerName;
+            }
+
+            if (!um.getUsernames().contains(speakerName)) {
+                um.createSpeakerAccount(speakerName);
+                return speakerName;
+            } System.out.println(speakerName + " already exists - please try again.");
+        }
+    }
+
     /**
      * Author: Justin Chan
      * @return the validated year or -1 if a cancel is requested
      */
-    public int inputYearFiltered() {
+    private int inputYearFiltered() {
         while (true) {
             System.out.print("Year: ");
             try {
@@ -171,7 +217,7 @@ public class OrganizerPanel implements IController {
      * @param year the validated year of the date input
      * @return the validated hour or -1 if a cancel is requested
      */
-    public int inputMonthFiltered(int year) {
+    private int inputMonthFiltered(int year) {
         while (true) {
             System.out.print("Month (1-12): ");
             try {
@@ -199,7 +245,7 @@ public class OrganizerPanel implements IController {
      * @param month the validated month of the date input
      * @return the validated day or -1 if a cancel is requested
      */
-    public int inputDayFiltered(int year, int month) {
+    private int inputDayFiltered(int year, int month) {
         while (true) {
             System.out.print("Day: ");
             try {
@@ -237,7 +283,7 @@ public class OrganizerPanel implements IController {
      * @param day the validated day of the date input
      * @return the validated hour or -1 if a cancel is requested
      */
-    public int inputHourFiltered(int year, int month, int day) {
+    private int inputHourFiltered(int year, int month, int day) {
         while (true) {
             System.out.print("Start hour (" + START_HOUR_EARLIEST + "-" + START_HOUR_LATEST + "): ");
             try {
@@ -264,7 +310,7 @@ public class OrganizerPanel implements IController {
      * Author: Justin Chan
      * @return the validated minute or -1 if a cancel is requested
      */
-    public int inputMinuteFiltered() {
+    private int inputMinuteFiltered() {
         while (true) {
             System.out.print("Start minute (0-59): ");
             try {
@@ -278,18 +324,18 @@ public class OrganizerPanel implements IController {
         }
     }
 
+
     /**
      * Author: Justin Chan
-     * @return true if the event was created successfully or false if the user cancelled during the creation process
      */
-    public boolean createEvent() {
+    private void createEvent() {
         System.out.println("Creating an event. To cancel the process, enter \"-1\" in any input.");
         printAvailableRooms();
 
         // User inputs room number
-        int roomNumber = inputRoomFiltered(rm.getRooms().size()); // take room input from user and make sure it's correct
+        int roomNumber = inputRoomFiltered(); // take room input from user and make sure it's correct
         if (cancelRequested(Integer.toString(roomNumber))) {
-            return false; // quit and return false when the user requests to terminate the method
+            return; // quit and return when the user requests to terminate the method
         } printEventsInRoom(roomNumber);
 
         // User inputs event title
@@ -300,31 +346,31 @@ public class OrganizerPanel implements IController {
         printAvailableSpeakers();
         String speakerName = inputSpeakerUsernameFiltered();
         if (cancelRequested(speakerName)) {
-            return false;
+            return;
         } printEventsOfSpeaker((Speaker) um.getUser(speakerName));
 
         // User inputs the year of the event
         int year = inputYearFiltered();
         if (cancelRequested(Integer.toString(year))) {
-            return false;
+            return;
         }
 
         // User inputs the month of the event
         int month = inputMonthFiltered(year);
         if (cancelRequested(Integer.toString(month))) {
-            return false;
+            return;
         }
 
         // User inputs the day of the event
         int day = inputDayFiltered(year, month);
         if (cancelRequested(Integer.toString(day))) {
-            return false;
+            return;
         }
 
         // User inputs the hour of the event
         int hour = inputHourFiltered(year, month, day);
         if (cancelRequested(Integer.toString(hour))) {
-            return false;
+            return;
         }
 
         // User inputs the minute of the event
@@ -332,7 +378,7 @@ public class OrganizerPanel implements IController {
         if (hour != START_HOUR_LATEST) {
             minute = inputMinuteFiltered();
             if (cancelRequested(Integer.toString(minute))) {
-                return false;
+                return;
             }
         } else {
             minute = 0; // prevent out of bound time
@@ -341,36 +387,155 @@ public class OrganizerPanel implements IController {
         // Create event
         Speaker speaker = (Speaker) um.getUsernameToUser().get(speakerName);
         //noinspection MagicConstant
-        if (rm.newEventValid(title, speaker, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), rm.getRooms().get(roomNumber))) {
-            @SuppressWarnings("MagicConstant") Event event = rm.newEvent(title, speaker, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), rm.getRooms().get(roomNumber));
+        if (rm.newEventValid(title, speaker, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), rm.getRoom(roomNumber))) {
+            @SuppressWarnings("MagicConstant") Event event = rm.newEvent(title, speaker, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), rm.getRoom(roomNumber));
             System.out.println("Event scheduled: " + event.toString());
-            return true;
+            return;
         }
 
         System.out.println("The event was unable to be created: the Speaker may be speaking in another room, or the Room may be in use at this time");
-        return false;
     }
 
-    public boolean deleteEvent(){
-        return true;
+    /**
+     * Author: Justin Chan
+     */
+    private void createRoom() {
+        System.out.print("Creating a new room: Room ");
+        rm.newRoom();
+        System.out.println(rm.getRooms().size());
+        printAvailableRooms();
     }
 
-    public boolean createGroupMessage(){
-        return true;
+    /**
+     * Author: Justin Chan
+     */
+    private void createSpeaker() {
+        System.out.println("Creating a Speaker. To cancel the process, enter \"-1\" in any input.");
+        String speakerName = inputNewSpeakerUsernameFiltered();
+        if (cancelRequested(speakerName)) {
+            return;
+        }
+        System.out.println("Speaker \"" + speakerName + "\" created successfully.");
+        printAvailableSpeakers();
     }
 
-    public void viewGroupAttendees(){
-        System.out.println("The list of attendees in the group are ");
+    private void cancelEvent(){
+        System.out.println("Removing an event. To cancel the process, enter \"-1\" in any input.");
+        // Find the room of the event
+        printAvailableRooms();
+        int roomNumber = inputRoomFiltered();
+        if (cancelRequested(Integer.toString(roomNumber))) {
+            return;
+        }
+
+        // Find the event
+        printEventsInRoom(roomNumber);
+        int eventNumber = inputEventNumberFiltered(roomNumber);
+        if (cancelRequested(Integer.toString(eventNumber))) {
+            return;
+        } rm.removeEvent(um, rm.getEventsFromRoom(roomNumber).get(eventNumber));
+        System.out.println("The event has been removed.");
+        printEventsInRoom(roomNumber);
     }
 
-    public void createSpeaker(String name){
-        System.out.println("Speaker named " + name + "created successfully.");
+    /**
+     * Author: Justin Chan
+     */
+    private void printHelp() {
+        System.out.println("createspeaker - Create a new Speaker\n" +
+                "createroom - Create a new Room\n" + "createevent - Create a new Event\n" + "rescheduleevent - Reschedules an existing event\n"+"cancelevent - Remove an existing Event\n" +
+                "viewspeakers - See available Speakers\n" + "viewrooms - See available Rooms\n" + "viewevents - See available events in specified room\n" + "quit - Log out as Organizer");
     }
 
+    private void rescheduleEvent() {
+        System.out.println("Rescheduling an event. To cancel the process, enter \"-1\" in any input.");
+        printAvailableRooms();
+        int roomNumber = inputRoomFiltered();
+        if (cancelRequested(Integer.toString(roomNumber))) {
+            return;
+        }
+        // Find the event
+        printEventsInRoom(roomNumber);
+        int eventNumber = inputEventNumberFiltered(roomNumber);
+        if (cancelRequested(Integer.toString(eventNumber))) {
+            return;
+        }
+        int year = inputYearFiltered();
+        if (cancelRequested(Integer.toString(year))) {
+            return;
+        }
+
+        // User inputs the month of the event
+        int month = inputMonthFiltered(year);
+        if (cancelRequested(Integer.toString(month))) {
+            return;
+        }
+
+        // User inputs the day of the event
+        int day = inputDayFiltered(year, month);
+        if (cancelRequested(Integer.toString(day))) {
+            return;
+        }
+
+        // User inputs the hour of the event
+        int hour = inputHourFiltered(year, month, day);
+        if (cancelRequested(Integer.toString(hour))) {
+            return;
+        }
+
+        // User inputs the minute of the event
+        int minute;
+        if (hour != START_HOUR_LATEST) {
+            minute = inputMinuteFiltered();
+            if (cancelRequested(Integer.toString(minute))) {
+                return;
+            }
+        } else {
+            minute = 0; // prevent out of bound time
+        }
+        //noinspection MagicConstant
+        if (rm.rescheduleEvent(um,rm.getEventsFromRoom(roomNumber).get(eventNumber),new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0) )){
+            System.out.println("Event has been successfully rescheduled");
+            printEventsInRoom(roomNumber);
+            return;
+        }
+        System.out.println("The event was unable to be rescheduled: the Speaker may be speaking in another room, or the Room may be in use at this time");
+
+    }
+    /**
+     * Author: Justin Chan
+     * This is the method to call when we are running an Organizer.
+     */
     @Override
     public int run() {
-        System.out.print("This is the OrganizerPanel");
-        return Definitions.QUIT_APP;
+        System.out.println("This is the OrganizerPanel. Type \"help\" to see a list of commands.");
+        while (true) {
+            System.out.print("command: ");
+            String command = sc.nextLine();
+            switch (command) {
+                case "createspeaker":
+                    createSpeaker(); break;
+                case "createroom":
+                    createRoom(); break;
+                case "createevent":
+                    createEvent(); break;
+                case "rescheduleevent":
+                    rescheduleEvent();break;
+                case "cancelevent":
+                    cancelEvent(); break;
+                case "viewspeakers":
+                    printAvailableSpeakers(); break;
+                case "viewrooms":
+                    printAvailableRooms(); break;
+                case "viewevents":
+                    printEventsInRoomInteractive(); break;
+                case "help":
+                    printHelp(); break;
+                case "quit":
+                    return Definitions.QUIT_APP;
+                default:
+                    System.out.println("Command not recognized: " + command);
+            }
+        }
     }
-
 }
