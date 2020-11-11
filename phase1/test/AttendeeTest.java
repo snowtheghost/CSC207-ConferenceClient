@@ -1,8 +1,8 @@
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.Test;
+
 import java.util.*;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Zihan Wang
@@ -49,8 +49,8 @@ public class AttendeeTest {
         attendee1.addEvents(room.getRoomID(),event2.getEventID());
         assertEquals(attendee1.getEvents(),e);
         e.get(room.getRoomID()).remove(event1.getEventID());
-        attendee1.removeReservedEvents(room, event1);
-        attendee1.removeReservedEvents(room, event1);
+        attendee1.removeReservedEvents(room.getRoomID(), event1.getEventID());
+        attendee1.removeReservedEvents(room.getRoomID(), event1.getEventID());
         assertEquals(attendee1.getEvents(),e);
     }
 
