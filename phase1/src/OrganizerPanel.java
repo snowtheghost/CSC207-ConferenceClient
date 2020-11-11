@@ -446,7 +446,7 @@ public class OrganizerPanel implements IController {
                 case "viewrooms":
                     op.printAvailableRooms(); break;
                 case "viewevents":
-                    printEventsInRoomInteractive(); break;
+                    op.printAllEvents(); break;
                 case "help":
                     op.commandHelp(); break;
                 case "quit":
