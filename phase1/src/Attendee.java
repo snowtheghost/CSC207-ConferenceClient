@@ -26,14 +26,14 @@ public class Attendee extends User {
 
     /**
      * Add all all the UUIDs of the Events in EventstoAdd to the Attendee's events except duplication.
-     * @param event An Event to be added.
-     * @param room the Room of the Event.
+     * @param eventID An Event to be added.
+     * @param roomID the Room of the Event.
      * @return whether the Event be added successfully
      */
-    public boolean addEvents(Room room, Event event){
-        events.putIfAbsent(room.getRoomID(), new ArrayList<>());
-        if(events.get(room.getRoomID()).contains(event.getEventID()))return false;
-        events.get(room.getRoomID()).add(event.getEventID());
+    public boolean addEvents(UUID roomID, UUID eventID){
+        events.putIfAbsent(roomID, new ArrayList<>());
+        if(events.get(roomID).contains(eventID))return false;
+        events.get(roomID).add(eventID);
         return true;
     }
 

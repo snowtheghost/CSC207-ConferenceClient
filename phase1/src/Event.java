@@ -85,17 +85,17 @@ public class Event {
      * This method adds all the UUIDs of the Attendees in attendeeToAdd to the Event attendees. Duplicate members will
      * not be added.
      *
-     * @param attendeeToAdd an array of Attendee objects to be added to the Event attendees.
+     * @param attendeeID an Attendee to be added to the Event attendees.
      *                       Note that we take an ArrayList of Attendees and NOT UUIDs.
      *
      * @return the number of Attendees that were not added (as a result to an already present UUID)
      * TODO: We need to add the eventID to the attendee involved
      */
-    public boolean addAttendee(Attendee attendeeToAdd) {
-        if (attendeeIDs.contains(attendeeToAdd.getUserID())) {
+    public boolean addAttendee(UUID attendeeID) {
+        if (attendeeIDs.contains(attendeeID)) {
             return false;
         }
-        attendeeIDs.add(attendeeToAdd.getUserID());
+        attendeeIDs.add(attendeeID);
         return true;
     }
 

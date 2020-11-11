@@ -48,16 +48,16 @@ public class EventTests {
     public void testGetAddRemoveAttendeeIDs() {
         assertEquals(event1.getAttendeeIDs().size(), 0);
 
-        assertTrue(event1.addAttendee(attendee1));
+        assertTrue(event1.addAttendee(attendee1.getUserID()));
         assertEquals(event1.getAttendeeIDs().size(), 1);
         assertEquals(event1.getAttendeeIDs().get(0), attendee1.getUserID());
 
-        assertFalse(event1.addAttendee(attendee1));
+        assertFalse(event1.addAttendee(attendee1.getUserID()));
         assertEquals(event1.getAttendeeIDs().size(), 1);
         assertEquals(event1.getAttendeeIDs().get(0), attendee1.getUserID());
 
-        assertTrue(event1.addAttendee(attendee2));
-        assertTrue(event1.addAttendee(attendee3));
+        assertTrue(event1.addAttendee(attendee2.getUserID()));
+        assertTrue(event1.addAttendee(attendee3.getUserID()));
         assertEquals(event1.getAttendeeIDs().size(), 3);
 
         assertTrue(event1.getAttendeeIDs().contains(attendee1.getUserID()));

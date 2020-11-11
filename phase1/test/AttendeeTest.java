@@ -10,10 +10,10 @@ import java.util.GregorianCalendar;
 public class AttendeeTest {
     Speaker speaker1 = new Speaker("speaker1");
     Speaker speaker2 = new Speaker("speaker2");
-    Event event1 = new Event("event1",speaker1,
+    Event event1 = new Event("event1",speaker1.getUsername(),
             new GregorianCalendar(2000, Calendar.MAY, 1, 99, 0, 0),
             new GregorianCalendar(2000, Calendar.MAY, 1, 99, 30, 0));
-    Event event2 = new Event("event2",speaker2,
+    Event event2 = new Event("event2",speaker2.getUsername(),
             new GregorianCalendar(2000, Calendar.MAY, 1, 100, 0, 0),
             new GregorianCalendar(2000, Calendar.MAY, 1, 100, 30, 0));
     Room room = new Room();
@@ -44,9 +44,9 @@ public class AttendeeTest {
         e.put(room.getRoomID(), new ArrayList<>());
         e.get(room.getRoomID()).add(event1.getEventID());
         e.get(room.getRoomID()).add(event2.getEventID());
-        attendee1.addEvents(room,event1);
-        attendee1.addEvents(room,event1);
-        attendee1.addEvents(room,event2);
+        attendee1.addEvents(room.getRoomID(),event1.getEventID());
+        attendee1.addEvents(room.getRoomID(),event1.getEventID());
+        attendee1.addEvents(room.getRoomID(),event2.getEventID());
         assertEquals(attendee1.getEvents(),e);
         e.get(room.getRoomID()).remove(event1.getEventID());
         attendee1.removeReservedEvents(room, event1);

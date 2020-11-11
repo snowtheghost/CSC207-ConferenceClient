@@ -368,8 +368,8 @@ public class OrganizerPanel implements IController {
 
         // Create event
         if (rm.newEventValid(title, speakerName, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), roomNumber, um)) {
-            String eventAsString = rm.newEvent(title, speakerName, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), roomNumber, um);
-            System.out.println("Event scheduled: " + eventAsString);
+            UUID eventID = rm.newEvent(title, speakerName, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), roomNumber, um);
+            System.out.println("Event scheduled: " + rm.stringEvent(eventID));
             return;
         }
 

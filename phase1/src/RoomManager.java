@@ -208,13 +208,12 @@ public class RoomManager {
      * This method adds the newEvent to the specified roomNumber and the specified speakerName.
      * Precondition: the event can be added to the roomNumber without conflict and the roomNumber exists
      */
-    public String newEvent(String eventTitle, String speakerName, Calendar startTime, Calendar endTime, int roomNumber, UserManager um) {
+    public UUID newEvent(String eventTitle, String speakerName, Calendar startTime, Calendar endTime, int roomNumber, UserManager um) {
         Room room = getRoom(roomNumber);
-
         Event newEvent = new Event(eventTitle, speakerName, startTime, endTime);
         room.addEvent(newEvent);
         um.speakerAddEvent(speakerName, room.getRoomID(), newEvent.getEventID());
-        return newEvent.toString();
+        return newEvent.getEventID();
     }
 
     /**
@@ -259,16 +258,18 @@ public class RoomManager {
     }
 
     /**
-     * @param attendee the attendee that is applying
-     * @param event    the event being applied for
+     * @param attendeeID the attendee that is applying
+     * @param eventID    the eventID being applied for
      * @return true if the sign up was successful, or false if the attendee could not sign up (as they're already signed up)
      */
-    public boolean addEventAttendee(Attendee attendee, Event event) {
-        if (event.getAttendeeIDs().contains(attendee.getUserID())) {
+    public boolean addEventAttendee(UUID attendeeID, UUID eventID, UserManager um) {
+        Event event = getEvent(eventID);
+
+        if (event.getAttendeeIDs().contains(attendeeID)) {
             return false;
         }
-        attendee.addEvents(getEventRoom(event), event);
-        event.addAttendee(attendee);
+        um.attendeeAddEvent(attendeeID, getEventRoom(event).getRoomID(), eventID);
+        event.addAttendee(attendeeID);
         return true;
     }
 
@@ -322,5 +323,9 @@ public class RoomManager {
                         .append("-").append(event.getEndTime()).append("\n");
             }
         } return s.toString();
+    }
+
+    public String stringEvent(UUID eventID) {
+        return getEvent(eventID).toString();
     }
 }
