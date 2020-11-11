@@ -42,7 +42,7 @@ public class MessageManager {
      * TODO: Review UM fixes made
      */
     private UUID sendMessages(UserManager userManager, UUID senderID, List<UUID> recipientIDs, String messageContent) {
-        if (!userManager.userExists(senderID) || !userManager.usersExist(recipientIDs)) {
+        if (!userManager.userExists(senderID) || recipientIDs.isEmpty() || !userManager.usersExist(recipientIDs)) {
             return null;
         }
         Message message = new Message(messageContent);
