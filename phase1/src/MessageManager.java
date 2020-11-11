@@ -98,10 +98,9 @@ public class MessageManager {
      * @return a list of message entities from another user.
      */
     public List<String> getMessageContentsFromUser(UserManager userManager, UUID recipientID, UUID senderID) {
-        ArrayList<Message> messages = getMessagesFromUser(userManager, recipientID, senderID);
         ArrayList<String> messageContents = new ArrayList<>();
-        for (Message message : messages) {
-            messageContents.add(message.getMessageContent());
+        for (UUID id : userManager.getMessagesFromUser(recipientID, senderID)) {
+            messageContents.add(messages.get(id).getMessageContent());
         }
         return messageContents;
     }
