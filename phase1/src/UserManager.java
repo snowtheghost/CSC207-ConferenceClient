@@ -46,7 +46,7 @@ public class UserManager {
      * Created: Justin Chan
      * @return an ArrayList of all users in existence
      */
-    public ArrayList<User> getUsers() {
+    private ArrayList<User> getUsers() {
         ArrayList<User> users = new ArrayList<>();
         users.addAll(attendees);
         users.addAll(organizers);
@@ -66,7 +66,7 @@ public class UserManager {
      * Created: Justin Chan
      * @return a dictionary mapping UserID to User
      */
-    public HashMap<UUID, User> getUserIDToUser() {
+    private HashMap<UUID, User> getUserIDToUser() {
         HashMap<UUID, User> userIDToUser =  new HashMap<>();
         for (User user : getUsers()) {
             userIDToUser.put(user.getUserID(), user);
@@ -78,7 +78,7 @@ public class UserManager {
      * Created: Zihan Wang
      * @return a dictionary mapping UserName to User
      */
-    public HashMap<String, User> getUsernameToUser(){
+    private HashMap<String, User> getUsernameToUser(){
         HashMap<String, User> usernameToUser = new HashMap<>();
         for(User user: getUsers()){
             usernameToUser.put(user.getUsername(), user);
@@ -92,11 +92,11 @@ public class UserManager {
      * @return the User that the provided UUID belongs to or null if that user is not found.
      * Last modified: Justin Chan
      */
-    public User getUser(UUID userID) {
+    private User getUser(UUID userID) {
         return getUserIDToUser().get(userID);
     }
 
-    public User getUser(String username) {
+    private User getUser(String username) {
         return getUsernameToUser().get(username);
     }
 
@@ -104,7 +104,7 @@ public class UserManager {
      * @return list of attendees in existence
      * Last modified: Justin Chan
      */
-    public ArrayList<Attendee> getAttendees() {
+    private ArrayList<Attendee> getAttendees() {
         return attendees;
     }
 
@@ -124,7 +124,7 @@ public class UserManager {
      * Created: Justin Chan
      * @return list of speakers in existence
      */
-    public ArrayList<Speaker> getSpeakers() {
+    private ArrayList<Speaker> getSpeakers() {
         return speakers;
     }
 
@@ -144,14 +144,14 @@ public class UserManager {
      * Created: Justin Chan
      * @return list of organizers in existence
      */
-    public ArrayList<Organizer> getOrganizers() {
+    private ArrayList<Organizer> getOrganizers() {
         return organizers;
     }
 
     /**
      * @return currently logged in User.
      */
-    public User getCurrentUser() { return currentUser; }
+    private User getCurrentUser() { return currentUser; }
 
     /**
      * Sets the currently logged in user.
@@ -187,10 +187,10 @@ public class UserManager {
      *
      * Precondition: isValidUsername(username)
      */
-    public Attendee createAttendeeAccount(String username) {
+    public UUID createAttendeeAccount(String username) {
         Attendee attendee = new Attendee(username);
         attendees.add(attendee);
-        return attendee;
+        return attendee.getUserID();
     }
 
     /**
@@ -212,10 +212,10 @@ public class UserManager {
      *
      * Precondition: isValidUsername(username)
      */
-    public Organizer createOrganizerAccount(String username) {
+    public UUID createOrganizerAccount(String username) {
         Organizer organizer = new Organizer(username);
         organizers.add(organizer);
-        return organizer;
+        return organizer.getUserID();
     }
 
     /**
@@ -225,10 +225,10 @@ public class UserManager {
      *
      * Precondition: isValidUsername(username)
      */
-    public Speaker createSpeakerAccount(String username) {
+    public UUID createSpeakerAccount(String username) {
         Speaker speaker = new Speaker(username);
         speakers.add(speaker);
-        return speaker;
+        return speaker.getUserID();
     }
 
     /**
@@ -287,8 +287,38 @@ public class UserManager {
         speaker.addEvent(roomID, eventID);
     }
 
+    public void speakerRemoveEvent(String speakerName, UUID roomID, UUID eventID) {
+        Speaker speaker = (Speaker) getUser(speakerName);
+        speaker.removeEvent(roomID, eventID);
+    }
+
     public void attendeeAddEvent(UUID attendeeID, UUID roomID, UUID eventID) {
         Attendee attendee = (Attendee) getUser(attendeeID);
         attendee.addEvents(roomID, eventID);
+    }
+
+    public void attendeeRemoveEvent(UUID attendeeID, UUID roomID, UUID eventID) {
+        Attendee attendee = (Attendee) getUser(attendeeID);
+        attendee.removeReservedEvents(roomID, eventID);
+    }
+
+    public boolean userExists(String username) {
+        return getUsernames().contains(username);
+    }
+
+    public boolean isSpeaker(String username) {
+        return getUser(username).isSpeaker();
+    }
+
+    public String stringAvailableSpeakers() {
+        StringBuilder s = new StringBuilder("Speakers available: ");
+        ArrayList<Speaker> speakers = getSpeakers();
+        for (int i = 0; i < speakers.size(); i++) {
+            s.append(speakers.get(i).getUsername());
+            if (i < speakers.size() - 1) {
+                System.out.print(", ");
+            }
+        } s.append('\n');
+        return s.toString();
     }
 }

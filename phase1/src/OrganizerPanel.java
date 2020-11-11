@@ -67,14 +67,7 @@ public class OrganizerPanel implements IController {
      * Prints all Speaker usernames that are in the system
      */
     private void printAvailableSpeakers() {
-        System.out.print("Speakers available: ");
-        ArrayList<Speaker> speakers = um.getSpeakers();
-        for (int i = 0; i < speakers.size(); i++) {
-            System.out.print(speakers.get(i).getUsername());
-            if (i < speakers.size() - 1) {
-                System.out.print(", ");
-            }
-        } System.out.print('\n');
+        System.out.print(um.stringAvailableSpeakers());
     }
 
     private void printEventsInRoom(int roomNumber) {
@@ -151,8 +144,8 @@ public class OrganizerPanel implements IController {
                 return speakerName;
             }
 
-            if (um.getUsernames().contains(speakerName)) {
-                if (um.getUser(speakerName).isSpeaker()) {
+            if (um.userExists(speakerName)) {
+                if (um.isSpeaker(speakerName)) {
                     return speakerName;
                 } System.out.println(speakerName + " is not a Speaker - please try again.");
             } System.out.println(speakerName + " does not exist - please try again.");

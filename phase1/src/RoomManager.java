@@ -248,12 +248,10 @@ public class RoomManager {
 
         Room room = getEventRoom(event);
         for (UUID attendeeID : event.getAttendeeIDs()) {
-            Attendee attendee = (Attendee) um.getUser(attendeeID);
-            attendee.removeReservedEvents(room, event);
+            um.attendeeRemoveEvent(attendeeID, room.getRoomID(), event.getEventID());
         }
 
-        Speaker speaker = (Speaker) um.getUser(event.getSpeakerName());
-        speaker.removeEvent(room, event);
+        um.speakerRemoveEvent(event.getSpeakerName(), room.getRoomID(), event.getEventID());
         return room.removeEvent(event);
     }
 

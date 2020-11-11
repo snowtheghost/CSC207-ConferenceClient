@@ -37,16 +37,16 @@ public class Speaker extends User {
     }
 
     // Last modified: Justin Chan
-    public boolean removeEvent(Room room, Event event){
-        if (!eventsSpeaking.containsKey(room.getRoomID())) {
+    public boolean removeEvent(UUID roomID, UUID eventID){
+        if (!eventsSpeaking.containsKey(roomID)) {
             return false;
         }
-        if (!eventsSpeaking.get(room.getRoomID()).contains(event.getEventID())) {
+        if (!eventsSpeaking.get(roomID).contains(eventID)) {
             return false;
         }
-        eventsSpeaking.get(room.getRoomID()).remove(event.getEventID());
-        if (eventsSpeaking.get(room.getRoomID()).isEmpty()) {
-            eventsSpeaking.remove(room.getRoomID());
+        eventsSpeaking.get(roomID).remove(eventID);
+        if (eventsSpeaking.get(roomID).isEmpty()) {
+            eventsSpeaking.remove(roomID);
         }
         return true;
     }
