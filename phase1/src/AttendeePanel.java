@@ -1,12 +1,10 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 public class AttendeePanel implements IController {
     private final UserManager userMan;
     private final MessageManager msgMan;
     private final RoomManager roomMan;
+    private final Scanner input = new Scanner(System.in);
 
     /**
      * Allows attendees to do attendee things.
@@ -20,6 +18,8 @@ public class AttendeePanel implements IController {
         this.roomMan = roomMan;
     }
 
+
+
     @Override
     public int run() {
         // common info used by the switch cases
@@ -30,127 +30,194 @@ public class AttendeePanel implements IController {
 
         System.out.println("This is the AttendeePanel, type 'Logout' to logout, 'Quit app' to quit app.");
         System.out.println("To get a list of more commands, type 'commands'");
-        Scanner input = new Scanner(System.in);
         String decision = input.nextLine();
 
+        // while the input isn't Logout or Quit app, keep it in AttendeePanel
         while (!(decision.equals("Logout") || decision.equals("Quit app"))){
             switch (decision) {
                 case "commands":
-                    // displays possible commands
-                    String commands = "Logout| Add contact|View contacts|Delete contact|" +
-                            "|Message|View messages|View all events|View signed up events|" +
-                            "Join event|Leave event";
-                    System.out.println("Here are the available commands: \n" + commands);
+                    displayCommands();
                     break;
 
                 case "Message":
-                    System.out.println("Enter contact name or type back to go back");
-                    String response = input.nextLine();
-                    if (response.equals("back")){return Definitions.ATTENDEE_PANEL;}
-                    //keep asking for input until the input is an existing username or 'back'
-                    while (!userExists(response)) {
-                        response = input.nextLine();
-                        if (response.contains("back")){return Definitions.ATTENDEE_PANEL;}
-                    }
-                    System.out.println("Please type message:");
-                    response = input.nextLine();
-                    UUID recipient = this.userMan.getUser(response).getUserID();
-                    this.msgMan.sendMessage(this.userMan, currUserID, recipient, response);
+                    // if the user wants to go back, nextMove won't be null and we'll go back
+                    // otherwise, stay in the AttendeePanel loop
+                    Integer nextMove= Message(currUserID);
+                    if (nextMove != null){return nextMove;}
                     break;
 
                 case "View messages":
-                    System.out.println("Who's messages would you like to see? Type 'all' " +
-                            "for all messages.");
-                    response = input.nextLine();
-                    // keep asking for input until it == 'all' or it == existing user name
-                    while (!response.equals("all") && !userExists(response)) {
-                        response = input.nextLine();
-                        if (response.contains("back")){return Definitions.ATTENDEE_PANEL;}
-                    }
-                    // if want all messages
-                    if (response.equals("all")){
-                        StringBuilder allMsgs = new StringBuilder("Messages:\n");
-                        for (UUID uuid : allUserIds){
-                            // get a list of messages from each user
-                            List<String> msgsFromPerson = this.msgMan.
-                                    getMessageContentsFromUser(this.userMan, currUserID, uuid);
-                            // write the sender name and message contents if recieved at least
-                            // 1 message from them
-                            if (msgsFromPerson.size()!=0){
-                                String senderName = this.userMan.getUser(uuid).getUsername();
-                                allMsgs.append(senderName).append(": ");
-                                for (String msg : msgsFromPerson) {
-                                    allMsgs.append(msg).append(", ");
-                                }
-                                allMsgs.append("/n");
-                            };
-                        }
-                        System.out.println(allMsgs);
-                        break;
-                    }
-                    // if want message from specific user name
-                    recipient = this.userMan.getUser(response).getUserID();
-                    System.out.println(this.msgMan.getMessageContentsFromUser(this.userMan,
-                            currUserID, recipient));
+                    nextMove= viewMessages(allUserIds, currUserID);
+                    if (nextMove != null){return nextMove;}
                     break;
 
                 case "View all events":
-                    StringBuilder eventInfo = new StringBuilder("All events: \n");
-                    for (Event event : this.roomMan.getEvents()){
-                        eventInfo.append(event.getTitle()).append(" ").append(event.getStartTime())
-                                .append("-").append(event.getEndTime()).append("\n");
-                    }
-                    System.out.println(eventInfo);
+                    viewAllEvents();
                     break;
 
                 case "View signed up events":
-                    StringBuilder myEventInfo = new StringBuilder("All events: \n");
-                    for (Event event : this.roomMan.getEvents()){
-                        if (this.roomMan.getEventAttendeeIDs(event).contains(currUserID)){
-                            myEventInfo.append(event.getTitle()).append(" ").append(event.getStartTime())
-                                    .append("-").append(event.getEndTime()).append("\n");
-                        }
-                    }
-                    System.out.println(myEventInfo);
+                    viewSignedUpEvents(currUserID);
                     break;
 
                 case "Join event":
-                    System.out.println("Enter event name or type 'back' to go back");
-                    response = input.nextLine();
-                    if (response.equals("back")){return Definitions.ATTENDEE_PANEL;};
-                    //TODO: Call UserManager/RoomManager sign user up for event
+                    nextMove= joinEvent();
+                    if (nextMove != null){return nextMove;}
                     break;
 
                 case "Leave event":
-                    System.out.println("Enter event name or type 'back' to go back");
-                    response = input.nextLine();
-                    if (response.equals("back")){return Definitions.ATTENDEE_PANEL;};
-                    //TODO: Call UserManager/RoomManager to remove user from event
+                    nextMove= leaveEvent();
+                    if (nextMove != null){return nextMove;}
                     break;
+
                 default:
-                    System.out.println("Invalid command, type 'commands' to see a list of valid" +
-                            "commands");
+                    System.out.println("Invalid command, type 'commands' to see a list of valid commands");
             }
             decision = input.nextLine();
         }
 
-        // logs out back to LoginSystem or quits app if user types it
-        if (decision.equals("Logout")){return Definitions.LOGIN_SYSTEM;};
+        // Go back to LoginSystem or quits app if user types the command for either
+        if (decision.equals("Logout")){return Definitions.LOGIN_SYSTEM;}
         return Definitions.QUIT_APP;
-    };
+    }
+
+    /**
+     * Prints a list of commands that the user can input
+     */
+    private void displayCommands(){
+        // displaus all possible commands
+        String commands = "Logout|Add contact|View contacts|Delete contact|" +
+                "|Message|View messages|View all events|View signed up events|" +
+                "Join event|Leave event";
+        System.out.println("Here are the available commands: \n" + commands);
+    }
+    /**
+     * @param currUserID The current user's userid
+     * @return Returns an Integer if user wants to exit, null otherwise
+     */
+    private Integer Message(UUID currUserID){
+        System.out.println("Enter contact name or type back to go back");
+        String response = input.nextLine();
+        if (response.equals("back")){return Definitions.ATTENDEE_PANEL;}
+        //keep asking for input until the input is an existing username or 'back'
+        while (userExists(response)) {
+            response = input.nextLine();
+            if (response.contains("back")){return Definitions.ATTENDEE_PANEL;}
+        }
+        System.out.println("Please type message:");
+        response = input.nextLine();
+        UUID recipient = this.userMan.getUser(response).getUserID();
+        this.msgMan.sendMessage(this.userMan, currUserID, recipient, response);
+        System.out.println("Message successfully sent");
+        return null;
+    }
+
+    /**
+     * Prints the messages from a specific user or all users who sent him at least one message.
+     * @param allUserIds The UUIDs of all users
+     * @param currUserID The UUID of the current user
+     * @return Returns an Integer if user wants to exit, null otherwise
+     */
+    private Integer viewMessages(ArrayList<UUID> allUserIds, UUID currUserID){
+        System.out.println("Who's messages would you like to see? Type 'all' for all messages.");
+        String response = input.nextLine();
+        // keep asking for input until it == 'all' or it == existing user name
+        while (!response.equals("all") && userExists(response)) {
+            response = input.nextLine();
+            if (response.contains("back")){return Definitions.ATTENDEE_PANEL;}
+        }
+        // if want all messages, get a list of messages from each user and
+        // write the sender name and message contents if user received at least 1 message from them
+        if (response.equals("all")){
+            StringBuilder allMsgs = new StringBuilder("Messages:\n");
+            for (UUID uuid : allUserIds){
+                List<String> msgsFromPerson = this.msgMan.
+                        getMessageContentsFromUser(this.userMan, currUserID, uuid);
+                if (msgsFromPerson.size()!=0){
+                    String senderName = this.userMan.getUser(uuid).getUsername();
+                    allMsgs.append(senderName).append(": ");
+                    for (String msg : msgsFromPerson) {
+                        allMsgs.append(msg).append(", ");
+                    }
+                    allMsgs.append("/n");
+                }
+            }
+            System.out.println(allMsgs);
+            return null;
+        }
+        // if user wants message from specific user
+        UUID recipient = this.userMan.getUser(response).getUserID();
+        System.out.println(this.msgMan.getMessageContentsFromUser(this.userMan, currUserID, recipient));
+        return null;
+    }
+
+    /**
+     * Prints all existing events
+     */
+    private void viewAllEvents(){
+        StringBuilder eventInfo = new StringBuilder("All events: \n");
+        for (Event event : this.roomMan.getEvents()){
+            eventInfo.append(event.getTitle()).append(" ").append(event.getStartTime())
+                    .append("-").append(event.getEndTime()).append("\n");
+        }
+        System.out.println(eventInfo);
+    }
+
+    /**
+     * Prints all events the user signed up for
+     * @param currUserID The current users UUID
+     */
+    private void viewSignedUpEvents(UUID currUserID){
+        StringBuilder myEventInfo = new StringBuilder("All events: \n");
+        for (Event event : this.roomMan.getEvents()){
+            if (this.roomMan.getEventAttendeeIDs(event).contains(currUserID)){
+                myEventInfo.append(event.getTitle()).append(" ").append(event.getStartTime())
+                        .append("-").append(event.getEndTime()).append("\n");
+            }
+        }
+        System.out.println(myEventInfo);
+    }
+
+    /**
+     * Asks user for an event name and prints whether it successfully signed up.
+     * @return Returns an integer if user wants to go back out of the command, null otherwise
+     */
+    private Integer joinEvent(){
+        System.out.println("Enter event name or type 'back' to go back");
+        String response = input.nextLine();
+        if (response.equals("back")){return Definitions.ATTENDEE_PANEL;}
+        //TODO: Call UserManager/RoomManager to sign user up for event
+        UUID eventID;
+        for (Event event : this.roomMan.getEvents()){
+            if (event.getTitle().equals(response)){
+                eventID = event.getEventID();
+                //this.roomMan.addEventAttendee(this.userMan.getCurrentUser(), eventID);
+            }
+        }
+        return null;
+    }
+    /**
+     * Asks user for an event name and prints whether it successfully left it.
+     * @return Returns an integer if user wants to go back out of the command, null otherwise
+     */
+    private Integer leaveEvent(){
+        System.out.println("Enter event name or type 'back' to go back");
+        String response = input.nextLine();
+        if (response.equals("back")){return Definitions.ATTENDEE_PANEL;};
+        //TODO: Call UserManager/RoomManager to remove user from event
+        return null;
+    }
 
     /**
      * Takes a username and returns true iff username is from an existing user
-     * also prints message telling user the username does not exist.
+     * also prints a message telling user if username does not exist.
      * @param username the given username as a string
-     * @return whether the username is from an existing user
+     * @return Whether the username is from an existing user
      */
     private boolean userExists(String username) {
-        if (!this.userMan.getUsernames().contains(username)) {
-            System.out.println("The recipient does not exist, please try again or " +
-                    "type 'back' to go back.");
-            return false;
+        if (this.userMan.getUsernames().contains(username)) {
+            return true;
         }
-        return true;
+        System.out.println("The recipient does not exist, please try again or type 'back' to go back.");
+        return false;
     }
 }
