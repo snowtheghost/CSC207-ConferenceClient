@@ -4,14 +4,14 @@ UML Editor: Liam Ogilvie
 ##### Contributors: Entities #####  
 User: Zachariah Vincze (Programmer) \
 Attendee: Zihan Wang (Programmer & Tester) \
-Speaker: Zihan Wang (Programmer), Justin Chan (Programmer) [MISSING TESTER]\
+Speaker: Zihan Wang (Programmer & Tester), Justin Chan (Programmer)\
 Organizer: Tanuj Devjani (Programmer), Zihan Wang (Tester) \
 Message: Zachariah Vincze (Programmer & Tester) \
 Event: Justin Chan (Programmer & Tester) \
 Room: Justin Chan (Programmer & Tester) 
 
 ##### Contributors: Use Cases #####
-UserManager: Zihan Wang (Programmer), Justin Chan (Programmer), Kaiyi Liu (Programmer) [MISSING TESTER] \
+UserManager: Justin Chan (Programmer), Zihan Wang (Programmer & Tester) \
 MessageManager: Zachary Vincze (Programmer), Liam Ogilvie (Tester) \
 RoomManager: Justin Chan (Programmer & Tester)
 
@@ -19,7 +19,7 @@ RoomManager: Justin Chan (Programmer & Tester)
 Controller Interface: Zachariah Vincze (Programmer) \
 OrganizerPanel: Tanuj Devjani (Programmer), Justin Chan (Programmer & Tester) \
 SpeakerPanel: Liam Ogilvie (Programmer & Tester) \
-AttendeePanel: [MISSING PROGRAMMER & TESTER]
+AttendeePanel: Kerry Zhu (Programmer & Tester)
 
 ##### Contributors: System #####
 LoginSystem: Kerry Zhu (Programmer & Tester), Zachariah Vincze (Programmer)
