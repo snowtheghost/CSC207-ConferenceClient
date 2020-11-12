@@ -5,7 +5,7 @@ import java.util.*;
 import static org.junit.Assert.*;
 
 /**
- * @author Derrik Wang, Kaiyi Liu
+ * @author Zihan Wang, Kaiyi Liu
  */
 
 public class UserManagerTest {
@@ -14,7 +14,11 @@ public class UserManagerTest {
     UUID organizer1ID = um.createOrganizerAccount("organizer1");
     UUID speaker1ID = um.createSpeakerAccount("speaker1");
     UUID attendee2ID = um.createAttendeeAccount("attendee2");
-    UUID[] users = {attendee1ID, organizer1ID, speaker1ID, attendee2ID};
+    UUID testRoomID = UUID.randomUUID();
+    UUID testRoomID2 = UUID.randomUUID();
+    UUID testEventID = UUID.randomUUID();
+    UUID testEventID2 = UUID.randomUUID();
+
 
     @Test
     public void TestCreateAccount() {
@@ -74,60 +78,41 @@ public class UserManagerTest {
         assertEquals(um.userType("organizer1"), "organizer");
         assertEquals(um.userType("speaker1"), "speaker");
     }
+
     @Test
-    public void TestGetUser(){
-        User value = um.getUser("attendee1");
-        assertEquals(value.getUserID(), attendee1ID);
-        User secondValue = um.getUser(organizer1ID);
-        assertEquals(secondValue.getUsername(), "organizer1");
-        List<User> listOfUsers = um.getUsers();
-        int numOfValids = 0;
-        for(User user : listOfUsers){
-            for(UUID id : users){
-                if(id.equals(user.getUserID())){
-                    numOfValids++;
-                }
-            }
-        }
-        assertEquals(numOfValids, listOfUsers.size());
-    }
-    @Test
-    public void TestGetUserIDToUser(){
-        HashMap<UUID, User> map = um.getUserIDToUser();
-        for(UUID id: map.keySet()){
-            UUID userID = map.get(id).getUserID();
-            assertEquals(id, userID);
-        }
-    }
-    @Test
-    public void TestGetAttendees(){
-        List<Attendee> attendees = um.getAttendees();
-        assertEquals(attendees.size(), 2);
-        assertTrue(attendees.contains("attendee2"));
-        assertTrue(attendees.contains("attendee1"));
-        List<UUID> attendeesUUID = um.getAttendeeUUIDs();
-        assertEquals(attendeesUUID.size(), 2);
-        assertTrue(attendeesUUID.contains(attendee1ID));
-        assertTrue(attendeesUUID.contains(attendee2ID));
-    }
-    @Test
-    public void TestGetOrganizers(){
-        List<Organizer> organizers = um.getOrganizers();
-        assertEquals(organizers.size(), 1);
-        assertTrue(organizers.contains("organizer1"));
-        List<UUID> organizersUUID = um.getOrganizerUUIDs();
-        assertEquals(organizersUUID.size(), 1);
-        assertTrue(organizersUUID.contains(organizer1ID));
-    }
-    @Test
-    public void TestGetSpeakers(){
-        List<Speaker> speakers = um.getSpeakers();
-        assertEquals(speakers.size(), 1);
-        assertTrue(speakers.contains("speaker1"));
-        List<UUID> speakersUUID = um.getSpeakerUUIDs();
-        assertEquals(speakersUUID.size(), 1);
-        assertTrue(speakersUUID.contains(speaker1ID));
+    public void TestAddRemoveGetSpeakerEvent(){
+        um.speakerAddEvent("speaker1", testRoomID, testEventID);
+        um.speakerAddEvent("speaker1", testRoomID2, testEventID2);
+        assertEquals(um.getSpeakerEventIDs("speaker1").size(), 2);
+        assertTrue(um.getSpeakerEventIDs("speaker1").contains(testEventID));
+        assertTrue(um.getSpeakerEventIDs("speaker1").contains(testEventID2));
+        um.speakerAddEvent("speaker1", testRoomID, testEventID2);
+        assertEquals(um.getSpeakerEventIDs(speaker1ID).size(), 3);
+        assertTrue(um.getSpeakerEventIDs(speaker1ID).contains(testEventID2));
+        assertTrue(um.getSpeakerEventIDs(speaker1ID).contains(testEventID));
+        um.speakerRemoveEvent("speaker1", testRoomID, testEventID2);
+        assertEquals(um.getSpeakerEventIDs("speaker1").size(), 2);
+        assertTrue(um.getSpeakerEventIDs(speaker1ID).contains(testEventID2));
+        assertTrue(um.getSpeakerEventIDs(speaker1ID).contains(testEventID));
+        um.speakerRemoveEvent("speaker1", testRoomID, testEventID);
+        assertEquals(um.getSpeakerEventIDs("speaker1").size(), 1);
+        assertTrue(um.getSpeakerEventIDs(speaker1ID).contains(testEventID2));
+        assertFalse(um.getSpeakerEventIDs(speaker1ID).contains(testEventID));
     }
 
+//    @Test
+//    public void TestAddRemoveAttendeeEvent(){
+//        um.attendeeAddEvent(attendee1ID, testRoomID, testEventID);
+//        um.attendeeAddEvent(attendee2ID, testRoomID2, testEventID2);
+//
+//    }
+
+    @Test
+    public void TestIsSpeaker(){
+        assertFalse(um.isSpeaker("attendee1"));
+        assertFalse(um.isSpeaker("attendee2"));
+        assertFalse(um.isSpeaker("organizer1"));
+        assertTrue(um.isSpeaker("speaker1"));
+    }
 
 }

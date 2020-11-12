@@ -252,14 +252,15 @@ public class UserManager implements Serializable {
         if(getUsernames().contains(username)) return getUser(username).getStringType();
         return null;
     }
-
+//testing below
     public ArrayList<UUID> getSpeakerEventIDs(String speakerName) {
         Speaker speaker = (Speaker) getUser(speakerName);
 
         ArrayList<UUID> eventIDs = new ArrayList<>();
         for (ArrayList<UUID> speakerEventIDs : speaker.getEventsSpeaking().values()) {
-            speakerEventIDs.addAll(eventIDs);
-        } return eventIDs;
+            eventIDs.addAll(speakerEventIDs);
+        }
+        return eventIDs;
     }
 
     public ArrayList<UUID> getSpeakerEventIDs(UUID speakerID) {
@@ -267,13 +268,14 @@ public class UserManager implements Serializable {
 
         ArrayList<UUID> eventIDs = new ArrayList<>();
         for (ArrayList<UUID> speakerEventIDs : speaker.getEventsSpeaking().values()) {
-            speakerEventIDs.addAll(eventIDs);
+            eventIDs.addAll(speakerEventIDs);
         } return eventIDs;
     }
 
-    public void speakerAddEvent(String speakerName, UUID roomID, UUID eventID) {
+    public Speaker speakerAddEvent(String speakerName, UUID roomID, UUID eventID) {
         Speaker speaker = (Speaker) getUser(speakerName);
         speaker.addEvent(roomID, eventID);
+        return this.speakers.get(0);
     }
 
     public void speakerRemoveEvent(String speakerName, UUID roomID, UUID eventID) {

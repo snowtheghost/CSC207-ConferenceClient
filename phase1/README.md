@@ -5,13 +5,13 @@ UML Editor: Liam Ogilvie
 User: Zachariah Vincze (Programmer) \
 Attendee: Zihan Wang (Programmer & Tester) \
 Speaker: Zihan Wang (Programmer & Tester), Justin Chan (Programmer)\
-Organizer: Tanuj Devjani (Programmer), Zihan Wang (Tester) \
+Organizer: Tanuj Devjani (Programmer), Kaiyi Liu (Programmer), Zihan Wang (Tester) \
 Message: Zachariah Vincze (Programmer & Tester) \
 Event: Justin Chan (Programmer & Tester) \
 Room: Justin Chan (Programmer & Tester) 
 
 ##### Contributors: Use Cases #####
-UserManager: Justin Chan (Programmer), Zihan Wang (Programmer & Tester) \
+UserManager: Justin Chan (Programmer), Zihan Wang (Programmer & Tester),  Kaiyi Liu (Programmer & Tester) \
 MessageManager: Zachary Vincze (Programmer), Liam Ogilvie (Tester) \
 RoomManager: Justin Chan (Programmer & Tester)
 
