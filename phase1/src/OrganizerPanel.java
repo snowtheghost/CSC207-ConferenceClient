@@ -230,6 +230,8 @@ public class OrganizerPanel implements IController {
                     op.printAllEvents(); break;
                 case "help":
                     op.commandHelp(); break;
+                case "logout":
+                    return Definitions.LOGIN_SYSTEM;
                 case "quit":
                     return Definitions.QUIT_APP;
                 default:
