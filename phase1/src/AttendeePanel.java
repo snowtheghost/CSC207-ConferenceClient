@@ -78,8 +78,8 @@ public class AttendeePanel implements IController {
         }
 
         // Go back to LoginSystem or quits app if user types the command for either
-        if (decision.equals("Logout")){return Definitions.LOGIN_SYSTEM;}
-        return Definitions.QUIT_APP;
+        if (decision.equals("Logout")){return Definitions.BACK;}
+        return Definitions.QUIT;
     }
 
     /**
@@ -98,12 +98,12 @@ public class AttendeePanel implements IController {
     private Integer Message(UUID currUserID){
         this.ap.dmPrompt();
         String response = input.nextLine();
-        if (response.equals("back")){return Definitions.ATTENDEE_PANEL;}
+        if (response.equals("back")){return Definitions.REMAIN_IN_STATE;}
         //keep asking for input until the input is an existing username or 'back'
         while (!userExists(response)) {
             System.out.println("Sorry this user does not exist, try again or type back to go back");
             response = input.nextLine();
-            if (response.contains("back")){return Definitions.ATTENDEE_PANEL;}
+            if (response.contains("back")){return Definitions.REMAIN_IN_STATE;}
         }
 
         this.ap.typeMsgPrompt();
@@ -128,7 +128,7 @@ public class AttendeePanel implements IController {
         // keep asking for input until it == 'all' or it == existing user name
         while (!response.equals("all") && userExists(response)) {
             response = input.nextLine();
-            if (response.contains("back")){return Definitions.ATTENDEE_PANEL;}
+            if (response.contains("back")){return Definitions.REMAIN_IN_STATE;}
         }
         // if want all messages, get a list of messages from each user and
         // write the sender name and message contents if user received at least 1 message from them
@@ -171,13 +171,13 @@ public class AttendeePanel implements IController {
         // if user wants to cancel, it'll return -1 and we will go back to attendee panel
         this.ap.joinLeaveEventOrRoomPrompt(joinOrLeave, "room");
         int inputRoomNum = this.inputFilter.inputRoom();
-        if (inputRoomNum==-1){return Definitions.ATTENDEE_PANEL;}
+        if (inputRoomNum==-1){return Definitions.REMAIN_IN_STATE;}
 
         // keeps asking user to input event number until valid number or user wants to cancel
         // if user wants to cancel, it'll return -1 and we will go back to attendee panel
         this.ap.joinLeaveEventOrRoomPrompt(joinOrLeave, "event");
         int inputEventNum = this.inputFilter.inputEventNumber(inputRoomNum);
-        if (inputEventNum==-1){return Definitions.ATTENDEE_PANEL;}
+        if (inputEventNum==-1){return Definitions.REMAIN_IN_STATE;}
 
         //Signs user up to event in room
         if (joinOrLeave.equals("joining") && this.roomMan.addEventAttendee(currUserID, inputRoomNum, inputEventNum, userMan)){
@@ -186,7 +186,7 @@ public class AttendeePanel implements IController {
             this.ap.displayJoinLeaveSuccess(joinOrLeave);
         } else {
             System.out.println("Error " + joinOrLeave + " the event.");
-            return Definitions.ATTENDEE_PANEL;
+            return Definitions.REMAIN_IN_STATE;
         }
 
         return null;

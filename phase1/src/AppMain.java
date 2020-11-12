@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The app's entrypoint.
@@ -23,24 +25,31 @@ public class AppMain {
         AttendeePanel attendeePanel = new AttendeePanel(userManager, messageManager, roomManager, inputFilter);
         OrganizerPanel organizerPanel = new OrganizerPanel(userManager, roomManager);
         SpeakerPanel speakerPanel = new SpeakerPanel(userManager, messageManager, roomManager);
-        IController currentController = loginSystem;
+
+        // Begin constructing the menu
+        MenuTree attendeeMenu = new MenuTree(attendeePanel);
+        MenuTree organizerMenu = new MenuTree(organizerPanel);
+        MenuTree speakerMenu = new MenuTree(speakerPanel);
+
+        MenuTree loginMenu = new MenuTree(loginSystem);
+        loginMenu.addChild(attendeeMenu);
+        loginMenu.addChild(organizerMenu);
+        loginMenu.addChild(speakerMenu);
+
 
         while (applicationRunning) {
-            switch(currentController.run()) {
-                case Definitions.LOGIN_SYSTEM:
-                    currentController = loginSystem;
-                    break;
-                case Definitions.ATTENDEE_PANEL:
-                    currentController = attendeePanel;
-                    break;
-                case Definitions.ORGANIZER_PANEL:
-                    currentController = organizerPanel;
-                    break;
-                case Definitions.SPEAKER_PANEL:
-                    currentController = speakerPanel;
-                    break;
-                case Definitions.QUIT_APP:
+            int command = loginMenu.run();
+            switch (command) {
+                case -3:
                     applicationRunning = false;
+                    break;
+                case -2:
+                    loginMenu = loginMenu.getParent();
+                    break;
+                case -1:
+                    break;
+                default:
+                    loginMenu = loginMenu.getChild(command);
                     break;
             }
         }

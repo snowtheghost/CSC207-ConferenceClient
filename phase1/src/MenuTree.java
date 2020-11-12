@@ -71,5 +71,5 @@ public class MenuTree {
         return this.value;
     }
 
-
+    public int run() { return this.value.run(); }
 }

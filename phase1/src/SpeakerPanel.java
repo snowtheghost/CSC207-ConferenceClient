@@ -74,8 +74,8 @@ public class SpeakerPanel implements IController {
         }
 
         // Go back to LoginSystem or quits app if user types the command for either
-        if (decision.equals("logout")){return Definitions.LOGIN_SYSTEM;}
-        return Definitions.QUIT_APP;
+        if (decision.equals("logout")){return Definitions.BACK;}
+        return Definitions.QUIT;
     }
 
     private void viewAllEvents(){ speakerPres.viewAllEvents(); }
@@ -86,7 +86,7 @@ public class SpeakerPanel implements IController {
         if (userMan.getSpeakerEventIDs(speakerID).size() == 0) {
             speakerPres.errorNoSpeakingEvents();
             speakerPres.welcomePrompt();
-            return Definitions.ATTENDEE_PANEL;
+            return Definitions.REMAIN_IN_STATE;
         } else {
             speakerPres.sendAllAttendeesIntro(speakerID);
             String decision = input.nextLine();
@@ -99,7 +99,7 @@ public class SpeakerPanel implements IController {
 
             if (decision.equals("q")) {
                 speakerPres.welcomePrompt();
-                return Definitions.ATTENDEE_PANEL;
+                return Definitions.REMAIN_IN_STATE;
             }
 
             else {
@@ -109,7 +109,7 @@ public class SpeakerPanel implements IController {
                         decision = input.nextLine();
                         if (decision.contains("q")) {
                             speakerPres.welcomePrompt();
-                            return Definitions.ATTENDEE_PANEL;
+                            return Definitions.REMAIN_IN_STATE;
                         }
                         try {
                             if(new Integer(decision) > userMan.getSpeakerEventIDs(speakerID).size()){
@@ -147,7 +147,7 @@ public class SpeakerPanel implements IController {
 
         }
         speakerPres.welcomePrompt();
-        return Definitions.ATTENDEE_PANEL;
+        return Definitions.REMAIN_IN_STATE;
     }
 
 }

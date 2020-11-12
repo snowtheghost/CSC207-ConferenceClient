@@ -35,7 +35,7 @@ public class LoginSystem implements IController {
                 this.lp.goBackOptionPrompt();
                 userName = input.nextLine();
                 if (userName.equals("back")) {
-                    return Definitions.LOGIN_SYSTEM;
+                    return Definitions.REMAIN_IN_STATE;
                 }
             }
 
@@ -43,11 +43,11 @@ public class LoginSystem implements IController {
             this.lp.displayLoginSuccess(accountType, userName);
             switch (accountType) {
                 case "speaker":
-                    return Definitions.SPEAKER_PANEL;
+                    return 2;
                 case "attendee":
-                    return Definitions.ATTENDEE_PANEL;
+                    return 0;
                 case "organizer":
-                    return Definitions.ORGANIZER_PANEL;
+                    return 1;
             }
         }
         // if they want to create account
@@ -85,11 +85,11 @@ public class LoginSystem implements IController {
                     break;
             }
             this.lp.displaySuccCreation(accountType, accountName);
-            return Definitions.LOGIN_SYSTEM;
+            return Definitions.REMAIN_IN_STATE;
         }
         else {
             this.lp.invalidInputPrompt();
         }
-        return Definitions.LOGIN_SYSTEM;
+        return Definitions.REMAIN_IN_STATE;
     }
 }

@@ -231,13 +231,13 @@ public class OrganizerPanel implements IController {
                 case "help":
                     op.commandHelp(); break;
                 case "logout":
-                    return Definitions.LOGIN_SYSTEM;
+                    return Definitions.BACK;
                 case "quit":
-                    return Definitions.QUIT_APP;
+                    return Definitions.QUIT;
                 default:
                     op.commandNotRecognized(command);
             }
         }
-        return Definitions.QUIT_APP;
+        return Definitions.QUIT;
     }
 }
