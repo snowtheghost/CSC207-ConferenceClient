@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -9,7 +10,7 @@ import java.util.*;
  * Last modified: Justin Chan
  */
 
-public class UserManager {
+public class UserManager implements Serializable {
     private final ArrayList<Attendee> attendees = new ArrayList<>();
     private final ArrayList<Organizer> organizers = new ArrayList<>();
     private final ArrayList<Speaker> speakers = new ArrayList<>();

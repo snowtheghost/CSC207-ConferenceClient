@@ -1,10 +1,11 @@
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Represents an abstract User
  * @author Zachariah Vincze
  */
-public abstract class   User {
+public abstract class User implements Serializable {
     private final UUID userID;
     private final String username;
     private final Map<UUID, List<UUID>> conversations;
@@ -16,7 +17,7 @@ public abstract class   User {
     public User(String username) {
         this.userID = UUID.randomUUID();
         this.username = username;
-        this.conversations = new HashMap<UUID, List<UUID>>();
+        this.conversations = new HashMap<>();
     }
 
     /**

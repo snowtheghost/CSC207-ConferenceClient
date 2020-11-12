@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ import java.util.UUID;
  * @author Justin Chan
  */
 
-public class RoomManager {
+public class RoomManager implements Serializable {
     private final ArrayList<Room> rooms = new ArrayList<>();
 
     RoomManager() {
