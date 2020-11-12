@@ -251,7 +251,7 @@ public class UserManager {
         if(getUsernames().contains(username)) return getUser(username).getStringType();
         return null;
     }
-
+//testing below
     public ArrayList<UUID> getSpeakerEventIDs(String speakerName) {
         Speaker speaker = (Speaker) getUser(speakerName);
 
