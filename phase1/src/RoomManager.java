@@ -282,10 +282,12 @@ public class RoomManager implements Serializable {
         return true;
     }
 
-    public boolean removeEventAttendee(Attendee attendee, Event event) {
-        if (event.getAttendeeIDs().contains(attendee.getUserID())) {
-            attendee.removeReservedEvents(getEventRoom(event).getRoomID(), event.getEventID());
-            event.removeAttendee(attendee);
+    public boolean removeEventAttendee(UUID attendeeID, int roomNumber, int eventNumber, UserManager um) {
+        Event event = getEvent(roomNumber, eventNumber);
+
+        if (event.getAttendeeIDs().contains(attendeeID)) {
+            um.attendeeRemoveEvent(attendeeID, getEventRoom(event).getRoomID(), event.getEventID());
+            event.removeAttendee(attendeeID);
             return true;
         }
         return false;

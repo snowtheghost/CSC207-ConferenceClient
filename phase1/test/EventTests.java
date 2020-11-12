@@ -65,7 +65,6 @@ public class EventTests {
         assertTrue(event1.getAttendeeIDs().contains(attendee3.getUserID()));
 
 
-        assertTrue(event1.removeAttendee(attendee1));
         assertEquals(event1.getAttendeeIDs().size(), 2);
 
         assertFalse(event1.getAttendeeIDs().contains(attendee1.getUserID()));
