@@ -11,7 +11,7 @@ Event: Justin Chan (Programmer & Tester) \
 Room: Justin Chan (Programmer & Tester) 
 
 ##### Contributors: Use Cases #####
-UserManager: Justin Chan (Programmer), Zihan Wang (Programmer & Tester) \
+UserManager: Justin Chan (Programmer), Zihan Wang (Programmer & Tester) \ Kaiyi Liu (Programmer & Tester) \
 MessageManager: Zachary Vincze (Programmer), Liam Ogilvie (Tester) \
 RoomManager: Justin Chan (Programmer & Tester)
 
