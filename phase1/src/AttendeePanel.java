@@ -182,11 +182,9 @@ public class AttendeePanel implements IController {
         //Signs user up to event in room
         if (joinOrLeave.equals("joining") && this.roomMan.addEventAttendee(currUserID, inputRoomNum, inputEventNum, userMan)){
             this.ap.displayJoinLeaveSuccess(joinOrLeave);
-        }
-        //else if (joinOrLeave.equals("leaveing") && this.roomMan.removeEventAttendee(currUserID, inputRoomNum, inputEventNum, userMan){
-            //this.ap.displayJoinLeaveSuccess(joinOrLeave);
-        //}
-        else {
+        } else if (joinOrLeave.equals("leaveing") && this.roomMan.removeEventAttendee(currUserID, inputRoomNum, inputEventNum, userMan)){
+            this.ap.displayJoinLeaveSuccess(joinOrLeave);
+        } else {
             System.out.println("Error " + joinOrLeave + " the event.");
             return Definitions.ATTENDEE_PANEL;
         }
