@@ -46,11 +46,11 @@ public class SpeakerPanel implements IController {
                 case "help":
                     speakerPres.commandHelp(); break;
 
-                case "View messages":
-                    //viewMessages(allUserIds, currUserID);
+                case "view all messages":
+                    viewMessages(allUserIds, currUserID);
                     break;
 
-                case "view events":
+                case "view all events":
                     viewAllEvents();
                     break;
 
@@ -78,6 +78,17 @@ public class SpeakerPanel implements IController {
         return Definitions.QUIT;
     }
 
+    private void viewMessages(ArrayList<UUID> allusers, UUID currUser){
+        for (UUID id : allusers){
+            List<String> messages = msgMan.getMessageContentsFromUser(userMan, currUser, id);
+            if (messages.size() > 0){
+                System.out.println(userMan.getUsername(id)+": "+ messages);
+            }
+
+        }
+
+    }
+
     private void viewAllEvents(){ speakerPres.viewAllEvents(); }
 
     private void viewSpeakingEvents(UUID speakerID){ speakerPres.viewSpeakingEvents(speakerID); }
@@ -88,66 +99,72 @@ public class SpeakerPanel implements IController {
             speakerPres.welcomePrompt();
             return Definitions.REMAIN_IN_STATE;
         } else {
+            ArrayList<Integer> recips = new ArrayList<>();
             speakerPres.sendAllAttendeesIntro(speakerID);
             String decision = input.nextLine();
-            try{
-                new Integer(decision);
-            } catch (NumberFormatException e) {
-                speakerPres.errorInvalidInput(decision);
-                decision = "999999999"; //a really big number that *should* be larger than the number of events
-            }
 
             if (decision.equals("q")) {
                 speakerPres.welcomePrompt();
                 return Definitions.REMAIN_IN_STATE;
             }
 
-            else {
-                boolean flag = false;
-                while (!flag) {
-                    while (new Integer(decision) > userMan.getSpeakerEventIDs(speakerID).size()) {
-                        decision = input.nextLine();
-                        if (decision.contains("q")) {
-                            speakerPres.welcomePrompt();
-                            return Definitions.REMAIN_IN_STATE;
-                        }
-                        try {
-                            if(new Integer(decision) > userMan.getSpeakerEventIDs(speakerID).size()){
-                                speakerPres.errorInvalidInput(decision);
-                            }
-                        } catch (NumberFormatException e) {
-                            speakerPres.errorInvalidInput(decision);
-                            decision = "999999999"; //a really big number that *should* be larger than the number of events
-                        }
+            try {
+                new Integer(decision);
+            } catch (NumberFormatException e) {
+                speakerPres.errorInvalidInput(decision);
+                decision = "999999999"; //a really big number that *should* be larger than the number of events
+            }
+            while (true) {
 
-
+                while (new Integer(decision) > userMan.getSpeakerEventIDs(speakerID).size()) {
+                    decision = input.nextLine();
+                    if (decision.contains("q")) {
+                        speakerPres.welcomePrompt();
+                        return Definitions.REMAIN_IN_STATE;
                     }
-                    int selection = new Integer(decision);
-                    UUID eventid = userMan.getSpeakerEventIDs(speakerID).get(selection - 1);
-                    if (roomMan.getEventAttendeeIDs(eventid).size() == 0) {
-                        speakerPres.errorNoAttendees();
-                        decision = "999999999"; //yes I did it again, yes I know it's a cheap workaround
-                                                //if you are able to break it, I will fix it
-                        //speakerPres.sendAllAttendeesIntro(speakerID);
-                    }
-                    else{
-                        flag = true;
+                    if (decision.contains("a") && recips.size() > 0) {
                         speakerPres.messagePrompt();
                         String message = input.nextLine();
-                        UUID status = msgMan.sendMessageToEventAttendees(userMan, roomMan, speakerID, eventid, message);
-                        if (status == null){
-                            speakerPres.errorGeneral();
+                        for (Integer event : recips) {
+                            UUID eventid = userMan.getSpeakerEventIDs(speakerID).get(event - 1);
+                            UUID status = msgMan.sendMessageToEventAttendees(userMan, roomMan, speakerID, eventid, message);
+                            if (status == null) {
+                                speakerPres.errorGeneral();
+                            } else {
+                                speakerPres.messageSuccess(status, eventid);
+                            }
                         }
-                        else{
-                            speakerPres.messageSuccess(status);
-                        }
+                        speakerPres.welcomePrompt();
+                        return Definitions.REMAIN_IN_STATE;
                     }
+                    try {
+                        if (new Integer(decision) > userMan.getSpeakerEventIDs(speakerID).size()) {
+                            speakerPres.errorInvalidInput(decision);
+                        }
+                    } catch (NumberFormatException e) {
+                        speakerPres.errorInvalidInput(decision);
+                        decision = "999999999"; //a really big number that *should* be larger than the number of events
+                    }
+
+                }
+                int selection = new Integer(decision);
+                UUID eventid = userMan.getSpeakerEventIDs(speakerID).get(selection - 1);
+                if (roomMan.getEventAttendeeIDs(eventid).size() == 0) {
+                    speakerPres.errorNoAttendees();
+                    decision = "999999999"; //yes I did it again, yes I know it's a cheap workaround
+                    //if you are able to break it, I will fix it
+
+                } else {
+                    if (!(recips.contains(new Integer(decision)))) {
+                        recips.add(new Integer(decision));
+                    }
+                    decision = "999999999"; //if it's stupid, and it works, it ain't stupid
+                    speakerPres.messageSelectedTalks(recips);
+                    //String command = input.nextLine();
+
                 }
             }
-
         }
-        speakerPres.welcomePrompt();
-        return Definitions.REMAIN_IN_STATE;
     }
 
 }

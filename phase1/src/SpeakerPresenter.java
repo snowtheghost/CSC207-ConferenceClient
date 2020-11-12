@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class SpeakerPresenter {
@@ -18,9 +19,10 @@ public class SpeakerPresenter {
     }
 
     public void commandHelp() {
-        System.out.println("view events - view all scheduled events\n" +
+        System.out.println("view all events - view all scheduled events\n" +
                 "view speaking events - view all events you are speaking at\n" +
-                "send message to event attendees - send a message to all attendees of an event you are speaking at\n" +
+                "view all messages - view all messages that have been sent to you\n" +
+                "send message to event attendees - send a message to all attendees of an event or events you are speaking at\n" +
                 "logout - return to the main login screen\n" +
                 "quit - Log out as Speaker ");
     }
@@ -47,10 +49,12 @@ public class SpeakerPresenter {
         }
 
     }
+    public void messageSelectedTalks(ArrayList talks){ System.out.println("Currently Selected Talks: " + talks + ", enter another talk to add them to the recipient list, a to accept, or q to quit"); }
 
     public void messagePrompt(){ System.out.println("Enter your message:"); }
 
-    public void messageSuccess(UUID id){ System.out.println("Success! Your message was sent! Message ID: "+ id); }
+    public void messageSuccess(UUID msgid, UUID event){ System.out.println("Success! Your message was sent to the attendees of "+ roomMan.stringEvent(event));}
+            // +"\nMessageID: "+ msgid); }
 
     public void errorNoSpeakingEvents(){ System.out.println("Whoops, it looks like you aren't speaking at any events"); }
 

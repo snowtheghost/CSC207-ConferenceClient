@@ -47,7 +47,7 @@ public class AttendeePresenter {
     }
 
     /**
-     * Tells the user their messsage has been successfully sent
+     * Tells the user their message has been successfully sent
      */
     public void msgSentPrompt(){
         System.out.println("Message successfully sent");
@@ -75,7 +75,7 @@ public class AttendeePresenter {
                 for (String msg : msgsFromPerson) {
                     allMsgs.append(msg).append(", ");
                 }
-                allMsgs.append("/n");
+                allMsgs.append("\n");
             }
         }
         System.out.println(allMsgs);
