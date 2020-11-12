@@ -11,6 +11,7 @@ public class OrganizerTest {
     Organizer organizer1 = new Organizer("organizer1");
     Message message1 = new Message("message1");
     Attendee attendee1 = new Attendee("attendee1");
+    Speaker speaker1 = new Speaker("speaker1");
 
 
     @Test
@@ -20,6 +21,9 @@ public class OrganizerTest {
 
     @Test
     public void TestIsAttendee(){assertFalse(organizer1.isAttendee());}
+
+    @Test
+    public void TestIsAttendee2(){assertFalse(speaker1.isAttendee());}
 
     @Test
     public void TestIsSpeaker(){assertFalse(organizer1.isSpeaker());}
