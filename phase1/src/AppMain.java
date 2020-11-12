@@ -14,7 +14,7 @@ public class AppMain {
         LoginSystem loginSystem = new LoginSystem(userManager);
         AttendeePanel attendeePanel = new AttendeePanel(userManager, messageManager, roomManager);
         OrganizerPanel organizerPanel = new OrganizerPanel(userManager, roomManager);
-        SpeakerPanel speakerPanel = new SpeakerPanel();
+        SpeakerPanel speakerPanel = new SpeakerPanel(userManager, messageManager, roomManager);
         IController currentController = loginSystem;
 
         while (applicationRunning) {

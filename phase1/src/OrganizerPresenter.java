@@ -22,7 +22,8 @@ public class OrganizerPresenter {
     public void commandHelp() {
         System.out.println("createspeaker - Create a new Speaker\n" +
                 "createroom - Create a new Room\n" + "createevent - Create a new Event\n" + "rescheduleevent - Reschedules an existing event\n"+"cancelevent - Remove an existing Event\n" +
-                "viewspeakers - See available Speakers\n" + "viewrooms - See available Rooms\n" + "viewevents - See available events in specified room\n" + "quit - Log out as Organizer");
+                "viewspeakers - See available Speakers\n" + "viewrooms - See available Rooms\n" + "viewevents - See available events in specified room\n" +
+                "logout - Return to Login screen\n" + "quit - Quit program");
     }
 
     public void commandNotRecognized(String command) {

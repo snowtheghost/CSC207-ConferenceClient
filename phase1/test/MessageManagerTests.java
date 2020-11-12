@@ -116,7 +116,7 @@ public class MessageManagerTests {
                 0, userManager);
         UUID eventUUID = eventID;
 
-        //assertSame(null, messageManager.sendMessageToEventAttendees(userManager, roomManager,
-        //        speakerUUID, eventUUID, messageContent) );
+        assertSame(null, messageManager.sendMessageToEventAttendees(userManager, roomManager,
+                speakerUUID, eventUUID, messageContent) );
     }
 }
