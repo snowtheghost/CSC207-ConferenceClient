@@ -6,6 +6,7 @@ import java.util.Scanner;
  */
 public class LoginSystem implements IController {
     private final UserManager userMan;
+    private final LoginSystemPresenter lp;
 
     /**
      * Allows users to login to their account or create one.
@@ -13,6 +14,7 @@ public class LoginSystem implements IController {
      */
     public LoginSystem(UserManager userManager) {
         this.userMan = userManager;
+        this.lp = new LoginSystemPresenter();
     }
 
     public int run() {
@@ -21,16 +23,16 @@ public class LoginSystem implements IController {
         // DUMMY ACCOUNT FOR TESTING
         this.userMan.createAttendeeAccount("kerry");
 
-        System.out.println("\"Login\" or \"Create account\"?");
+        this.lp.LoginCreateActPrompt();
         String decision = input.nextLine();
 
         // if user wants to login
         if (decision.equals("Login")) {
-            System.out.println("Enter account name");
+            this.lp.enterUsernamePrompt();
             String userName = input.nextLine();
             // keeps asking for until matching one found
             while (!this.userMan.setCurrentUserFromUserName(userName)) {
-                System.out.println("Or, if you wish to return, type 'back' to go back");
+                this.lp.goBackOptionPrompt();
                 userName = input.nextLine();
                 if (userName.equals("back")) {
                     return Definitions.LOGIN_SYSTEM;
@@ -38,7 +40,7 @@ public class LoginSystem implements IController {
             }
 
             String accountType = this.userMan.userType(userName);
-            System.out.println("Logged into " + accountType + " account, username: " + userName);
+            this.lp.displayLoginSuccess(accountType, userName);
             switch (accountType) {
                 case "speaker":
                     return Definitions.SPEAKER_PANEL;
@@ -54,21 +56,21 @@ public class LoginSystem implements IController {
             validTypes.add("speaker");
             validTypes.add("organizer");
             validTypes.add("attendee");
-            System.out.println("Enter account type (speaker/organizer/attendee):");
+            this.lp.enterActTypePrompt();
             String accountType = input.nextLine();
             // keep asking for account type until valid account type given
             while (!validTypes.contains(accountType)) {
-                System.out.println(accountType + " is not a valid account type. Please try again");
+                this.lp.invalidActTypePrompt(accountType);
                 accountType = input.nextLine();
             }
             // keep asking for account name until unique account name given
-            System.out.println("Enter account name:");
+            this.lp.enterActNamePrompt();
             String accountName = input.nextLine();
             ArrayList<String> existingUsers = this.userMan.getUsernames();
 
             while (existingUsers.contains(accountName) || accountName.equals("back") ||
                     accountName.equals("all")) {
-                System.out.println("Account name taken or invalid name, please try a different name.");
+                this.lp.invalidActNamePrompt();
                 accountName = input.nextLine();
             }
             switch (accountType) {
@@ -82,12 +84,11 @@ public class LoginSystem implements IController {
                     this.userMan.createAttendeeAccount(accountName);
                     break;
             }
-            System.out.println("Successfully created " + accountType + " account, username: " +
-                    accountName);
+            this.lp.displaySuccCreation(accountType, accountName);
             return Definitions.LOGIN_SYSTEM;
         }
         else {
-            System.out.println("invalid input");
+            this.lp.invalidInputPrompt();
         }
         return Definitions.LOGIN_SYSTEM;
     }
