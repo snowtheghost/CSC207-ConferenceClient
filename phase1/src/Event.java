@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -24,7 +25,7 @@ import java.util.*;
  * @author Justin Chan
  */
 
-public class Event {
+public class Event implements Serializable {
     private final String title;
     private final UUID eventID;
     private Calendar startTime;

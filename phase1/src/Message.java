@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -6,7 +7,7 @@ import java.util.UUID;
  * Represents a message sent by a user.
  * @author Zachariah Vincze
  */
-public class Message {
+public class Message implements Serializable {
     private final UUID messageID;
     private final String messageContent;
 

@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -17,7 +18,7 @@ import java.util.*;
  * @author Justin Chan
  */
 
-public class Room {
+public class Room implements Serializable {
     private final UUID roomID;
     private final ArrayList<Event> events = new ArrayList<>();
 

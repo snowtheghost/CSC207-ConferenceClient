@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 /**
  * The app's entrypoint.
  * @author Zachariah Vincze
@@ -7,9 +9,14 @@ public class AppMain {
     public static void main(String[] args) {
         boolean applicationRunning = true;
 
-        UserManager userManager = new UserManager();
-        RoomManager roomManager = new RoomManager();
-        MessageManager messageManager = new MessageManager();
+        // Gateways
+        MessageManagerGateway messageManagerGateway= new MessageManagerGateway();
+        UserManagerGateway userManagerGateway = new UserManagerGateway();
+        RoomManagerGateway roomManagerGateway = new RoomManagerGateway();
+
+        UserManager userManager = userManagerGateway.read("phase1/usermanager.ser");
+        RoomManager roomManager = roomManagerGateway.read("phase1/roommanager.ser");
+        MessageManager messageManager = messageManagerGateway.read("phase1/messagemanager.ser");
         InputFilter inputFilter = new InputFilter(userManager, roomManager);
 
         LoginSystem loginSystem = new LoginSystem(userManager);
@@ -37,5 +44,15 @@ public class AppMain {
                     break;
             }
         }
+
+        try {
+            userManagerGateway.write(userManager, "phase1/usermanager.ser");
+            roomManagerGateway.write(roomManager, "phase1/roommanager.ser");
+            messageManagerGateway.write(messageManager, "phase1/messagemanager.ser");
+        } catch (IOException e) {
+            System.out.println("Unable to write manager data to file.");
+            e.printStackTrace();
+        }
+
     }
 }

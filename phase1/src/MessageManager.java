@@ -1,10 +1,11 @@
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Manages message entities.
  * @author Zachariah Vincze
  */
-public class MessageManager {
+public class MessageManager implements Serializable {
     private final Map<UUID, Message> messages;
 
     /**
