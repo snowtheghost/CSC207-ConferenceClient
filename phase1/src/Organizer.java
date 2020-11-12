@@ -2,9 +2,6 @@ import java.util.*;
 
 /**
  * Represent an Organizer
- *
- *
- *
  * @author Tanuj Devjani
  */
 
