@@ -115,4 +115,9 @@ public class UserManagerTest {
         assertTrue(um.isSpeaker("speaker1"));
     }
 
+    @Test
+    public void TestStringAvailableSpeakers(){
+
+    }
+
 }
