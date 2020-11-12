@@ -14,9 +14,9 @@ public class AppMain {
         UserManagerGateway userManagerGateway = new UserManagerGateway();
         RoomManagerGateway roomManagerGateway = new RoomManagerGateway();
 
-        UserManager userManager = userManagerGateway.read("phase1/usermanager.ser");
-        RoomManager roomManager = roomManagerGateway.read("phase1/roommanager.ser");
-        MessageManager messageManager = messageManagerGateway.read("phase1/messagemanager.ser");
+        UserManager userManager = userManagerGateway.read("usermanager.ser");
+        RoomManager roomManager = roomManagerGateway.read("roommanager.ser");
+        MessageManager messageManager = messageManagerGateway.read("messagemanager.ser");
         InputFilter inputFilter = new InputFilter(userManager, roomManager);
 
         LoginSystem loginSystem = new LoginSystem(userManager);
@@ -46,9 +46,9 @@ public class AppMain {
         }
 
         try {
-            userManagerGateway.write(userManager, "phase1/usermanager.ser");
-            roomManagerGateway.write(roomManager, "phase1/roommanager.ser");
-            messageManagerGateway.write(messageManager, "phase1/messagemanager.ser");
+            userManagerGateway.write(userManager, "usermanager.ser");
+            roomManagerGateway.write(roomManager, "roommanager.ser");
+            messageManagerGateway.write(messageManager, "messagemanager.ser");
         } catch (IOException e) {
             System.out.println("Unable to write manager data to file.");
             e.printStackTrace();
