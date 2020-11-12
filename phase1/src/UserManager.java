@@ -292,6 +292,11 @@ public class UserManager {
         attendee.removeReservedEvents(roomID, eventID);
     }
 
+//    List<UUID> getAttendeeEventIDs(String attendeeName) {
+//        User attendee = this.getUser(attendeeName);
+//
+//    }
+
     public boolean userExists(String username) {
         return getUsernames().contains(username);
     }
