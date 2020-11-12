@@ -4,6 +4,7 @@ public class AttendeePanel implements IController {
     private final UserManager userMan;
     private final MessageManager msgMan;
     private final RoomManager roomMan;
+    private final InputFilter inputFilter;
     private final Scanner input = new Scanner(System.in);
 
     /**
@@ -12,13 +13,12 @@ public class AttendeePanel implements IController {
      * @param msgMan the user manager use case class
      * @param roomMan the user manager use case class
      */
-    public AttendeePanel (UserManager userMan, MessageManager msgMan, RoomManager roomMan) {
+    public AttendeePanel (UserManager userMan, MessageManager msgMan, RoomManager roomMan, InputFilter inputFilter) {
         this.userMan = userMan;
         this.msgMan = msgMan;
         this.roomMan = roomMan;
+        this.inputFilter = inputFilter;
     }
-
-
 
     @Override
     public int run() {
@@ -173,18 +173,18 @@ public class AttendeePanel implements IController {
      * @return Returns an integer if user wants to go back out of the command, null otherwise
      */
     private Integer joinEvent(UUID currUserID, UserManager userMan){
-        System.out.println("Enter event name or type 'back' to go back");
-        String response = input.nextLine();
-        if (response.equals("back")){return Definitions.ATTENDEE_PANEL;}
-        //else if (this.roomMan.addEventAttendee(currUserID, userMan.))
-        //TODO: Call UserManager/RoomManager to sign user up for event
-//        UUID eventID;
-//        for (Event event : this.roomMan.getEvents()){
-//            if (event.getTitle().equals(response)){
-//                eventID = event.getEventID();
-//                //this.roomMan.addEventAttendee(this.userMan.getCurrentUser(), eventID);
-//            }
-//        }
+        // keeps asking user to input room number until valid number or user wants to cancel
+        // if user wants to cancel, it'll return -1 and we will go back to attendee panel
+        int inputRoomNum = this.inputFilter.inputRoom();
+        if (inputRoomNum==-1){return Definitions.ATTENDEE_PANEL;}
+
+        // keeps asking user to input event number until valid number or user wants to cancel
+        // if user wants to cancel, it'll return -1 and we will go back to attendee panel
+        int inputEventNum = this.inputFilter.inputEventNumber(inputRoomNum);
+        if (inputEventNum==-1){return Definitions.ATTENDEE_PANEL;}
+
+        //Signs user up to event in room
+        this.roomMan.addEventAttendee(currUserID, inputRoomNum, inputEventNum, userMan);
         return null;
     }
     /**
