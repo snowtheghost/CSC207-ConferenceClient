@@ -298,10 +298,9 @@ public class RoomManager implements Serializable {
         ArrayList<UUID> eventIDs = um.getSpeakerEventIDs(speakerName);
         ArrayList<Event> events = eventIDsToEvents(eventIDs);
 
-        for (int i = 0; i < events.size(); i++) {
-            Event event = events.get(i);
-            int eventNumber = i + 1;
-            s.append("(").append(eventNumber).append(") ").append(event.toString()).append("\n");
+        for (int eventNumber = 0; eventNumber < events.size(); eventNumber++) {
+            Event event = events.get(eventNumber);
+            s.append("(").append(eventNumber + 1).append(") ").append(event.toString()).append("\n");
         }
         return s.toString();
     }
