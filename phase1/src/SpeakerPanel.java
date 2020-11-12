@@ -24,6 +24,12 @@ public class SpeakerPanel implements IController {
 
     /**
      * Author: Liam Ogilvie
+     * TODO:
+     * Speakers should be able to send a message that automatically goes to all Attendees of their talk or
+     * multiple talks that they gave.
+     *
+     * Attendees should be able to message other Attendees or Speakers.
+     * Speakers should be able to respond to a specific Attendee.
      *
      */
     @Override
@@ -35,7 +41,7 @@ public class SpeakerPanel implements IController {
 
         speakerPres.welcomePrompt();
         String decision = input.nextLine();
-        while (!(decision.equals("Logout") || decision.equals("Quit app"))){
+        while (!(decision.equals("logout") || decision.equals("quit"))){
             switch (decision) {
                 case "help":
                     speakerPres.commandHelp(); break;
@@ -44,17 +50,16 @@ public class SpeakerPanel implements IController {
                     //viewMessages(allUserIds, currUserID);
                     break;
 
-                case "View all events":
+                case "view events":
                     viewAllEvents();
                     break;
 
-                case "View speaking events":
-                    //viewSignedUpEvents(currUserID);
+                case "view speaking events":
+                    viewSpeakingEvents(currUserID);
                     break;
 
-                case "Join event":
-                    //nextMove= joinEvent(currUserID, this.userMan);
-                    //if (nextMove != null){return nextMove;}
+                case "send message to event attendees":
+                    sendMessageToAttendees(currUserID);
                     break;
 
                 case "Leave event":
@@ -63,19 +68,86 @@ public class SpeakerPanel implements IController {
                     break;
 
                 default:
-                    speakerPres.commandNotRecognized(decision); break;
+                    speakerPres.errorInvalidInput(decision); break;
             }
             decision = input.nextLine();
         }
 
         // Go back to LoginSystem or quits app if user types the command for either
-        if (decision.equals("Logout")){return Definitions.LOGIN_SYSTEM;}
+        if (decision.equals("logout")){return Definitions.LOGIN_SYSTEM;}
         return Definitions.QUIT_APP;
     }
 
-    private void viewAllEvents(){
-        speakerPres.viewAllEvents(roomMan.stringEventInfoAll());
-    }
+    private void viewAllEvents(){ speakerPres.viewAllEvents(); }
 
+    private void viewSpeakingEvents(UUID speakerID){ speakerPres.viewSpeakingEvents(speakerID); }
+
+    private int sendMessageToAttendees(UUID speakerID) {
+        if (userMan.getSpeakerEventIDs(speakerID).size() == 0) {
+            speakerPres.errorNoSpeakingEvents();
+            speakerPres.welcomePrompt();
+            return Definitions.ATTENDEE_PANEL;
+        } else {
+            speakerPres.sendAllAttendeesIntro(speakerID);
+            String decision = input.nextLine();
+            try{
+                new Integer(decision);
+            } catch (NumberFormatException e) {
+                speakerPres.errorInvalidInput(decision);
+                decision = "999999999"; //a really big number that *should* be larger than the number of events
+            }
+
+            if (decision.equals("q")) {
+                speakerPres.welcomePrompt();
+                return Definitions.ATTENDEE_PANEL;
+            }
+
+            else {
+                boolean flag = false;
+                while (!flag) {
+                    while (new Integer(decision) > userMan.getSpeakerEventIDs(speakerID).size()) {
+                        decision = input.nextLine();
+                        if (decision.contains("q")) {
+                            speakerPres.welcomePrompt();
+                            return Definitions.ATTENDEE_PANEL;
+                        }
+                        try {
+                            if(new Integer(decision) > userMan.getSpeakerEventIDs(speakerID).size()){
+                                speakerPres.errorInvalidInput(decision);
+                            }
+                        } catch (NumberFormatException e) {
+                            speakerPres.errorInvalidInput(decision);
+                            decision = "999999999"; //a really big number that *should* be larger than the number of events
+                        }
+
+
+                    }
+                    int selection = new Integer(decision);
+                    UUID eventid = userMan.getSpeakerEventIDs(speakerID).get(selection - 1);
+                    if (roomMan.getEventAttendeeIDs(eventid).size() == 0) {
+                        speakerPres.errorNoAttendees();
+                        decision = "999999999"; //yes I did it again, yes I know it's a cheap workaround
+                                                //if you are able to break it, I will fix it
+                        //speakerPres.sendAllAttendeesIntro(speakerID);
+                    }
+                    else{
+                        flag = true;
+                        speakerPres.messagePrompt();
+                        String message = input.nextLine();
+                        UUID status = msgMan.sendMessageToEventAttendees(userMan, roomMan, speakerID, eventid, message);
+                        if (status == null){
+                            speakerPres.errorGeneral();
+                        }
+                        else{
+                            speakerPres.messageSuccess(status);
+                        }
+                    }
+                }
+            }
+
+        }
+        speakerPres.welcomePrompt();
+        return Definitions.ATTENDEE_PANEL;
+    }
 
 }
