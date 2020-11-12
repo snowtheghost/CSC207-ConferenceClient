@@ -51,15 +51,15 @@ public class MenuTree {
         return new ArrayList<>(this.childMenuTrees);
     }
 
-    public void addChild(IController controller){
-        MenuTree child = new MenuTree(controller, this.parentMenuTree);
-        this.childMenuTrees.add(child);
+    public void addChild(MenuTree tree){
+        tree.setParent(this);
+        this.childMenuTrees.add(tree);
     }
 
-    public void addChildren(List<IController> controllers){
-        for(IController controller : controllers){
-            MenuTree child = new MenuTree(controller, this.parentMenuTree);
-            this.childMenuTrees.add(child);
+    public void addChildren(List<MenuTree> trees){
+        for(MenuTree tree : trees){
+            tree.setParent(this);
+            this.childMenuTrees.add(tree);
         }
     }
 
