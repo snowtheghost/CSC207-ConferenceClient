@@ -176,11 +176,9 @@ public class RoomManager implements Serializable {
         Room room = getRoom(roomNumber);
 
         Event newEvent = new Event(eventTitle, speakerName, startTime, endTime);
-        for (UUID existingRoomID : um.getSpeakerEventIDs(speakerName)) {
-            for (Event event : getRoom(existingRoomID).getEvents()) {
-                if (getRoom(existingRoomID).eventOverlapping(newEvent, event)) {
-                    return false;
-                }
+        for (UUID existingEventID : um.getSpeakerEventIDs(speakerName)) {
+            if (room.eventOverlapping(newEvent, getEvent(existingEventID))) { // TODO: Method does not require room!
+                return false;
             }
         }
         return room.eventIsValid(newEvent);

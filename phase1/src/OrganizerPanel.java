@@ -206,11 +206,11 @@ public class OrganizerPanel implements IController {
      */
     @Override
     public int run() {
+        String command = "";
         op.welcomePrompt();
-        String command = sc.nextLine();
         while (!(command.equals("logout") || command.equals("Quit app"))){
             op.commandPrompt();
-            //String command = sc.nextLine();
+            command = sc.nextLine();
             switch (command) {
                 case "createspeaker":
                     createSpeaker(); break;
@@ -235,11 +235,7 @@ public class OrganizerPanel implements IController {
                 default:
                     op.commandNotRecognized(command);
             }
-            command = sc.nextLine();
         }
-
-        // Go back to LoginSystem or quits app if user types the command for either
-        if (command.equals("logout")){return Definitions.LOGIN_SYSTEM;}
         return Definitions.QUIT_APP;
     }
 }
