@@ -176,11 +176,9 @@ public class RoomManager implements Serializable {
         Room room = getRoom(roomNumber);
 
         Event newEvent = new Event(eventTitle, speakerName, startTime, endTime);
-        for (UUID existingRoomID : um.getSpeakerEventIDs(speakerName)) {
-            for (Event event : getRoom(existingRoomID).getEvents()) {
-                if (getRoom(existingRoomID).eventOverlapping(newEvent, event)) {
-                    return false;
-                }
+        for (UUID existingEventID : um.getSpeakerEventIDs(speakerName)) {
+            if (room.eventOverlapping(newEvent, getEvent(existingEventID))) { // TODO: Method does not require room!
+                return false;
             }
         }
         return room.eventIsValid(newEvent);
@@ -284,10 +282,12 @@ public class RoomManager implements Serializable {
         return true;
     }
 
-    public boolean removeEventAttendee(Attendee attendee, Event event) {
-        if (event.getAttendeeIDs().contains(attendee.getUserID())) {
-            attendee.removeReservedEvents(getEventRoom(event).getRoomID(), event.getEventID());
-            event.removeAttendee(attendee);
+    public boolean removeEventAttendee(UUID attendeeID, int roomNumber, int eventNumber, UserManager um) {
+        Event event = getEvent(roomNumber, eventNumber);
+
+        if (event.getAttendeeIDs().contains(attendeeID)) {
+            um.attendeeRemoveEvent(attendeeID, getEventRoom(event).getRoomID(), event.getEventID());
+            event.removeAttendee(attendeeID);
             return true;
         }
         return false;

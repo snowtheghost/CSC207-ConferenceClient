@@ -100,15 +100,16 @@ public class AttendeePanel implements IController {
         String response = input.nextLine();
         if (response.equals("back")){return Definitions.ATTENDEE_PANEL;}
         //keep asking for input until the input is an existing username or 'back'
-        while (userExists(response)) {
+        while (!userExists(response)) {
+            System.out.println("Sorry this user does not exist, try again or type back to go back");
             response = input.nextLine();
             if (response.contains("back")){return Definitions.ATTENDEE_PANEL;}
         }
 
         this.ap.typeMsgPrompt();
-        response = input.nextLine();
+        String message = input.nextLine();
         UUID recipient = this.userMan.getUserID(response);
-        this.msgMan.sendMessage(this.userMan, currUserID, recipient, response);
+        this.msgMan.sendMessage(this.userMan, currUserID, recipient, message);
         this.ap.msgSentPrompt();
         return null;
     }
@@ -181,11 +182,9 @@ public class AttendeePanel implements IController {
         //Signs user up to event in room
         if (joinOrLeave.equals("joining") && this.roomMan.addEventAttendee(currUserID, inputRoomNum, inputEventNum, userMan)){
             this.ap.displayJoinLeaveSuccess(joinOrLeave);
-        }
-        //else if (joinOrLeave.equals("leaveing") && this.roomMan.removeEventAttendee(currUserID, inputRoomNum, inputEventNum, userMan){
-            //this.ap.displayJoinLeaveSuccess(joinOrLeave);
-        //}
-        else {
+        } else if (joinOrLeave.equals("leaveing") && this.roomMan.removeEventAttendee(currUserID, inputRoomNum, inputEventNum, userMan)){
+            this.ap.displayJoinLeaveSuccess(joinOrLeave);
+        } else {
             System.out.println("Error " + joinOrLeave + " the event.");
             return Definitions.ATTENDEE_PANEL;
         }

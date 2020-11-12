@@ -104,13 +104,13 @@ public class Event implements Serializable {
      * This method the UUID of the Attendee attendeesToRemove from the Event attendees. Returns true if the UUID was
      * successfully removed, and false if the UUID was not present in the Event attendees.
      *
-     * @param attendeeToRemove an Attendee object to be removed from the Event attendees.
+     * @param attendeeID an Attendee  to be removed from the Event attendees.
      *                         Note that we take an Attendee and NOT its UUID
      *
      * @return true if the Attendee was removed and false if the Attendee was not present in the first place
      */
-    public boolean removeAttendee(Attendee attendeeToRemove) {
-        return attendeeIDs.remove(attendeeToRemove.getUserID());
+    public boolean removeAttendee(UUID attendeeID) {
+        return attendeeIDs.remove(attendeeID);
     }
 
     public String getSpeakerName() {
