@@ -10,6 +10,7 @@ public class UserManagerTest {
     UUID organizer1ID = um.createOrganizerAccount("organizer1");
     UUID speaker1ID = um.createSpeakerAccount("speaker1");
     UUID attendee2ID = um.createAttendeeAccount("attendee2");
+    UUID[] users = {attendee1ID, organizer1ID, speaker1ID, attendee2ID};
 
     @Test
     public void TestCreateAccount() {
@@ -75,6 +76,17 @@ public class UserManagerTest {
         assertEquals(value.getUserID(), attendee1ID);
         User secondValue = um.getUser(organizer1ID);
         assertEquals(secondValue.getUsername(), "organizer1");
+        List<User> listOfUsers = um.getUsers();
+        int numOfValids = 0;
+        for(User user : listOfUsers){
+            for(UUID id : users){
+                if(id.equals(user.getUserID())){
+                    numOfValids++;
+                }
+            }
+        }
+        assertEquals(numOfValids, listOfUsers.size());
     }
-    
+
+
 }
