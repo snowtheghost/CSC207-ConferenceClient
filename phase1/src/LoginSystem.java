@@ -1,4 +1,3 @@
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -39,7 +38,7 @@ public class LoginSystem implements IController {
             }
 
             String accountType = this.userMan.userType(userName);
-            System.out.println("Loggined into " + accountType + " account, username: " + userName);
+            System.out.println("Logged into " + accountType + " account, username: " + userName);
             switch (accountType) {
                 case "speaker":
                     return Definitions.SPEAKER_PANEL;

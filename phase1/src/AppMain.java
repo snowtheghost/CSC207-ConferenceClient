@@ -10,11 +10,12 @@ public class AppMain {
         UserManager userManager = new UserManager();
         RoomManager roomManager = new RoomManager();
         MessageManager messageManager = new MessageManager();
+        InputFilter inputFilter = new InputFilter(userManager, roomManager);
 
         LoginSystem loginSystem = new LoginSystem(userManager);
-        AttendeePanel attendeePanel = new AttendeePanel(userManager, messageManager, roomManager);
+        AttendeePanel attendeePanel = new AttendeePanel(userManager, messageManager, roomManager, inputFilter);
         OrganizerPanel organizerPanel = new OrganizerPanel(userManager, roomManager);
-        SpeakerPanel speakerPanel = new SpeakerPanel();
+        SpeakerPanel speakerPanel = new SpeakerPanel(userManager, messageManager, roomManager);
         IController currentController = loginSystem;
 
         while (applicationRunning) {
