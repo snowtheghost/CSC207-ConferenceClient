@@ -4,6 +4,10 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 
+/**
+ * @author Derrik Wang, Kaiyi Liu
+ */
+
 public class UserManagerTest {
     UserManager um = new UserManager();
     UUID attendee1ID = um.createAttendeeAccount("attendee1");
@@ -86,6 +90,43 @@ public class UserManagerTest {
             }
         }
         assertEquals(numOfValids, listOfUsers.size());
+    }
+    @Test
+    public void TestGetUserIDToUser(){
+        HashMap<UUID, User> map = um.getUserIDToUser();
+        for(UUID id: map.keySet()){
+            UUID userID = map.get(id).getUserID();
+            assertEquals(id, userID);
+        }
+    }
+    @Test
+    public void TestGetAttendees(){
+        List<Attendee> attendees = um.getAttendees();
+        assertEquals(attendees.size(), 2);
+        assertTrue(attendees.contains("attendee2"));
+        assertTrue(attendees.contains("attendee1"));
+        List<UUID> attendeesUUID = um.getAttendeeUUIDs();
+        assertEquals(attendeesUUID.size(), 2);
+        assertTrue(attendeesUUID.contains(attendee1ID));
+        assertTrue(attendeesUUID.contains(attendee2ID));
+    }
+    @Test
+    public void TestGetOrganizers(){
+        List<Organizer> organizers = um.getOrganizers();
+        assertEquals(organizers.size(), 1);
+        assertTrue(organizers.contains("organizer1"));
+        List<UUID> organizersUUID = um.getOrganizerUUIDs();
+        assertEquals(organizersUUID.size(), 1);
+        assertTrue(organizersUUID.contains(organizer1ID));
+    }
+    @Test
+    public void TestGetSpeakers(){
+        List<Speaker> speakers = um.getSpeakers();
+        assertEquals(speakers.size(), 1);
+        assertTrue(speakers.contains("speaker1"));
+        List<UUID> speakersUUID = um.getSpeakerUUIDs();
+        assertEquals(speakersUUID.size(), 1);
+        assertTrue(speakersUUID.contains(speaker1ID));
     }
 
 
