@@ -257,8 +257,9 @@ public class UserManager {
 
         ArrayList<UUID> eventIDs = new ArrayList<>();
         for (ArrayList<UUID> speakerEventIDs : speaker.getEventsSpeaking().values()) {
-            speakerEventIDs.addAll(eventIDs);
-        } return eventIDs;
+            eventIDs.addAll(speakerEventIDs);
+        }
+        return eventIDs;
     }
 
     public ArrayList<UUID> getSpeakerEventIDs(UUID speakerID) {
@@ -266,13 +267,14 @@ public class UserManager {
 
         ArrayList<UUID> eventIDs = new ArrayList<>();
         for (ArrayList<UUID> speakerEventIDs : speaker.getEventsSpeaking().values()) {
-            speakerEventIDs.addAll(eventIDs);
+            eventIDs.addAll(speakerEventIDs);
         } return eventIDs;
     }
 
-    public void speakerAddEvent(String speakerName, UUID roomID, UUID eventID) {
+    public Speaker speakerAddEvent(String speakerName, UUID roomID, UUID eventID) {
         Speaker speaker = (Speaker) getUser(speakerName);
         speaker.addEvent(roomID, eventID);
+        return this.speakers.get(0);
     }
 
     public void speakerRemoveEvent(String speakerName, UUID roomID, UUID eventID) {
