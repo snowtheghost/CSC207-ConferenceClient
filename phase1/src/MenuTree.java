@@ -42,7 +42,7 @@ public class MenuTree {
     public MenuTree getParent(){
         return this.parentMenuTree;
     }
-    
+
     public MenuTree getChild(int index){
         return this.childMenuTrees.get(index);
     }
@@ -52,11 +52,15 @@ public class MenuTree {
     }
 
     public void addChild(IController controller){
-        //would you like to ensure no repeats?
+        MenuTree child = new MenuTree(controller, this.parentMenuTree);
+        this.childMenuTrees.add(child);
     }
 
     public void addChildren(List<IController> controllers){
-        //would you like to ensure no repeats?
+        for(IController controller : controllers){
+            MenuTree child = new MenuTree(controller, this.parentMenuTree);
+            this.childMenuTrees.add(child);
+        }
     }
 
     public void setValue(IController controller){
