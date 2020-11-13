@@ -130,4 +130,16 @@ public class AttendeePresenter {
             System.out.println("You've successfully left the event");
         }
     }
+
+    public void displayJoinLeaveError(String joinOrLeave) {
+        System.out.println("Error when " + joinOrLeave + " the event.");
+    }
+
+    public void displayUserDoesNotExistError() {
+        System.out.println("This user does not exist, please enter a new username or 'back' to go back.");
+    }
+
+    public void displayInvalidCommandError() {
+        System.out.println("Invalid command, type 'commands' to see a list of valid commands");
+    }
 }

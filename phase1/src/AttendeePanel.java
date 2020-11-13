@@ -72,7 +72,7 @@ public class AttendeePanel implements IController {
                     break;
 
                 default:
-                    System.out.println("Invalid command, type 'commands' to see a list of valid commands");
+                    ap.displayInvalidCommandError();
             }
             decision = input.nextLine().toLowerCase();
         }
@@ -101,7 +101,7 @@ public class AttendeePanel implements IController {
         if (response.equals("back")){return Definitions.REMAIN_IN_STATE;}
         //keep asking for input until the input is an existing username or 'back'
         while (!userExists(response)) {
-            System.out.println("Sorry this user does not exist, try again or type back to go back");
+            this.ap.displayUserDoesNotExistError();
             response = input.nextLine();
             if (response.equals("back")){return Definitions.REMAIN_IN_STATE;}
         }
@@ -185,7 +185,7 @@ public class AttendeePanel implements IController {
         } else if (joinOrLeave.equals("leaving") && this.roomMan.removeEventAttendee(currUserID, inputRoomNum, inputEventNum, userMan)){
             this.ap.displayJoinLeaveSuccess(joinOrLeave);
         } else {
-            System.out.println("Error " + joinOrLeave + " the event.");
+            this.ap.displayJoinLeaveError(joinOrLeave);
             return Definitions.REMAIN_IN_STATE;
         }
 
@@ -202,7 +202,7 @@ public class AttendeePanel implements IController {
         if (this.userMan.getUsernames().contains(username)) {
             return true;
         }
-        System.out.println("The recipient does not exist, please try again or type 'back' to go back.");
+        ap.displayUserDoesNotExistError();
         return false;
     }
 }
