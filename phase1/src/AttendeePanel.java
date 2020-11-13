@@ -32,53 +32,53 @@ public class AttendeePanel implements IController {
         allUserIds.addAll(this.userMan.getSpeakerUUIDs());
 
         this.ap.displayWelcomeMsg();
-        String decision = input.nextLine();
+        String decision = input.nextLine().toLowerCase();
 
         // while the input isn't Logout or Quit app, keep it in AttendeePanel
-        while (!(decision.equals("Logout") || decision.equals("Quit app"))){
+        while (!(decision.equals("logout") || decision.equals("quit"))){
             switch (decision) {
                 case "commands":
                     displayCommands();
                     break;
 
-                case "Message":
+                case "message":
                     // if the user wants to go back, nextMove won't be null and we'll go back
                     // otherwise, stay in the AttendeePanel loop
                     Integer nextMove= Message(currUserID);
                     if (nextMove != null){return nextMove;}
                     break;
 
-                case "View messages":
+                case "view messages":
                     nextMove= viewMessages(allUserIds, currUserID);
                     if (nextMove != null){return nextMove;}
                     break;
 
-                case "View all events":
+                case "view all events":
                     viewAllEvents();
                     break;
 
-                case "View signed up events":
+                case "view signed up events":
                     viewSignedUpEvents(currUserID);
                     break;
 
-                case "Join event":
+                case "join event":
                     nextMove= joinLeaveEvent(currUserID, this.userMan, "joining");
                     if (nextMove != null){return nextMove;}
                     break;
 
-                case "Leave event":
-                    nextMove= joinLeaveEvent(currUserID, this.userMan, "leaveing");
+                case "leave event":
+                    nextMove= joinLeaveEvent(currUserID, this.userMan, "leaving");
                     if (nextMove != null){return nextMove;}
                     break;
 
                 default:
                     System.out.println("Invalid command, type 'commands' to see a list of valid commands");
             }
-            decision = input.nextLine();
+            decision = input.nextLine().toLowerCase();
         }
 
         // Go back to LoginSystem or quits app if user types the command for either
-        if (decision.equals("Logout")){return Definitions.BACK;}
+        if (decision.equals("logout")){return Definitions.BACK;}
         return Definitions.QUIT;
     }
 
@@ -97,13 +97,13 @@ public class AttendeePanel implements IController {
      */
     private Integer Message(UUID currUserID){
         this.ap.dmPrompt();
-        String response = input.nextLine();
+        String response = input.nextLine().toLowerCase();
         if (response.equals("back")){return Definitions.REMAIN_IN_STATE;}
         //keep asking for input until the input is an existing username or 'back'
         while (!userExists(response)) {
             System.out.println("Sorry this user does not exist, try again or type back to go back");
             response = input.nextLine();
-            if (response.contains("back")){return Definitions.REMAIN_IN_STATE;}
+            if (response.equals("back")){return Definitions.REMAIN_IN_STATE;}
         }
 
         this.ap.typeMsgPrompt();
@@ -124,11 +124,11 @@ public class AttendeePanel implements IController {
      */
     private Integer viewMessages(ArrayList<UUID> allUserIds, UUID currUserID){
         this.ap.whosMsgPrompt();
-        String response = input.nextLine();
+        String response = input.nextLine().toLowerCase();
         // keep asking for input until it == 'all' or it == existing user name
         while (!response.equals("all") && userExists(response)) {
             response = input.nextLine();
-            if (response.contains("back")){return Definitions.REMAIN_IN_STATE;}
+            if (response.equals("back")){return Definitions.REMAIN_IN_STATE;}
         }
         // if want all messages, get a list of messages from each user and
         // write the sender name and message contents if user received at least 1 message from them

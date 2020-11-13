@@ -20,7 +20,7 @@ public class AttendeePresenter {
      * Welcomes to user into the Attendee control panel and tells them how to access the commands.
      */
     public void displayWelcomeMsg() {
-        System.out.println("This is the AttendeePanel, type 'Logout' to logout, 'Quit app' to quit app.");
+        System.out.println("This is the AttendeePanel, type 'logout' to logout, 'quit' to quit app.");
         System.out.println("To get a list of more commands, type 'commands'");
     }
 

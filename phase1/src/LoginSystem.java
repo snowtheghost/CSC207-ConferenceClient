@@ -59,8 +59,8 @@ public class LoginSystem implements IController {
         String accountName = input.nextLine();
         ArrayList<String> existingUsers = this.userMan.getUsernames();
 
-        while (existingUsers.contains(accountName) || accountName.equals("back") ||
-                accountName.equals("all")) {
+        while (existingUsers.contains(accountName) || accountName.equalsIgnoreCase("back") ||
+                accountName.equalsIgnoreCase("all") || accountName.equalsIgnoreCase("quit")) {
             this.lp.invalidActNamePrompt();
             accountName = input.nextLine();
         }
