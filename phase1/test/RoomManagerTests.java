@@ -1,3 +1,121 @@
+import org.junit.Test;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.UUID;
+import static org.junit.Assert.*;
+
+/**
+ * @author Arya Joshi
+ */
+
+public class RoomManagerTests {
+    RoomManager rm = new RoomManager();
+
+    @Test
+    public void testNewRoom() {
+        assertEquals(rm.getNumRooms(), 0);
+        rm.newRoom();
+        assertEquals(rm.getNumRooms(), 1);
+        rm.newRoom();
+        assertEquals(rm.getNumRooms(), 2);
+    }
+
+//    @Test
+//    public void testNewEventValid() {
+//        rm.newRoom();
+//        UserManager um = new UserManager();
+//        Calendar startTime = new GregorianCalendar(2020, Calendar.MAY, 1, 11, 0, 0);
+//        Calendar endTime = new GregorianCalendar(2020, Calendar.MAY, 1, 12, 0, 0);
+//
+//        //no issues:
+//        assertTrue(rm.newEventValid("Speech 1", "John", startTime, endTime, 1, um));
+//    }
+
+//    @Test
+//    public void testNewEvent() {
+//
+//    }
+
+//    @Test
+//    public void testGetNumEventsInRoom() {
+//
+//    }
+
+    @Test
+    public void testGetEventIDs() {
+        ArrayList<UUID> eventIDs= rm.getEventIDs();
+        assertEquals(eventIDs.size(), 0);
+//        rm.newEvent();
+//        rm.newEvent();
+//        rm.newEvent();
+//        ArrayList<UUID> new_eventIDs = rm.getEventIDs();
+//        assertEquals(new_eventIDs.size(), 3);
+//        assertNotEquals(new_eventIDs.get(0), new_eventIDs.get(1));
+//        assertNotEquals(new_eventIDs.get(0), new_eventIDs.get(2));
+//        assertNotEquals(new_eventIDs.get(1), new_eventIDs.get(2));
+    }
+
+//    @Test
+//    public void testGetEventAttendeeIDs() {
+//    }
+//
+//    @Test
+//    public void testRescheduleEvent() {
+//
+//    }
+//
+//    @Test
+//    public void testRemoveEvent() {
+//
+//    }
+//
+//    @Test
+//    public void testAddEventAttendee() {
+//
+//    }
+//
+//    @Test
+//    public void testRemoveEventAttendee() {
+//
+//    }
+
+//    @Test
+//    public void testStringEventsOfSpeaker() {
+//        UserManager um = new UserManager();
+//        String speakerName = "Jack";
+//        assertEquals(rm.stringEventsOfSpeaker(um, speakerName), "Events by Speaker Jack: \n");
+//    }
+
+//    @Test
+//    public void testStringEventsOfRoom() {
+//
+//    }
+
+//    @Test
+//    public void testStringEventInfoAll() {
+//
+//    }
+
+//    @Test
+//    public void testStringEventInfoAttending() {
+//
+//    }
+//
+//    @Test
+//    public void testStringEvent() {
+//
+//    }
+
+
+}
+
+
+
+
+
+
+
 //import org.junit.*;
 //import java.util.*;
 //
