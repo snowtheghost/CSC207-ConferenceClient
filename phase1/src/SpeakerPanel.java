@@ -62,9 +62,8 @@ public class SpeakerPanel implements IController {
                     sendMessageToAttendees(currUserID);
                     break;
 
-                case "Leave event":
-                    //nextMove= leaveEvent();
-                    //if (nextMove != null){return nextMove;}
+                case "send direct message":
+                    Message(currUserID, allUserIds);
                     break;
 
                 default:
@@ -76,6 +75,34 @@ public class SpeakerPanel implements IController {
         // Go back to LoginSystem or quits app if user types the command for either
         if (decision.equals("logout")){return Definitions.BACK;}
         return Definitions.QUIT;
+    }
+
+    private Integer Message(UUID currUserID, ArrayList<UUID> allUserIds){
+        this.speakerPres.dmPrompt();
+        String response = input.nextLine();
+        if (response.equals("q")){return Definitions.REMAIN_IN_STATE;}
+        if (response.equals("a")){speakerPres.listAllUsers();}
+        //keep asking for input until the input is an existing username or 'back'
+        while (!userExists(response)) {
+            speakerPres.errorUserNotFound();
+            response = input.nextLine();
+            if (response.contains("q")){return Definitions.REMAIN_IN_STATE;}
+        }
+
+        this.speakerPres.typeMsgPrompt();
+        String message = input.nextLine();
+        UUID recipient = this.userMan.getUserID(response);
+        this.msgMan.sendMessage(this.userMan, currUserID, recipient, message);
+        this.speakerPres.msgSentPrompt(userMan.getUsername(recipient));
+        return null;
+    }
+
+    private boolean userExists(String username) {
+        if (this.userMan.getUsernames().contains(username)) {
+            return true;
+        }
+        speakerPres.errorUserNotFound();
+        return false;
     }
 
     private void viewMessages(ArrayList<UUID> allusers, UUID currUser){

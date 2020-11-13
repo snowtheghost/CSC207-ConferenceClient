@@ -91,7 +91,7 @@ public class AttendeePresenter {
 
     /**
      * Displays all the events and their information.
-     * @param eventInfo All the event infomation.
+     * @param eventInfo All the event information.
      */
     public void displayAllEvents(String eventInfo){
         System.out.println(eventInfo);
@@ -112,7 +112,7 @@ public class AttendeePresenter {
      */
     public void joinLeaveEventOrRoomPrompt(String joinOrLeave, String eventOrRoom){
         if (joinOrLeave.equals("joining")) {
-            System.out.println("Enter the" + eventOrRoom + "number you wish to join or type 'back' to go back");
+            System.out.println("Enter the " + eventOrRoom + " number you wish to join or type 'back' to go back");
         } else if (joinOrLeave.equals("leaving")) {
             System.out.println("Enter the " + eventOrRoom + " number you wish to join or type 'back' to go back");
         }

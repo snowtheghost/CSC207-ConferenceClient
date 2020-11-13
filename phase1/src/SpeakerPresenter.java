@@ -22,6 +22,7 @@ public class SpeakerPresenter {
         System.out.println("view all events - view all scheduled events\n" +
                 "view speaking events - view all events you are speaking at\n" +
                 "view all messages - view all messages that have been sent to you\n" +
+                "send direct message - send a message to a specific user\n" +
                 "send message to event attendees - send a message to all attendees of an event or events you are speaking at\n" +
                 "logout - return to the main login screen\n" +
                 "quit - Log out as Speaker ");
@@ -66,4 +67,24 @@ public class SpeakerPresenter {
 
     public void errorGeneral(){ System.out.println("Whoops, it looks like something went wrong!"); }
 
+    public void errorUserNotFound(){ System.out.println("Whoops, it looks like that user can't be found!"); }
+
+    public void dmPrompt(){
+        System.out.println("Enter a username, a to view all users, or q to return to the menu");
+    }
+
+    public void typeMsgPrompt(){
+        System.out.println("Enter your message:");
+    }
+
+    public void msgSentPrompt(String username){
+        System.out.println("Message successfully sent to "+username);
+    }
+
+    public void listAllUsers() {
+        System.out.println("All possible recipients:");
+        for (String user: userMan.getUsernames()){
+            System.out.println(user);
+        }
+    }
 }
