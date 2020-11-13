@@ -3,7 +3,7 @@ public class LoginSystemPresenter {
      * Opening prompt telling the user to Login or Create account.
      */
     public void LoginCreateActPrompt(){
-        System.out.println("\"Login\" or \"Create account\"?");
+        System.out.println("\"Login\" or \"Create account\"? (or \"quit\" to exit the program)");
     }
     /**
      * Prompt asking user to enter account name.

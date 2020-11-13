@@ -3,12 +3,6 @@
  * @author Zachariah Vincze
  */
 public class Definitions {
-    public static final int LOGIN_SYSTEM = 0;
-    public static final int ORGANIZER_PANEL = 1;
-    public static final int ATTENDEE_PANEL = 2;
-    public static final int SPEAKER_PANEL = 3;
-    public static final int QUIT_APP = 4;
-
     public static final int QUIT = -3;
     public static final int BACK = -2;
     public static final int REMAIN_IN_STATE = -1;
