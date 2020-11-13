@@ -131,14 +131,24 @@ public class AttendeePresenter {
         }
     }
 
+    /**
+     * Displays an error if the user has failed to join or leave an event.
+     * @param joinOrLeave whether the user is joining or leaving an event.
+     */
     public void displayJoinLeaveError(String joinOrLeave) {
         System.out.println("Error when " + joinOrLeave + " the event.");
     }
 
+    /**
+     * Displays an error if a user does not exist.
+     */
     public void displayUserDoesNotExistError() {
         System.out.println("This user does not exist, please enter a new username or 'back' to go back.");
     }
 
+    /**
+     * Displays an error when an invalid command has been sent.
+     */
     public void displayInvalidCommandError() {
         System.out.println("Invalid command, type 'commands' to see a list of valid commands");
     }
