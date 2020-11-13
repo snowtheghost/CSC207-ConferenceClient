@@ -19,7 +19,7 @@ public class SpeakerPanel implements IController {
         this.msgMan = msgMan;
         this.userMan = userMan;
         this.roomMan = roomMan;
-        speakerPres = new SpeakerPresenter(userMan, roomMan);
+        speakerPres = new SpeakerPresenter(userMan, roomMan, msgMan);
     }
 
     /**
@@ -46,7 +46,7 @@ public class SpeakerPanel implements IController {
                 case "help":
                     speakerPres.commandHelp(); break;
 
-                case "view all messages":
+                case "view messages":
                     viewMessages(allUserIds, currUserID);
                     break;
 
@@ -80,13 +80,17 @@ public class SpeakerPanel implements IController {
     private Integer Message(UUID currUserID, ArrayList<UUID> allUserIds){
         this.speakerPres.dmPrompt();
         String response = input.nextLine();
-        if (response.equals("q")){return Definitions.REMAIN_IN_STATE;}
+        if (response.equals("q")){
+            speakerPres.welcomePrompt();
+            return Definitions.REMAIN_IN_STATE;}
         if (response.equals("a")){speakerPres.listAllUsers();}
         //keep asking for input until the input is an existing username or 'back'
         while (!userExists(response)) {
             speakerPres.errorUserNotFound();
             response = input.nextLine();
-            if (response.contains("q")){return Definitions.REMAIN_IN_STATE;}
+            if (response.contains("q")){
+                speakerPres.welcomePrompt();
+                return Definitions.REMAIN_IN_STATE;}
         }
 
         this.speakerPres.typeMsgPrompt();
@@ -106,19 +110,20 @@ public class SpeakerPanel implements IController {
     }
 
     private void viewMessages(ArrayList<UUID> allusers, UUID currUser){
-        for (UUID id : allusers){
-            List<String> messages = msgMan.getMessageContentsFromUser(userMan, currUser, id);
-            if (messages.size() > 0){
-                System.out.println(userMan.getUsername(id)+": "+ messages);
-            }
-
-        }
+        speakerPres.viewMessages(allusers, currUser);
+        speakerPres.welcomePrompt();
 
     }
 
-    private void viewAllEvents(){ speakerPres.viewAllEvents(); }
+    private void viewAllEvents(){
+        speakerPres.viewAllEvents();
+        speakerPres.welcomePrompt();
+    }
 
-    private void viewSpeakingEvents(UUID speakerID){ speakerPres.viewSpeakingEvents(speakerID); }
+    private void viewSpeakingEvents(UUID speakerID){
+        speakerPres.viewSpeakingEvents(speakerID);
+        speakerPres.welcomePrompt();
+    }
 
     private int sendMessageToAttendees(UUID speakerID) {
         if (userMan.getSpeakerEventIDs(speakerID).size() == 0) {

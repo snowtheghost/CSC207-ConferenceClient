@@ -18,7 +18,7 @@ RoomManager: Justin Chan (Programmer & Tester)
 ##### Contributors: Controllers #####
 Controller Interface: Zachariah Vincze (Programmer) \
 OrganizerPanel: Justin Chan (Programmer & Tester), Tanuj Devjani (Programmer) \
-SpeakerPanel: Liam Ogilvie (Programmer & Tester) [NEEDS SUPPORT PROGRAMMER] \
+SpeakerPanel: Liam Ogilvie (Programmer & Tester) \
 AttendeePanel: Kerry Zhu (Programmer & Tester), Zachariah Vincze (Programmer)
 
 ##### Contributors: Presenters #####

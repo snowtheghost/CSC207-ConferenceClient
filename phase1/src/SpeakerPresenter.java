@@ -1,13 +1,16 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class SpeakerPresenter {
     private final UserManager userMan;
     private final RoomManager roomMan;
+    private final MessageManager msgMan;
 
-    SpeakerPresenter(UserManager userMan, RoomManager roomMan) {
+    SpeakerPresenter(UserManager userMan, RoomManager roomMan, MessageManager msgMan) {
         this.userMan = userMan;
         this.roomMan = roomMan;
+        this.msgMan = msgMan;
     }
 
     public void welcomePrompt() {
@@ -21,7 +24,7 @@ public class SpeakerPresenter {
     public void commandHelp() {
         System.out.println("view all events - view all scheduled events\n" +
                 "view speaking events - view all events you are speaking at\n" +
-                "view all messages - view all messages that have been sent to you\n" +
+                "view messages - view all messages that have been sent to you\n" +
                 "send direct message - send a message to a specific user\n" +
                 "send message to event attendees - send a message to all attendees of an event or events you are speaking at\n" +
                 "logout - return to the main login screen\n" +
@@ -50,6 +53,17 @@ public class SpeakerPresenter {
         }
 
     }
+
+    public void viewMessages(ArrayList<UUID> allusers, UUID currUser){
+        for (UUID id : allusers){
+            List<String> messages = msgMan.getMessageContentsFromUser(userMan, currUser, id);
+            if (messages.size() > 0){
+                System.out.println(userMan.getUsername(id)+": "+ messages);
+            }
+
+        }
+    }
+
     public void messageSelectedTalks(ArrayList talks){ System.out.println("Currently Selected Talks: " + talks + ", enter another talk to add them to the recipient list, a to accept, or q to quit"); }
 
     public void messagePrompt(){ System.out.println("Enter your message:"); }
