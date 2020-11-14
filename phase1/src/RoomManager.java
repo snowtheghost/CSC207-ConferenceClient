@@ -186,11 +186,9 @@ public class RoomManager implements Serializable {
 
     public boolean newEventValid(String eventTitle, String speakerName, Calendar startTime, Calendar endTime, Room room, UserManager um) {
         Event newEvent = new Event(eventTitle, speakerName, startTime, endTime);
-        for (UUID existingRoomID : um.getSpeakerEventIDs(speakerName)) {
-            for (Event event : getRoom(existingRoomID).getEvents()) {
-                if (getRoom(existingRoomID).eventOverlapping(newEvent, event)) {
-                    return false;
-                }
+        for (UUID existingEventID : um.getSpeakerEventIDs(speakerName)) {
+            if (room.eventOverlapping(newEvent, getEvent(existingEventID))) {
+                return false;
             }
         }
         return room.eventIsValid(newEvent);
@@ -226,13 +224,10 @@ public class RoomManager implements Serializable {
         Event event = getEventFromRoom(roomNumber, eventNumber);
         Room room = getRoom(roomNumber);
 
-        room.removeEvent(event);
         if (newEventValid(event.getTitle(), event.getSpeakerName(), startTime, endTime, room, um)) {
             event.setTime(startTime, endTime);
-            room.addEvent(event);
             return true;
         }
-        room.addEvent(event);
         return false;
     }
 
