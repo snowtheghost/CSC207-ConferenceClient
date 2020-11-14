@@ -20,6 +20,9 @@ public class OrganizerTest {
     }
 
     @Test
+    public void TestIsOrganizer2(){ assertFalse(attendee1.isOrganizer());}
+
+    @Test
     public void TestIsAttendee(){assertFalse(organizer1.isAttendee());}
 
     @Test
@@ -27,6 +30,9 @@ public class OrganizerTest {
 
     @Test
     public void TestIsSpeaker(){assertFalse(organizer1.isSpeaker());}
+
+    @Test
+    public void TestIsSpeaker2(){assertTrue(speaker1.isSpeaker());}
 
     @Test
     public void TestGetUserName(){assertEquals(organizer1.getUsername(), "organizer1");}
