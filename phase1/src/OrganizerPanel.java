@@ -14,7 +14,9 @@ public class OrganizerPanel implements IController {
     private final int START_HOUR_LATEST = 16;
 
     /**
+     * Allows Organizer to perform their respective functions/duties
      * @param rm the RoomManager
+     * @param um the Usermanager
      * Last modified: Justin Chan
      */
     OrganizerPanel(UserManager um, RoomManager rm) {
@@ -38,6 +40,7 @@ public class OrganizerPanel implements IController {
 
     /**
      * Author: Justin Chan
+     * Creates a new event based on arguments inputted by the organizer
      */
     private void createEvent() {
         op.createEventWelcome();
@@ -105,6 +108,7 @@ public class OrganizerPanel implements IController {
 
     /**
      * Author: Justin Chan
+     * Creates a new room
      */
     private void createRoom() {
         rm.newRoom();
@@ -114,6 +118,7 @@ public class OrganizerPanel implements IController {
 
     /**
      * Author: Justin Chan
+     * Creates a new speaker
      */
     private void createSpeaker() {
         op.createSpeakerWelcome();
@@ -125,6 +130,10 @@ public class OrganizerPanel implements IController {
         op.printAvailableSpeakers();
     }
 
+    /**
+     * Author: Tanuj Devjani
+     * Cancels an event chosen by the Organizer
+     */
     private void cancelEvent(){
         op.cancelEventWelcome();
 
@@ -147,6 +156,7 @@ public class OrganizerPanel implements IController {
 
     /**
      * Author: Tanuj Devjani
+     * Reschedules an event as per the requirements of the organizer
      */
     private void rescheduleEvent() {
         op.rescheduleEventWelcome();
