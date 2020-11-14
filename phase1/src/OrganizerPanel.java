@@ -144,7 +144,7 @@ public class OrganizerPanel implements IController {
             return;
         }
 
-        // Find the event
+        // Find the event itself
         op.printRoomEvents(roomNumber);
         int eventNumber = filter.inputEventNumber(roomNumber);
         if (cancelRequested(Integer.toString(eventNumber))) {
