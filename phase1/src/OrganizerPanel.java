@@ -118,7 +118,7 @@ public class OrganizerPanel implements IController {
 
     /**
      * Author: Justin Chan
-     * Creates a new speaker
+     * Creates a new speaker based on given username
      */
     private void createSpeaker() {
         op.createSpeakerWelcome();
