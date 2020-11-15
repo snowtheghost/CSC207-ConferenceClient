@@ -17,11 +17,12 @@ public class AppMain {
         UserManagerGateway userManagerGateway = new UserManagerGateway();
         RoomManagerGateway roomManagerGateway = new RoomManagerGateway();
 
-        // Use Cases
+        // Use Cases (deserialized from external file)
         UserManager userManager = userManagerGateway.read("usermanager.ser");
         RoomManager roomManager = roomManagerGateway.read("roommanager.ser");
         MessageManager messageManager = messageManagerGateway.read("messagemanager.ser");
 
+        // Helper classes
         InputFilter inputFilter = new InputFilter(userManager, roomManager);
 
         // Controllers
@@ -58,7 +59,8 @@ public class AppMain {
                     // Does nothing (remains in the same state)
                     break;
                 default:
-                    // Ensure that the requested state exists.
+                    // Switches to a given child state.
+                    // Ensure that the requested state exists. If it does not, remain in the same state.
                     if (mainMenu.getChild(command) != null) {
                         mainMenu = mainMenu.getChild(command);
                     }
@@ -66,7 +68,7 @@ public class AppMain {
             }
         }
 
-        // Attempt to write Use Case data to external files.
+        // Attempt to serialize all Use Case data to external file.
         try {
             userManagerGateway.write(userManager, "usermanager.ser");
             roomManagerGateway.write(roomManager, "roommanager.ser");
