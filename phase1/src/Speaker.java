@@ -31,12 +31,23 @@ public class Speaker extends User {
     }
 
     // Last modified: Justin Chan
+
+    /**
+     * add EventID to the Speaker's Events
+     * @param roomID the Room of the Event
+     * @param eventID the Event to be added
+     */
     public void addEvent(UUID roomID, UUID eventID){
         eventsSpeaking.putIfAbsent(roomID, new ArrayList<>());
         eventsSpeaking.get(roomID).add(eventID);
     }
 
-    // Last modified: Justin Chan
+    /**
+     * add EventID from the Speaker's Events
+     * @param roomID the Room of the Event
+     * @param eventID the Event to be removed
+     * @return true if it is removed successfully, otherwise return false
+     */
     public boolean removeEvent(UUID roomID, UUID eventID){
         if (!eventsSpeaking.containsKey(roomID)) {
             return false;
