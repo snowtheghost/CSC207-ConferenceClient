@@ -31,10 +31,6 @@ public class SpeakerPresenter {
                 "quit - Log out as Speaker ");
     }
 
-    public void commandNotRecognized(String command) {
-        System.out.println("Command not recognized: " + command);
-    }
-
     public void viewAllEvents() { System.out.println(roomMan.stringEventInfoAll()); }
 
     public void viewSpeakingEvents(UUID speakerID) {
@@ -74,8 +70,6 @@ public class SpeakerPresenter {
     public void errorNoSpeakingEvents(){ System.out.println("Whoops, it looks like you aren't speaking at any events"); }
 
     public void errorInvalidInput(String command){ System.out.println("Whoops, it looks like '" + command + "' isn't a valid input"); }
-
-    public void errorInvalidInput(int command){ System.out.println("Whoops, it looks like '" + command + "' isn't a valid input"); }
 
     public void errorNoAttendees(){ System.out.println("Whoops, it looks like there's nobody signed up for that event!"); }
 

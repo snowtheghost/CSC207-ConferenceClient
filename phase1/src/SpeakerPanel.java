@@ -12,8 +12,9 @@ public class SpeakerPanel implements IController {
     private final Scanner input = new Scanner(System.in);
 
     /**
-     * @param roomMan: the RoomManager
+     * @param msgMan: the MessageManager
      * @param userMan: the UserManager
+     * @param roomMan: the RoomManager
      */
     public SpeakerPanel(UserManager userMan, MessageManager msgMan, RoomManager roomMan) {
         this.msgMan = msgMan;
@@ -24,13 +25,7 @@ public class SpeakerPanel implements IController {
 
     /**
      * Author: Liam Ogilvie
-     * TODO:
-     * Speakers should be able to send a message that automatically goes to all Attendees of their talk or
-     * multiple talks that they gave.
-     *
-     * Attendees should be able to message other Attendees or Speakers.
-     * Speakers should be able to respond to a specific Attendee.
-     *
+     * Main run method
      */
     @Override
     public int run() {
@@ -76,7 +71,10 @@ public class SpeakerPanel implements IController {
         if (decision.equals("logout")){return Definitions.BACK;}
         return Definitions.QUIT;
     }
-
+    /**
+     * Author: Liam Ogilvie
+     * Sends a message to a specific user
+     */
     private Integer Message(UUID currUserID, ArrayList<UUID> allUserIds){
         this.speakerPres.dmPrompt();
         String response = input.nextLine();
@@ -100,7 +98,10 @@ public class SpeakerPanel implements IController {
         this.speakerPres.msgSentPrompt(userMan.getUsername(recipient));
         return null;
     }
-
+    /**
+     * Author: Liam Ogilvie
+     * A helper method that checks if a user exists
+     */
     private boolean userExists(String username) {
         if (this.userMan.getUsernames().contains(username)) {
             return true;
@@ -108,23 +109,35 @@ public class SpeakerPanel implements IController {
         speakerPres.errorUserNotFound();
         return false;
     }
-
+    /**
+     * Author: Liam Ogilvie
+     * Allows the speaker to view all their messages
+     */
     private void viewMessages(ArrayList<UUID> allusers, UUID currUser){
         speakerPres.viewMessages(allusers, currUser);
         speakerPres.welcomePrompt();
 
     }
-
+    /**
+     * Author: Liam Ogilvie
+     * Allows the speaker to view all of the events occurring at the conference
+     */
     private void viewAllEvents(){
         speakerPres.viewAllEvents();
         speakerPres.welcomePrompt();
     }
-
+    /**
+     * Author: Liam Ogilvie
+     * Shows all of the events that the speaker is speaking at
+     */
     private void viewSpeakingEvents(UUID speakerID){
         speakerPres.viewSpeakingEvents(speakerID);
         speakerPres.welcomePrompt();
     }
-
+    /**
+     * Author: Liam Ogilvie
+     * Sends a message to all attendees of an event (or events) that the speaker is speaking at
+     */
     private int sendMessageToAttendees(UUID speakerID) {
         if (userMan.getSpeakerEventIDs(speakerID).size() == 0) {
             speakerPres.errorNoSpeakingEvents();
