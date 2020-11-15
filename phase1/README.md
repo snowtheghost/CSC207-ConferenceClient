@@ -1,3 +1,9 @@
+#### How to use program ####
+Run AppMain.java, message will then display in console.
+Type your choice into console. ex) Create account
+
+
+
 ##### Contributors: Planning #####
 UML Editor: Liam Ogilvie
 
