@@ -1,6 +1,15 @@
 import java.io.*;
 
+/**
+ * A gateway class for serializing and deserializing UserManagers.
+ * @author Zachariah Vincze
+ */
 public class UserManagerGateway implements IGateway<UserManager> {
+    /**
+     * Deserializes a UserManager. Creates a new one iff the given filepath does not exist.
+     * @param filepath the filepath which points to the serialized object.
+     * @return a deserialized UserManager or a new UserManager if the filepath does not exist.
+     */
     @Override
     public UserManager read(String filepath) {
         try {
@@ -15,6 +24,12 @@ public class UserManagerGateway implements IGateway<UserManager> {
         }
     }
 
+    /**
+     * Serializes a UserManager.
+     * @param userManager the UserManager to serialize.
+     * @param filepath the filepath you wish to write the serialized object to.
+     * @throws IOException throws an IOException if the object cannot be written.
+     */
     @Override
     public void write(UserManager userManager, String filepath) throws IOException {
         OutputStream file = new FileOutputStream(filepath);
