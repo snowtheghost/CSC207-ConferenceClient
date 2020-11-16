@@ -106,4 +106,11 @@ public class OrganizerPresenter {
             }
         } System.out.print('\n');
     }
+    public void printSpeakerorAttendeeName(){
+        System.out.println("Type in the username of the Speaker or Attendee");
+    }
+
+    public void printMessageContent(){
+        System.out.println("Enter message content");
+    }
 }
