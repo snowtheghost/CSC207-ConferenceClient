@@ -323,8 +323,7 @@ public class RoomManager implements Serializable {
         StringBuilder s = new StringBuilder("All events: \n");
         for (Event event : getEvents()){
             if (getEventAttendeeIDs(event.getEventID()).contains(attendeeID)){
-                s.append(event.getTitle()).append(" ").append(event.getStartTime())
-                        .append("-").append(event.getEndTime()).append("\n");
+                s.append(event.toString());
             }
         } return s.toString();
     }

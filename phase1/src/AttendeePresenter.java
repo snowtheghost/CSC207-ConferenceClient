@@ -94,6 +94,7 @@ public class AttendeePresenter {
      * @param eventInfo All the event information.
      */
     public void displayAllEvents(String eventInfo){
+        System.out.println("All events attending:");
         System.out.println(eventInfo);
     }
 
