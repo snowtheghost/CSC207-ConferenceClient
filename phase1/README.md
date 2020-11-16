@@ -24,7 +24,7 @@ Room: Justin Chan (Programmer & Tester)
 
 ##### Contributors: Use Cases #####
 UserManager: Justin Chan (Programmer), Zihan Wang (Programmer & Tester),  Kaiyi Liu (Programmer & Tester) \
-MessageManager: Zachary Vincze (Programmer), Liam Ogilvie (Tester) \
+MessageManager: Zachariah Vincze (Programmer), Liam Ogilvie (Tester) \
 RoomManager: Justin Chan (Programmer), Arya Joshi (Tester)
 
 ##### Contributors: Controllers #####
@@ -38,6 +38,9 @@ OrganizerPresenter: Justin Chan (Programmer & Tester)
 
 ##### Contributors: System #####
 LoginSystem: Kerry Zhu (Programmer & Tester), Zachariah Vincze (Programmer)
+
+##### Contributors: Gateways #####
+Gateway Interface and its children: Zachariah Vincze (Programmer)
 
 ##### Contributors: Application Entrypoint
 MenuTree: Kaiyi Liu (Programmer), Zachariah Vincze (Programmer)
