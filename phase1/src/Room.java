@@ -75,7 +75,7 @@ public class Room implements Serializable {
      * @param endTime the upper boundary of the search interval
      * @return an ArrayList of Events within the given time boundary
      *
-     * Precondition: startTime <= endTime
+     * Precondition: startTime {@literal <=} endTime
      */
     public ArrayList<Event> getEventsByTime(GregorianCalendar startTime, GregorianCalendar endTime) {
         ArrayList<Event> eventsInInterval = new ArrayList<>();

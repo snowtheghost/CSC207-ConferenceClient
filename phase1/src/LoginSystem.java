@@ -18,7 +18,9 @@ public class LoginSystem implements IController {
         this.lp = new LoginSystemPresenter();
         this.input = new Scanner(System.in);
     }
-
+    /**
+     * Initial prompt telling user to login, create account, or quit.
+     */
     public int run() {
         this.lp.LoginCreateActPrompt();
         String decision = input.nextLine();
