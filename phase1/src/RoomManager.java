@@ -257,6 +257,8 @@ public class RoomManager implements Serializable {
     public boolean addEventAttendee(UUID attendeeID, UUID eventID, UserManager um) {
         Event event = getEvent(eventID);
 
+        if (event.getAttendeeIDs().size() >= 2) return false;
+
         if (event.getAttendeeIDs().contains(attendeeID)) {
             return false;
         }
@@ -267,6 +269,8 @@ public class RoomManager implements Serializable {
 
     public boolean addEventAttendee(UUID attendeeID, int roomNumber, int eventNumber, UserManager um) {
         Event event = getEvent(roomNumber, eventNumber);
+
+        if (event.getAttendeeIDs().size() >= 2) return false;
 
         if (event.getAttendeeIDs().contains(attendeeID)) {
             return false;
