@@ -25,18 +25,18 @@ public class UserManagerTest {
         assertEquals(um.getUsername(attendee1ID), "attendee1");
         assertEquals(um.getUsername(organizer1ID), "organizer1");
         assertEquals(um.getAttendeeUUIDs().size(), 2);
-        assertEquals(um.getAttendeeUUIDs().contains(attendee1ID),true);
-        assertEquals(um.getAttendeeUUIDs().contains(attendee2ID), true);
+        assertTrue(um.getAttendeeUUIDs().contains(attendee1ID));
+        assertTrue(um.getAttendeeUUIDs().contains(attendee2ID));
         assertEquals(um.getOrganizerUUIDs().size(), 1);
-        assertEquals(um.getOrganizerUUIDs().contains(organizer1ID),true);
+        assertTrue(um.getOrganizerUUIDs().contains(organizer1ID));
         assertEquals(um.getSpeakerUUIDs().size(), 1);
-        assertEquals(um.getSpeakerUUIDs().contains(speaker1ID), true);
+        assertTrue(um.getSpeakerUUIDs().contains(speaker1ID));
     }
     @Test
     public void TestUserExist(){
-        assertEquals(um.userExists(attendee1ID),true);
-        assertEquals(um.userExists(speaker1ID), true);
-        assertEquals(um.userExists(organizer1ID), true);
+        assertTrue(um.userExists(attendee1ID));
+        assertTrue(um.userExists(speaker1ID));
+        assertTrue(um.userExists(organizer1ID));
         ArrayList<UUID> l = new ArrayList<>();
         l.add(attendee2ID);
         l.add(organizer1ID);
@@ -49,6 +49,7 @@ public class UserManagerTest {
         assertTrue(um.getUsernames().contains("attendee2"));
         assertTrue(um.getUsernames().contains("organizer1"));
         assertTrue(um.getUsernames().contains("speaker1"));
+        assertFalse(um.getUsernames().contains("speaker2"));
         assertEquals(um.getUsernames().size(),4);
     }
 
@@ -117,7 +118,56 @@ public class UserManagerTest {
 
     @Test
     public void TestStringAvailableSpeakers(){
-
+        String returnedValue = um.stringAvailableSpeakers();
+        assertTrue(returnedValue.contains("speaker1"));
+        assertFalse(returnedValue.contains("speaker2"));
+        um.createSpeakerAccount("speaker3");
+        returnedValue = um.stringAvailableSpeakers();
+        assertTrue(returnedValue.contains("speaker3"));
+        assertTrue(returnedValue.contains("speaker1"));
     }
 
+    @Test
+    public void TestAddGetMessagesFromUser(){
+        UUID testMessageID = UUID.randomUUID();
+        UUID testMessageIDTwo = UUID.randomUUID();
+        UUID testMessageIDThree = UUID.randomUUID();
+        um.addMessage(attendee1ID, attendee2ID, testMessageID);
+        um.addMessage(attendee2ID, attendee1ID, testMessageIDTwo);
+        List<UUID> messagesForRecipientAttendeeOne = um.getMessagesFromUser(attendee1ID, attendee2ID);
+        List<UUID> messagesForRecipientAttendeeTwo = um.getMessagesFromUser(attendee2ID, attendee1ID);
+        assertEquals(messagesForRecipientAttendeeOne.size(), 1);
+        assertTrue(messagesForRecipientAttendeeOne.contains(testMessageID));
+        assertEquals(messagesForRecipientAttendeeTwo.size(), 1);
+        assertTrue(messagesForRecipientAttendeeTwo.contains(testMessageIDTwo));
+        um.addMessage(attendee1ID, attendee2ID, testMessageIDThree);
+        messagesForRecipientAttendeeOne = um.getMessagesFromUser(attendee1ID, attendee2ID);
+        assertEquals(messagesForRecipientAttendeeOne.size(), 2);
+        assertTrue(messagesForRecipientAttendeeOne.contains(testMessageIDThree));
+        assertTrue(messagesForRecipientAttendeeOne.contains(testMessageID));
+    }
+
+    @Test
+    public void TestGetUserName(){
+        String user = um.getUsername(attendee1ID);
+        assertEquals(user, "attendee1");
+        user = um.getUsername(organizer1ID);
+        assertEquals(user, "organizer1");
+        user = um.getUsername(speaker1ID);
+        assertEquals(user, "speaker1");
+        user = um.getUsername(attendee2ID);
+        assertEquals(user, "attendee2");
+    }
+
+    @Test
+    public void testGetUserID(){
+        UUID user = um.getUserID("attendee1");
+        assertEquals(user, attendee1ID);
+        user = um.getUserID("attendee2");
+        assertEquals(user, attendee2ID);
+        user = um.getUserID("speaker1");
+        assertEquals(user, speaker1ID);
+        user = um.getUserID("organizer1");
+        assertEquals(user, organizer1ID);
+    }
 }
