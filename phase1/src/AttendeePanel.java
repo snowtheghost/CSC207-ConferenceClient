@@ -86,14 +86,12 @@ public class AttendeePanel implements IController {
      * Prints a list of commands that the user can input
      */
     private void displayCommands(){
-        // displaus all possible commands
+        // displays all possible commands
         this.ap.displayCommands();
     }
     /**
      * @param currUserID The current user's userid
      * @return Returns an Integer if user wants to exit, null otherwise
-     *
-     * TODO: Check fixes for UM
      */
     private Integer Message(UUID currUserID){
         this.ap.dmPrompt();

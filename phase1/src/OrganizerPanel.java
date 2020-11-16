@@ -55,6 +55,10 @@ public class OrganizerPanel implements IController {
         op.printMessageSent();
     }
 
+    /**
+     * Author: Zachariah Vincze
+     * Sends a message to all speakers.
+     */
     private void messageAllSpeakers() {
         op.printMessageContentPrompt();
         String messageContent = sc.nextLine();
@@ -66,6 +70,10 @@ public class OrganizerPanel implements IController {
         op.printMessageSent();
     }
 
+    /**
+     * Author: Zachariah Vincze
+     * Sends a message to all attendees.
+     */
     private void messageAllAttendees() {
         op.printMessageContentPrompt();
         String messageContent = sc.nextLine();
