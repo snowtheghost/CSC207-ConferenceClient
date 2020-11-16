@@ -327,10 +327,14 @@ public class UserManager implements Serializable {
     }
 
     public UUID getUserID(String username) {
+        User user = getUser(username);
+        if (user == null) return null;
         return getUser(username).getUserID();
     }
 
     public String getUsername(UUID UserID) {
+        User user = getUser(UserID);
+        if (user == null) return null;
         return getUser(UserID).getUsername();
     }
 

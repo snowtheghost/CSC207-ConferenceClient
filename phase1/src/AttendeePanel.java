@@ -126,7 +126,7 @@ public class AttendeePanel implements IController {
         this.ap.whosMsgPrompt();
         String response = input.nextLine().toLowerCase();
         // keep asking for input until it == 'all' or it == existing user name
-        while (!response.equals("all") && userExists(response)) {
+        while (!response.equals("all") && !userExists(response)) {
             response = input.nextLine();
             if (response.equals("back")){return Definitions.REMAIN_IN_STATE;}
         }

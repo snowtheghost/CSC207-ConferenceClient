@@ -7,6 +7,7 @@ public class OrganizerPanel implements IController {
     private final Scanner sc = new Scanner(System.in);
     private final UserManager um;
     private final RoomManager rm;
+    private final MessageManager mm;
     private final InputFilter filter;
     private final OrganizerPresenter op;
 
@@ -19,11 +20,61 @@ public class OrganizerPanel implements IController {
      * @param um the Usermanager
      * Last modified: Justin Chan
      */
-    OrganizerPanel(UserManager um, RoomManager rm) {
+    OrganizerPanel(UserManager um, RoomManager rm, MessageManager mm, InputFilter inputFilter) {
         this.um = um;
         this.rm = rm;
-        this.filter = new InputFilter(um, rm);
+        this.mm = mm;
+        this.filter = inputFilter;
         op = new OrganizerPresenter(um, rm);
+    }
+
+    /**
+     * Author: Zachariah Vincze
+     * Prompts the organizer to send a message to either an attendee or a speaker.
+     */
+    private void sendMessage() {
+        op.printSpeakerOrAttendeeName();
+        String username = sc.nextLine();
+        if (cancelRequested(username)) return;
+        op.printMessageContentPrompt();
+        String messageContent = sc.nextLine();
+        if (cancelRequested(messageContent)) return;
+        UUID userID = um.getUserID(username);
+        if (userID == null) {
+            op.printUserNotFound();
+            return;
+        }
+        if (!um.userType(username).equals("speaker") && !um.userType(username).equals("attendee")) {
+            op.printNotSpeakerOrAttendee();
+            return;
+        }
+        if (mm.sendMessage(um, um.getCurrentUser(), userID, messageContent) == null) {
+            op.printMessageNotSent();
+            return;
+        }
+        op.printMessageSent();
+    }
+
+    private void messageAllSpeakers() {
+        op.printMessageContentPrompt();
+        String messageContent = sc.nextLine();
+        if (cancelRequested(messageContent)) return;
+        if (mm.sendMessageToAllSpeakers(um, um.getCurrentUser(), messageContent) == null) {
+            op.printMessageNotSent();
+            return;
+        }
+        op.printMessageSent();
+    }
+
+    private void messageAllAttendees() {
+        op.printMessageContentPrompt();
+        String messageContent = sc.nextLine();
+        if (cancelRequested(messageContent)) return;
+        if (mm.sendMessageToAllAttendees(um, um.getCurrentUser(), messageContent) == null) {
+            op.printMessageNotSent();
+            return;
+        }
+        op.printMessageSent();
     }
     
     /**
@@ -218,7 +269,7 @@ public class OrganizerPanel implements IController {
     public int run() {
         String command = "";
         op.welcomePrompt();
-        while (!(command.equals("logout") || command.equals("Quit app"))){
+        while (!(command.equalsIgnoreCase("logout") || command.equalsIgnoreCase("quit"))){
             op.commandPrompt();
             command = sc.nextLine();
             switch (command) {
@@ -238,6 +289,12 @@ public class OrganizerPanel implements IController {
                     op.printAvailableRooms(); break;
                 case "viewevents":
                     op.printAllEvents(); break;
+                case "messageallattendees":
+                    messageAllAttendees(); break;
+                case "sendmessage":
+                    sendMessage(); break;
+                case "messageallspeakers":
+                    messageAllSpeakers(); break;
                 case "help":
                     op.commandHelp(); break;
                 case "logout":

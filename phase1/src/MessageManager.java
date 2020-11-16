@@ -60,11 +60,26 @@ public class MessageManager implements Serializable {
      * Precondition: the senderID must belong to an Organizer.
      *
      * @param userManager the UserManager where the users are stored.
+     * @param senderID the ID of the message sender.
      * @param messageContent the string content of the message.
      * @return Return the id of the sent message. If the message was not sent, return null.
      */
     public UUID sendMessageToAllAttendees(UserManager userManager, UUID senderID, String messageContent) {
         return sendMessages(userManager, senderID, userManager.getAttendeeUUIDs(), messageContent);
+    }
+
+    /**
+     * Sends a message from an organizer to all Speakers in the system.
+     *
+     * Precondition: the senderID must belong to an Organizer.
+     *
+     * @param userManager the UserManager where the users are stored.
+     * @param senderID the ID of the message sender.
+     * @param messageContent the string content of the message.
+     * @return the UUID of the sent message, or null if the message was not sent.
+     */
+    public UUID sendMessageToAllSpeakers(UserManager userManager, UUID senderID, String messageContent) {
+        return sendMessages(userManager, senderID, userManager.getSpeakerUUIDs(), messageContent);
     }
 
     /**
