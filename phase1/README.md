@@ -1,7 +1,13 @@
-#### How to use program ####
-Run AppMain.java, message will then display in console.
-Type your choice into console. ex) Create account
-
+#### How to Use ####
+*Note, you can quit the program from a menu by entering "quit", the program
+must by quit in this manner to ensure user data gets serialized and written to
+external files.*
+1. Start the program from the application's entrypoint (in AppMain.java).
+2. Create a new account by entering "Create account" and following the prompts.
+3. Sign into your new account by entering "Login" in the main menu.
+4. You will be redirected to a panel corresponding to your user type (Organizer,
+Attendee, Speaker).
+5. Follow the on screen instructions to navigate the menus and use the program.
 
 
 ##### Contributors: Planning #####
@@ -32,6 +38,9 @@ OrganizerPresenter: Justin Chan (Programmer & Tester)
 
 ##### Contributors: System #####
 LoginSystem: Kerry Zhu (Programmer & Tester), Zachariah Vincze (Programmer)
+
+##### Contributors: Application Entrypoint
+MenuTree: Kaiyi Liu (Programmer), Zachariah Vincze (Programmer)
 
 ##### Deadlines #####  
  - Saturday, November 7: All entities written and tested
