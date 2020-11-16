@@ -17,7 +17,7 @@ UML Editor: Liam Ogilvie
 User: Zachariah Vincze (Programmer), Arya Joshi (Tester) \
 Attendee: Zihan Wang (Programmer & Tester) \
 Speaker: Zihan Wang (Programmer & Tester), Justin Chan (Programmer)\
-Organizer: Tanuj Devjani (Programmer), Kaiyi Liu (Programmer), Zihan Wang (Tester) \
+Organizer: Tanuj Devjani (Programmer), Kaiyi Liu (Programmer & Tester), Zihan Wang (Tester) \
 Message: Zachariah Vincze (Programmer & Tester) \
 Event: Justin Chan (Programmer & Tester) \
 Room: Justin Chan (Programmer & Tester) 

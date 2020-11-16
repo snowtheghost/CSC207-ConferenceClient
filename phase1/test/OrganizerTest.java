@@ -8,10 +8,10 @@ import static org.junit.Assert.*;
  * @author Zihan Wang
  */
 public class OrganizerTest {
-    Organizer organizer1 = new Organizer("organizer1");
+    User organizer1 = new Organizer("organizer1");
     Message message1 = new Message("message1");
-    Attendee attendee1 = new Attendee("attendee1");
-    Speaker speaker1 = new Speaker("speaker1");
+    User attendee1 = new Attendee("attendee1");
+    User speaker1 = new Speaker("speaker1");
 
 
     @Test
