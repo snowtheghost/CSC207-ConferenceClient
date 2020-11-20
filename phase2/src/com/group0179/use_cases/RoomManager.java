@@ -280,10 +280,10 @@ public class RoomManager implements Serializable {
         return true;
     }
 
-    public boolean addEventAttendee(UUID attendeeID, int roomNumber, int eventNumber, UserManager um) {
+    public boolean addEventAttendee(UUID attendeeID, int roomNumber, int eventNumber, UserManager um, boolean isVip) {
         Event event = getEvent(roomNumber, eventNumber);
 
-        if (event.getAttendeeIDs().size() >= 2) return false;
+        if (event.getAttendeeIDs().size() >= 2 || (event.getVipOnlyStatus()&&!isVip)) return false;
 
         if (event.getAttendeeIDs().contains(attendeeID)) {
             return false;

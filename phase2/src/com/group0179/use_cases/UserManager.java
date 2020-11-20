@@ -51,6 +51,15 @@ public class UserManager implements Serializable {
     }
 
     /**
+     * Returns whether the user is an vip.
+     * @param userid uuid of user
+     * @return whether user is an vip.
+     */
+    public boolean isUserVip(UUID userid) {
+        return this.getUser(userid).isVip();
+    }
+
+    /**
      * Created: Justin Chan
      * @return an ArrayList of all users in existence
      */

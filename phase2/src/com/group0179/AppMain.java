@@ -51,7 +51,7 @@ public class AppMain {
         mainMenu.addChild(attendeeMenu);
         mainMenu.addChild(organizerMenu);
         mainMenu.addChild(speakerMenu);
-        userManager.createAttendeeAccount("kerry", true);
+        userManager.createAttendeeAccount("kerry", false);
         userManager.createOrganizerAccount("justin");
         userManager.createSpeakerAccount("zach");
 

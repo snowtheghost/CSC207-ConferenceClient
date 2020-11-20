@@ -11,6 +11,7 @@ public abstract class User implements Serializable {
     private final UUID userID;
     private final String username;
     private final Map<UUID, List<UUID>> conversations;
+    private boolean isVip = false;
 
     /**
      * Creates a new user with a unique ID and a username.
@@ -20,6 +21,23 @@ public abstract class User implements Serializable {
         this.userID = UUID.randomUUID();
         this.username = username;
         this.conversations = new HashMap<>();
+    }
+    /**
+     * Creates a new user with a unique ID and a username and changes the vip status.
+     * @param username The user's username.
+     */
+    public User(String username, boolean isVip) {
+        this.userID = UUID.randomUUID();
+        this.username = username;
+        this.conversations = new HashMap<>();
+        this.isVip = isVip;
+    }
+    /**
+     * Returns whether the user is an vip
+     * @return True if attendee is an vip, false otherwise.
+     */
+    public boolean isVip() {
+        return this.isVip;
     }
 
     /**
