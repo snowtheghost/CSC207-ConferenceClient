@@ -219,6 +219,14 @@ public class RoomManager implements Serializable {
     }
 
     /**
+     * Takes in a room uuid and a vip only status and changes the status of the event.
+     * @param isVipOnly whether the event is vip only
+     * @param eventId the uuid of the event
+     */
+    public void updateVipStatus(boolean isVipOnly, UUID eventId){
+        this.getEvent(eventId).setVipOnlyStatus(isVipOnly);
+    }
+    /**
      * @param roomNumber  the room that the event is in
      * @param eventNumber the event to be rescheduled
      * @param startTime   the new start time

@@ -36,6 +36,7 @@ public class Event implements Serializable {
     private Calendar endTime;
     private final String speakerName;  // The UUID of the Speaker
     private final ArrayList<UUID> attendeeIDs = new ArrayList<>();  // List of attendees by UUID
+    private boolean isVipOnly = false;
 
     /**
      * Event constructor
@@ -71,6 +72,10 @@ public class Event implements Serializable {
     public Calendar getEndTime() {
         return endTime;
     }
+
+    public boolean getVipOnlyStatus(){ return this.isVipOnly; }
+
+    public void setVipOnlyStatus(boolean status) { this.isVipOnly = status; }
 
     /**
      * @param startTime the start time of the event

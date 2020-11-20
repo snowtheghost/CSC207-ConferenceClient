@@ -171,6 +171,15 @@ public class OrganizerPanel implements IController {
         // Create event
         if (rm.newEventValid(title, speakerName, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), roomNumber, um)) {
             UUID eventID = rm.newEvent(title, speakerName, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), roomNumber, um);
+
+            this.op.isVipOnlyStatusPrompt(); // asks if event is vip status
+            String isVip = sc.nextLine();
+            while (!isVip.equals("yes")&&!isVip.equals("no")){
+                this.op.invalidVipStatusPrompt();
+                isVip = sc.nextLine();
+            }
+            this.rm.updateVipStatus(isVip.equals("yes"), eventID); // updates vip status of room from default
+
             op.createEventStatus(true, rm.stringEvent(eventID));
             return;
         } op.createEventStatus(false, "");

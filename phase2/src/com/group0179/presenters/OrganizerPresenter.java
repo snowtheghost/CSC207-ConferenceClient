@@ -134,4 +134,6 @@ public class OrganizerPresenter {
     public void printNotSpeakerOrAttendee() {
         System.out.println("The username you entered does not belong to a speaker or attendee.");
     }
+    public void isVipOnlyStatusPrompt() { System.out.println("Is vip only event? (yes or no)"); }
+    public void invalidVipStatusPrompt() { System.out.println("Invalid input, please type yes or no"); }
 }
