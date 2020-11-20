@@ -161,7 +161,7 @@ public class AttendeePanel implements IController {
      * Asks user for an event name and prints whether it successfully signed up/signed out.
      * @param currUserID The current users UUID
      * @param userMan The userManager class
-     * @param joinOrLeave A string either "joining" or "leaveing" depending on what the user wants to do.
+     * @param joinOrLeave A string either "joining" or "leaving" depending on what the user wants to do.
      * @return Returns an integer if user wants to go back out of the command, null otherwise
      */
     private Integer joinLeaveEvent(UUID currUserID, UserManager userMan, String joinOrLeave){
