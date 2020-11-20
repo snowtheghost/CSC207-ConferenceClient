@@ -192,7 +192,17 @@ public class OrganizerPanel implements IController {
      * Creates a new room
      */
     private void createRoom() {
-        rm.newRoom();
+        int capacity = -1;
+        do {
+            System.out.print("Please enter a positive integer room capacity: ");
+            if (this.sc.hasNextInt()) {
+                capacity = this.sc.nextInt();
+            } else {
+                System.out.println("Positive integer required, please try again.");
+                this.sc.nextLine();
+            }
+        } while (capacity <= 0);
+        rm.newRoom(capacity);
         op.createRoomStatus(rm.getNumRooms());
         op.printAvailableRooms();
     }

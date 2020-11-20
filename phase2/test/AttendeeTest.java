@@ -17,7 +17,7 @@ public class AttendeeTest {
     Event event2 = new Event("event2",speaker2.getUsername(),
             new GregorianCalendar(2000, Calendar.MAY, 1, 100, 0, 0),
             new GregorianCalendar(2000, Calendar.MAY, 1, 100, 30, 0));
-    Room room = new Room();
+    Room room = new Room(30);
     Attendee attendee1 = new Attendee("attendee1");
     Attendee attendee2 = new Attendee("attendee2");
     Message message1 = new Message("message1");

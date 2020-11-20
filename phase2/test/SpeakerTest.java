@@ -9,8 +9,8 @@ import static org.junit.Assert.assertEquals;
 public class SpeakerTest {
     Speaker speaker1;
     Attendee attendee2 = new Attendee("attendee2");
-    Room room1 = new Room();
-    Room room2 = new Room();
+    Room room1 = new Room(30);
+    Room room2 = new Room(30);
     GregorianCalendar timeStartNormal = new GregorianCalendar(2020, Calendar.MAY, 14, 12, 30, 0);
     GregorianCalendar timeEndNormal = new GregorianCalendar(2020, Calendar.MAY, 14, 13, 30, 0);
     Event event1 = new Event("event1", "speaker1", timeStartNormal, timeEndNormal);

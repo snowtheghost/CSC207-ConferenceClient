@@ -27,15 +27,15 @@ public class RoomManagerTests {
     @Test
     public void testNewRoom() {
         assertEquals(rm.getNumRooms(), 0);
-        rm.newRoom();
+        rm.newRoom(20);
         assertEquals(rm.getNumRooms(), 1);
-        rm.newRoom();
+        rm.newRoom(20);
         assertEquals(rm.getNumRooms(), 2);
     }
 
     @Test
     public void testNewEventValid() {
-        rm.newRoom();
+        rm.newRoom(20);
 
         Random random = new Random();
         int roomNumber = random.nextInt(rm.getNumRooms());
@@ -58,7 +58,7 @@ public class RoomManagerTests {
 
         //Multiple speakers, multiple rooms
         rm.removeEvent(um, roomNumber, 0);
-        rm.newRoom();
+        rm.newRoom(20);
         roomNumber = random.nextInt(rm.getNumRooms());
 
         assertTrue(rm.newEventValid("Speech 1", "Jack", startTime1, endTime1, roomNumber, um));
@@ -72,7 +72,7 @@ public class RoomManagerTests {
     public void testNewEvent() {
         assertEquals(rm.getNumEvents(), 0);
 
-        rm.newRoom();
+        rm.newRoom(20);
         um.createSpeakerAccount("John");
 
         UUID eventID = rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um);
@@ -83,7 +83,7 @@ public class RoomManagerTests {
 
     @Test
     public void testGetNumEventsInRoom() {
-        rm.newRoom();
+        rm.newRoom(20);
         assertEquals(rm.getNumEventsInRoom(0), 0);
 
         um.createSpeakerAccount("John");
@@ -96,9 +96,9 @@ public class RoomManagerTests {
         ArrayList<UUID> eventIDs= rm.getEventIDs();
         assertEquals(eventIDs.size(), 0);
 
-        rm.newRoom();
-        rm.newRoom();
-        rm.newRoom();
+        rm.newRoom(20);
+        rm.newRoom(20);
+        rm.newRoom(20);
         um.createSpeakerAccount("John");
         um.createSpeakerAccount("Jack");
         um.createSpeakerAccount("Jason");
@@ -117,7 +117,7 @@ public class RoomManagerTests {
 
     @Test
     public void testRescheduleEvent() {
-        rm.newRoom();
+        rm.newRoom(20);
         Random random = new Random();
 
         um.createSpeakerAccount("John");
@@ -129,7 +129,7 @@ public class RoomManagerTests {
 
     @Test
     public void testRemoveEvent() {
-        rm.newRoom();
+        rm.newRoom(20);
         um.createSpeakerAccount("Josh");
         rm.newEvent("Speech 1", "Josh", startTime1, endTime1, 0, um);
 
@@ -140,7 +140,7 @@ public class RoomManagerTests {
 
     @Test
     public void testAddEventAttendee() {
-        rm.newRoom();
+        rm.newRoom(20);
         um.createSpeakerAccount("John");
         UUID eventID1 = rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um);
 
@@ -155,7 +155,7 @@ public class RoomManagerTests {
 
     @Test
     public void testRemoveEventAttendee() {
-        rm.newRoom();
+        rm.newRoom(20);
         um.createSpeakerAccount("John");
         UUID eventID1 = rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um);
         um.createAttendeeAccount("Chad");

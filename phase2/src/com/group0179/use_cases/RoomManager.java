@@ -55,7 +55,7 @@ public class RoomManager implements Serializable {
                 }
             }
         }
-        return new Room();
+        return new Room(30);
     }
 
     /**
@@ -160,8 +160,8 @@ public class RoomManager implements Serializable {
         return eventIDs;
     }
 
-    public void newRoom() {
-        Room roomToCreate = new Room();
+    public void newRoom(int capacity) {
+        Room roomToCreate = new Room(capacity);
         rooms.add(roomToCreate);
     }
 

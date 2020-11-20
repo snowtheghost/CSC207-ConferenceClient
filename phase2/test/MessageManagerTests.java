@@ -81,7 +81,7 @@ public class MessageManagerTests {
         UUID a1UUID = userManager.createAttendeeAccount("attendee1");
         UUID a2UUID = userManager.createAttendeeAccount("attendee2");
 
-        roomManager.newRoom();
+        roomManager.newRoom(30);
         UUID speakerUUID = userManager.createSpeakerAccount("speaker");
         String messageContent = "event";
 
@@ -110,7 +110,7 @@ public class MessageManagerTests {
         UUID a1UUID = UUID.randomUUID();
         UUID a2UUID = UUID.randomUUID();
 
-        roomManager.newRoom();
+        roomManager.newRoom(30);
         UUID speakerUUID = userManager.createSpeakerAccount("speaker");
         String messageContent = "event";
 

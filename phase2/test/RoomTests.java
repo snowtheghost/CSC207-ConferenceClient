@@ -85,7 +85,7 @@ public class RoomTests {
 
     @Before
     public void setUpBefore() {
-        room = new Room();
+        room = new Room(30);
     }
 
     @Test
