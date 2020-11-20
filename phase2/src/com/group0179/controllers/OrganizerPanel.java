@@ -16,6 +16,7 @@ import java.util.UUID;
  */
 public class OrganizerPanel implements IController {
     private final Scanner sc = new Scanner(System.in);
+    private final LoginSystem ls;
     private final UserManager um;
     private final RoomManager rm;
     private final MessageManager mm;
@@ -31,7 +32,8 @@ public class OrganizerPanel implements IController {
      * @param um the Usermanager
      * Last modified: Justin Chan
      */
-    public OrganizerPanel(UserManager um, RoomManager rm, MessageManager mm, InputFilter inputFilter) {
+    public OrganizerPanel(UserManager um, RoomManager rm, MessageManager mm, InputFilter inputFilter, LoginSystem loginSys) {
+        this.ls = loginSys;
         this.um = um;
         this.rm = rm;
         this.mm = mm;
@@ -196,20 +198,6 @@ public class OrganizerPanel implements IController {
     }
 
     /**
-     * Author: Justin Chan
-     * Creates a new speaker based on given username
-     */
-    private void createSpeaker() {
-        op.createSpeakerWelcome();
-        String speakerName = filter.inputNewSpeakerUsername();
-        if (cancelRequested(speakerName)) {
-            return;
-        }
-        op.createSpeakerStatus(speakerName);
-        op.printAvailableSpeakers();
-    }
-
-    /**
      * Author: Tanuj Devjani
      * Cancels an event chosen by the Organizer
      */
@@ -301,8 +289,8 @@ public class OrganizerPanel implements IController {
             op.commandPrompt();
             command = sc.nextLine();
             switch (command) {
-                case "createspeaker":
-                    createSpeaker(); break;
+                case "createuser":
+                    this.ls.createAccount(); break;
                 case "createroom":
                     createRoom(); break;
                 case "createevent":

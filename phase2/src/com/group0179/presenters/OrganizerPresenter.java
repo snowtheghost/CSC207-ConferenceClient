@@ -25,7 +25,7 @@ public class OrganizerPresenter {
     }
 
     public void commandHelp() {
-        System.out.println("createspeaker - Create a new Speaker\n" +
+        System.out.println("createuser - Create a new user account\n" +
                 "createroom - Create a new Room\n" + "createevent - Create a new Event\n" + "rescheduleevent - Reschedules an existing event\n"+"cancelevent - Remove an existing Event\n" +
                 "viewspeakers - See available Speakers\n" + "viewrooms - See available Rooms\n" + "viewevents - See available events in specified room\n" +
                 "sendmessage - Send a message to an Attendee or Speaker\nmessageallattendees - Send a message to all Attendees\nmessageallspeakers" +
@@ -54,14 +54,6 @@ public class OrganizerPresenter {
 
     public void cancelEventStatus() {
         System.out.println("The event has been removed.");
-    }
-
-    public void createSpeakerWelcome() {
-        System.out.println("Creating a Speaker. To cancel the process, enter \"-1\" in any input.");
-    }
-
-    public void createSpeakerStatus(String speakerName) {
-        System.out.println("Speaker \"" + speakerName + "\" created successfully.");
     }
 
     public void createRoomStatus(int numRooms) {

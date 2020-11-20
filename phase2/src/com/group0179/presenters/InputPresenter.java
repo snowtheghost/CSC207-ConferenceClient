@@ -29,8 +29,8 @@ public class InputPresenter {
         System.out.println(speakerName + " does not exist - please try again.");
     }
 
-    public void inputNewSpeakerNamePrompt() {
-        System.out.print("New Speaker username: ");
+    public void inputNewUserNamePrompt(String userType) {
+        System.out.print("New " + userType + " username: ");
     }
 
     public void inputNewSpeakerNameStatus(String speakerName) {
