@@ -192,10 +192,20 @@ public class UserManager implements Serializable {
 
     /**
      * @param username unique username requested
+     * @param isVip whether its an attendee
      * @return the Attendee that was created
      * Last modified: Justin Chan
      *
      * Precondition: isValidUsername(username)
+     */
+    public UUID createAttendeeAccount(String username, boolean isVip) {
+        Attendee attendee = new Attendee(username, isVip);
+        attendees.add(attendee);
+        return attendee.getUserID();
+    }
+    /**
+     * @param username unique username requested
+     * @return the Attendee that was created
      */
     public UUID createAttendeeAccount(String username) {
         Attendee attendee = new Attendee(username);

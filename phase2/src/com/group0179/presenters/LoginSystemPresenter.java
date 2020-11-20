@@ -56,6 +56,18 @@ public class LoginSystemPresenter {
     public void invalidActNamePrompt() {
         System.out.println("Account name taken or invalid name, please try a different name.");
     }
+
+    /**
+     * Asks if new account is vip.
+     */
+    public void isVipPrompt(){
+        System.out.println("VIP attendee or not? (Type yes or no)");
+    }
+
+    /**
+     * Tells user their is vip input is wrong.
+     */
+    public void invalidVipPrompt(){System.out.println("Invalid input, please enter yes or no");}
     /**
      * Tells the user they successfully created an account of what type and their username.
      * @param accountType The valid account type they entered.

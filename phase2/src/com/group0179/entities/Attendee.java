@@ -11,6 +11,7 @@ import java.util.UUID;
  */
 public class Attendee extends User {
     private final Map<UUID, ArrayList<UUID>> events;
+    private boolean isVip = false;
 
     /**
      * Creates a new Attendee with a unique ID, a username,
@@ -20,6 +21,17 @@ public class Attendee extends User {
     public Attendee(String username){
         super(username);
         events = new HashMap<>();
+    }
+    /**
+     * Creates a new Attendee with a unique ID, a username,
+     * no messages, no contacts and no reserved Events.
+     * @param username The user's username.
+     * @param isVip Whether the attendee is an vip
+     */
+    public Attendee(String username, boolean isVip){
+        super(username);
+        events = new HashMap<>();
+        this.isVip = isVip;
     }
 
     /**
@@ -61,6 +73,14 @@ public class Attendee extends User {
             events.remove(roomID);
         }
         return true;
+    }
+
+    /**
+     * Returns whether the attendee is an vip
+     * @return True if attendee is an vip, false otherwise.
+     */
+    public boolean isVip() {
+        return isVip;
     }
 
     @Override
