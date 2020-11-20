@@ -169,6 +169,18 @@ public class OrganizerPanel implements IController {
         } else {
             minute = 0; // prevent out of bound time
         }
+        int capacity = -1;
+        int totalRoomCapacity = this.rm.getRoomCapacity(roomNumber).get(0);
+        while (capacity <= 0 || capacity > totalRoomCapacity) {
+            this.op.enterCapacity(totalRoomCapacity);
+            String input = this.sc.nextLine();
+            if (input.matches("^[1-9][0-9]*$")) {
+                capacity = Integer.parseInt(input);
+                if (capacity>totalRoomCapacity) {
+                    this.op.overFlowCapacityPrompt(capacity, totalRoomCapacity);
+                }
+            }
+        }
 
         // Create event
         if (rm.newEventValid(title, speakerName, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), roomNumber, um)) {
@@ -193,15 +205,14 @@ public class OrganizerPanel implements IController {
      */
     private void createRoom() {
         int capacity = -1;
-        do {
-            System.out.print("Please enter a positive integer room capacity: ");
-            if (this.sc.hasNextInt()) {
-                capacity = this.sc.nextInt();
-            } else {
-                System.out.println("Positive integer required, please try again.");
-                this.sc.nextLine();
+        while (capacity < 1 || capacity > 2020 ) {
+            this.op.enterCapacity(2020);
+            String input = this.sc.nextLine();
+            if (input.matches("^[0-9]+$")){
+                capacity = Integer.parseInt(input);
             }
-        } while (capacity <= 0);
+        };
+
         rm.newRoom(capacity);
         op.createRoomStatus(rm.getNumRooms());
         op.printAvailableRooms();

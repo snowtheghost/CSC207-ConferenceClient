@@ -23,7 +23,7 @@ import java.util.*;
 public class Room implements Serializable {
     private final UUID roomID;
     private final ArrayList<Event> events = new ArrayList<>();
-    private int roomCapcity;
+    private final int roomCapcity;
 
     public Room(int roomCapcity) {
         this.roomID = UUID.randomUUID();
@@ -37,6 +37,8 @@ public class Room implements Serializable {
     public ArrayList<Event> getEvents() {
         return events;
     }
+
+    public int getRoomCapcity(){return roomCapcity;}
 
     public HashMap<UUID, Event> getEventIDToEvent() {
         HashMap<UUID, Event> eventIDToEvent = new HashMap<>();

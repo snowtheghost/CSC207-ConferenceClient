@@ -59,6 +59,22 @@ public class RoomManager implements Serializable {
     }
 
     /**
+     * Takes in a room number and returns its capacity info.
+     * @param roomNumber the room number of the desired room
+     * @return [room capacity, remaining capacity]
+     */
+    public ArrayList<Integer> getRoomCapacity(int roomNumber){
+        int totalCapacity = this.getRoom(roomNumber).getRoomCapcity();
+        int usedCapacity = 0;
+        for (Event event: this.getRoom(roomNumber).getEvents()){
+            usedCapacity = usedCapacity + event.getCapacity();
+        }
+        ArrayList<Integer> info = new ArrayList<>();
+        info.add(totalCapacity); info.add(totalCapacity-usedCapacity);
+        return info;
+    }
+
+    /**
      * @param eventID the eventID of the event
      * @return the event corresponding to the eventID
      * <p>

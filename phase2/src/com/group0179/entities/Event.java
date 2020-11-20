@@ -37,6 +37,7 @@ public class Event implements Serializable {
     private final String speakerName;  // The UUID of the Speaker
     private final ArrayList<UUID> attendeeIDs = new ArrayList<>();  // List of attendees by UUID
     private boolean isVipOnly = false;
+    private int capacity;
 
     /**
      * Event constructor
@@ -56,6 +57,12 @@ public class Event implements Serializable {
         this.startTime = startTime;
         this.endTime = endTime;
     }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public int getCapacity() {return this.capacity;}
 
     public String getTitle() {
         return title;

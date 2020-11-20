@@ -127,5 +127,12 @@ public class OrganizerPresenter {
         System.out.println("The username you entered does not belong to a speaker or attendee.");
     }
     public void isVipOnlyStatusPrompt() { System.out.println("Is vip only event? (yes or no)"); }
+    public void enterCapacity(int remainingCapacity) {
+        System.out.println("Please enter a capacity between 0 and " + remainingCapacity);
+    }
     public void invalidVipStatusPrompt() { System.out.println("Invalid input, please type yes or no"); }
+    public void overFlowCapacityPrompt(int enteredCapacity, int availableCapacity){
+        System.out.println("The room does not have enough capacity, you entered " + enteredCapacity + ", " +
+                "the room has " + availableCapacity + " currently remaining." );
+    }
 }
