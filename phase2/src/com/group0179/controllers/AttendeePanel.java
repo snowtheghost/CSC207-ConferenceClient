@@ -190,7 +190,8 @@ public class AttendeePanel implements IController {
         if (inputEventNum==-1){return Definitions.REMAIN_IN_STATE;}
 
         //Signs user up to event in room
-        if (joinOrLeave.equals("joining") && this.roomMan.addEventAttendee(currUserID, inputRoomNum, inputEventNum, userMan)){
+        if (joinOrLeave.equals("joining") && this.roomMan.addEventAttendee(currUserID, inputRoomNum,
+                inputEventNum, userMan, this.userMan.isUserVip(currUserID))){
             this.ap.displayJoinLeaveSuccess(joinOrLeave);
         } else if (joinOrLeave.equals("leaving") && this.roomMan.removeEventAttendee(currUserID, inputRoomNum, inputEventNum, userMan)){
             this.ap.displayJoinLeaveSuccess(joinOrLeave);

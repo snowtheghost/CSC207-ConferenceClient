@@ -26,7 +26,7 @@ public class EventTests {
     public void setUpBefore() {
         event1 = new Event("event1", speaker1.getUsername(),
                 new GregorianCalendar(2000, Calendar.MAY, 1, 100, 0, 0),
-                new GregorianCalendar(2000, Calendar.MAY, 1, 100, 30, 0));
+                new GregorianCalendar(2000, Calendar.MAY, 1, 100, 30, 0), 0);
     }
 
     // initial number of candies

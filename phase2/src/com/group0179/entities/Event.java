@@ -36,6 +36,9 @@ public class Event implements Serializable {
     private Calendar endTime;
     private final String speakerName;  // The UUID of the Speaker
     private final ArrayList<UUID> attendeeIDs = new ArrayList<>();  // List of attendees by UUID
+    private boolean isVipOnly = false;
+    private int capacity;
+    private int occupiedCapacity = 0;
 
     /**
      * Event constructor
@@ -48,13 +51,16 @@ public class Event implements Serializable {
      * Precondition: startTime.before(endTime)
      * Precondition: startTime has the same date as endTime
      */
-    public Event(String eventTitle, String speakerName, Calendar startTime, Calendar endTime) {
+    public Event(String eventTitle, String speakerName, Calendar startTime, Calendar endTime, int capacity) {
         eventID = UUID.randomUUID();
         this.title = eventTitle;
         this.speakerName = speakerName;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.capacity = capacity;
     }
+
+    public int getCapacity() {return this.capacity;}
 
     public String getTitle() {
         return title;
@@ -71,6 +77,10 @@ public class Event implements Serializable {
     public Calendar getEndTime() {
         return endTime;
     }
+
+    public boolean getVipOnlyStatus(){ return this.isVipOnly; }
+
+    public void setVipOnlyStatus(boolean status) { this.isVipOnly = status; }
 
     /**
      * @param startTime the start time of the event
@@ -97,9 +107,10 @@ public class Event implements Serializable {
      * TODO: We need to add the eventID to the attendee involved
      */
     public boolean addAttendee(UUID attendeeID) {
-        if (attendeeIDs.contains(attendeeID)) {
+        if (attendeeIDs.contains(attendeeID) || this.capacity<=this.occupiedCapacity) {
             return false;
         }
+        this.occupiedCapacity++;
         attendeeIDs.add(attendeeID);
         return true;
     }
@@ -114,6 +125,7 @@ public class Event implements Serializable {
      * @return true if the Attendee was removed and false if the Attendee was not present in the first place
      */
     public boolean removeAttendee(UUID attendeeID) {
+        this.occupiedCapacity--;
         return attendeeIDs.remove(attendeeID);
     }
 

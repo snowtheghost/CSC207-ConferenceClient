@@ -16,6 +16,7 @@ import java.util.UUID;
  */
 public class OrganizerPanel implements IController {
     private final Scanner sc = new Scanner(System.in);
+    private final LoginSystem ls;
     private final UserManager um;
     private final RoomManager rm;
     private final MessageManager mm;
@@ -31,7 +32,8 @@ public class OrganizerPanel implements IController {
      * @param um the Usermanager
      * Last modified: Justin Chan
      */
-    public OrganizerPanel(UserManager um, RoomManager rm, MessageManager mm, InputFilter inputFilter) {
+    public OrganizerPanel(UserManager um, RoomManager rm, MessageManager mm, InputFilter inputFilter, LoginSystem loginSys) {
+        this.ls = loginSys;
         this.um = um;
         this.rm = rm;
         this.mm = mm;
@@ -167,10 +169,30 @@ public class OrganizerPanel implements IController {
         } else {
             minute = 0; // prevent out of bound time
         }
+        int capacity = -1;
+        int totalRoomCapacity = this.rm.getRoomCapacity(roomNumber).get(0);
+        while (capacity <= 0 || capacity > totalRoomCapacity) {
+            this.op.enterCapacity(totalRoomCapacity);
+            String input = this.sc.nextLine();
+            if (input.matches("^[1-9][0-9]*$")) {
+                capacity = Integer.parseInt(input);
+                if (capacity>totalRoomCapacity) {
+                    this.op.overFlowCapacityPrompt(capacity, totalRoomCapacity);
+                }
+            }
+        }
 
         // Create event
         if (rm.newEventValid(title, speakerName, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), roomNumber, um)) {
-            UUID eventID = rm.newEvent(title, speakerName, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), roomNumber, um);
+            UUID eventID = rm.newEvent(title, speakerName, new GregorianCalendar(year, month, day, hour, minute, 0), new GregorianCalendar(year, month, day, hour + 1, minute, 0), roomNumber, um, capacity);
+            this.op.isVipOnlyStatusPrompt(); // asks if event is vip status
+            String isVip = sc.nextLine();
+            while (!isVip.equals("yes")&&!isVip.equals("no")){
+                this.op.invalidVipStatusPrompt();
+                isVip = sc.nextLine();
+            }
+            this.rm.updateVipStatus(isVip.equals("yes"), eventID); // updates vip status of room from default
+
             op.createEventStatus(true, rm.stringEvent(eventID));
             return;
         } op.createEventStatus(false, "");
@@ -181,23 +203,18 @@ public class OrganizerPanel implements IController {
      * Creates a new room
      */
     private void createRoom() {
-        rm.newRoom();
+        int capacity = -1;
+        while (capacity < 1 || capacity > 2020 ) {
+            this.op.enterCapacity(2020);
+            String input = this.sc.nextLine();
+            if (input.matches("^[0-9]+$")){
+                capacity = Integer.parseInt(input);
+            }
+        };
+
+        rm.newRoom(capacity);
         op.createRoomStatus(rm.getNumRooms());
         op.printAvailableRooms();
-    }
-
-    /**
-     * Author: Justin Chan
-     * Creates a new speaker based on given username
-     */
-    private void createSpeaker() {
-        op.createSpeakerWelcome();
-        String speakerName = filter.inputNewSpeakerUsername();
-        if (cancelRequested(speakerName)) {
-            return;
-        }
-        op.createSpeakerStatus(speakerName);
-        op.printAvailableSpeakers();
     }
 
     /**
@@ -292,8 +309,8 @@ public class OrganizerPanel implements IController {
             op.commandPrompt();
             command = sc.nextLine();
             switch (command) {
-                case "createspeaker":
-                    createSpeaker(); break;
+                case "createuser":
+                    this.ls.createAccount(); break;
                 case "createroom":
                     createRoom(); break;
                 case "createevent":

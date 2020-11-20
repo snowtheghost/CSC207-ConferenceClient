@@ -92,9 +92,9 @@ public class InputFilter {
         }
     }
 
-     public String inputNewSpeakerUsername() {
+     public String inputNewSpeakerUsername(String userType) {
         while (true) {
-             ip.inputNewSpeakerNamePrompt();
+             ip.inputNewUserNamePrompt(userType);
             String speakerName = sc.nextLine();
             if (speakerName.equals("-1")) {
                 return speakerName;
