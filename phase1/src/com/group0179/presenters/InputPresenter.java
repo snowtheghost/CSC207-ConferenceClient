@@ -1,3 +1,5 @@
+package com.group0179.presenters;
+
 public class InputPresenter {
     public void inputRoomPrompt() {
         System.out.print("Room: ");

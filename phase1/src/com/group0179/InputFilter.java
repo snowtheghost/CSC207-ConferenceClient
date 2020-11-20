@@ -1,3 +1,9 @@
+package com.group0179;
+
+import com.group0179.use_cases.RoomManager;
+import com.group0179.use_cases.UserManager;
+import com.group0179.presenters.InputPresenter;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Scanner;

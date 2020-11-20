@@ -1,3 +1,8 @@
+package com.group0179.use_cases;
+
+import com.group0179.entities.Event;
+import com.group0179.entities.Room;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,7 +30,7 @@ import java.util.UUID;
 public class RoomManager implements Serializable {
     private final ArrayList<Room> rooms = new ArrayList<>();
 
-    RoomManager() {
+    public RoomManager() {
     }
 
     /**

@@ -1,3 +1,12 @@
+package com.group0179.controllers;
+
+import com.group0179.Definitions;
+import com.group0179.InputFilter;
+import com.group0179.presenters.OrganizerPresenter;
+import com.group0179.use_cases.MessageManager;
+import com.group0179.use_cases.RoomManager;
+import com.group0179.use_cases.UserManager;
+
 import java.util.*;
 
 /**
@@ -20,7 +29,7 @@ public class OrganizerPanel implements IController {
      * @param um the Usermanager
      * Last modified: Justin Chan
      */
-    OrganizerPanel(UserManager um, RoomManager rm, MessageManager mm, InputFilter inputFilter) {
+    public OrganizerPanel(UserManager um, RoomManager rm, MessageManager mm, InputFilter inputFilter) {
         this.um = um;
         this.rm = rm;
         this.mm = mm;

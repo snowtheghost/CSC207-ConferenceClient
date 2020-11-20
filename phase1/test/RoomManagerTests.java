@@ -1,3 +1,5 @@
+import com.group0179.use_cases.RoomManager;
+import com.group0179.use_cases.UserManager;
 import org.junit.Test;
 import java.util.*;
 

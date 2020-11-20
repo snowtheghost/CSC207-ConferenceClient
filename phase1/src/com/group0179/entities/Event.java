@@ -1,3 +1,5 @@
+package com.group0179.entities;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -44,7 +46,7 @@ public class Event implements Serializable {
      * Precondition: startTime.before(endTime)
      * Precondition: startTime has the same date as endTime
      */
-    Event(String eventTitle, String speakerName, Calendar startTime, Calendar endTime) {
+    public Event(String eventTitle, String speakerName, Calendar startTime, Calendar endTime) {
         eventID = UUID.randomUUID();
         this.title = eventTitle;
         this.speakerName = speakerName;

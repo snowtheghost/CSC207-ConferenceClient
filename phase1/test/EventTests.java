@@ -1,3 +1,6 @@
+import com.group0179.entities.Attendee;
+import com.group0179.entities.Event;
+import com.group0179.entities.Speaker;
 import org.junit.*;
 import static org.junit.Assert.*;
 

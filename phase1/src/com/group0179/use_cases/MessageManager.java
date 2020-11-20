@@ -1,3 +1,7 @@
+package com.group0179.use_cases;
+
+import com.group0179.entities.Message;
+
 import java.io.Serializable;
 import java.util.*;
 

@@ -1,3 +1,7 @@
+package com.group0179.gateways;
+
+import com.group0179.use_cases.RoomManager;
+
 import java.io.*;
 
 /**

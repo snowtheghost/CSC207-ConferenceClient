@@ -1,3 +1,9 @@
+package com.group0179.controllers;
+
+import com.group0179.Definitions;
+import com.group0179.presenters.LoginSystemPresenter;
+import com.group0179.use_cases.UserManager;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 

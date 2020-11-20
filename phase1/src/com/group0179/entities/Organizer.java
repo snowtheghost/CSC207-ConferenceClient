@@ -1,4 +1,4 @@
-import java.util.*;
+package com.group0179.entities;
 
 /**
  * Represent an Organizer

@@ -1,3 +1,5 @@
+package com.group0179.controllers;
+
 /**
  * Common interface for any controller classes.
  * @author Zachariah Vincze

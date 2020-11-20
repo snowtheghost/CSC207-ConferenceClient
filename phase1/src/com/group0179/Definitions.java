@@ -1,3 +1,5 @@
+package com.group0179;
+
 /**
  * Includes constant static data to be used throughout the application.
  * @author Zachariah Vincze

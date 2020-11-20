@@ -1,3 +1,8 @@
+package com.group0179.presenters;
+
+import com.group0179.use_cases.RoomManager;
+import com.group0179.use_cases.UserManager;
+
 /**
  * @author Justin Chan
  */
@@ -6,7 +11,7 @@ public class OrganizerPresenter {
     private final UserManager um;
     private final RoomManager rm;
 
-    OrganizerPresenter(UserManager um, RoomManager rm) {
+    public OrganizerPresenter(UserManager um, RoomManager rm) {
         this.um = um;
         this.rm = rm;
     }

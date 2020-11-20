@@ -1,3 +1,4 @@
+import com.group0179.entities.*;
 import org.junit.Test;
 
 import java.util.*;

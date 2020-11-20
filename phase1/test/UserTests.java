@@ -1,3 +1,7 @@
+import com.group0179.entities.Attendee;
+import com.group0179.entities.Message;
+import com.group0179.entities.Organizer;
+import com.group0179.entities.Speaker;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;

@@ -1,6 +1,17 @@
+package com.group0179;
+
+import com.group0179.controllers.AttendeePanel;
+import com.group0179.controllers.LoginSystem;
+import com.group0179.controllers.OrganizerPanel;
+import com.group0179.controllers.SpeakerPanel;
+import com.group0179.gateways.MessageManagerGateway;
+import com.group0179.gateways.RoomManagerGateway;
+import com.group0179.gateways.UserManagerGateway;
+import com.group0179.use_cases.MessageManager;
+import com.group0179.use_cases.RoomManager;
+import com.group0179.use_cases.UserManager;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The app's entrypoint.

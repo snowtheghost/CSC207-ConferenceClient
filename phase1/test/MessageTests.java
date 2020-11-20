@@ -1,3 +1,4 @@
+import com.group0179.entities.Message;
 import org.junit.Before;
 import org.junit.Test;
 

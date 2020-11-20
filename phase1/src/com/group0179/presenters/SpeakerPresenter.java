@@ -1,3 +1,9 @@
+package com.group0179.presenters;
+
+import com.group0179.use_cases.MessageManager;
+import com.group0179.use_cases.RoomManager;
+import com.group0179.use_cases.UserManager;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -7,7 +13,7 @@ public class SpeakerPresenter {
     private final RoomManager roomMan;
     private final MessageManager msgMan;
 
-    SpeakerPresenter(UserManager userMan, RoomManager roomMan, MessageManager msgMan) {
+    public SpeakerPresenter(UserManager userMan, RoomManager roomMan, MessageManager msgMan) {
         this.userMan = userMan;
         this.roomMan = roomMan;
         this.msgMan = msgMan;

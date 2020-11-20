@@ -1,3 +1,8 @@
+package com.group0179.entities;
+
+import com.group0179.entities.Event;
+import com.group0179.entities.Speaker;
+
 import java.io.Serializable;
 import java.util.*;
 

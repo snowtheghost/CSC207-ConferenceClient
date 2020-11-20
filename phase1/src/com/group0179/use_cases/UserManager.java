@@ -1,3 +1,10 @@
+package com.group0179.use_cases;
+
+import com.group0179.entities.Attendee;
+import com.group0179.entities.Organizer;
+import com.group0179.entities.Speaker;
+import com.group0179.entities.User;
+
 import java.io.Serializable;
 import java.util.*;
 

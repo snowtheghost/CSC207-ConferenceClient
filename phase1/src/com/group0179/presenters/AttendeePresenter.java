@@ -1,3 +1,8 @@
+package com.group0179.presenters;
+
+import com.group0179.use_cases.MessageManager;
+import com.group0179.use_cases.UserManager;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -11,7 +16,7 @@ public class AttendeePresenter {
      * @param um The user manager class it uses to get user names
      * @param mm The message manager class it uses to get the message content
      */
-    AttendeePresenter(UserManager um, MessageManager mm) {
+    public AttendeePresenter(UserManager um, MessageManager mm) {
         this.userMan = um;
         this.messageMan = mm;
     }
