@@ -1,7 +1,9 @@
 import com.group0179.use_cases.UserManager;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 

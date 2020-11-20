@@ -3,8 +3,9 @@ import com.group0179.entities.Message;
 import com.group0179.entities.Organizer;
 import com.group0179.entities.Speaker;
 import org.junit.Test;
-import java.util.UUID;
+
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -12,10 +13,10 @@ import static org.junit.Assert.*;
  * @author Zihan Wang
  */
 public class OrganizerTest {
-    User organizer1 = new Organizer("organizer1");
+    Organizer organizer1 = new Organizer("organizer1");
     Message message1 = new Message("message1");
-    User attendee1 = new Attendee("attendee1");
-    User speaker1 = new Speaker("speaker1");
+    Attendee attendee1 = new Attendee("attendee1");
+    Speaker speaker1 = new Speaker("speaker1");
 
 
     @Test

@@ -1,10 +1,14 @@
 import com.group0179.entities.Attendee;
 import com.group0179.entities.Event;
 import com.group0179.entities.Speaker;
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.UUID;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Justin Chan
