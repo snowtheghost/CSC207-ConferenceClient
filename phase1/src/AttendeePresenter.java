@@ -115,7 +115,7 @@ public class AttendeePresenter {
         if (joinOrLeave.equals("joining")) {
             System.out.println("Enter the " + eventOrRoom + " number you wish to join or type 'back' to go back");
         } else if (joinOrLeave.equals("leaving")) {
-            System.out.println("Enter the " + eventOrRoom + " number you wish to join or type 'back' to go back");
+            System.out.println("Enter the " + eventOrRoom + " number you wish to leave or type 'back' to go back");
         }
     }
 
