@@ -22,64 +22,64 @@ public class RoomTests {
 
     GregorianCalendar timeStartNormal = new GregorianCalendar(2020, Calendar.MAY, 14, 12, 30, 0);
     GregorianCalendar timeEndNormal = new GregorianCalendar(2020, Calendar.MAY, 14, 13, 30, 0);
-    Event eventNormal = new Event("Normal", speakerA.getUsername(), timeStartNormal, timeEndNormal);
+    Event eventNormal = new Event("Normal", speakerA.getUsername(), timeStartNormal, timeEndNormal, 20);
 
 
     GregorianCalendar timeStartEarlyBoundary = new GregorianCalendar(2020, Calendar.MAY, 14, 9, 0, 0);
     GregorianCalendar timeEndEarlyBoundary = new GregorianCalendar(2020, Calendar.MAY, 14, 10, 0, 0);
-    Event eventEarlyBoundary = new Event("Early Boundary", speakerA.getUsername(), timeStartEarlyBoundary, timeEndEarlyBoundary);
+    Event eventEarlyBoundary = new Event("Early Boundary", speakerA.getUsername(), timeStartEarlyBoundary, timeEndEarlyBoundary, 20);
 
     GregorianCalendar timeStartLateBoundary = new GregorianCalendar(2020, Calendar.MAY, 14, 16, 0, 0);
     GregorianCalendar timeEndLateBoundary = new GregorianCalendar(2020, Calendar.MAY, 14, 17, 0, 0);
-    Event eventLateBoundary = new Event("Late Boundary", speakerA.getUsername(), timeStartLateBoundary, timeEndLateBoundary);
+    Event eventLateBoundary = new Event("Late Boundary", speakerA.getUsername(), timeStartLateBoundary, timeEndLateBoundary, 20);
 
     GregorianCalendar timeStartOutOfBounds1 = new GregorianCalendar(2020, Calendar.MAY, 14, 16, 30, 0);
     GregorianCalendar timeEndOutOfBounds1 = new GregorianCalendar(2020, Calendar.MAY, 14, 17, 30, 0);
-    Event eventOutOfBounds1 = new Event("OOB Type 1", speakerA.getUsername(), timeStartOutOfBounds1, timeEndOutOfBounds1);
+    Event eventOutOfBounds1 = new Event("OOB Type 1", speakerA.getUsername(), timeStartOutOfBounds1, timeEndOutOfBounds1, 20);
 
     GregorianCalendar timeStartOutOfBounds2A = new GregorianCalendar(2020, Calendar.MAY, 14, 7, 30, 0);
     GregorianCalendar timeEndOutOfBounds2A = new GregorianCalendar(2020, Calendar.MAY, 14, 8, 30, 0);
-    Event eventOutOfBounds2A = new Event("OOB Type 2A", speakerA.getUsername(), timeStartOutOfBounds2A, timeEndOutOfBounds2A);
+    Event eventOutOfBounds2A = new Event("OOB Type 2A", speakerA.getUsername(), timeStartOutOfBounds2A, timeEndOutOfBounds2A, 20);
 
     GregorianCalendar timeStartOutOfBounds2B = new GregorianCalendar(2020, Calendar.MAY, 14, 22, 30, 0);
     GregorianCalendar timeEndOutOfBounds2B = new GregorianCalendar(2020, Calendar.MAY, 14, 23, 30, 0);
-    Event eventOutOfBounds2B = new Event("OOB Type 2B", speakerA.getUsername(), timeStartOutOfBounds2B, timeEndOutOfBounds2B);
+    Event eventOutOfBounds2B = new Event("OOB Type 2B", speakerA.getUsername(), timeStartOutOfBounds2B, timeEndOutOfBounds2B, 20);
 
     GregorianCalendar timeStartOutOfBounds3 = new GregorianCalendar(2020, Calendar.MAY, 14, 8, 30, 0);
     GregorianCalendar timeEndOutOfBounds3 = new GregorianCalendar(2020, Calendar.MAY, 14, 9, 30, 0);
-    Event eventOutOfBounds3 = new Event("OOB Type 3", speakerA.getUsername(), timeStartOutOfBounds3, timeEndOutOfBounds3);
+    Event eventOutOfBounds3 = new Event("OOB Type 3", speakerA.getUsername(), timeStartOutOfBounds3, timeEndOutOfBounds3, 20);
 
     GregorianCalendar timeStartOverlapA = new GregorianCalendar(2020, Calendar.MAY, 14, 12, 0, 0);
     GregorianCalendar timeEndOverlapA = new GregorianCalendar(2020, Calendar.MAY, 14, 13, 0, 0);
-    Event eventOverlapA = new Event("Overlap with B", speakerA.getUsername(), timeStartOverlapA, timeEndOverlapA);
+    Event eventOverlapA = new Event("Overlap with B", speakerA.getUsername(), timeStartOverlapA, timeEndOverlapA, 20);
 
     GregorianCalendar timeStartOverlapB1 = new GregorianCalendar(2020, Calendar.MAY, 14, 12, 30, 0);
     GregorianCalendar timeEndOverlapB1 = new GregorianCalendar(2020, Calendar.MAY, 14, 13, 30, 0);
-    Event eventOverlapB1 = new Event("Overlap with A", speakerB.getUsername(), timeStartOverlapB1, timeEndOverlapB1);
+    Event eventOverlapB1 = new Event("Overlap with A", speakerB.getUsername(), timeStartOverlapB1, timeEndOverlapB1, 20);
 
     GregorianCalendar timeStartOverlapB2 = new GregorianCalendar(2020, Calendar.MAY, 14, 11, 30, 0);
     GregorianCalendar timeEndOverlapB2 = new GregorianCalendar(2020, Calendar.MAY, 14, 12, 30, 0);
-    Event eventOverlapB2 = new Event("Overlap with A", speakerB.getUsername(), timeStartOverlapB2, timeEndOverlapB2);
+    Event eventOverlapB2 = new Event("Overlap with A", speakerB.getUsername(), timeStartOverlapB2, timeEndOverlapB2, 20);
 
-    Event eventOverlapC = new Event("Same time as A", speakerC.getUsername(), timeStartOverlapA, timeEndOverlapA);
+    Event eventOverlapC = new Event("Same time as A", speakerC.getUsername(), timeStartOverlapA, timeEndOverlapA, 20);
 
     GregorianCalendar timeEndOverlapD1 = new GregorianCalendar(2020, Calendar.MAY, 14, 14, 0, 0);
-    Event eventOverlapD1 = new Event("Back to back with A", speakerD.getUsername(), timeEndOverlapA, timeEndOverlapD1);
+    Event eventOverlapD1 = new Event("Back to back with A", speakerD.getUsername(), timeEndOverlapA, timeEndOverlapD1, 20);
 
     GregorianCalendar timeStartOverlapD2 = new GregorianCalendar(2020, Calendar.MAY, 14, 11, 0, 0);
-    Event eventOverlapD2 = new Event("Back to back with A", speakerD.getUsername(), timeStartOverlapD2, timeStartOverlapA);
+    Event eventOverlapD2 = new Event("Back to back with A", speakerD.getUsername(), timeStartOverlapD2, timeStartOverlapA, 20);
 
     GregorianCalendar timeStartNormal1 = new GregorianCalendar(2020, Calendar.MAY, 14, 9, 0, 0);
     GregorianCalendar timeEndNormal1 = new GregorianCalendar(2020, Calendar.MAY, 14, 10, 0, 0);
-    Event eventNormal1 = new Event("Different Name", speakerA.getUsername(), timeStartNormal1, timeEndNormal1);
+    Event eventNormal1 = new Event("Different Name", speakerA.getUsername(), timeStartNormal1, timeEndNormal1, 20);
 
     GregorianCalendar timeStartNormal2 = new GregorianCalendar(2020, Calendar.MAY, 14, 13, 30, 0);
     GregorianCalendar timeEndNormal2 = new GregorianCalendar(2020, Calendar.MAY, 14, 14, 30, 0);
-    Event eventNormal2 = new Event("Same Name", speakerA.getUsername(), timeStartNormal2, timeEndNormal2);
+    Event eventNormal2 = new Event("Same Name", speakerA.getUsername(), timeStartNormal2, timeEndNormal2, 20);
 
     GregorianCalendar timeStartNormal3 = new GregorianCalendar(2020, Calendar.MAY, 14, 16, 0, 0);
     GregorianCalendar timeEndNormal3 = new GregorianCalendar(2020, Calendar.MAY, 14, 17, 0, 0);
-    Event eventNormal3 = new Event("Same Name", speakerB.getUsername(), timeStartNormal3, timeEndNormal3);
+    Event eventNormal3 = new Event("Same Name", speakerB.getUsername(), timeStartNormal3, timeEndNormal3, 20);
 
     Room room;
 

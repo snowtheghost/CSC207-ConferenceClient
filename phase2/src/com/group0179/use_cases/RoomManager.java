@@ -196,7 +196,7 @@ public class RoomManager implements Serializable {
     public boolean newEventValid(String eventTitle, String speakerName, Calendar startTime, Calendar endTime, int roomNumber, UserManager um) {
         Room room = getRoom(roomNumber);
 
-        Event newEvent = new Event(eventTitle, speakerName, startTime, endTime);
+        Event newEvent = new Event(eventTitle, speakerName, startTime, endTime, 0);
         for (UUID existingEventID : um.getSpeakerEventIDs(speakerName)) {
             if (room.eventOverlapping(newEvent, getEvent(existingEventID))) { // TODO: Method does not require room!
                 return false;
@@ -206,7 +206,7 @@ public class RoomManager implements Serializable {
     }
 
     public boolean newEventValid(String eventTitle, String speakerName, Calendar startTime, Calendar endTime, Room room, UserManager um) {
-        Event newEvent = new Event(eventTitle, speakerName, startTime, endTime);
+        Event newEvent = new Event(eventTitle, speakerName, startTime, endTime, 0);
         for (UUID existingEventID : um.getSpeakerEventIDs(speakerName)) {
             if (room.eventOverlapping(newEvent, getEvent(existingEventID))) {
                 return false;
@@ -221,14 +221,15 @@ public class RoomManager implements Serializable {
      * @param startTime   the start time of the event
      * @param endTime     the end time of the event
      * @param roomNumber  the roomNumber of the room that the event should be added to
+     * @param capacity the events capacity
      * @return the UUID of the created event
      * <p>
      * This method adds the newEvent to the specified roomNumber and the specified speakerName.
      * Precondition: the event can be added to the roomNumber without conflict and the roomNumber exists
      */
-    public UUID newEvent(String eventTitle, String speakerName, Calendar startTime, Calendar endTime, int roomNumber, UserManager um) {
+    public UUID newEvent(String eventTitle, String speakerName, Calendar startTime, Calendar endTime, int roomNumber, UserManager um, int capacity) {
         Room room = getRoom(roomNumber);
-        Event newEvent = new Event(eventTitle, speakerName, startTime, endTime);
+        Event newEvent = new Event(eventTitle, speakerName, startTime, endTime, capacity);
         room.addEvent(newEvent);
         um.speakerAddEvent(speakerName, room.getRoomID(), newEvent.getEventID());
         return newEvent.getEventID();
@@ -283,23 +284,24 @@ public class RoomManager implements Serializable {
      * @param eventID    the eventID being applied for
      * @return true if the sign up was successful, or false if the attendee could not sign up (as they're already signed up)
      */
-    public boolean addEventAttendee(UUID attendeeID, UUID eventID, UserManager um) {
+    public boolean addEventAttendee(UUID attendeeID, UUID eventID, UserManager um, boolean isVip) {
         Event event = getEvent(eventID);
 
-        if (event.getAttendeeIDs().size() >= 2) return false;
-
-        if (event.getAttendeeIDs().contains(attendeeID)) {
+        if (event.getAttendeeIDs().contains(attendeeID) || (event.getVipOnlyStatus()&&!isVip)) {
             return false;
         }
-        um.attendeeAddEvent(attendeeID, getEventRoom(event).getRoomID(), eventID);
-        event.addAttendee(attendeeID);
-        return true;
+
+        if (event.addAttendee(attendeeID)){
+            um.attendeeAddEvent(attendeeID, getEventRoom(event).getRoomID(), eventID);
+            return true;
+        };
+        return false;
     }
 
     public boolean addEventAttendee(UUID attendeeID, int roomNumber, int eventNumber, UserManager um, boolean isVip) {
         Event event = getEvent(roomNumber, eventNumber);
 
-        if (event.getAttendeeIDs().size() >= 2 || (event.getVipOnlyStatus()&&!isVip)) return false;
+        if ((event.getVipOnlyStatus()&&!isVip)) return false;
 
         if (event.getAttendeeIDs().contains(attendeeID)) {
             return false;

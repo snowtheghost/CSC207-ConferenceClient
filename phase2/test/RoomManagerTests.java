@@ -46,7 +46,7 @@ public class RoomManagerTests {
         assertFalse(rm.newEventValid("Speech 1", "John", startTime4, endTime4, roomNumber, um));
         assertFalse(rm.newEventValid("Speech 1", "John", startTime5, endTime5, roomNumber, um));
 
-        rm.newEvent("Speech 1", "John", startTime1, endTime1, roomNumber, um);
+        rm.newEvent("Speech 1", "John", startTime1, endTime1, roomNumber, um, 20);
         assertTrue(rm.newEventValid("Speech 2", "John", startTime2, endTime2, roomNumber, um));
         assertFalse(rm.newEventValid("Speech 1", "John", startTime1, endTime1, roomNumber, um));
         assertFalse(rm.newEventValid("Speech 2", "John", startTime3, endTime3, roomNumber, um));
@@ -63,7 +63,7 @@ public class RoomManagerTests {
 
         assertTrue(rm.newEventValid("Speech 1", "Jack", startTime1, endTime1, roomNumber, um));
 
-        rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um);
+        rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um, 20);
         assertTrue(rm.newEventValid("Speech 1", "Jack", startTime1, endTime1, 1, um));
         assertFalse(rm.newEventValid("Speech 1", "John", startTime1, endTime1, 1, um));
     }
@@ -75,7 +75,7 @@ public class RoomManagerTests {
         rm.newRoom(20);
         um.createSpeakerAccount("John");
 
-        UUID eventID = rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um);
+        UUID eventID = rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um, 20);
 
         assertEquals(rm.getNumEvents(), 1);
         assertNotNull(eventID);
@@ -87,7 +87,7 @@ public class RoomManagerTests {
         assertEquals(rm.getNumEventsInRoom(0), 0);
 
         um.createSpeakerAccount("John");
-        rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um);
+        rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um, 20);
         assertEquals(rm.getNumEventsInRoom(0), 1);
     }
 
@@ -102,9 +102,9 @@ public class RoomManagerTests {
         um.createSpeakerAccount("John");
         um.createSpeakerAccount("Jack");
         um.createSpeakerAccount("Jason");
-        UUID eventID1 = rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um);
-        UUID eventID2 = rm.newEvent("Speech 2", "Jack", startTime1, endTime1, 1, um);
-        UUID eventID3 = rm.newEvent("Speech 3", "Jason", startTime1, endTime1, 2, um);
+        UUID eventID1 = rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um, 20);
+        UUID eventID2 = rm.newEvent("Speech 2", "Jack", startTime1, endTime1, 1, um, 20);
+        UUID eventID3 = rm.newEvent("Speech 3", "Jason", startTime1, endTime1, 2, um, 20);
 
         ArrayList<UUID> new_eventIDs = rm.getEventIDs();
         assertEquals(new_eventIDs.size(), 3);
@@ -121,7 +121,7 @@ public class RoomManagerTests {
         Random random = new Random();
 
         um.createSpeakerAccount("John");
-        rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um);
+        rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um, 20);
 
         assertTrue(rm.rescheduleEvent(um, 0, 0, startTime2, endTime2));
         assertFalse(rm.rescheduleEvent(um, 0, 0, startTime2, endTime2));
@@ -131,7 +131,7 @@ public class RoomManagerTests {
     public void testRemoveEvent() {
         rm.newRoom(20);
         um.createSpeakerAccount("Josh");
-        rm.newEvent("Speech 1", "Josh", startTime1, endTime1, 0, um);
+        rm.newEvent("Speech 1", "Josh", startTime1, endTime1, 0, um, 20);
 
         rm.removeEvent(um, 0, 0);
         assertEquals(rm.getNumEvents(), 0);
@@ -142,27 +142,33 @@ public class RoomManagerTests {
     public void testAddEventAttendee() {
         rm.newRoom(20);
         um.createSpeakerAccount("John");
-        UUID eventID1 = rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um);
+        UUID eventID1 = rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um, 1);
 
         assertEquals(rm.getEventAttendeeIDs(eventID1).size(), 0);
 
         um.createAttendeeAccount("Chad");
         UUID attendeeID = um.getAttendeeUUIDs().get(0);
-        rm.addEventAttendee(attendeeID, eventID1, um);
+        assertTrue(rm.addEventAttendee(attendeeID, eventID1, um, false));
+
+        um.createAttendeeAccount("Sad");
+        UUID attendeeID2 = um.getAttendeeUUIDs().get(0);
+        assertFalse(rm.addEventAttendee(attendeeID2, eventID1, um, false));
 
         assertEquals(rm.getEventAttendeeIDs(eventID1).size(), 1);
+        
     }
 
     @Test
     public void testRemoveEventAttendee() {
         rm.newRoom(20);
         um.createSpeakerAccount("John");
-        UUID eventID1 = rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um);
+        UUID eventID1 = rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um, 20);
         um.createAttendeeAccount("Chad");
         UUID attendeeID = um.getAttendeeUUIDs().get(0);
-        rm.addEventAttendee(attendeeID, eventID1, um);
+        rm.addEventAttendee(attendeeID, eventID1, um, false);
         rm.removeEventAttendee(attendeeID, 0, 0, um);
 
         assertEquals(rm.getEventAttendeeIDs(eventID1).size(), 0);
     }
+
 }
