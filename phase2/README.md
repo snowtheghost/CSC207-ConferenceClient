@@ -1,4 +1,4 @@
-#### How to Use ####
+## How to Use ##
 *Note, you can quit the program from a menu by entering "quit", the program
 must by quit in this manner to ensure user data gets serialized and written to
 external files.*
@@ -9,6 +9,7 @@ external files.*
 Attendee, Speaker).
 5. Follow the on screen instructions to navigate the menus and use the program.
 
+## Phase 1
 
 ##### Contributors: Planning #####
 UML Editor: Liam Ogilvie
@@ -52,3 +53,13 @@ MenuTree: Kaiyi Liu (Programmer), Zachariah Vincze (Programmer)
  - Thursday , November 12: All Controllers and Presenters
  - Monday, November 16: Complete Phase 1
  
+## Phase 2
+### GUI (2 Points)
+- 
+### Extended Organizer Panel
+- 
+### Support Additional User Request
+- 
+### Custom Feature
+- Autofill
+- Language translations
