@@ -3,6 +3,7 @@ package com.group0179.presenters;
 import com.group0179.use_cases.MessageManager;
 import com.group0179.use_cases.UserManager;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -143,6 +144,9 @@ public class AttendeePresenter {
      */
     public void displayJoinLeaveError(String joinOrLeave) {
         System.out.println("Error when " + joinOrLeave + " the event.");
+        if (joinOrLeave.equals("joining")) {
+            System.out.println("The event may be of vip status and you may not have the credentials to join.");
+        }
     }
 
     /**

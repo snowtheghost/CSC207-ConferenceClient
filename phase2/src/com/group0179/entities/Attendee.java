@@ -21,6 +21,16 @@ public class Attendee extends User {
         super(username);
         events = new HashMap<>();
     }
+    /**
+     * Creates a new Attendee with a unique ID, a username,
+     * no messages, no contacts and no reserved Events.
+     * @param username The user's username.
+     * @param isVip Whether the attendee is an vip
+     */
+    public Attendee(String username, boolean isVip){
+        super(username, isVip);
+        events = new HashMap<>();
+    }
 
     /**
      * @return the Attendee's Events

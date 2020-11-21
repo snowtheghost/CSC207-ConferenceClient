@@ -39,7 +39,7 @@ public class AppMain {
         // Controllers
         LoginSystem loginSystem = new LoginSystem(userManager);
         AttendeePanel attendeePanel = new AttendeePanel(userManager, messageManager, roomManager, inputFilter);
-        OrganizerPanel organizerPanel = new OrganizerPanel(userManager, roomManager, messageManager, inputFilter);
+        OrganizerPanel organizerPanel = new OrganizerPanel(userManager, roomManager, messageManager, inputFilter, loginSystem);
         SpeakerPanel speakerPanel = new SpeakerPanel(userManager, messageManager, roomManager);
 
         // Construct a MenuTree using the initialized controllers
@@ -51,7 +51,9 @@ public class AppMain {
         mainMenu.addChild(attendeeMenu);
         mainMenu.addChild(organizerMenu);
         mainMenu.addChild(speakerMenu);
-
+        userManager.createAttendeeAccount("kerry", false);
+        userManager.createOrganizerAccount("justin");
+        userManager.createSpeakerAccount("zach");
 
         while (applicationRunning) {
             int command = mainMenu.run();

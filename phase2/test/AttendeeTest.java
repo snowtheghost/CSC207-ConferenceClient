@@ -13,11 +13,11 @@ public class AttendeeTest {
     Speaker speaker2 = new Speaker("speaker2");
     Event event1 = new Event("event1",speaker1.getUsername(),
             new GregorianCalendar(2000, Calendar.MAY, 1, 99, 0, 0),
-            new GregorianCalendar(2000, Calendar.MAY, 1, 99, 30, 0));
+            new GregorianCalendar(2000, Calendar.MAY, 1, 99, 30, 0), 20);
     Event event2 = new Event("event2",speaker2.getUsername(),
             new GregorianCalendar(2000, Calendar.MAY, 1, 100, 0, 0),
-            new GregorianCalendar(2000, Calendar.MAY, 1, 100, 30, 0));
-    Room room = new Room();
+            new GregorianCalendar(2000, Calendar.MAY, 1, 100, 30, 0), 20);
+    Room room = new Room(30);
     Attendee attendee1 = new Attendee("attendee1");
     Attendee attendee2 = new Attendee("attendee2");
     Message message1 = new Message("message1");

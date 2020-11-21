@@ -81,16 +81,16 @@ public class MessageManagerTests {
         UUID a1UUID = userManager.createAttendeeAccount("attendee1");
         UUID a2UUID = userManager.createAttendeeAccount("attendee2");
 
-        roomManager.newRoom();
+        roomManager.newRoom(30);
         UUID speakerUUID = userManager.createSpeakerAccount("speaker");
         String messageContent = "event";
 
         UUID eventID = roomManager.newEvent("1", userManager.getUsername(speakerUUID),
                 new GregorianCalendar(2000, Calendar.MAY, 1, 11, 0, 0),
                 new GregorianCalendar(2000, Calendar.MAY, 1, 12, 0, 0),
-                0, userManager);
-        roomManager.addEventAttendee(a1UUID, eventID, userManager);
-        roomManager.addEventAttendee(a2UUID, eventID, userManager);
+                0, userManager, 20);
+        roomManager.addEventAttendee(a1UUID, eventID, userManager, false);
+        roomManager.addEventAttendee(a2UUID, eventID, userManager, false);
 
         messageManager.sendMessageToEventAttendees(userManager, roomManager,
                 speakerUUID, eventID, messageContent);
@@ -110,14 +110,14 @@ public class MessageManagerTests {
         UUID a1UUID = UUID.randomUUID();
         UUID a2UUID = UUID.randomUUID();
 
-        roomManager.newRoom();
+        roomManager.newRoom(30);
         UUID speakerUUID = userManager.createSpeakerAccount("speaker");
         String messageContent = "event";
 
         UUID eventID = roomManager.newEvent("1", userManager.getUsername(speakerUUID),
                 new GregorianCalendar(2000, Calendar.MAY, 1, 11, 0, 0),
                 new GregorianCalendar(2000, Calendar.MAY, 1, 12, 0, 0),
-                0, userManager);
+                0, userManager, 20);
         UUID eventUUID = eventID;
 
         assertSame(null, messageManager.sendMessageToEventAttendees(userManager, roomManager,

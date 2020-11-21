@@ -25,7 +25,7 @@ public class OrganizerPresenter {
     }
 
     public void commandHelp() {
-        System.out.println("createspeaker - Create a new Speaker\n" +
+        System.out.println("createuser - Create a new user account\n" +
                 "createroom - Create a new Room\n" + "createevent - Create a new Event\n" + "rescheduleevent - Reschedules an existing event\n"+"cancelevent - Remove an existing Event\n" +
                 "viewspeakers - See available Speakers\n" + "viewrooms - See available Rooms\n" + "viewevents - See available events in specified room\n" +
                 "sendmessage - Send a message to an Attendee or Speaker\nmessageallattendees - Send a message to all Attendees\nmessageallspeakers" +
@@ -54,14 +54,6 @@ public class OrganizerPresenter {
 
     public void cancelEventStatus() {
         System.out.println("The event has been removed.");
-    }
-
-    public void createSpeakerWelcome() {
-        System.out.println("Creating a Speaker. To cancel the process, enter \"-1\" in any input.");
-    }
-
-    public void createSpeakerStatus(String speakerName) {
-        System.out.println("Speaker \"" + speakerName + "\" created successfully.");
     }
 
     public void createRoomStatus(int numRooms) {
@@ -133,5 +125,14 @@ public class OrganizerPresenter {
 
     public void printNotSpeakerOrAttendee() {
         System.out.println("The username you entered does not belong to a speaker or attendee.");
+    }
+    public void isVipOnlyStatusPrompt() { System.out.println("Is vip only event? (yes or no)"); }
+    public void enterCapacity(int remainingCapacity) {
+        System.out.println("Please enter a capacity between 0 and " + remainingCapacity);
+    }
+    public void invalidVipStatusPrompt() { System.out.println("Invalid input, please type yes or no"); }
+    public void overFlowCapacityPrompt(int enteredCapacity, int availableCapacity){
+        System.out.println("The room does not have enough capacity, you entered " + enteredCapacity + ", " +
+                "the room has " + availableCapacity + " currently remaining." );
     }
 }

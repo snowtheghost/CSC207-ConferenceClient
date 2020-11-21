@@ -80,7 +80,13 @@ public class LoginSystem implements IController {
                 this.userMan.createOrganizerAccount(accountName);
                 break;
             case "attendee":
-                this.userMan.createAttendeeAccount(accountName);
+                this.lp.isVipPrompt();
+                String vip = input.nextLine();
+                while (!(vip.equals("yes") || vip.equals("no"))){
+                    this.lp.invalidVipPrompt();
+                    vip = input.nextLine();
+                }
+                this.userMan.createAttendeeAccount(accountName, vip.equals("yes"));
                 break;
         }
         this.lp.displaySuccCreation(accountType, accountName);
