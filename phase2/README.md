@@ -54,12 +54,17 @@ MenuTree: Kaiyi Liu (Programmer), Zachariah Vincze (Programmer)
  - Monday, November 16: Complete Phase 1
  
 ## Phase 2
+### Mandatory extensions
+- 1:tanuj
+- 2: done
+- 3-5: kerry
+
 ### GUI (2 Points)
-- 
+- LoginSystem: zach, AttendeePanel: kerry, SpeakerPanel: liam, orgPanel: Justin
 ### Extended Organizer Panel
-- 
+- OrganizerPanel: kai, getting user stats
 ### Support Additional User Request
-- 
+- kai, attendeePanel 
 ### Custom Feature
-- Autofill
-- Language translations
+- Autofill: kai, liam 
+- Language translations, derrick, arya
