@@ -26,7 +26,7 @@ public class EventTests {
     public void setUpBefore() {
         event1 = new Event("event1", speaker1.getUsername(),
                 new GregorianCalendar(2000, Calendar.MAY, 1, 100, 0, 0),
-                new GregorianCalendar(2000, Calendar.MAY, 1, 100, 30, 0), 0);
+                new GregorianCalendar(2000, Calendar.MAY, 1, 100, 30, 0), 50);
     }
 
     // initial number of candies
@@ -67,7 +67,7 @@ public class EventTests {
         assertTrue(event1.addAttendee(attendee3.getUserID()));
         assertEquals(event1.getAttendeeIDs().size(), 3);
 
-        assertTrue(event1.getAttendeeIDs().contains(attendee1.getUserID()));
+        assertTrue(event1.removeAttendee(attendee1.getUserID()));
         assertTrue(event1.getAttendeeIDs().contains(attendee2.getUserID()));
         assertTrue(event1.getAttendeeIDs().contains(attendee3.getUserID()));
 
