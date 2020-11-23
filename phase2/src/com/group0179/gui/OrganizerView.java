@@ -18,7 +18,7 @@ import com.group0179.use_cases.*;
 import com.group0179.gui_bridge.OrganizerPresenter;
 
 /**
- * @author Justin Chan
+ * @author Template: Justin Chan
  */
 
 public class OrganizerView extends Application {

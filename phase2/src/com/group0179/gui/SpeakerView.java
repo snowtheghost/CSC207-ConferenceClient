@@ -21,7 +21,7 @@ import javafx.stage.WindowEvent;
  * @author Template: Justin Chan
  */
 
-public class TemplateView extends Application {
+public class SpeakerView extends Application {
     // Temporary direct creations of Use Cases
     UserManager um = new UserManager();
     RoomManager rm = new RoomManager();
