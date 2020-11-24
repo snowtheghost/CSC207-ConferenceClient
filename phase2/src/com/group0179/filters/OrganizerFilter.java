@@ -1,12 +1,10 @@
-package com.group0179.presenters;
+package com.group0179.filters;
 
 import com.group0179.use_cases.MessageManager;
 import com.group0179.use_cases.RoomManager;
 import com.group0179.use_cases.UserManager;
 
-import java.util.ArrayList;
-
-public class OrganizerPresenter extends Presenter {
+public class OrganizerFilter extends Filter {
     private final UserManager um;
     private final RoomManager rm;
     private final MessageManager mm;
@@ -14,13 +12,16 @@ public class OrganizerPresenter extends Presenter {
     private final int START_HOUR_EARLIEST = 9;
     private final int START_HOUR_LATEST = 16;
 
-    public OrganizerPresenter(UserManager um, RoomManager rm, MessageManager mm) {
+    public OrganizerFilter(UserManager um, RoomManager rm, MessageManager mm) {
         this.um = um;
         this.rm = rm;
         this.mm = mm;
     }
 
-    public ArrayList<String> getSpeakerNames() {
-        return um.getSpeakerNames();
+    public boolean inputNewSpeakerUsername(String input) {
+        if (!um.getUsernames().contains(input)) {
+            um.createSpeakerAccount(input);
+            return true;
+        } return false;
     }
 }

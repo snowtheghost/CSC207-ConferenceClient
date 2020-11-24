@@ -1,14 +1,12 @@
-package com.group0179.controllers;
+package com.group0179.cli.controllers_cli;
 
-import com.group0179.Definitions;
-import com.group0179.InputFilter;
-import com.group0179.TimeStatistics;
-import com.group0179.presenters.OrganizerPresenter;
+import com.group0179.cli.DefinitionsCLI;
+import com.group0179.cli.InputFilterCLI;
+import com.group0179.cli.presenters_cli.OrganizerPresenterCLI;
 import com.group0179.use_cases.MessageManager;
 import com.group0179.use_cases.RoomManager;
 import com.group0179.use_cases.UserManager;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.UUID;
@@ -16,15 +14,14 @@ import java.util.UUID;
 /**
  * @author Justin Chan, Tanuj Devjani
  */
-public class OrganizerPanel implements IController {
+public class OrganizerPanelCLI implements IControllerCLI {
     private final Scanner sc = new Scanner(System.in);
-    private final LoginSystem ls;
+    private final LoginSystemCLI ls;
     private final UserManager um;
     private final RoomManager rm;
     private final MessageManager mm;
-    private final InputFilter filter;
-    private final OrganizerPresenter op;
-    private final TimeStatistics timer;
+    private final InputFilterCLI filter;
+    private final OrganizerPresenterCLI op;
 
     private final int START_HOUR_EARLIEST = 9;
     private final int START_HOUR_LATEST = 16;
@@ -35,14 +32,13 @@ public class OrganizerPanel implements IController {
      * @param um the Usermanager
      * Last modified: Justin Chan
      */
-    public OrganizerPanel(UserManager um, RoomManager rm, MessageManager mm, InputFilter inputFilter, LoginSystem loginSys) {
+    public OrganizerPanelCLI(UserManager um, RoomManager rm, MessageManager mm, InputFilterCLI inputFilter, LoginSystemCLI loginSys) {
         this.ls = loginSys;
         this.um = um;
         this.rm = rm;
         this.mm = mm;
         this.filter = inputFilter;
-        this.timer = new TimeStatistics();
-        op = new OrganizerPresenter(um, rm);
+        op = new OrganizerPresenterCLI(um, rm);
     }
 
     /**
@@ -307,8 +303,6 @@ public class OrganizerPanel implements IController {
      */
     @Override
     public int run() {
-        //start timing how long user is logged in
-        this.timer.commenceTiming();
         String command = "";
         op.welcomePrompt();
         while (!(command.equalsIgnoreCase("logout") || command.equalsIgnoreCase("quit"))){
@@ -340,26 +334,13 @@ public class OrganizerPanel implements IController {
                 case "help":
                     op.commandHelp(); break;
                 case "logout":
-                    //Record Time Spent (Attendee has either Logged out or quit)
-                    this.timer.concludeTiming();
-                    double timeElapsed = this.timer.getTimeLoggedInAsMinutes();
-                    Calendar timeStamp= this.timer.getTimeStamp();
-                    this.um.addLastLoggedInForCurrentUser(timeStamp);
-                    this.um.addNewTimeLoggedInForCurrentUser(timeElapsed);
-                    return Definitions.BACK;
+                    return DefinitionsCLI.BACK;
                 case "quit":
-                    //Record Time Spent (Attendee has either Logged out or quit)
-                    this.timer.concludeTiming();
-                    double timeElapsedQuit = this.timer.getTimeLoggedInAsMinutes();
-                    Calendar timeStampQuit = this.timer.getTimeStamp();
-                    this.um.addLastLoggedInForCurrentUser(timeStampQuit);
-                    this.um.addNewTimeLoggedInForCurrentUser(timeElapsedQuit);
-                    return Definitions.QUIT;
+                    return DefinitionsCLI.QUIT;
                 default:
                     op.commandNotRecognized(command);
             }
         }
-
-        return Definitions.QUIT;
+        return DefinitionsCLI.QUIT;
     }
 }

@@ -1,7 +1,7 @@
-package com.group0179.controllers;
+package com.group0179.cli.controllers_cli;
 
-import com.group0179.Definitions;
-import com.group0179.presenters.LoginSystemPresenter;
+import com.group0179.cli.DefinitionsCLI;
+import com.group0179.cli.presenters_cli.LoginSystemPresenterCLI;
 import com.group0179.use_cases.UserManager;
 
 import java.util.ArrayList;
@@ -10,18 +10,18 @@ import java.util.Scanner;
 /**
  * The login system.
  */
-public class LoginSystem implements IController {
+public class LoginSystemCLI implements IControllerCLI {
     private final UserManager userMan;
-    private final LoginSystemPresenter lp;
+    private final LoginSystemPresenterCLI lp;
     private final Scanner input;
 
     /**
      * Allows users to login to their account or create one.
      * @param userManager the user manager use case class
      */
-    public LoginSystem(UserManager userManager) {
+    public LoginSystemCLI(UserManager userManager) {
         this.userMan = userManager;
-        this.lp = new LoginSystemPresenter();
+        this.lp = new LoginSystemPresenterCLI();
         this.input = new Scanner(System.in);
     }
     /**
@@ -38,12 +38,12 @@ public class LoginSystem implements IController {
             case "create account":
                 return createAccount();
             case "quit":
-                return Definitions.QUIT;
+                return DefinitionsCLI.QUIT;
             default:
                 this.lp.invalidInputPrompt();
         }
         // If the input is invalid, remain in this state.
-        return Definitions.REMAIN_IN_STATE;
+        return DefinitionsCLI.REMAIN_IN_STATE;
     }
 
     /**
@@ -90,7 +90,7 @@ public class LoginSystem implements IController {
                 break;
         }
         this.lp.displaySuccCreation(accountType, accountName);
-        return Definitions.REMAIN_IN_STATE;
+        return DefinitionsCLI.REMAIN_IN_STATE;
     }
 
     /**
@@ -105,7 +105,7 @@ public class LoginSystem implements IController {
             this.lp.goBackOptionPrompt();
             userName = input.nextLine();
             if (userName.equals("back")) {
-                return Definitions.REMAIN_IN_STATE;
+                return DefinitionsCLI.REMAIN_IN_STATE;
             }
         }
 
@@ -119,6 +119,6 @@ public class LoginSystem implements IController {
             case "organizer":
                 return 1;
         }
-        return Definitions.REMAIN_IN_STATE;
+        return DefinitionsCLI.REMAIN_IN_STATE;
     }
 }

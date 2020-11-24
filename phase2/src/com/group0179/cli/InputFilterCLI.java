@@ -1,6 +1,6 @@
-package com.group0179;
+package com.group0179.cli;
 
-import com.group0179.presenters.InputPresenter;
+import com.group0179.cli.presenters_cli.InputPresenterCLI;
 import com.group0179.use_cases.RoomManager;
 import com.group0179.use_cases.UserManager;
 
@@ -12,8 +12,8 @@ import java.util.Scanner;
  * @author Justin Chan
  */
 
-public class InputFilter {
-    private InputPresenter ip = new InputPresenter();
+public class InputFilterCLI {
+    private InputPresenterCLI ip = new InputPresenterCLI();
     private Scanner sc = new Scanner(System.in);
     private UserManager um;
     private RoomManager rm;
@@ -21,7 +21,7 @@ public class InputFilter {
     private final int START_HOUR_EARLIEST = 9;
     private final int START_HOUR_LATEST = 16;
 
-    InputFilter(UserManager um, RoomManager rm) {
+    InputFilterCLI(UserManager um, RoomManager rm) {
         this.um = um;
         this.rm = rm;
     }

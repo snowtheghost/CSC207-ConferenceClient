@@ -1,10 +1,10 @@
-package com.group0179.controllers;
+package com.group0179.cli.controllers_cli;
 
 /**
  * Common interface for any controller classes.
  * @author Zachariah Vincze
  */
-public interface IController {
+public interface IControllerCLI {
     /**
      * This method is run once per iteration.
      * @return the state ID to change to once this iteration has finished.
