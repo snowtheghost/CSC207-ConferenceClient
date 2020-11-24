@@ -102,7 +102,7 @@ public abstract class User implements Serializable {
     }
     //kaiyi
     public Calendar getLastLoggedIn(){
-        return this.lastLoggedIn;
+        return (Calendar) this.lastLoggedIn.clone();
     }
     //kaiyi
     public boolean addNewTimeLoggedIn(double timeElapsed){
