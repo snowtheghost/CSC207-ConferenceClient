@@ -1,11 +1,11 @@
 package com.group0179.scenes;
 
-import com.group0179.filters.Filter;
-import com.group0179.presenters.Presenter;
-import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+
+/**
+ * @author Justin Chan
+ */
 
 public interface IScene {
     int x = 400;

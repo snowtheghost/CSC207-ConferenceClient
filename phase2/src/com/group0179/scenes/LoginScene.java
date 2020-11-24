@@ -3,7 +3,6 @@ package com.group0179.scenes;
 import com.group0179.MainView;
 import com.group0179.filters.LoginFilter;
 import com.group0179.presenters.LoginPresenter;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -13,8 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 /**
  * @author Justin Chan

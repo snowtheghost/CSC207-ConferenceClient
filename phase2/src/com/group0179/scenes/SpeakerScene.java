@@ -1,23 +1,13 @@
 package com.group0179.scenes;
 
 import com.group0179.MainView;
-import com.group0179.filters.Filter;
 import com.group0179.filters.SpeakerFilter;
-import com.group0179.presenters.Presenter;
 import com.group0179.presenters.SpeakerPresenter;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 
 /**
  * @author Template: Justin Chan
