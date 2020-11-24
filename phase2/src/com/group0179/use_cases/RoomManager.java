@@ -138,6 +138,9 @@ public class RoomManager implements Serializable {
         return event.getAttendeeIDs();
     }
 
+    /**
+     * @return a HashMap where key is roomID and value is Room
+     */
     private HashMap<UUID, Room> getRoomIDToRoom() {
         HashMap<UUID, Room> RoomIDToRoom = new HashMap<>();
         for (Room room : rooms) {
@@ -146,6 +149,10 @@ public class RoomManager implements Serializable {
         return RoomIDToRoom;
     }
 
+    /**
+     *
+     * @return a HashMap where key is EventID and value is Event
+     */
     private HashMap<UUID, Event> getEventIDToEvent() {
         HashMap<UUID, Event> EventIDToEvent = new HashMap<>();
         for (Room room : rooms) {
@@ -156,10 +163,16 @@ public class RoomManager implements Serializable {
         return EventIDToEvent;
     }
 
+    /**
+     * @return the number of rooms
+     */
     public int getNumRooms() {
         return rooms.size();
     }
 
+    /**
+     * @return the number of Events
+     */
     public int getNumEvents() {
         return getEvents().size();
     }
