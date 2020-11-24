@@ -1,5 +1,7 @@
 package com.group0179.gui;
 
+import com.group0179.use_cases.RoomManager;
+import com.group0179.use_cases.UserManager;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +16,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import com.group0179.gui_bridge.InputFilter;
-import com.group0179.use_cases.*;
 import com.group0179.gui_bridge.OrganizerPresenter;
 
 /**
@@ -23,12 +24,8 @@ import com.group0179.gui_bridge.OrganizerPresenter;
 
 public class OrganizerView extends Application {
     // Temporary direct creations of Use Cases
-    UserManager um = new UserManager();
-    RoomManager rm = new RoomManager();
-    MessageManager mm = new MessageManager();
-    InputFilter filter = new InputFilter(um, rm ,mm);
-
-    OrganizerPresenter op = new OrganizerPresenter(um, rm, mm);
+    static InputFilter filter;
+    static OrganizerPresenter op;
 
     Stage window;
     Scene mainPanel;
@@ -37,6 +34,11 @@ public class OrganizerView extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    static public void setup(InputFilter filter, OrganizerPresenter op) {
+        OrganizerView.filter = filter;
+        OrganizerView.op = op;
     }
 
     @Override

@@ -1,58 +1,48 @@
 package com.group0179;
 
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import com.group0179.gui.*;
+import com.group0179.gui_bridge.InputFilter;
+import com.group0179.gateways.*;
+import com.group0179.gui_bridge.OrganizerPresenter;
+import com.group0179.use_cases.*;
+import com.sun.org.apache.xpath.internal.operations.Or;
 
-public class AppMainView extends Application {
+/**
+ * Application entrypoint
+ * @author Justin Chan
+ */
 
-    Stage window;
-    Scene scene1, scene2;
-
+public class AppMainView {
     public static void main(String[] args) {
-        launch(args);
-    }
+        boolean applicationRunning = true;
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        window = primaryStage;
+        // Initialize all required components of the application.
+        // Gateways
+        MessageManagerGateway messageManagerGateway= new MessageManagerGateway();
+        UserManagerGateway userManagerGateway = new UserManagerGateway();
+        RoomManagerGateway roomManagerGateway = new RoomManagerGateway();
 
-        Label label1 = new Label("Scene 1");
-        Button button1 = new Button("Go to Scene 2");
-        button1.setOnAction(new EventHandler<ActionEvent>() {
+        // Use Cases (deserialized from external file)
+        UserManager userManager = userManagerGateway.read("usermanager.ser");
+        RoomManager roomManager = roomManagerGateway.read("roommanager.ser");
+        MessageManager messageManager = messageManagerGateway.read("messagemanager.ser");
+
+        // Helper classes
+        InputFilter inputFilter = new InputFilter(userManager, roomManager, messageManager);
+        OrganizerPresenter organizerPresenter = new OrganizerPresenter(userManager, roomManager, messageManager);
+
+        // View Setup
+        LoginView.setup(); // TODO
+        AttendeeView.setup(); // TODO
+        SpeakerView.setup(); // TODO
+        OrganizerView.setup(inputFilter, organizerPresenter);
+
+
+        new Thread() {
             @Override
-            public void handle(ActionEvent actionEvent) {
-                window.setScene(scene2); // Set window to scene2
+            public void run() {
+                javafx.application.Application.launch(OrganizerView.class);
             }
-        });
-
-        // Create layout for scene1
-        VBox layout1 = new VBox(20); // Vertical column
-        layout1.getChildren().addAll(label1, button1); // Add elements
-        scene1 = new Scene(layout1, 600, 900); // set scene1
-
-        // Button 2
-        Button button2 = new Button("Go to Scene 1");
-        button2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                window.setScene(scene1);
-            }
-        });
-
-        // Create layout for scene2
-        StackPane layout2 = new StackPane();
-        layout2.getChildren().add(button2);
-        scene2 = new Scene(layout2, 600, 900);
-
-        window.setScene(scene1); // set initial scene
-        window.setTitle("Application View"); // set window title
-        window.show(); // show window
+        }.start();
     }
 }
