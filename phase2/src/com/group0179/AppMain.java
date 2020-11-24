@@ -1,5 +1,8 @@
 package com.group0179;
 
+import com.group0179.entities.Attendee;
+import com.group0179.entities.Organizer;
+import com.group0179.entities.Speaker;
 import com.group0179.filters.AttendeeFilter;
 import com.group0179.filters.LoginFilter;
 import com.group0179.filters.OrganizerFilter;
@@ -37,16 +40,14 @@ public class AppMain {
         OrganizerFilter organizerFilter = new OrganizerFilter(userManager, roomManager, messageManager);
         OrganizerPresenter organizerPresenter = new OrganizerPresenter(userManager, roomManager, messageManager);
 
-        // View Setup
-        LoginView.setup(loginFilter, loginPresenter);
-        OrganizerView.setup(organizerFilter, organizerPresenter);
-        AttendeeView.setup(attendeeFilter, attendeePresenter);
-        SpeakerView.setup(speakerFilter, speakerPresenter);
+        // Scene Setup
+        LoginScene loginScene = new LoginScene(loginFilter, loginPresenter);
+        OrganizerScene organizerScene = new OrganizerScene(organizerFilter, organizerPresenter);
+        AttendeeScene attendeeScene = new AttendeeScene(attendeeFilter, attendeePresenter);
+        SpeakerScene speakerScene = new SpeakerScene(speakerFilter, speakerPresenter);
 
-        OrganizerScene organizerViewTest = new OrganizerScene(organizerFilter, organizerPresenter);
-
-        MainView.setup(organizerViewTest);
-
+        // Set up MainView and launch
+        MainView.setup(loginScene, organizerScene, attendeeScene, speakerScene);
         Application.launch(MainView.class);
     }
 }

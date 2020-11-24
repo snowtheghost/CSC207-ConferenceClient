@@ -6,7 +6,7 @@ import com.group0179.use_cases.UserManager;
 
 import java.util.ArrayList;
 
-public class OrganizerPresenter {
+public class OrganizerPresenter extends Presenter {
     private final UserManager um;
     private final RoomManager rm;
     private final MessageManager mm;

@@ -1,81 +1,68 @@
 package com.group0179.scenes;
 
-import javafx.application.Platform;
+import com.group0179.MainView;
+import com.group0179.filters.OrganizerFilter;
+import com.group0179.presenters.OrganizerPresenter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-
-import com.group0179.filters.OrganizerFilter;
-import com.group0179.presenters.OrganizerPresenter;
 
 /**
  * @author Template: Justin Chan
  */
 
-public class OrganizerView extends IView{
-    static OrganizerFilter filter;
-    static OrganizerPresenter op;
+public class OrganizerScene implements IScene{
+    OrganizerFilter filter;
+    OrganizerPresenter op;
 
-    Stage window;
-    Scene mainPanel;
+    Scene mainScene;
+    GridPane reMenu = new GridPane();
+    GridPane speakersMenu = new GridPane();
+    GridPane createSpeakersMenu = new GridPane();
 
-    public static void main(String[] args) {
-        launch(args);
+    public OrganizerScene(OrganizerFilter filter, OrganizerPresenter op) {
+        this.filter = filter;
+        this.op = op;
     }
 
-    static public void setup(OrganizerFilter filter, OrganizerPresenter op) {
-        OrganizerView.filter = filter;
-        OrganizerView.op = op;
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        window = stage;
-
+    public void setScene() {
         // Layout and scene for Full View
-        BorderPane main = new BorderPane();
-        mainPanel = new Scene(main, x, y);
+        mainScene = new Scene(main, x, y);
 
         // Layout and scene for Menu
-        HBox topMenu = new HBox();
         topMenu.setSpacing(10);
 
-        // Layout and scene for Rooms/Events
-        GridPane reMenu = new GridPane();
-
         // Layout and scene for Speakers
-        GridPane speakersMenu = new GridPane();
         speakersMenu.setVgap(2.5);
         speakersMenu.setHgap(2.5);
-        GridPane createSpeakersMenu = new GridPane();
         createSpeakersMenu.setVgap(2.5);
         createSpeakersMenu.setHgap(2.5);
-        ListView<String> viewSpeakersList = new ListView<>();
 
         // Elements for the Main Menu
-        Button reButton = new Button ("Rooms/Events");
+        Button reButton = new Button("Rooms/Events");
         reButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 main.setCenter(reMenu);
-                window.setTitle("Organizer Panel: Rooms and Events");
+                MainView.getStage().setTitle("Organizer Panel: Rooms and Events");
             }
         });
 
-        Button speakersMenuButton = new Button ("Speakers");
+        Button speakersMenuButton = new Button("Speakers");
         speakersMenuButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 main.setCenter(speakersMenu);
-                window.setTitle("Organizer Panel: Speakers");
+                MainView.getStage().setTitle("Organizer Panel: Speakers");
             }
         });
 
@@ -83,28 +70,28 @@ public class OrganizerView extends IView{
         logoutButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                IView.state = 0;
-                Platform.exit();
+                MainView.setLoginScene();
             }
         });
 
 
         // Elements for Speaker Menu
-        Button createSpeakerButton = new Button ("Create Speaker");
+        Button createSpeakerButton = new Button("Create Speaker");
         createSpeakerButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 main.setCenter(createSpeakersMenu);
-                window.setTitle("Organizer Panel: Create Speakers");
+                MainView.getStage().setTitle("Organizer Panel: Create Speakers");
             }
         });
 
-        Button viewSpeakersButton = new Button ("View Speakers");
+        ListView<String> viewSpeakersList = new ListView<>();
+        Button viewSpeakersButton = new Button("View Speakers");
         viewSpeakersButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 main.setCenter(viewSpeakersList);
-                window.setTitle("Organizer Panel: View Speakers");
+                MainView.getStage().setTitle("Organizer Panel: View Speakers");
 
                 ObservableList<String> speakersList = FXCollections.observableArrayList();
                 speakersList.addAll(op.getSpeakerNames());
@@ -114,11 +101,9 @@ public class OrganizerView extends IView{
 
         Label nameLabel = new Label("Username: ");
         TextField nameInput = new TextField();
-
         Label createSpeakerSuccess = new Label("Speaker created successfully.");
         Label createSpeakerFailure = new Label("Username already taken");
-
-        Button createSpeakerUsernameButton = new Button ("Create");
+        Button createSpeakerUsernameButton = new Button("Create");
         createSpeakerUsernameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -131,7 +116,6 @@ public class OrganizerView extends IView{
                 }
             }
         });
-
 
         // Set initial scene for Main Panel
         main.setTop(topMenu);
@@ -146,24 +130,7 @@ public class OrganizerView extends IView{
         createSpeakersMenu.add(createSpeakerUsernameButton, 7, 5);
         speakersMenu.add(viewSpeakersButton, 6, 5);
 
-
-        // Setup and Start Initial Scene: Main Menu
-        window.setScene(mainPanel);
-        window.setTitle("Organizer Panel: Main Menu");
-        window.show();
-
-        // Exit script
-        window.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent windowEvent) {
-                windowEvent.consume();
-                closeProgram();
-            }
-        });
-    }
-
-    private void closeProgram() {
-        IView.state = -1;
-        window.close();
+        MainView.getStage().setScene(mainScene);
+        MainView.getStage().setTitle("Organizer Panel: Main Menu");
     }
 }

@@ -1,5 +1,6 @@
 package com.group0179.scenes;
 
+import com.group0179.MainView;
 import com.group0179.filters.LoginFilter;
 import com.group0179.presenters.LoginPresenter;
 
@@ -19,26 +20,19 @@ import javafx.stage.WindowEvent;
  * @author Justin Chan
  */
 
-public class LoginView extends IView{
-    static LoginFilter filter;
-    static LoginPresenter presenter;
+public class LoginScene implements IScene {
+    LoginFilter filter;
+    LoginPresenter presenter;
 
-    Stage window;
     Scene mainPanel;
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    static public void setup(LoginFilter filter, LoginPresenter presenter) {
-        LoginView.filter = filter;
-        LoginView.presenter = presenter;
+    public LoginScene(LoginFilter filter, LoginPresenter presenter) {
+        this.filter = filter;
+        this.presenter = presenter;
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
-        window = stage;
-
+    public void setScene() {
         // Layout and scene for Full View
         BorderPane main = new BorderPane();
         mainPanel = new Scene(main, x, y);
@@ -58,21 +52,21 @@ public class LoginView extends IView{
         createAccount.setHgap(2.5);
 
         // Elements for the Main Menu
-        Button loginMenuButton = new Button ("Login");
+        Button loginMenuButton = new Button("Login");
         loginMenuButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 main.setCenter(loginMenu);
-                window.setTitle("Login Menu: Login");
+                MainView.getStage().setTitle("Login Menu: Login");
             }
         });
 
-        Button button2 = new Button ("Create Account"); // TODO:
+        Button button2 = new Button("Create Account"); // TODO:
         button2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 main.setCenter(createAccount);
-                window.setTitle("Login Menu: Create Account");
+                MainView.getStage().setTitle("Login Menu: Create Account");
             }
         });
 
@@ -83,7 +77,7 @@ public class LoginView extends IView{
 
         Label loginFailedLabel = new Label("User was not found.");
 
-        Button loginButton = new Button ("Login");
+        Button loginButton = new Button("Login");
         loginButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -102,7 +96,7 @@ public class LoginView extends IView{
         Label creationSuccessLabel = new Label("User created successfully..");
         Label creationFailedLabel = new Label("Username already exists.");
 
-        Button createAccountButton = new Button ("Create");
+        Button createAccountButton = new Button("Create");
         loginButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -135,22 +129,7 @@ public class LoginView extends IView{
 
 
         // Setup and Start Initial Scene: Main Menu
-        window.setScene(mainPanel);
-        window.setTitle("Login Panel");
-        window.show();
-
-        // Exit script
-        window.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent windowEvent) {
-                windowEvent.consume();
-                closeProgram();
-            }
-        });
-    }
-
-    private void closeProgram() {
-        // TODO: Exit code goes here
-        window.close();
+        MainView.getStage().setScene(mainPanel);
+        MainView.getStage().setTitle("Login Panel");
     }
 }
