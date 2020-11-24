@@ -24,4 +24,18 @@ public class OrganizerFilter extends Filter {
             return true;
         } return false;
     }
+
+    public boolean inputRoomCapacity(String rawInput) {
+        try {
+            int input = Integer.parseInt(rawInput);
+            if (0 <= input) {
+                rm.newRoom(input);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }

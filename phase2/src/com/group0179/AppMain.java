@@ -7,6 +7,8 @@ import com.group0179.gateways.*;
 import com.group0179.use_cases.*;
 import javafx.application.Application;
 
+import java.io.IOException;
+
 /**
  * Application entrypoint
  * @author Justin Chan
@@ -43,5 +45,15 @@ public class AppMain {
         // Set up MainView and launch
         MainView.setup(loginScene, organizerScene, attendeeScene, speakerScene);
         Application.launch(MainView.class);
+
+        // Attempt to serialize all Use Case data to external file.
+        try {
+            userManagerGateway.write(userManager, "usermanager.ser");
+            roomManagerGateway.write(roomManager, "roommanager.ser");
+            messageManagerGateway.write(messageManager, "messagemanager.ser");
+        } catch (IOException e) {
+            System.out.println("Unable to write manager data to file.");
+            e.printStackTrace();
+        }
     }
 }

@@ -20,24 +20,34 @@ import javafx.scene.layout.GridPane;
 
 public class OrganizerScene implements IScene{
     OrganizerFilter filter;
-    OrganizerPresenter op;
+    OrganizerPresenter presenter;
 
-    Scene mainScene;
-    GridPane reMenu = new GridPane();
-    GridPane speakersMenu = new GridPane();
-    GridPane createSpeakersMenu = new GridPane();
-
-    public OrganizerScene(OrganizerFilter filter, OrganizerPresenter op) {
+    public OrganizerScene(OrganizerFilter filter, OrganizerPresenter presenter) {
         this.filter = filter;
-        this.op = op;
+        this.presenter = presenter;
     }
 
     public void setScene() {
+        // Scenes
+        Scene mainScene;
+        GridPane reMenu = new GridPane();
+        GridPane createRoomMenu = new GridPane();
+        ListView<String> viewRoomsList = new ListView<>();
+        GridPane speakersMenu = new GridPane();
+        GridPane createSpeakersMenu = new GridPane();
+        ListView<String> viewSpeakersList = new ListView<>();
+
         // Layout and scene for Full View
         mainScene = new Scene(main, x, y);
 
         // Layout and scene for Menu
         topMenu.setSpacing(10);
+
+        // Layout and scene for Room/Events
+        reMenu.setVgap(2.5);
+        reMenu.setHgap(2.5);
+        createRoomMenu.setVgap(2.5);
+        createRoomMenu.setHgap(2.5);
 
         // Layout and scene for Speakers
         speakersMenu.setVgap(2.5);
@@ -45,26 +55,27 @@ public class OrganizerScene implements IScene{
         createSpeakersMenu.setVgap(2.5);
         createSpeakersMenu.setHgap(2.5);
 
+
         // Elements for the Main Menu
-        Button reButton = new Button("Rooms/Events");
+        Button reButton = new Button(presenter.reButtonText());
         reButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 main.setCenter(reMenu);
-                MainView.getStage().setTitle("Organizer Panel: Rooms and Events");
+                MainView.getStage().setTitle(presenter.reSceneTitle());
             }
         });
 
-        Button speakersMenuButton = new Button("Speakers");
+        Button speakersMenuButton = new Button(presenter.speakersMenuButtonText());
         speakersMenuButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 main.setCenter(speakersMenu);
-                MainView.getStage().setTitle("Organizer Panel: Speakers");
+                MainView.getStage().setTitle(presenter.speakersMenuSceneTitle());
             }
         });
 
-        Button logoutButton = new Button("Log out");
+        Button logoutButton = new Button(presenter.logoutButtonText());
         logoutButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -72,36 +83,77 @@ public class OrganizerScene implements IScene{
             }
         });
 
+        // Elements for the Room/Events Menu
+        Button createRoomButton = new Button(presenter.createRoomButtonText());
+        createRoomButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                main.setCenter(createRoomMenu);
+                MainView.getStage().setTitle(presenter.createRoomSceneTitle());
+            }
+        });
+
+        Button viewRoomsButton = new Button(presenter.viewRoomsButtonText());
+        viewRoomsButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                main.setCenter(viewRoomsList);
+                MainView.getStage().setTitle(presenter.viewRoomsSceneTitle());
+
+                ObservableList<String> roomsList = FXCollections.observableArrayList();
+                roomsList.addAll(presenter.getRooms());
+                viewRoomsList.setItems(roomsList);
+            }
+        });
+
+        Label roomCapacityLabel = new Label(presenter.roomCapacityPrompt());
+        TextField roomCapacityInput = new TextField();
+        Label createRoomSuccess = new Label(presenter.createRoomStatus(true));
+        Label createRoomFailure = new Label(presenter.createRoomStatus(false));
+        Button createNewRoomButton = new Button(presenter.createButtonText());
+        createNewRoomButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                createRoomMenu.getChildren().remove(createRoomSuccess);
+                createRoomMenu.getChildren().remove(createRoomFailure);
+                if (filter.inputRoomCapacity(roomCapacityInput.getText())) {
+                    createRoomSuccess.setText(presenter.createRoomStatus(true));
+                    createRoomMenu.add(createRoomSuccess, 5, 7, 2, 1);
+                } else {
+                    createRoomFailure.setText(presenter.createRoomStatus(false));
+                    createRoomMenu.add(createRoomFailure, 5, 7, 2, 1);
+                }
+            }
+        });
 
         // Elements for Speaker Menu
-        Button createSpeakerButton = new Button("Create Speaker");
+        Button createSpeakerButton = new Button(presenter.createSpeakerButtonText());
         createSpeakerButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 main.setCenter(createSpeakersMenu);
-                MainView.getStage().setTitle("Organizer Panel: Create Speakers");
+                MainView.getStage().setTitle(presenter.createSpeakerSceneTitle());
             }
         });
 
-        ListView<String> viewSpeakersList = new ListView<>();
-        Button viewSpeakersButton = new Button("View Speakers");
+        Button viewSpeakersButton = new Button(presenter.viewSpeakersButtonText());
         viewSpeakersButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 main.setCenter(viewSpeakersList);
-                MainView.getStage().setTitle("Organizer Panel: View Speakers");
+                MainView.getStage().setTitle(presenter.viewSpeakersSceneTitle());
 
                 ObservableList<String> speakersList = FXCollections.observableArrayList();
-                speakersList.addAll(op.getSpeakerNames());
+                speakersList.addAll(presenter.getSpeakerNames());
                 viewSpeakersList.setItems(speakersList);
             }
         });
 
-        Label nameLabel = new Label("Username: ");
+        Label nameLabel = new Label(presenter.usernamePrompt());
         TextField nameInput = new TextField();
-        Label createSpeakerSuccess = new Label("Speaker created successfully.");
-        Label createSpeakerFailure = new Label("Username already taken");
-        Button createSpeakerUsernameButton = new Button("Create");
+        Label createSpeakerSuccess = new Label(presenter.createSpeakerStatus(true));
+        Label createSpeakerFailure = new Label(presenter.createSpeakerStatus(false));
+        Button createSpeakerUsernameButton = new Button(presenter.createButtonText());
         createSpeakerUsernameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -121,6 +173,13 @@ public class OrganizerScene implements IScene{
         // Add buttons to Top Menu
         topMenu.getChildren().addAll(reButton, speakersMenuButton, logoutButton);
 
+        // Add elements to Room/Event Menu
+        reMenu.add(createRoomButton, 5, 5);
+        createRoomMenu.add(roomCapacityLabel, 5, 5);
+        createRoomMenu.add(roomCapacityInput, 6, 5);
+        createRoomMenu.add(createNewRoomButton, 7, 5);
+        reMenu.add(viewRoomsButton, 6, 5);
+
         // Add buttons to Speaker Menu
         speakersMenu.add(createSpeakerButton, 5, 5);
         createSpeakersMenu.add(nameLabel, 5, 5);
@@ -129,6 +188,6 @@ public class OrganizerScene implements IScene{
         speakersMenu.add(viewSpeakersButton, 6, 5);
 
         MainView.getStage().setScene(mainScene);
-        MainView.getStage().setTitle("Organizer Panel: Main Menu");
+        MainView.getStage().setTitle(presenter.mainSceneTitle());
     }
 }
