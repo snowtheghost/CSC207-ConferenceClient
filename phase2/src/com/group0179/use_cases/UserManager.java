@@ -593,4 +593,11 @@ public class UserManager implements Serializable {
     Set<UUID> getUserContacts(UUID userID) {
         return getUser(userID).getContacts();
     }
+
+    public ArrayList<String> getSpeakerNames() {
+        ArrayList<String> speakerNames = new ArrayList<>();
+        for (Speaker speaker : speakers) {
+            speakerNames.add(speaker.getUsername());
+        } return speakerNames;
+    }
 }
