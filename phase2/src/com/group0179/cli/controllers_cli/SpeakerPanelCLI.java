@@ -1,7 +1,7 @@
-package com.group0179.controllers;
+package com.group0179.cli.controllers_cli;
 
-import com.group0179.Definitions;
-import com.group0179.presenters.SpeakerPresenter;
+import com.group0179.cli.DefinitionsCLI;
+import com.group0179.cli.presenters_cli.SpeakerPresenterCLI;
 import com.group0179.use_cases.MessageManager;
 import com.group0179.use_cases.RoomManager;
 import com.group0179.use_cases.UserManager;
@@ -14,11 +14,11 @@ import java.util.UUID;
  * @author Liam Ogilvie
  */
 
-public class SpeakerPanel implements IController {
+public class SpeakerPanelCLI implements IControllerCLI {
     private final UserManager userMan;
     private final RoomManager roomMan;
     private final MessageManager msgMan;
-    private final SpeakerPresenter speakerPres;
+    private final SpeakerPresenterCLI speakerPres;
     private final Scanner input = new Scanner(System.in);
 
     /**
@@ -26,11 +26,11 @@ public class SpeakerPanel implements IController {
      * @param userMan: the UserManager
      * @param roomMan: the RoomManager
      */
-    public SpeakerPanel(UserManager userMan, MessageManager msgMan, RoomManager roomMan) {
+    public SpeakerPanelCLI(UserManager userMan, MessageManager msgMan, RoomManager roomMan) {
         this.msgMan = msgMan;
         this.userMan = userMan;
         this.roomMan = roomMan;
-        speakerPres = new SpeakerPresenter(userMan, roomMan, msgMan);
+        speakerPres = new SpeakerPresenterCLI(userMan, roomMan, msgMan);
     }
 
     /**
@@ -78,8 +78,8 @@ public class SpeakerPanel implements IController {
         }
 
         // Go back to LoginSystem or quits app if user types the command for either
-        if (decision.equals("logout")){return Definitions.BACK;}
-        return Definitions.QUIT;
+        if (decision.equals("logout")){return DefinitionsCLI.BACK;}
+        return DefinitionsCLI.QUIT;
     }
     /**
      * Author: Liam Ogilvie
@@ -90,7 +90,7 @@ public class SpeakerPanel implements IController {
         String response = input.nextLine();
         if (response.equals("q")){
             speakerPres.welcomePrompt();
-            return Definitions.REMAIN_IN_STATE;}
+            return DefinitionsCLI.REMAIN_IN_STATE;}
         if (response.equals("a")){speakerPres.listAllUsers();}
         //keep asking for input until the input is an existing username or 'back'
         while (!userExists(response)) {
@@ -98,7 +98,7 @@ public class SpeakerPanel implements IController {
             response = input.nextLine();
             if (response.contains("q")){
                 speakerPres.welcomePrompt();
-                return Definitions.REMAIN_IN_STATE;}
+                return DefinitionsCLI.REMAIN_IN_STATE;}
         }
 
         this.speakerPres.typeMsgPrompt();
@@ -152,7 +152,7 @@ public class SpeakerPanel implements IController {
         if (userMan.getSpeakerEventIDs(speakerID).size() == 0) {
             speakerPres.errorNoSpeakingEvents();
             speakerPres.welcomePrompt();
-            return Definitions.REMAIN_IN_STATE;
+            return DefinitionsCLI.REMAIN_IN_STATE;
         } else {
             ArrayList<Integer> recips = new ArrayList<>();
             speakerPres.sendAllAttendeesIntro(speakerID);
@@ -160,7 +160,7 @@ public class SpeakerPanel implements IController {
 
             if (decision.equals("q")) {
                 speakerPres.welcomePrompt();
-                return Definitions.REMAIN_IN_STATE;
+                return DefinitionsCLI.REMAIN_IN_STATE;
             }
 
             try {
@@ -175,7 +175,7 @@ public class SpeakerPanel implements IController {
                     decision = input.nextLine();
                     if (decision.contains("q")) {
                         speakerPres.welcomePrompt();
-                        return Definitions.REMAIN_IN_STATE;
+                        return DefinitionsCLI.REMAIN_IN_STATE;
                     }
                     if (decision.contains("a") && recips.size() > 0) {
                         speakerPres.messagePrompt();
@@ -190,7 +190,7 @@ public class SpeakerPanel implements IController {
                             }
                         }
                         speakerPres.welcomePrompt();
-                        return Definitions.REMAIN_IN_STATE;
+                        return DefinitionsCLI.REMAIN_IN_STATE;
                     }
                     try {
                         if (new Integer(decision) > userMan.getSpeakerEventIDs(speakerID).size()) {

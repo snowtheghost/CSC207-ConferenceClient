@@ -1,6 +1,6 @@
-package com.group0179.presenters;
+package com.group0179.cli.presenters_cli;
 
-public class InputPresenter {
+public class InputPresenterCLI {
     public void inputRoomPrompt() {
         System.out.print("Room: ");
     }

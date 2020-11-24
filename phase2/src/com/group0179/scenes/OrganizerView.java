@@ -1,6 +1,6 @@
-package com.group0179.gui;
+package com.group0179.scenes;
 
-import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,21 +13,19 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import com.group0179.gui_bridge.OrganizerFilter;
-import com.group0179.gui_bridge.OrganizerPresenter;
+import com.group0179.filters.OrganizerFilter;
+import com.group0179.presenters.OrganizerPresenter;
 
 /**
  * @author Template: Justin Chan
  */
 
-public class OrganizerView extends Application implements IView{
+public class OrganizerView extends IView{
     static OrganizerFilter filter;
     static OrganizerPresenter op;
 
     Stage window;
     Scene mainPanel;
-    int x = 400;
-    int y = 300; // window dimensions
 
     public static void main(String[] args) {
         launch(args);
@@ -81,6 +79,15 @@ public class OrganizerView extends Application implements IView{
             }
         });
 
+        Button logoutButton = new Button("Log out");
+        logoutButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                IView.state = 0;
+                Platform.exit();
+            }
+        });
+
 
         // Elements for Speaker Menu
         Button createSpeakerButton = new Button ("Create Speaker");
@@ -130,7 +137,7 @@ public class OrganizerView extends Application implements IView{
         main.setTop(topMenu);
 
         // Add buttons to Top Menu
-        topMenu.getChildren().addAll(reButton, speakersMenuButton);
+        topMenu.getChildren().addAll(reButton, speakersMenuButton, logoutButton);
 
         // Add buttons to Speaker Menu
         speakersMenu.add(createSpeakerButton, 5, 5);
@@ -156,7 +163,7 @@ public class OrganizerView extends Application implements IView{
     }
 
     private void closeProgram() {
-        // TODO: Exit code goes here
+        IView.state = -1;
         window.close();
     }
 }

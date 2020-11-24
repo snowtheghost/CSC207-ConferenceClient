@@ -1,9 +1,8 @@
-package com.group0179.gui;
+package com.group0179.scenes;
 
-import com.group0179.gui_bridge.AttendeeFilter;
-import com.group0179.gui_bridge.AttendeePresenter;
+import com.group0179.filters.AttendeeFilter;
+import com.group0179.presenters.AttendeePresenter;
 
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -20,14 +19,12 @@ import javafx.stage.WindowEvent;
  * @author Template: Justin Chan
  */
 
-public class AttendeeView extends Application {
+public class AttendeeView extends IView{
     static AttendeeFilter filter;
     static AttendeePresenter presenter;
 
     Stage window;
     Scene mainPanel;
-    int x = 400;
-    int y = 300; // window dimensions
 
     public static void main(String[] args) {
         launch(args);

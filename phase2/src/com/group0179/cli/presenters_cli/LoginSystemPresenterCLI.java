@@ -1,6 +1,6 @@
-package com.group0179.presenters;
+package com.group0179.cli.presenters_cli;
 
-public class LoginSystemPresenter {
+public class LoginSystemPresenterCLI {
     /**
      * Opening prompt telling the user to Login or Create account.
      */

@@ -1,12 +1,8 @@
-package com.group0179.gui;
+package com.group0179.scenes;
 
-import com.group0179.gui_bridge.LoginFilter;
-import com.group0179.gui_bridge.LoginPresenter;
+import com.group0179.filters.LoginFilter;
+import com.group0179.presenters.LoginPresenter;
 
-import com.group0179.use_cases.MessageManager;
-import com.group0179.use_cases.RoomManager;
-import com.group0179.use_cases.UserManager;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -23,14 +19,12 @@ import javafx.stage.WindowEvent;
  * @author Justin Chan
  */
 
-public class LoginView extends Application {
+public class LoginView extends IView{
     static LoginFilter filter;
     static LoginPresenter presenter;
 
     Stage window;
     Scene mainPanel;
-    int x = 400;
-    int y = 300; // window dimensions
 
     public static void main(String[] args) {
         launch(args);

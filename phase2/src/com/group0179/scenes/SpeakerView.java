@@ -1,10 +1,8 @@
-package com.group0179.gui;
+package com.group0179.scenes;
 
-import com.group0179.gui_bridge.OrganizerFilter;
-import com.group0179.use_cases.MessageManager;
-import com.group0179.use_cases.RoomManager;
-import com.group0179.use_cases.UserManager;
-import javafx.application.Application;
+import com.group0179.filters.SpeakerFilter;
+import com.group0179.presenters.SpeakerPresenter;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -19,22 +17,23 @@ import javafx.stage.WindowEvent;
 
 /**
  * @author Template: Justin Chan
+ * @author Liam Ogilvie
  */
 
-public class TemplateView extends Application {
-    // Temporary direct creations of Use Cases
-    UserManager um = new UserManager();
-    RoomManager rm = new RoomManager();
-    MessageManager mm = new MessageManager();
-    OrganizerFilter filter = new OrganizerFilter(um, rm ,mm);
+public class SpeakerView extends IView {
+    static SpeakerFilter filter;
+    static SpeakerPresenter speakerPres;
 
     Stage window;
     Scene mainPanel;
-    int x = 400;
-    int y = 300; // window dimensions
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    static public void setup(SpeakerFilter filter, SpeakerPresenter speakerPres) {
+        SpeakerView.filter = filter;
+        SpeakerView.speakerPres = speakerPres;
     }
 
     @Override
@@ -61,16 +60,18 @@ public class TemplateView extends Application {
         sublayout1.setHgap(2.5);
 
         // Elements for the Main Menu
-        Button button1 = new Button ("Command 1");
-        button1.setOnAction(new EventHandler<ActionEvent>() {
+        Button viewMessages = new Button ("View Messages");
+        viewMessages.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                System.out.println("button 1 clicked");
+                //speakerPanel
                 main.setCenter(layout1);
             }
         });
 
-        Button button2 = new Button ("Command 2");
-        button2.setOnAction(new EventHandler<ActionEvent>() {
+        Button viewAllEvents = new Button ("Command 2");
+        viewAllEvents.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 main.setCenter(layout2);
@@ -97,6 +98,7 @@ public class TemplateView extends Application {
         inputButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                System.out.println(inputField.getText());
 
             }
         });
@@ -106,7 +108,7 @@ public class TemplateView extends Application {
         main.setTop(topMenu);
 
         // Add buttons to Top Menu
-        topMenu.getChildren().addAll(button1, button2);
+        topMenu.getChildren().addAll(viewMessages, viewAllEvents);
 
         // Add buttons to Command 2 Menu
         layout2.add(menuButton1, 5, 5);
@@ -117,7 +119,7 @@ public class TemplateView extends Application {
 
         // Setup and Start Initial Scene: Main Menu
         window.setScene(mainPanel);
-        window.setTitle("X Panel: Stuff");
+        window.setTitle("Speaker Control Panel");
         window.show();
 
         // Exit script

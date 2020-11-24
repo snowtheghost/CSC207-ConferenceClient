@@ -1,6 +1,6 @@
-package com.group0179;
+package com.group0179.cli;
 
-import com.group0179.controllers.IController;
+import com.group0179.cli.controllers_cli.IControllerCLI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,16 +10,16 @@ import java.util.List;
  * @author Kaiyi Liu, Zachariah Vince
  * */
 
-public class MenuTree {
-    private MenuTree parentMenuTree; //if null then it is the root node
-    private IController value;
-    private List<MenuTree> childMenuTrees; //if null it is youngest
+public class MenuTreeCLI {
+    private MenuTreeCLI parentMenuTree; //if null then it is the root node
+    private IControllerCLI value;
+    private List<MenuTreeCLI> childMenuTrees; //if null it is youngest
 
     /**
      * Creates a parent MenuTree (with no parents)
      * @param value the controller this menu option corresponds to.
      */
-    public MenuTree(IController value){
+    public MenuTreeCLI(IControllerCLI value){
         this.value = value;
         this.parentMenuTree = null;
         this.childMenuTrees = new ArrayList<>();
@@ -30,7 +30,7 @@ public class MenuTree {
      * @param value the controller this menu option corresponds to.
      * @param parent the parent of this menu option.
      */
-    public MenuTree(IController value, MenuTree parent){
+    public MenuTreeCLI(IControllerCLI value, MenuTreeCLI parent){
         this(value);
         this.parentMenuTree = parent;
     }
@@ -41,7 +41,7 @@ public class MenuTree {
      * @param parent the parent of this menu option.
      * @param children the children menus of this menu option.
      */
-    public MenuTree(IController value, MenuTree parent, List<MenuTree> children){
+    public MenuTreeCLI(IControllerCLI value, MenuTreeCLI parent, List<MenuTreeCLI> children){
         this(value, parent);
         this.childMenuTrees = children;
     }
@@ -50,7 +50,7 @@ public class MenuTree {
      * Sets the parent MenuTree.
      * @param parent the parent MenuTree of this MenuTree instance
      */
-    public void setParent(MenuTree parent){
+    public void setParent(MenuTreeCLI parent){
         this.parentMenuTree = parent;
     }
 
@@ -58,7 +58,7 @@ public class MenuTree {
      * Gets the parent of this MenuTree node.
      * @return the parent MenuTree of this instance.
      */
-    public MenuTree getParent(){
+    public MenuTreeCLI getParent(){
         return this.parentMenuTree;
     }
 
@@ -66,14 +66,14 @@ public class MenuTree {
      * @param index the index number of the children node list.
      * @return the child MenuTree at this index.
      */
-    public MenuTree getChild(int index){
+    public MenuTreeCLI getChild(int index){
         return this.childMenuTrees.get(index);
     }
 
     /**
      * @return a list of this node's children.
      */
-    public List<MenuTree> getChildren(){
+    public List<MenuTreeCLI> getChildren(){
         return new ArrayList<>(this.childMenuTrees);
     }
 
@@ -81,7 +81,7 @@ public class MenuTree {
      * Adds a child node to this tree.
      * @param tree the MenuTree you wish to add.
      */
-    public void addChild(MenuTree tree){
+    public void addChild(MenuTreeCLI tree){
         tree.setParent(this);
         this.childMenuTrees.add(tree);
     }
@@ -90,8 +90,8 @@ public class MenuTree {
      * Adds a list of children nodes to this tree.
      * @param trees the list of MenuTrees to add.
      */
-    public void addChildren(List<MenuTree> trees){
-        for(MenuTree tree : trees){
+    public void addChildren(List<MenuTreeCLI> trees){
+        for(MenuTreeCLI tree : trees){
             tree.setParent(this);
             this.childMenuTrees.add(tree);
         }
@@ -101,14 +101,14 @@ public class MenuTree {
      * Changes the controller class this menu option corresponds to.
      * @param controller the controller class to change to.
      */
-    public void setValue(IController controller){
+    public void setValue(IControllerCLI controller){
         this.value = controller;
     }
 
     /**
      * @return the controller class this menu option corresponds to.
      */
-    public IController getValue(){
+    public IControllerCLI getValue(){
         return this.value;
     }
 
