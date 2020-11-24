@@ -29,7 +29,7 @@ import java.util.UUID;
  * @author Justin Chan
  */
 
-public class Event implements Serializable {
+public class Event implements Serializable, Comparable<Event> {
     private final String title;
     private final UUID eventID;
     private Calendar startTime;
@@ -136,5 +136,16 @@ public class Event implements Serializable {
     @Override
     public String toString() {
         return title + " at " + startTime.getTime() + " to " + endTime.getTime();
+    }
+
+    @Override
+    public int compareTo(Event o) {
+        if(this.getAttendeeIDs().size() > o.getAttendeeIDs().size()){
+            return 1;
+        } else if (this.getAttendeeIDs().size() < o.getAttendeeIDs().size()){
+            return -1;
+        } else {
+            return 0;
+        }
     }
 }

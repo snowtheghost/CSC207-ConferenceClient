@@ -1,9 +1,6 @@
 package com.group0179.use_cases;
 
-import com.group0179.entities.Attendee;
-import com.group0179.entities.Organizer;
-import com.group0179.entities.Speaker;
-import com.group0179.entities.User;
+import com.group0179.entities.*;
 
 import java.io.Serializable;
 import java.util.*;
@@ -21,6 +18,7 @@ public class UserManager implements Serializable {
     private final ArrayList<Attendee> attendees = new ArrayList<>();
     private final ArrayList<Organizer> organizers = new ArrayList<>();
     private final ArrayList<Speaker> speakers = new ArrayList<>();
+    private final List<Request> userRequests = new ArrayList<>();
     private User currentUser;
 
     /**
@@ -278,7 +276,7 @@ public class UserManager implements Serializable {
         if(getUsernames().contains(username)) return getUser(username).getStringType();
         return null;
     }
-//testing below
+
     public ArrayList<UUID> getSpeakerEventIDs(String speakerName) {
         Speaker speaker = (Speaker) getUser(speakerName);
 
@@ -318,11 +316,235 @@ public class UserManager implements Serializable {
         Attendee attendee = (Attendee) getUser(attendeeID);
         attendee.removeReservedEvents(roomID, eventID);
     }
+    //kaiyi
+    public boolean addNewTimeLoggedInForCurrentUser(double time){ //dont need
+        return this.currentUser.addNewTimeLoggedIn(time);
+    }
+    //kaiyi
+    public void addLastLoggedInForCurrentUser(Calendar calendar){ //dont need
+        this.currentUser.setLastLoggedIn(calendar);
+    }
+    //kaiyi
+    public List<Double> getLengthsOfTimeLoggedInAsMinutesForCurrentUser(){ //need
+        return this.currentUser.getLengthsOfTimeLoggedIn();
+    }
+    //kaiyi
+    public Calendar getLastLoggedInForCurrentUser(){ //need
+        return this.currentUser.getLastLoggedIn();
+    }
+    //kaiyi
+    public double getAverageLengthOfTimeLoggedInForCurrentUser(){ //need
+        return this.currentUser.getAverageLengthOfTimeLoggedIn();
+    }
+    //kaiyi
+    public double getTotalMinutesLoggedInForCurrentUser(){ //need
+        return this.currentUser.getTotalMinutesLoggedIn();
+    }
+    //kaiyi
+    public double[] getMaximumAndMinimumMinutesLoggedInForCurrentUser(){ //need
+        return this.currentUser.getMaximumAndMinimumMinutesLoggedIn();
+    }
 
-//    List<UUID> getAttendeeEventIDs(String attendeeName) {
-//        User attendee = this.getUser(attendeeName);
-//
-//    }
+    //kaiyi - get data on each Attendee/Speaker in the system for organizer given
+    //currently using a nested private class but we can change this to an array actually!
+    public Map<String, UserTimeData> getTimeElapsedStatisticsForAllAttendees(){
+        Map<String, UserTimeData> attendeeData = new HashMap<>();
+        for(Attendee attendee: this.getAttendees()){
+            double averageLengthOfTimeLoggedIn = attendee.getAverageLengthOfTimeLoggedIn();
+            double totalLengthOfTimeLoggedIn = attendee.getTotalMinutesLoggedIn();
+            double[] maximumAndMinimum = attendee.getMaximumAndMinimumMinutesLoggedIn();
+            double maximumLengthOfTimeLoggedIn = maximumAndMinimum[0];
+            double minimumLengthOfTimeLoggedIn = maximumAndMinimum[1];
+            List<Double> lengthsOfTimeLoggedIn = attendee.getLengthsOfTimeLoggedIn();
+            Calendar lastLoggedIn = attendee.getLastLoggedIn();
+
+            UserTimeData dataObject = new UserTimeData(lastLoggedIn, totalLengthOfTimeLoggedIn, averageLengthOfTimeLoggedIn,
+                        maximumLengthOfTimeLoggedIn, minimumLengthOfTimeLoggedIn, lengthsOfTimeLoggedIn);
+            attendeeData.putIfAbsent(attendee.getUsername(), dataObject);
+        }
+        return attendeeData;
+    }
+//kaiyi
+    public Map<String, UserTimeData> getTimeElapsedStatisticsForAllSpeakers(){
+        Map<String, UserTimeData> speakerData = new HashMap<>();
+        for(Speaker speaker: this.getSpeakers()){
+            double averageLengthOfTimeLoggedIn = speaker.getAverageLengthOfTimeLoggedIn();
+            double totalLengthOfTimeLoggedIn = speaker.getTotalMinutesLoggedIn();
+            double[] maximumAndMinimum = speaker.getMaximumAndMinimumMinutesLoggedIn();
+            double maximumLengthOfTimeLoggedIn = maximumAndMinimum[0];
+            double minimumLengthOfTimeLoggedIn = maximumAndMinimum[1];
+            List<Double> lengthsOfTimeLoggedIn = speaker.getLengthsOfTimeLoggedIn();
+            Calendar lastLoggedIn = speaker.getLastLoggedIn();
+
+            UserTimeData dataObject = new UserTimeData(lastLoggedIn, totalLengthOfTimeLoggedIn,
+                        averageLengthOfTimeLoggedIn, maximumLengthOfTimeLoggedIn, minimumLengthOfTimeLoggedIn,
+                        lengthsOfTimeLoggedIn);
+            speakerData.putIfAbsent(speaker.getUsername(), dataObject);
+        }
+        return speakerData;
+    }
+//kaiyi
+    public class UserTimeData {
+        public Calendar lastLoggedIn;
+        public double averageLengthOfTimeLoggedIn;
+        public double totalLengthOfTimeLoggedIn;
+        public double maximumLengthOfTimeLoggedIn;
+        public double minimumLengthOfTimeLoggedIn;
+        public List<Double> lengthsOfTimeLoggedIn;
+
+        UserTimeData(Calendar lastLoggedIn, double totalLengthOfTimeLoggedIn,
+                     double averageLengthOfTimeLoggedIn, double maximumLengthOfTimeLoggedIn,
+                     double minimumLengthOfTimeLoggedIn, List<Double> lengthsOfTimeLoggedIn){
+            this.lastLoggedIn = lastLoggedIn;
+            this.totalLengthOfTimeLoggedIn = totalLengthOfTimeLoggedIn;
+            this.averageLengthOfTimeLoggedIn = averageLengthOfTimeLoggedIn;
+            this.maximumLengthOfTimeLoggedIn = maximumLengthOfTimeLoggedIn;
+            this.minimumLengthOfTimeLoggedIn = minimumLengthOfTimeLoggedIn;
+            this.lengthsOfTimeLoggedIn = lengthsOfTimeLoggedIn;
+        }
+
+    }
+    //kaiyi
+    public Map<String, Integer> getTimeLineOfAttendeeCreation(){
+        Map<String, Integer> historyOfAttendeeCreation = new HashMap<>();
+        for(Attendee attendee : this.getAttendees()){
+            String yearOfCreation = String.valueOf(attendee.getTimeOfAccountCreation().get(Calendar.YEAR));
+            String monthOfCreation = String.valueOf(attendee.getTimeOfAccountCreation().get(Calendar.MONTH) + 1);
+            String dayOfCreation = String.valueOf(attendee.getTimeOfAccountCreation().get(Calendar.DAY_OF_MONTH));
+            String date = dayOfCreation + "/" + monthOfCreation + "/" + yearOfCreation;
+            if(historyOfAttendeeCreation.containsKey(date)){
+                int numberOfAttendeesCreated = historyOfAttendeeCreation.get(date);
+                historyOfAttendeeCreation.put(date, numberOfAttendeesCreated + 1);
+            } else {
+                historyOfAttendeeCreation.put(date, 1);
+            }
+        }
+        return historyOfAttendeeCreation;
+    }
+
+    //kaiyi
+    public Map<String, Integer> getTimeLineOfSpeakerCreation(){
+        Map<String, Integer> historyOfSpeakerCreation = new HashMap<>();
+        for(Speaker speaker : this.getSpeakers()){
+            String yearOfCreation = String.valueOf(speaker.getTimeOfAccountCreation().get(Calendar.YEAR));
+            String monthOfCreation = String.valueOf(speaker.getTimeOfAccountCreation().get(Calendar.MONTH) + 1);
+            String dayOfCreation = String.valueOf(speaker.getTimeOfAccountCreation().get(Calendar.DAY_OF_MONTH));
+            String date = dayOfCreation + "/" + monthOfCreation + "/" + yearOfCreation;
+            if(historyOfSpeakerCreation.containsKey(date)){
+                int numberOfSpeakersCreated = historyOfSpeakerCreation.get(date);
+                historyOfSpeakerCreation.put(date, numberOfSpeakersCreated + 1);
+            } else {
+                historyOfSpeakerCreation.put(date, 1);
+            }
+        }
+        return historyOfSpeakerCreation;
+    }
+
+    //kaiyi
+    public UUID addUserRequest(String typeOfRequest, String urgency, String requestContent){
+        Request userRequest = new Request(typeOfRequest, urgency, requestContent);
+        this.userRequests.add(userRequest);
+        return userRequest.getRequestID();
+    }
+
+    //kaiyi
+    public boolean removeUserRequest(UUID requestID){
+        if(this.getRequestIDs().contains(requestID)){
+            for(int i = 0; i < this.userRequests.size(); i++){
+                if(this.userRequests.get(i).getRequestID().equals(requestID)){
+                    this.userRequests.remove(i);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    //kaiyi
+    public List<UUID> getRequestIDs(){
+        List<UUID> requestIDs = new ArrayList<>();
+        for(Request request : this.userRequests){
+            requestIDs.add(request.getRequestID());
+        }
+        return requestIDs;
+    }
+    //kaiyi
+    public String getTypeOfRequestWithUUID(UUID requestID){
+        Request foundRequest = this.getRequestWithUUID(requestID);
+        if(foundRequest != null){
+            return foundRequest.getTypeOfRequest();
+        } else {
+            return null;
+        }
+    }
+    //kaiyi
+    public String getUrgencyWithUUID(UUID requestID){
+        Request foundRequest = this.getRequestWithUUID(requestID);
+        if(foundRequest != null){
+            return foundRequest.getUrgency();
+        } else {
+            return null;
+        }
+    }
+    //kaiyi
+    public String getRequestContentWithUUID(UUID requestID){
+        Request foundRequest = this.getRequestWithUUID(requestID);
+        if(foundRequest != null){
+            return foundRequest.getRequestContent();
+        } else {
+            return null;
+        }
+    }
+    //kaiyi
+    public Boolean getPendingWithUUID(UUID requestID){
+        Request foundRequest = this.getRequestWithUUID(requestID);
+        if(foundRequest != null){
+            return foundRequest.isPending();
+        } else {
+            return null;
+        }
+    }
+    //kaiyi
+    public Boolean getAddressedWithUUID(UUID requestID){
+        Request foundRequest = this.getRequestWithUUID(requestID);
+        if(foundRequest != null){
+            return foundRequest.isAddressed();
+        } else {
+            return null;
+        }
+    }
+    //kaiyi
+    public boolean setRequestPending(boolean isPending, UUID requestID){
+        Request foundRequest = this.getRequestWithUUID(requestID);
+        if(foundRequest != null){
+            foundRequest.setPending(isPending);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //kaiyi
+    public boolean setRequestAddressed(boolean isAddressed, UUID requestID){
+        Request foundRequest = this.getRequestWithUUID(requestID);
+        if(foundRequest != null){
+            foundRequest.setAddressed(isAddressed);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //kaiyi
+    private Request getRequestWithUUID(UUID requestID){
+        if(this.getRequestIDs().contains(requestID)){
+            for(Request request : this.userRequests){
+                if(request.getRequestID().equals(requestID)){
+                    return request;
+                }
+            }
+        }
+        return null;
+    }
 
     public boolean userExists(String username) {
         return getUsernames().contains(username);

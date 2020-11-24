@@ -12,6 +12,8 @@ import com.group0179.use_cases.RoomManager;
 import com.group0179.use_cases.UserManager;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.Scanner;
 
 /**
  * The app's entrypoint.
@@ -51,9 +53,31 @@ public class AppMain {
         mainMenu.addChild(attendeeMenu);
         mainMenu.addChild(organizerMenu);
         mainMenu.addChild(speakerMenu);
-        userManager.createAttendeeAccount("kerry", false);
-        userManager.createOrganizerAccount("justin");
-        userManager.createSpeakerAccount("zach");
+        //stop manually adding these accounts like below. It messes up the program.
+        //just properly create the account from the console please and thank you
+        //userManager.createAttendeeAccount("kerry", false);
+        //userManager.createOrganizerAccount("justin");
+        //userManager.createSpeakerAccount("zach");
+
+/*
+Feel free to test the timer. Pretty sure it works fine tho. There's only one deontay wilder
+        Scanner scanner = new Scanner(System.in);
+        boolean flag = true;
+        TimeStatistics timeStatistics = new TimeStatistics();
+        while (flag) {
+            timeStatistics.commenceTiming();
+            while(!scanner.hasNextInt()) {
+                System.out.println("I order u to input a valid int");
+                scanner.nextLine();
+            }
+            System.out.println(scanner.nextInt());
+            System.out.println("Complete");
+            flag = false;
+        }
+        timeStatistics.concludeTiming();
+        System.out.println("Time stamp" + timeStatistics.getTimeStamp());
+        System.out.println("loggedtime: " + timeStatistics.getTimeLoggedInAsHours());
+ */
 
         while (applicationRunning) {
             int command = mainMenu.run();

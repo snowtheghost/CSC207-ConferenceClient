@@ -4,10 +4,7 @@ import com.group0179.entities.Event;
 import com.group0179.entities.Room;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Create rooms
@@ -277,6 +274,21 @@ public class RoomManager implements Serializable {
 
         um.speakerRemoveEvent(event.getSpeakerName(), room.getRoomID(), event.getEventID());
         return room.removeEvent(event);
+    }
+    /**
+     * Returns a list of 5 events that are most popular not in order
+     *
+    * @return a list containing the titles of the 5 most popular events.
+    * */
+    public Map<String, Integer> getTop5MostPopularEvents(){
+        Map<String, Integer> mostPopularEventAsTitles = new HashMap<>();
+        List<Event> events = this.getEvents();
+        Collections.sort(events, Collections.reverseOrder());
+        int rangeOfValues = (events.size() < 5) ? events.size() : 5;
+        for(int i = 0; i < rangeOfValues; i++){
+            mostPopularEventAsTitles.put(events.get(i).getTitle(), events.get(i).getAttendeeIDs().size());
+        }
+        return mostPopularEventAsTitles;
     }
 
     /**

@@ -12,6 +12,9 @@ public abstract class User implements Serializable {
     private final String username;
     private final Map<UUID, List<UUID>> conversations;
     private boolean isVip = false;
+    private Calendar lastLoggedIn;
+    private Calendar timeOfAccountCreation;
+    private List<Double> lengthsOfTimeLoggedInAsMinutes;
 
     /**
      * Creates a new user with a unique ID and a username.
@@ -21,6 +24,9 @@ public abstract class User implements Serializable {
         this.userID = UUID.randomUUID();
         this.username = username;
         this.conversations = new HashMap<>();
+        this.lengthsOfTimeLoggedInAsMinutes = new ArrayList<>();
+        this.lastLoggedIn = null;
+        this.timeOfAccountCreation = Calendar.getInstance();
     }
     /**
      * Creates a new user with a unique ID and a username and changes the vip status.
@@ -31,7 +37,11 @@ public abstract class User implements Serializable {
         this.username = username;
         this.conversations = new HashMap<>();
         this.isVip = isVip;
+        this.lengthsOfTimeLoggedInAsMinutes = new ArrayList<>();
+        this.lastLoggedIn = null;
+        this.timeOfAccountCreation = Calendar.getInstance();
     }
+
     /**
      * Returns whether the user is an vip
      * @return True if attendee is an vip, false otherwise.
@@ -71,6 +81,10 @@ public abstract class User implements Serializable {
         return this.conversations.keySet();
     }
 
+    public Calendar getTimeOfAccountCreation(){
+        return this.timeOfAccountCreation;
+    }
+
     /**
      * Adds a message to this user's received message history.
      * @param sender the UUID of the user who sent this message.
@@ -81,6 +95,63 @@ public abstract class User implements Serializable {
             this.conversations.put(sender, new ArrayList<>());
         }
         this.conversations.get(sender).add(messageID);
+    }
+    //kaiyi
+    public void setLastLoggedIn(Calendar calendar){
+        this.lastLoggedIn = calendar;
+    }
+    //kaiyi
+    public Calendar getLastLoggedIn(){
+        return this.lastLoggedIn;
+    }
+    //kaiyi
+    public boolean addNewTimeLoggedIn(double timeElapsed){
+        if(timeElapsed > 0){
+            this.lengthsOfTimeLoggedInAsMinutes.add(timeElapsed);
+            return true;
+        }
+        return false;
+    }
+    //kaiyi
+    public List<Double> getLengthsOfTimeLoggedIn(){
+        return new ArrayList<>(this.lengthsOfTimeLoggedInAsMinutes);
+    }
+    //kaiyi
+    public double getAverageLengthOfTimeLoggedIn(){
+        double totalTimeLoggedInAsMinutes = 0;
+        for(double timeElapsed : this.lengthsOfTimeLoggedInAsMinutes){
+            totalTimeLoggedInAsMinutes += timeElapsed;
+        }
+        if(this.lengthsOfTimeLoggedInAsMinutes.size() > 0) {
+            return totalTimeLoggedInAsMinutes / this.lengthsOfTimeLoggedInAsMinutes.size();
+        }
+        return totalTimeLoggedInAsMinutes;
+    }
+    //kaiyi
+    public double getTotalMinutesLoggedIn(){
+        double totalTimeLoggedInAsMinutes = 0;
+        for(double timeElapsed : this.lengthsOfTimeLoggedInAsMinutes){
+            totalTimeLoggedInAsMinutes += timeElapsed;
+        }
+        return totalTimeLoggedInAsMinutes;
+    }
+    //kaiyi
+    public double[] getMaximumAndMinimumMinutesLoggedIn(){
+        double maximum = 0;
+        double minimum = 0;
+        if(!this.lengthsOfTimeLoggedInAsMinutes.isEmpty()) {
+            minimum = this.lengthsOfTimeLoggedInAsMinutes.get(0);
+        }
+        for(double timeElapsed : this.lengthsOfTimeLoggedInAsMinutes){
+            if(timeElapsed > maximum){
+                maximum = timeElapsed;
+            }
+            if(timeElapsed < minimum){
+                minimum = timeElapsed;
+            }
+        }
+        double[] maximumAndMinimumValues = {maximum, minimum};
+        return maximumAndMinimumValues;
     }
 
     /**

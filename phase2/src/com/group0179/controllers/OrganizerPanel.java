@@ -2,11 +2,13 @@ package com.group0179.controllers;
 
 import com.group0179.Definitions;
 import com.group0179.InputFilter;
+import com.group0179.TimeStatistics;
 import com.group0179.presenters.OrganizerPresenter;
 import com.group0179.use_cases.MessageManager;
 import com.group0179.use_cases.RoomManager;
 import com.group0179.use_cases.UserManager;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.UUID;
@@ -22,6 +24,7 @@ public class OrganizerPanel implements IController {
     private final MessageManager mm;
     private final InputFilter filter;
     private final OrganizerPresenter op;
+    private final TimeStatistics timer;
 
     private final int START_HOUR_EARLIEST = 9;
     private final int START_HOUR_LATEST = 16;
@@ -38,6 +41,7 @@ public class OrganizerPanel implements IController {
         this.rm = rm;
         this.mm = mm;
         this.filter = inputFilter;
+        this.timer = new TimeStatistics();
         op = new OrganizerPresenter(um, rm);
     }
 
@@ -303,6 +307,8 @@ public class OrganizerPanel implements IController {
      */
     @Override
     public int run() {
+        //start timing how long user is logged in
+        this.timer.commenceTiming();
         String command = "";
         op.welcomePrompt();
         while (!(command.equalsIgnoreCase("logout") || command.equalsIgnoreCase("quit"))){
@@ -334,13 +340,26 @@ public class OrganizerPanel implements IController {
                 case "help":
                     op.commandHelp(); break;
                 case "logout":
+                    //Record Time Spent (Attendee has either Logged out or quit)
+                    this.timer.concludeTiming();
+                    double timeElapsed = this.timer.getTimeLoggedInAsMinutes();
+                    Calendar timeStamp= this.timer.getTimeStamp();
+                    this.um.addLastLoggedInForCurrentUser(timeStamp);
+                    this.um.addNewTimeLoggedInForCurrentUser(timeElapsed);
                     return Definitions.BACK;
                 case "quit":
+                    //Record Time Spent (Attendee has either Logged out or quit)
+                    this.timer.concludeTiming();
+                    double timeElapsedQuit = this.timer.getTimeLoggedInAsMinutes();
+                    Calendar timeStampQuit = this.timer.getTimeStamp();
+                    this.um.addLastLoggedInForCurrentUser(timeStampQuit);
+                    this.um.addNewTimeLoggedInForCurrentUser(timeElapsedQuit);
                     return Definitions.QUIT;
                 default:
                     op.commandNotRecognized(command);
             }
         }
+
         return Definitions.QUIT;
     }
 }

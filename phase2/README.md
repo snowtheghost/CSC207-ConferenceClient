@@ -62,9 +62,9 @@ MenuTree: Kaiyi Liu (Programmer), Zachariah Vincze (Programmer)
 ### GUI (2 Points)
 - LoginSystem: zach, AttendeePanel: kerry, SpeakerPanel: liam, orgPanel: Justin
 ### Extended Organizer Panel
-- OrganizerPanel: kai, getting user stats
+- OrganizerPanel: kai, getting user stats (just finished)
 ### Support Additional User Request
-- kai, attendeePanel 
+- kai, attendeePanel
 ### Custom Feature
 - Autofill: kai, liam 
 - Language translations, derrick, arya
