@@ -1,11 +1,10 @@
 package com.group0179.gui;
 
-import com.group0179.controllers.SpeakerPanel;
-import com.group0179.gui_bridge.InputFilter;
-import com.group0179.presenters.SpeakerPresenter;
-import com.group0179.use_cases.MessageManager;
-import com.group0179.use_cases.RoomManager;
-import com.group0179.use_cases.UserManager;
+import com.group0179.gui_bridge.OrganizerFilter;
+import com.group0179.gui_bridge.OrganizerPresenter;
+import com.group0179.gui_bridge.SpeakerFilter;
+import com.group0179.gui_bridge.SpeakerPresenter;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,13 +24,8 @@ import javafx.stage.WindowEvent;
  */
 
 public class SpeakerView extends Application {
-    // Temporary direct creations of Use Cases
-    UserManager userMan = new UserManager();
-    RoomManager roomMan = new RoomManager();
-    MessageManager msgMan = new MessageManager();
-    InputFilter filter = new InputFilter(userMan, roomMan, msgMan);
-
-    SpeakerPresenter speakerPres = new SpeakerPresenter(userMan, roomMan, msgMan);
+    static SpeakerFilter filter;
+    static SpeakerPresenter speakerPres;
 
     Stage window;
     Scene mainPanel;
@@ -40,6 +34,11 @@ public class SpeakerView extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    static public void setup(SpeakerFilter filter, SpeakerPresenter speakerPres) {
+        SpeakerView.filter = filter;
+        SpeakerView.speakerPres = speakerPres;
     }
 
     @Override

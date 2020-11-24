@@ -1,6 +1,6 @@
 package com.group0179.gui;
 
-import com.group0179.gui_bridge.InputFilter;
+import com.group0179.gui_bridge.OrganizerFilter;
 import com.group0179.use_cases.MessageManager;
 import com.group0179.use_cases.RoomManager;
 import com.group0179.use_cases.UserManager;
@@ -26,7 +26,7 @@ public class TemplateView extends Application {
     UserManager um = new UserManager();
     RoomManager rm = new RoomManager();
     MessageManager mm = new MessageManager();
-    InputFilter filter = new InputFilter(um, rm ,mm);
+    OrganizerFilter filter = new OrganizerFilter(um, rm ,mm);
 
     Stage window;
     Scene mainPanel;

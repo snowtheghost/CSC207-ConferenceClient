@@ -1,9 +1,8 @@
 package com.group0179.gui;
 
-import com.group0179.gui_bridge.InputFilter;
-import com.group0179.use_cases.MessageManager;
-import com.group0179.use_cases.RoomManager;
-import com.group0179.use_cases.UserManager;
+import com.group0179.gui_bridge.AttendeeFilter;
+import com.group0179.gui_bridge.AttendeePresenter;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,11 +21,8 @@ import javafx.stage.WindowEvent;
  */
 
 public class AttendeeView extends Application {
-    // Temporary direct creations of Use Cases
-    UserManager um = new UserManager();
-    RoomManager rm = new RoomManager();
-    MessageManager mm = new MessageManager();
-    InputFilter filter = new InputFilter(um, rm ,mm);
+    static AttendeeFilter filter;
+    static AttendeePresenter presenter;
 
     Stage window;
     Scene mainPanel;
@@ -35,6 +31,11 @@ public class AttendeeView extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    static public void setup(AttendeeFilter filter, AttendeePresenter presenter) {
+        AttendeeView.filter = filter;
+        AttendeeView.presenter = presenter;
     }
 
     @Override

@@ -1,11 +1,10 @@
 package com.group0179;
 
 import com.group0179.gui.*;
-import com.group0179.gui_bridge.InputFilter;
+import com.group0179.gui_bridge.*;
 import com.group0179.gateways.*;
-import com.group0179.gui_bridge.OrganizerPresenter;
+import com.group0179.gui_bridge.*;
 import com.group0179.use_cases.*;
-import com.sun.org.apache.xpath.internal.operations.Or;
 
 /**
  * Application entrypoint
@@ -28,14 +27,20 @@ public class AppMainView {
         MessageManager messageManager = messageManagerGateway.read("messagemanager.ser");
 
         // Helper classes
-        InputFilter inputFilter = new InputFilter(userManager, roomManager, messageManager);
+        LoginFilter loginFilter = new LoginFilter(userManager, roomManager, messageManager);
+        LoginPresenter loginPresenter = new LoginPresenter(userManager, roomManager, messageManager);
+        AttendeeFilter attendeeFilter = new AttendeeFilter(userManager, roomManager, messageManager);
+        AttendeePresenter attendeePresenter = new AttendeePresenter(userManager, roomManager, messageManager);
+        SpeakerFilter speakerFilter = new SpeakerFilter(userManager, roomManager, messageManager);
+        SpeakerPresenter speakerPresenter = new SpeakerPresenter(userManager, roomManager, messageManager);
+        OrganizerFilter organizerFilter = new OrganizerFilter(userManager, roomManager, messageManager);
         OrganizerPresenter organizerPresenter = new OrganizerPresenter(userManager, roomManager, messageManager);
 
         // View Setup
-        LoginView.setup(); // TODO
-        AttendeeView.setup(); // TODO
-        SpeakerView.setup(); // TODO
-        OrganizerView.setup(inputFilter, organizerPresenter);
+        LoginView.setup(loginFilter, loginPresenter);
+        AttendeeView.setup(attendeeFilter, attendeePresenter);
+        SpeakerView.setup(speakerFilter, speakerPresenter);
+        OrganizerView.setup(organizerFilter, organizerPresenter);
 
 
         new Thread() {
