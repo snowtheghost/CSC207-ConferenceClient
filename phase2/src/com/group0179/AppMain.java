@@ -1,12 +1,6 @@
 package com.group0179;
 
-import com.group0179.entities.Attendee;
-import com.group0179.entities.Organizer;
-import com.group0179.entities.Speaker;
-import com.group0179.filters.AttendeeFilter;
-import com.group0179.filters.LoginFilter;
-import com.group0179.filters.OrganizerFilter;
-import com.group0179.filters.SpeakerFilter;
+import com.group0179.filters.*;
 import com.group0179.scenes.*;
 import com.group0179.presenters.*;
 import com.group0179.gateways.*;
