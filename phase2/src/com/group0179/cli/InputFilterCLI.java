@@ -28,7 +28,7 @@ public class InputFilterCLI {
 
     /**
      * Author: Justin Chan
-     * @return the room index in rm.getRooms(), or -1 if a cancel is requested
+     * @return the room index in rm.getRoomListArray(), or -1 if a cancel is requested
      */
      public int inputRoom() {
         while (true) {

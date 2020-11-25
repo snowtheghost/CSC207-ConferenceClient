@@ -13,6 +13,7 @@ public interface IScene {
 
     BorderPane main = new BorderPane();
     HBox topMenu = new HBox();
+    HBox emptyBottomMenu = new HBox();
 
     void setScene();
 }

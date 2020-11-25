@@ -24,18 +24,26 @@ public class OrganizerPresenter extends Presenter {
         return um.getSpeakerNames();
     }
 
-    public ArrayList<String> getRooms() {
+    public ArrayList<String> getRoomListArray() {
         ArrayList<String> rooms = new ArrayList<>();
         for (int n = 1; n <= rm.getNumRooms(); n++) {
             rooms.add("Room " + n + " (Capacity: " + rm.getRoomCapacity(n - 1) + ")");
         } return rooms;
     }
 
-    public String reButtonText() {
+    public int getRoomNumber(String roomsListSelection) {
+        return Integer.parseInt(roomsListSelection.split(" ")[1]) - 1;
+    }
+
+    public ArrayList<String> getEvents(String roomsListSelection) {
+        return rm.getEventsOfRoom(getRoomNumber(roomsListSelection));
+    }
+
+    public String reMenuButtonText() {
         return "Rooms/Events";
     }
 
-    public String speakersMenuButtonText() {
+    public String speakerManagementButtonText() {
         return "Speakers";
     }
 
@@ -43,11 +51,11 @@ public class OrganizerPresenter extends Presenter {
         return "Log out";
     }
 
-    public String createSpeakerButtonText() {
+    public String createSpeakerFormButtonText() {
         return "Create Speaker";
     }
 
-    public String viewSpeakersButtonText() {
+    public String speakerListButtonText() {
         return "View Speakers";
     }
 
@@ -55,27 +63,39 @@ public class OrganizerPresenter extends Presenter {
         return "Create";
     }
 
-    public String viewRoomsButtonText() {
+    public String viewRoomListButtonText() {
         return "View Rooms";
     }
 
-    public String createRoomButtonText() {
+    public String createRoomFormButtonText() {
         return "Create Room";
     }
 
-    public String reSceneTitle() {
+    public String viewEventListButtonText() {
+        return "View Events";
+    }
+
+    public String createEventButtonText() {
+        return "Create Event";
+    }
+
+    public String confirmButtonText() {
+        return "Confirm";
+    }
+
+    public String reMenuTitle() {
         return "Organizer Panel: Rooms and Events";
     }
 
-    public String speakersMenuSceneTitle() {
+    public String speakerManagementMenuTitle() {
         return "Organizer Panel: Speakers";
     }
 
-    public String createSpeakerSceneTitle() {
+    public String createSpeakerFormTitle() {
         return "Organizer Panel: Create Speakers";
     }
 
-    public String viewSpeakersSceneTitle() {
+    public String speakerListTitle() {
         return "Organizer Panel: View Speakers";
     }
 
@@ -83,12 +103,20 @@ public class OrganizerPresenter extends Presenter {
         return "Organizer Panel: Main Menu";
     }
 
-    public String viewRoomsSceneTitle() {
+    public String viewRoomListTitle() {
         return "Organizer Panel: View Rooms";
     }
 
-    public String createRoomSceneTitle() {
+    public String createRoomFormTitle() {
         return "Organizer Panel: Create Room";
+    }
+
+    public String viewEventListTitle() {
+        return "Organizer Panel: View Events";
+    }
+
+    public String createEventSceneTitle() {
+        return "Organizer Panel: Create Event";
     }
 
     public String usernamePrompt() {
@@ -97,6 +125,10 @@ public class OrganizerPresenter extends Presenter {
 
     public String roomCapacityPrompt() {
         return "Room Capacity: ";
+    }
+
+    public String eventTitlePrompt() {
+        return "Event Title: ";
     }
 
     public String createSpeakerStatus(boolean status) {

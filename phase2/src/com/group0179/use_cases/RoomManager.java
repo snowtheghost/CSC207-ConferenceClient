@@ -296,8 +296,8 @@ public class RoomManager implements Serializable {
     public Map<String, Integer> getTop5MostPopularEvents(){
         Map<String, Integer> mostPopularEventAsTitles = new HashMap<>();
         List<Event> events = this.getEvents();
-        Collections.sort(events, Collections.reverseOrder());
-        int rangeOfValues = (events.size() < 5) ? events.size() : 5;
+        events.sort(Collections.reverseOrder());
+        int rangeOfValues = Math.min(events.size(), 5);
         for(int i = 0; i < rangeOfValues; i++){
             mostPopularEventAsTitles.put(events.get(i).getTitle(), events.get(i).getAttendeeIDs().size());
         }
@@ -319,7 +319,7 @@ public class RoomManager implements Serializable {
         if (event.addAttendee(attendeeID)){
             um.attendeeAddEvent(attendeeID, getEventRoom(event).getRoomID(), eventID);
             return true;
-        };
+        }
         return false;
     }
 
@@ -369,6 +369,15 @@ public class RoomManager implements Serializable {
             s.append("(").append(eventNumber).append(") ").append(event.toString()).append("\n");
         }
         return s.toString();
+    }
+
+    public ArrayList<String> getEventsOfRoom(int roomNumber) {
+        ArrayList<Event> events = getEventsFromRoom(roomNumber);
+        ArrayList<String> eventsAsString = new ArrayList<>();
+        for (Event event : events) {
+            eventsAsString.add(event.toString());
+        }
+        return eventsAsString;
     }
 
     public String stringEventInfoAll() {
