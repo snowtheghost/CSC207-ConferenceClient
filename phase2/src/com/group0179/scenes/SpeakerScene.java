@@ -3,10 +3,13 @@ package com.group0179.scenes;
 import com.group0179.MainView;
 import com.group0179.filters.SpeakerFilter;
 import com.group0179.presenters.SpeakerPresenter;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 
 /**
@@ -38,15 +41,17 @@ public class SpeakerScene implements IScene {
         menu2.setHgap(2.5);
         menu2sub1.setVgap(2.5);
         menu2sub1.setHgap(2.5);
+        ListView<String> viewEventList = new ListView<>();
 
         // Elements for the Main Menu
-        Button button1 = new Button("Command 1");
-        button1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                main.setCenter(menu1);
-                MainView.getStage().setTitle("X Panel: Rooms and Events");
-            }
+        Button viewEventsButton = new Button(this.presenter.viewAllEventsButton());
+        viewEventsButton.setOnAction(actionEvent -> {
+            main.setCenter(viewEventList);
+            MainView.getStage().setTitle(this.presenter.viewAllEventsButton());
+            // Get and add all events to the list
+            ObservableList<String> eventsList = FXCollections.observableArrayList();
+            eventsList.addAll(presenter.getEventListArray());
+            viewEventList.setItems(eventsList);
         });
 
         Button button2 = new Button("Command 2");
@@ -70,7 +75,7 @@ public class SpeakerScene implements IScene {
         main.setTop(topMenu);
 
         // Add buttons to Top Menu
-        topMenu.getChildren().addAll(button1, button2, logoutButton);
+        topMenu.getChildren().addAll(viewEventsButton, button2, logoutButton);
 
         MainView.getStage().setScene(mainPanel);
         MainView.getStage().setTitle("X Panel: Main Menu");
