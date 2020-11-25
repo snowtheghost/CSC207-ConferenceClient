@@ -364,30 +364,63 @@ public class UserManager implements Serializable {
         attendee.removeReservedEvents(roomID, eventID);
     }
     //kaiyi
+
+    /**
+     * add logged in time on the current User
+     * @param time the length of logged in time
+     * @return true if the time added successfully, otherwise false.
+     */
     public boolean addNewTimeLoggedInForCurrentUser(double time){ //dont need
         return this.currentUser.addNewTimeLoggedIn(time);
     }
+
     //kaiyi
+
+    /**
+     * add last logged in time to current user
+     * @param calendar the last logged in time
+     */
     public void addLastLoggedInForCurrentUser(Calendar calendar){ //dont need
         this.currentUser.setLastLoggedIn(calendar);
     }
+
     //kaiyi
+
+    /**
+     * @return a list of length of logged in time of the current User as minutes.
+     */
     public List<Double> getLengthsOfTimeLoggedInAsMinutesForCurrentUser(){ //need
         return this.currentUser.getLengthsOfTimeLoggedIn();
     }
+
     //kaiyi
+    /**
+     * @return the time of last logged in time of the current User
+     */
     public Calendar getLastLoggedInForCurrentUser(){ //need
         return this.currentUser.getLastLoggedIn();
     }
+
     //kaiyi
+    /**
+     * @return the average length of logged in time of the current User
+     */
     public double getAverageLengthOfTimeLoggedInForCurrentUser(){ //need
         return this.currentUser.getAverageLengthOfTimeLoggedIn();
     }
+
     //kaiyi
+    /**
+     * @return total length of logged in time of the current User
+     */
     public double getTotalMinutesLoggedInForCurrentUser(){ //need
         return this.currentUser.getTotalMinutesLoggedIn();
     }
+
     //kaiyi
+    /**
+     * @return the maximum and minimum length of logged in time of the current User as a list.
+     */
     public double[] getMaximumAndMinimumMinutesLoggedInForCurrentUser(){ //need
         return this.currentUser.getMaximumAndMinimumMinutesLoggedIn();
     }
