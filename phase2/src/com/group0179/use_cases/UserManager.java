@@ -22,6 +22,7 @@ public class UserManager implements Serializable {
     private User currentUser;
 
     /**
+     * Created a new UserManager.
      * Last modified: Justin Chan
      */
     public UserManager() { }
@@ -69,6 +70,9 @@ public class UserManager implements Serializable {
         return users;
     }
 
+    /**
+     * @return an ArrayList of all usernames in existence
+     */
     public ArrayList<String> getUsernames() {
         ArrayList<String> usernames = new ArrayList<>();
         for (User user : getUsers()) {
@@ -111,6 +115,11 @@ public class UserManager implements Serializable {
         return getUserIDToUser().get(userID);
     }
 
+    /**
+     * Return a User object based on their names.
+     * @param username the name of the user you wish to return.
+     * @return the User that the provided name belongs to or null if that user is not found.
+     */
     private User getUser(String username) {
         return getUsernameToUser().get(username);
     }
@@ -277,6 +286,11 @@ public class UserManager implements Serializable {
         return null;
     }
 
+    /**
+     * Precondition: getUser(speakerName).isSpeaker
+     * @param speakerName the name of Speaker
+     * @return an ArrayList of the Speaker's Events.
+     */
     public ArrayList<UUID> getSpeakerEventIDs(String speakerName) {
         Speaker speaker = (Speaker) getUser(speakerName);
 
@@ -287,6 +301,11 @@ public class UserManager implements Serializable {
         return eventIDs;
     }
 
+    /**
+     * Precondition: getUser(speakerName).isSpeaker()
+     * @param speakerID the unique UUID of Speaker.
+     * @return an ArrayList of the Speaker's Events.
+     */
     public ArrayList<UUID> getSpeakerEventIDs(UUID speakerID) {
         Speaker speaker = (Speaker) getUser(speakerID);
 
@@ -296,51 +315,112 @@ public class UserManager implements Serializable {
         } return eventIDs;
     }
 
-    public Speaker speakerAddEvent(String speakerName, UUID roomID, UUID eventID) {
+    /**
+     * The Speaker with speakerName add an Event with eventID to the Room with roomID.
+     * @param speakerName the name of the Speaker
+     * @param roomID the UUID of Room you want to add the Event
+     * @param eventID the UUID of Event you want to add
+     * Precondition: getUser(speakerName).isSpeaker()
+     */
+    public void speakerAddEvent(String speakerName, UUID roomID, UUID eventID) {
         Speaker speaker = (Speaker) getUser(speakerName);
         speaker.addEvent(roomID, eventID);
-        return this.speakers.get(0);
+        //return this.speakers.get(0);
     }
 
+    /**
+     * The Speaker with speakerName remove an Event with eventID to the Room with roomID.
+     * @param speakerName the name of the Speaker
+     * @param roomID the UUID of Room you want to remove the Event
+     * @param eventID the UUID of Event you want to remove
+     * Precondition: getUser(speakerName).isSpeaker()
+     */
     public void speakerRemoveEvent(String speakerName, UUID roomID, UUID eventID) {
         Speaker speaker = (Speaker) getUser(speakerName);
         speaker.removeEvent(roomID, eventID);
     }
 
+    /**
+     * The Attendee with attendeeID add an Event with eventID in Room with roomID.
+     * @param attendeeID the UUID of the Attendee
+     * @param roomID the UUID of Room you want to add the event
+     * @param eventID the UUID of the Event you want to add
+     * precondition: getUser(attendeeID).isAttendee()
+     */
     public void attendeeAddEvent(UUID attendeeID, UUID roomID, UUID eventID) {
         Attendee attendee = (Attendee) getUser(attendeeID);
         attendee.addEvents(roomID, eventID);
     }
 
+    /**
+     * The Attendee with attendeeID remove an Event with eventID in Room with roomID.
+     * @param attendeeID the UUID of the Attendee
+     * @param roomID the UUID of Room you want to remove the event
+     * @param eventID the UUID of the Event you want to remove
+     * precondition: getUser(attendeeID).isAttendee()
+     */
     public void attendeeRemoveEvent(UUID attendeeID, UUID roomID, UUID eventID) {
         Attendee attendee = (Attendee) getUser(attendeeID);
         attendee.removeReservedEvents(roomID, eventID);
     }
     //kaiyi
+
+    /**
+     * add logged in time on the current User
+     * @param time the length of logged in time
+     * @return true if the time added successfully, otherwise false.
+     */
     public boolean addNewTimeLoggedInForCurrentUser(double time){ //dont need
         return this.currentUser.addNewTimeLoggedIn(time);
     }
+
     //kaiyi
+
+    /**
+     * add last logged in time to current user
+     * @param calendar the last logged in time
+     */
     public void addLastLoggedInForCurrentUser(Calendar calendar){ //dont need
         this.currentUser.setLastLoggedIn(calendar);
     }
+
     //kaiyi
+
+    /**
+     * @return a list of length of logged in time of the current User as minutes.
+     */
     public List<Double> getLengthsOfTimeLoggedInAsMinutesForCurrentUser(){ //need
         return this.currentUser.getLengthsOfTimeLoggedIn();
     }
+
     //kaiyi
+    /**
+     * @return the time of last logged in time of the current User
+     */
     public Calendar getLastLoggedInForCurrentUser(){ //need
         return this.currentUser.getLastLoggedIn();
     }
+
     //kaiyi
+    /**
+     * @return the average length of logged in time of the current User
+     */
     public double getAverageLengthOfTimeLoggedInForCurrentUser(){ //need
         return this.currentUser.getAverageLengthOfTimeLoggedIn();
     }
+
     //kaiyi
+    /**
+     * @return total length of logged in time of the current User
+     */
     public double getTotalMinutesLoggedInForCurrentUser(){ //need
         return this.currentUser.getTotalMinutesLoggedIn();
     }
+
     //kaiyi
+    /**
+     * @return the maximum and minimum length of logged in time of the current User as a list.
+     */
     public double[] getMaximumAndMinimumMinutesLoggedInForCurrentUser(){ //need
         return this.currentUser.getMaximumAndMinimumMinutesLoggedIn();
     }
@@ -546,14 +626,25 @@ public class UserManager implements Serializable {
         return null;
     }
 
+    /**
+     * @param username the username of a User
+     * @return true if the User with the username exists, false otherwise.
+     */
     public boolean userExists(String username) {
         return getUsernames().contains(username);
     }
 
+    /**
+     * @param username the username of a User
+     * @return true if the User with this username is a Speaker.
+     */
     public boolean isSpeaker(String username) {
         return getUser(username).isSpeaker();
     }
 
+    /**
+     * @return a String including all speakers' usernames.
+     */
     public String stringAvailableSpeakers() {
         StringBuilder s = new StringBuilder("Speakers available: ");
         ArrayList<Speaker> speakers = getSpeakers();
@@ -566,20 +657,41 @@ public class UserManager implements Serializable {
         return s.toString();
     }
 
+    /**
+     * @param recipientID the UserID of recipient
+     * @param senderID the UserID of sender
+     * @return a list of messageID which are sent from User with senderID to the User with recipientID.
+     */
     public List<UUID> getMessagesFromUser(UUID recipientID, UUID senderID) {
         return getUser(recipientID).getMessages(senderID);
     }
 
+    /**
+     * add messages which is sent from the User with senderID to the User with recipientID
+     * @param recipientID the UserID of recipient
+     * @param senderID the UserID of sender
+     * @param messageID the UUID of this message.
+     */
     public void addMessage(UUID recipientID, UUID senderID, UUID messageID) {
         getUser(recipientID).addMessage(senderID, messageID);
     }
 
+    /**
+     *
+     * @param username the username of the User
+     * @return null if the username doesn't exist, otherwise UUID of the User
+     */
     public UUID getUserID(String username) {
         User user = getUser(username);
         if (user == null) return null;
         return getUser(username).getUserID();
     }
 
+    /**
+     *
+     * @param UserID the userID of the User
+     * @return null if the userID doesn't exist, otherwise username of the User
+     */
     public String getUsername(UUID UserID) {
         User user = getUser(UserID);
         if (user == null) return null;
