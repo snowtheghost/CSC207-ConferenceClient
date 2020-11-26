@@ -28,7 +28,7 @@ public class AppMain {
 
         // Helper classes
         LoginFilter loginFilter = new LoginFilter(userManager, roomManager, messageManager);
-        LoginPresenter loginPresenter = new LoginPresenter(userManager, roomManager, messageManager);
+        LoginPresenter loginPresenter = new LoginPresenter(userManager);
         AttendeeFilter attendeeFilter = new AttendeeFilter(userManager, roomManager, messageManager);
         AttendeePresenter attendeePresenter = new AttendeePresenter(userManager, roomManager, messageManager);
         SpeakerFilter speakerFilter = new SpeakerFilter(userManager, roomManager, messageManager);
