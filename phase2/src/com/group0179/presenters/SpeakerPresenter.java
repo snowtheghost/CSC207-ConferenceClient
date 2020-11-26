@@ -26,6 +26,15 @@ public class SpeakerPresenter extends Presenter {
         } return events;
     }
 
+    public ArrayList<String> getSpeakingEventListArray() {
+        ArrayList<UUID> eventIDs = userMan.getSpeakerEventIDs(userMan.getCurrentUser());
+        ArrayList<String> events = new ArrayList<>();
+        for (UUID eventID: eventIDs) {
+            events.add(roomMan.stringEvent(eventID));
+        } return events;
+    }
+
     public String viewAllEventsButton() { return "View All Events"; }
+    public String viewSpeakingEventsButton() { return "View All Speaking Events"; }
 
 }

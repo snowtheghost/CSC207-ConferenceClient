@@ -42,6 +42,7 @@ public class SpeakerScene implements IScene {
         menu2sub1.setVgap(2.5);
         menu2sub1.setHgap(2.5);
         ListView<String> viewEventList = new ListView<>();
+        ListView<String> viewSpeakingEventList = new ListView<>();
 
         // Elements for the Main Menu
         Button viewEventsButton = new Button(this.presenter.viewAllEventsButton());
@@ -54,14 +55,16 @@ public class SpeakerScene implements IScene {
             viewEventList.setItems(eventsList);
         });
 
-        Button button2 = new Button("Command 2");
-        button2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                main.setCenter(menu2);
-                MainView.getStage().setTitle("X Panel: Speakers");
-            }
+        Button viewSpeakingEventsButton = new Button(this.presenter.viewSpeakingEventsButton());
+        viewSpeakingEventsButton.setOnAction(actionEvent -> {
+            main.setCenter(viewSpeakingEventList);
+            MainView.getStage().setTitle(this.presenter.viewSpeakingEventsButton());
+            // Get and add all events to the list
+            ObservableList<String> eventsList = FXCollections.observableArrayList();
+            eventsList.addAll(presenter.getSpeakingEventListArray());
+            viewSpeakingEventList.setItems(eventsList);
         });
+
 
         Button logoutButton = new Button("Log out");
         logoutButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -75,7 +78,7 @@ public class SpeakerScene implements IScene {
         main.setTop(topMenu);
 
         // Add buttons to Top Menu
-        topMenu.getChildren().addAll(viewEventsButton, button2, logoutButton);
+        topMenu.getChildren().addAll(viewEventsButton, viewSpeakingEventsButton, logoutButton);
 
         MainView.getStage().setScene(mainPanel);
         MainView.getStage().setTitle("X Panel: Main Menu");
