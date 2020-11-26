@@ -89,9 +89,6 @@ public class RoomManager implements Serializable {
         return getEventsFromRoom(roomNumber).get(eventNumber);
     }
 
-    /**
-     * @return an ArrayList of all rooms in existence
-     */
     private ArrayList<Room> getRooms() {
         return rooms;
     }
@@ -104,10 +101,6 @@ public class RoomManager implements Serializable {
         return events;
     }
 
-    /**
-     * @param room the room that contains the desired events
-     * @return an ArrayList of Events in the Room
-     */
     private ArrayList<Event> getEventsFromRoom(Room room) {
         return room.getEvents();
     }
@@ -146,10 +139,6 @@ public class RoomManager implements Serializable {
         return RoomIDToRoom;
     }
 
-    /**
-     *
-     * @return a HashMap where key is EventID and value is Event
-     */
     private HashMap<UUID, Event> getEventIDToEvent() {
         HashMap<UUID, Event> EventIDToEvent = new HashMap<>();
         for (Room room : rooms) {
@@ -174,10 +163,17 @@ public class RoomManager implements Serializable {
         return getEvents().size();
     }
 
+    /**
+     * @param roomNumber the room number of the room
+     * @return the number of Events in the room
+     */
     public int getNumEventsInRoom(int roomNumber) {
         return getEventsFromRoom(roomNumber).size();
     }
 
+    /**
+     * @return an Arraylist of Event ID.
+     */
     public ArrayList<UUID> getEventIDs() {
         ArrayList<UUID> eventIDs = new ArrayList<>();
         for (Event event : getEvents()) {
@@ -186,6 +182,10 @@ public class RoomManager implements Serializable {
         return eventIDs;
     }
 
+    /**
+     * Create a new Room
+     * @param capacity the capacity of the new room.
+     */
     public void newRoom(int capacity) {
         Room roomToCreate = new Room(capacity);
         rooms.add(roomToCreate);
@@ -209,16 +209,6 @@ public class RoomManager implements Serializable {
         Event newEvent = new Event(eventTitle, speakerName, startTime, endTime, 0);
         for (UUID existingEventID : um.getSpeakerEventIDs(speakerName)) {
             if (room.eventOverlapping(newEvent, getEvent(existingEventID))) { // TODO: Method does not require room!
-                return false;
-            }
-        }
-        return room.eventIsValid(newEvent);
-    }
-
-    public boolean newEventValid(String eventTitle, String speakerName, Calendar startTime, Calendar endTime, Room room, UserManager um) {
-        Event newEvent = new Event(eventTitle, speakerName, startTime, endTime, 0);
-        for (UUID existingEventID : um.getSpeakerEventIDs(speakerName)) {
-            if (room.eventOverlapping(newEvent, getEvent(existingEventID))) {
                 return false;
             }
         }
@@ -262,9 +252,7 @@ public class RoomManager implements Serializable {
      */
     public boolean rescheduleEvent(UserManager um, int roomNumber, int eventNumber, Calendar startTime, Calendar endTime) {
         Event event = getEventFromRoom(roomNumber, eventNumber);
-        Room room = getRoom(roomNumber);
-
-        if (newEventValid(event.getTitle(), event.getSpeakerName(), startTime, endTime, room, um)) {
+        if (newEventValid(event.getTitle(), event.getSpeakerName(), startTime, endTime, roomNumber, um)) {
             event.setTime(startTime, endTime);
             return true;
         }
@@ -323,6 +311,14 @@ public class RoomManager implements Serializable {
         return false;
     }
 
+    /**
+     * @param attendeeID the User ID of the Attendee
+     * @param roomNumber the room number of the room
+     * @param eventNumber the event number of the event
+     * @param um User Manager
+     * @param isVip true if the Attendee is VIP, otherwise false
+     * @return true if the event add the Attendee successfully, otherwise return false.
+     */
     public boolean addEventAttendee(UUID attendeeID, int roomNumber, int eventNumber, UserManager um, boolean isVip) {
         Event event = getEvent(roomNumber, eventNumber);
 
@@ -337,6 +333,13 @@ public class RoomManager implements Serializable {
         return true;
     }
 
+    /**
+     * @param attendeeID the User ID of the Attendee
+     * @param roomNumber the room number of the room
+     * @param eventNumber the event number of the event
+     * @param um User Manager
+     * @return true if the event remove the Attendee successfully, otherwise return false.
+     */
     public boolean removeEventAttendee(UUID attendeeID, int roomNumber, int eventNumber, UserManager um) {
         Event event = getEvent(roomNumber, eventNumber);
 
@@ -348,6 +351,11 @@ public class RoomManager implements Serializable {
         return false;
     }
 
+    /**
+     * @param um User Manager
+     * @param speakerName the name of the Speaker
+     * @return a string including the Speaker's Events
+     */
     public String stringEventsOfSpeaker(UserManager um, String speakerName) {
         StringBuilder s = new StringBuilder("Events by Speaker " + speakerName + ": \n");
         ArrayList<UUID> eventIDs = um.getSpeakerEventIDs(speakerName);
@@ -360,6 +368,10 @@ public class RoomManager implements Serializable {
         return s.toString();
     }
 
+    /**
+     * @param roomNumber the room number
+     * @return a string including the Room's Events.
+     */
     public String stringEventsOfRoom(int roomNumber) {
         StringBuilder s = new StringBuilder("Events in Room " + (roomNumber + 1) + ": \n");
         ArrayList<Event> events = getEventsFromRoom(roomNumber);
@@ -371,6 +383,10 @@ public class RoomManager implements Serializable {
         return s.toString();
     }
 
+    /**
+     * @param roomNumber the room number
+     * @return a list of events as string
+     */
     public ArrayList<String> getEventsOfRoom(int roomNumber) {
         ArrayList<Event> events = getEventsFromRoom(roomNumber);
         ArrayList<String> eventsAsString = new ArrayList<>();
@@ -380,6 +396,9 @@ public class RoomManager implements Serializable {
         return eventsAsString;
     }
 
+    /**
+     * @return a string including all events.
+     */
     public String stringEventInfoAll() {
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < rooms.size(); i++) {
@@ -388,6 +407,10 @@ public class RoomManager implements Serializable {
         return s.toString();
     }
 
+    /**
+     * @param attendeeID the User ID of the Attendee
+     * @return a string including all this Attendee's Events
+     */
     public String stringEventInfoAttending(UUID attendeeID) {
         StringBuilder s = new StringBuilder("All events: \n");
         for (Event event : getEvents()){
@@ -397,6 +420,10 @@ public class RoomManager implements Serializable {
         } return s.toString();
     }
 
+    /**
+     * @param eventID the event ID
+     * @return a string of this event.
+     */
     public String stringEvent(UUID eventID) {
         return getEvent(eventID).toString();
     }
