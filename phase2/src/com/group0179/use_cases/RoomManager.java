@@ -118,6 +118,23 @@ public class RoomManager implements Serializable {
     }
 
     /**
+     * Since two events in different rooms can have the same name,
+     * this takes an eventname, a roomNumber and tries to find the event
+     * UUID from a sepcific room.
+     * @param eventName The name of the event
+     * @param roomNumber The room's number
+     * @return A UUID of the event, null if event with that name not found.
+     */
+    public UUID getEventUUIDfromNameandRoom(String eventName, int roomNumber){
+        for (Event event : this.getEventsFromRoom(roomNumber)){
+            if (event.getTitle().equals(eventName)){
+                return event.getEventID();
+            }
+        }
+        return null;
+    }
+
+    /**
      * @param eventID the event storing the attendees
      * @return an ArrayList of AttendeeIDs that are attending the specified event in the specified room
      * <p>
