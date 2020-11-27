@@ -63,9 +63,9 @@ public class UserManagerTest {
         assertEquals(um.getCurrentUser(), attendee1ID);
         um.setCurrentUser("speaker1");
         assertEquals(um.getCurrentUser(), speaker1ID);
-        um.setCurrentUserFromUserName("attendee1");
+        um.setCurrentUser("attendee1");
         assertEquals(um.getCurrentUser(), attendee1ID);
-        um.setCurrentUserFromUserName("speaker1");
+        um.setCurrentUser("speaker1");
         assertEquals(um.getCurrentUser(), speaker1ID);
     }
 

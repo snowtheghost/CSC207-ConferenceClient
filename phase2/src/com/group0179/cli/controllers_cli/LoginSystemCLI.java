@@ -101,7 +101,7 @@ public class LoginSystemCLI implements IControllerCLI {
         this.lp.enterUsernamePrompt();
         String userName = input.nextLine();
         // keeps asking for until matching one found
-        while (!this.userMan.setCurrentUserFromUserName(userName)) {
+        while (!this.userMan.setCurrentUser(userName)) {
             this.lp.goBackOptionPrompt();
             userName = input.nextLine();
             if (userName.equals("back")) {

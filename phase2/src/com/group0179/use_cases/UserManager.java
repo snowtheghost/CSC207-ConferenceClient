@@ -194,19 +194,6 @@ public class UserManager implements Serializable {
     }
 
     /**
-     * Created: Zihan Wang
-     * Sets the currently logged in user from username.
-     * @param UserName the username of the logged in user.
-     */
-    public boolean setCurrentUserFromUserName(String UserName){
-        if(getUsernameToUser().containsKey(UserName)){
-            this.currentUser = getUsernameToUser().get(UserName);
-            return true;}
-        System.out.println("This Username doesn't exist, please try another Username.");
-        return false;
-    }
-
-    /**
      * @param username unique username requested
      * @param isVip whether its an attendee
      * @return the Attendee that was created
@@ -221,7 +208,7 @@ public class UserManager implements Serializable {
     }
     /**
      * @param username unique username requested
-     * @return the Attendee that was created
+     * @return the User ID of the Attendee that was created
      */
     public UUID createAttendeeAccount(String username) {
         Attendee attendee = new Attendee(username);
@@ -325,7 +312,6 @@ public class UserManager implements Serializable {
     public void speakerAddEvent(String speakerName, UUID roomID, UUID eventID) {
         Speaker speaker = (Speaker) getUser(speakerName);
         speaker.addEvent(roomID, eventID);
-        //return this.speakers.get(0);
     }
 
     /**
