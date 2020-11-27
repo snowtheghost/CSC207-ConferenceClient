@@ -446,7 +446,7 @@ public class RoomManager implements Serializable {
      * @return a string including all this Attendee's Events
      */
     public String stringEventInfoAttending(UUID attendeeID) {
-        StringBuilder s = new StringBuilder("All events: \n");
+        StringBuilder s = new StringBuilder("All signed up events: \n");
         for (Event event : getEvents()){
             if (getEventAttendeeIDs(event.getEventID()).contains(attendeeID)){
                 s.append(event.toString());

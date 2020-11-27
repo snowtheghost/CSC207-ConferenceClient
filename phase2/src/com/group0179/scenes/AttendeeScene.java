@@ -103,7 +103,7 @@ public class AttendeeScene implements IScene{
 
                 // adds send button and result message to pane
                 Button submitButton = new Button("Send");
-                Text result = new Text(presenter.message(textField1.getText(), textField2.getText()));
+                Text result = atScene.txtObjCreater("", x/1.5);
                 submitButton.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
@@ -131,7 +131,7 @@ public class AttendeeScene implements IScene{
                 displayForm(label, textField, bottomMenu, 0);
 
                 // adds submit button and result
-                Text result = new Text(presenter.viewMessages(textField.getText()));
+                Text result = atScene.txtObjCreater("", x/1.5);
                 Button submitButton = new Button("Submit");
                 submitButton.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
@@ -160,7 +160,7 @@ public class AttendeeScene implements IScene{
         });
 
         Button button4 = new Button("View signed up events");
-        button3.setOnAction(new EventHandler<ActionEvent>() {
+        button4.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 bottomMenu.getChildren().clear();
@@ -175,8 +175,8 @@ public class AttendeeScene implements IScene{
             public void handle(ActionEvent actionEvent) {
                 bottomMenu.getChildren().clear();
                 // adds input prompts
-                Text label0 = atScene.txtObjCreater("Would you like to join or leave the event? \n " +
-                        "Enter 'joining' to join or 'leaving' to leave.", x/1.5);
+                Text label0 = atScene.txtObjCreater("Would you like to join or leave the event? " +
+                        "Type 'joining' to join or 'leaving' to leave.", x/1.4);
                 Text label1 = atScene.txtObjCreater("Enter room number of event:",x/1.5);
                 Text label2 = atScene.txtObjCreater("Enter name of event:",x/1.5);
 
@@ -200,9 +200,9 @@ public class AttendeeScene implements IScene{
                         result.setText(presenter.joinLeaveEvent(textField0.getText(), textField1.getText(), textField2.getText()));
                     }
                 });
-                GridPane.setConstraints(submitButton, 0, 5);
+                GridPane.setConstraints(submitButton, 0, 6);
                 bottomMenu.getChildren().add(submitButton);
-                GridPane.setConstraints(result, 0, 6);
+                GridPane.setConstraints(result, 0, 7);
                 bottomMenu.getChildren().add(result);
             }
         });
