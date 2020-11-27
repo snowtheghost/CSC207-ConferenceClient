@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
@@ -22,6 +23,9 @@ public class OrganizerScene implements IScene{
     OrganizerFilter filter;
     OrganizerPresenter presenter;
     int currentRoomNumber = 0;
+    BorderPane main = new BorderPane();
+    HBox topMenu = new HBox();
+    HBox emptyBottomMenu = new HBox();
 
     public OrganizerScene(OrganizerFilter filter, OrganizerPresenter presenter) {
         this.filter = filter;

@@ -10,7 +10,10 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 
 /**
  * @author Template: Justin Chan
@@ -24,6 +27,10 @@ public class SpeakerScene implements IScene {
     GridPane menu1 = new GridPane();
     GridPane menu2 = new GridPane();
     GridPane menu2sub1 = new GridPane();
+    BorderPane main = new BorderPane();
+    HBox topMenu = new HBox();
+    HBox emptyBottomMenu = new HBox();
+
 
     public SpeakerScene(SpeakerFilter filter, SpeakerPresenter presenter) {
         this.filter = filter;

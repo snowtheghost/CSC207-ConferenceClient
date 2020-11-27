@@ -27,6 +27,9 @@ public class TemplateScene implements IScene {
     Presenter presenter;
 
     Scene mainPanel;
+    BorderPane main = new BorderPane();
+    HBox topMenu = new HBox();
+    HBox emptyBottomMenu = new HBox();
     GridPane menu1 = new GridPane();
     GridPane menu2 = new GridPane();
     GridPane menu2sub1 = new GridPane();

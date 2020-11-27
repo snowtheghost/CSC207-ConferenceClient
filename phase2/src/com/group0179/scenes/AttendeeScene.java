@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.scene.Group;
 
@@ -28,7 +29,9 @@ public class AttendeeScene implements IScene{
     private final AttendeeFilter filter;
     private final AttendeePresenter presenter;
     private final Text txtObj = new Text();
-    private GridPane bottomMenu = new GridPane();
+    private final GridPane bottomMenu = new GridPane();
+    private final FlowPane topMenu = new FlowPane();
+    BorderPane main = new BorderPane();
 
     public AttendeeScene(AttendeeFilter filter, AttendeePresenter presenter) {
         this.filter = filter;
@@ -44,25 +47,58 @@ public class AttendeeScene implements IScene{
         Text txtObj = this.txtObj;
         txtObj.setWrappingWidth(x);
 
-
-        // Attendee commands as buttons
-        Button button1 = new Button("Display commands");
+        Button button1 = new Button("Send message");
         button1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 bottomMenu.getChildren().clear();
-                bottomMenu.getChildren().add(txtObj);
-                txtObj.setText(presenter.displayCommands());
+
+                // adds target user and msg content label
+                Text label1 = new Text("Enter username of who you would like to message.");
+                Text label2 = new Text("Enter message content");
+                int labelWidth = (x/3)*2;
+                label1.setWrappingWidth(labelWidth);
+                label2.setWrappingWidth(labelWidth);
+
+                // adds the input boxes for those
+                TextField textField1 = new TextField();
+                TextField textField2 = new TextField();
+
+                // adds everything to grid plane
+                GridPane.setConstraints(label1, 0, 1);
+                bottomMenu.getChildren().add(label1);
+                GridPane.setConstraints(textField1, 0, 2);
+                bottomMenu.getChildren().add(textField1);
+
+                GridPane.setConstraints(label2, 0, 3);
+                bottomMenu.getChildren().add(label2);
+                GridPane.setConstraints(textField2, 0, 4);
+                bottomMenu.getChildren().add(textField2);
+
+                // adds send button
+                Button submitButton = new Button("Send");
+                submitButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        Text result = new Text(presenter.message(textField1.getText(), textField2.getText()));
+                        GridPane.setConstraints(result, 0, 6);
+                        bottomMenu.getChildren().add(result);
+                    }
+                });
+                GridPane.setConstraints(submitButton, 0, 5);
+                bottomMenu.getChildren().add(submitButton);
             }
         });
-        Button button2 = new Button("View Messages");
+
+
+        Button button2 = new Button("View messages");
         button2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 bottomMenu.getChildren().clear();
 
 
-                // adds input command
+                // adds input box
                 Text label = new Text("Enter username of who's messages you would like to see, enter 'all' for all.");
                 int labelWidth = (x/3)*2;
                 label.setWrappingWidth(labelWidth);
@@ -90,6 +126,29 @@ public class AttendeeScene implements IScene{
             }
         });
 
+        Button button3 = new Button("View all events");
+        button3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                bottomMenu.getChildren().clear();
+                bottomMenu.getChildren().add(txtObj);
+                txtObj.setText(presenter.viewAllEvents());
+            }
+        });
+
+        Button button4 = new Button("View signed up events");
+        button3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                bottomMenu.getChildren().clear();
+                bottomMenu.getChildren().add(txtObj);
+                txtObj.setText(presenter.viewSignedUpEvents());
+            }
+        });
+
+
+
+
         Button logoutButton = new Button("Log out");
         logoutButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -97,6 +156,10 @@ public class AttendeeScene implements IScene{
                 MainView.setLoginScene();
             }
         });
+
+        // Add buttons to Top Menu and sets properties
+        topMenu.getChildren().addAll(button1, button2, button3, logoutButton);
+
 
         // Set properties of the bottom menu
         bottomMenu.setAlignment(Pos.TOP_LEFT);
@@ -107,9 +170,8 @@ public class AttendeeScene implements IScene{
         main.setTop(topMenu);
         main.setLeft(bottomMenu);
 
-        // Add buttons to Top Menu
-        topMenu.getChildren().addAll(button1, button2, logoutButton);
+        //Sets main scene as current scene.
         MainView.getStage().setScene(mainPanel);
-        MainView.getStage().setTitle("X Panel: Main Menu");
+        MainView.getStage().setTitle("Attendee Panel");
     }
 }
