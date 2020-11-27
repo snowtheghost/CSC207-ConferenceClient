@@ -158,7 +158,7 @@ public class AttendeeScene implements IScene{
         });
 
         // Add buttons to Top Menu and sets properties
-        topMenu.getChildren().addAll(button1, button2, button3, logoutButton);
+        topMenu.getChildren().addAll(button1, button2, button3, button4, logoutButton);
 
 
         // Set properties of the bottom menu

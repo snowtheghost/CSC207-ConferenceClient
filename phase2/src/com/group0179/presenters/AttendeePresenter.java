@@ -21,6 +21,7 @@ public class AttendeePresenter extends Presenter {
     private final AttendeePresenterCLI ap;
     private final Scanner input = new Scanner(System.in);
     private final AttendeeFilter attendeeFilter;
+    private final UUID currUserID;
 
 
     /**
@@ -35,6 +36,7 @@ public class AttendeePresenter extends Presenter {
         this.roomMan = roomMan;
         this.ap = new AttendeePresenterCLI(userMan, msgMan);
         this.attendeeFilter = new AttendeeFilter(userMan, roomMan, msgMan);
+        this.currUserID = this.userMan.getCurrentUser();
     }
 
     /**
@@ -45,26 +47,18 @@ public class AttendeePresenter extends Presenter {
         return "Logout|Message|View messages|View all events|View signed up events|Join event|Leave event";
     }
     /**
-     * @param currUserID The current user's userid
-     * @return Returns an Integer if user wants to exit, null otherwise
+     * @param username The username of the person the user wants to message
+     * @param content The content of the message.
+     * @return Returns a string saying the user either does not exist or message sent success.
      */
-    public Integer Message(UUID currUserID){
-        this.ap.dmPrompt();
-        String response = input.nextLine().toLowerCase();
-        if (response.equals("back")){return DefinitionsCLI.REMAIN_IN_STATE;}
-        //keep asking for input until the input is an existing username or 'back'
-        while (!userExists(response)) {
-            this.ap.displayUserDoesNotExistError();
-            response = input.nextLine();
-            if (response.equals("back")){return DefinitionsCLI.REMAIN_IN_STATE;}
+    public String message(String username, String content){
+        if (!userExists(username)) {
+            return "Recipient does not exist";
         }
-
-        this.ap.typeMsgPrompt();
-        String message = input.nextLine();
-        UUID recipient = this.userMan.getUserID(response);
-        this.msgMan.sendMessage(this.userMan, currUserID, recipient, message);
-        this.ap.msgSentPrompt();
-        return null;
+        UUID currUserID = this.userMan.getCurrentUser();
+        UUID recipient = this.userMan.getUserID(username);
+        this.msgMan.sendMessage(this.userMan, currUserID, recipient, content);
+        return "Message sent successfully.";
     }
 
     /**
@@ -102,28 +96,36 @@ public class AttendeePresenter extends Presenter {
     }
 
     /**
-     * Prints all existing events
+     * @return Returns a string on all existing events and the rooms they're in.
+     * If there are no events, return "No events available".
      */
-    private void viewAllEvents(){
-        this.ap.displayAllEvents(roomMan.stringEventInfoAll());
+    public String viewAllEvents(){
+        String allEvents = roomMan.stringEventInfoAll();
+        if (allEvents.equals("")){
+            return "No events available";
+        }
+        return allEvents;
     }
 
     /**
-     * Prints all events the user signed up for
-     * @param currUserID The current users UUID
+     * @return A string of all events the user signed up for
      */
-    private void viewSignedUpEvents(UUID currUserID){
-        this.ap.displayAttendingEvents(roomMan.stringEventInfoAttending(currUserID));
+    public String viewSignedUpEvents(){
+        UUID currUserID = this.userMan.getCurrentUser();
+        return roomMan.stringEventInfoAttending(currUserID);
     }
 
     /**
-     * Asks user for an event name and prints whether it successfully signed up/signed out.
+     * Takes an eventID and the corrisponding roomID, and whether the user wants to join
+     * or leave the event, returns a success message string or string explaining why action could
+     * not be preformed.
      * @param currUserID The current users UUID
      * @param userMan The userManager class
      * @param joinOrLeave A string either "joining" or "leaving" depending on what the user wants to do.
      * @return Returns an integer if user wants to go back out of the command, null otherwise
      */
-    private Integer joinLeaveEvent(UUID currUserID, UserManager userMan, String joinOrLeave){
+    public Integer joinLeaveEvent(UUID currUserID, UserManager userMan, String joinOrLeave){
+
         // keeps asking user to input room number until valid number or user wants to cancel
         // if user wants to cancel, it'll return -1 and we will go back to attendee panel
         this.ap.joinLeaveEventOrRoomPrompt(joinOrLeave, "room");
