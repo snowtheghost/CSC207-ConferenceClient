@@ -38,64 +38,6 @@ public class AttendeePresenter extends Presenter {
     }
 
     /**
-     * Takes in user command from view and returns infomation by talking to backend.
-     * @param command the user's command
-     * @return A string containing the program's response to the user's command.
-     */
-    public String runInput(String command) {
-        // common info used by the switch cases
-        UUID currUserID = this.userMan.getCurrentUser();
-        ArrayList<UUID> allUserIds = new ArrayList<>(this.userMan.getAttendeeUUIDs());
-        allUserIds.addAll(this.userMan.getOrganizerUUIDs());
-        allUserIds.addAll(this.userMan.getSpeakerUUIDs());
-        switch (command) {
-            case "commands":
-                displayCommands();
-                break;
-
-            case "message":
-                // if the user wants to go back, nextMove won't be null and we'll go back
-                // otherwise, stay in the AttendeePanel loop
-                Integer nextMove= Message(currUserID);
-                if (nextMove != null){return "user wants to go back";}
-                break;
-
-            case "view messages":
-                nextMove= viewMessages(allUserIds, currUserID);
-                if (nextMove != null){return "user wants to go back";}
-                break;
-
-            case "view all events":
-                viewAllEvents();
-                break;
-
-            case "view signed up events":
-                viewSignedUpEvents(currUserID);
-                break;
-
-            case "join event":
-                nextMove= joinLeaveEvent(currUserID, this.userMan, "joining");
-                if (nextMove != null){return "user wants to go back";}
-                break;
-
-            case "leave event":
-                nextMove= joinLeaveEvent(currUserID, this.userMan, "leaving");
-                if (nextMove != null){return "user wants to go back";}
-                break;
-
-            case "logout":
-                return "logout";
-
-            case "quit":
-                return "quit";
-
-            default:
-                ap.displayInvalidCommandError();
-        }
-        return "invalid input";
-    }
-
-    /**
      * Prints a list of commands that the user can input
      */
     public String displayCommands(){
@@ -106,7 +48,7 @@ public class AttendeePresenter extends Presenter {
      * @param currUserID The current user's userid
      * @return Returns an Integer if user wants to exit, null otherwise
      */
-    public  Integer Message(UUID currUserID){
+    public Integer Message(UUID currUserID){
         this.ap.dmPrompt();
         String response = input.nextLine().toLowerCase();
         if (response.equals("back")){return DefinitionsCLI.REMAIN_IN_STATE;}
@@ -127,32 +69,36 @@ public class AttendeePresenter extends Presenter {
 
     /**
      * Prints the messages from a specific user or all users who sent him at least one message.
-     * @param allUserIds The UUIDs of all users
-     * @param currUserID The UUID of the current user
-     * @return Returns an Integer if user wants to exit, null otherwise
+     * @param input The username of the user we want to get all messages of.
+     * @return Returns the messages from that user, all users, or No users found.
      *
      * TODO: Check fixes for UM
      */
-    private Integer viewMessages(ArrayList<UUID> allUserIds, UUID currUserID){
-        this.ap.whosMsgPrompt();
-        String response = input.nextLine().toLowerCase();
-        // keep asking for input until it == 'all' or it == existing user name
-        while (!response.equals("all") && !userExists(response)) {
-            response = input.nextLine();
-            if (response.equals("back")){return DefinitionsCLI.REMAIN_IN_STATE;}
-        }
+    public String viewMessages(String input){
+        UUID currUserID = this.userMan.getCurrentUser();
+        ArrayList<UUID> allUserIds = new ArrayList<>(this.userMan.getAttendeeUUIDs());
         // if want all messages, get a list of messages from each user and
         // write the sender name and message contents if user received at least 1 message from them
-        if (response.equals("all")){
-            this.ap.displayMsgs(allUserIds, currUserID);
-            return null;
+        if (input.equals("all")){
+            StringBuilder allMsgs = new StringBuilder("Messages:\n");
+            for (UUID uuid : allUserIds){
+                List<String> msgsFromPerson = this.msgMan.getMessageContentsFromUser(this.userMan, currUserID, uuid);
+                if (msgsFromPerson.size()!=0){
+                    String senderName = this.userMan.getUsername(uuid);
+                    allMsgs.append(senderName).append(": ");
+                    for (String msg : msgsFromPerson) {
+                        allMsgs.append(msg).append(", ");
+                    }
+                    allMsgs.append("\n");
+                }
+            }
+            return allMsgs.toString();
         }
         // if user wants message from specific user
-        UUID recipient = this.userMan.getUserID(response);
+        UUID recipient = this.userMan.getUserID(input);
+        if (recipient == null) {return "User not found";}
         List<String> msgContent = this.msgMan.getMessageContentsFromUser(this.userMan, currUserID, recipient);
-        this.ap.displaySpecificUserMsg(msgContent);
-
-        return null;
+        return String.join(",", msgContent);
     }
 
     /**

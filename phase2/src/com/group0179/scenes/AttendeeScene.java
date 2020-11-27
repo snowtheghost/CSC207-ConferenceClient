@@ -78,7 +78,7 @@ public class AttendeeScene implements IScene{
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         // adds result when button pressed
-                        Text result = new Text();
+                        Text result = new Text(presenter.viewMessages(textField.getText()));
                         GridPane.setConstraints(result, 0, 4);
                         bottomMenu.getChildren().add(result);
                     }
