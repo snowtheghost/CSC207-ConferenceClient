@@ -427,4 +427,23 @@ public class RoomManager implements Serializable {
     public String stringEvent(UUID eventID) {
         return getEvent(eventID).toString();
     }
+
+    /**
+     * change the Vip only status for an Event with the eventID.
+     * @param eventID the UUID of the Event
+     */
+    public void changeVipStatus(UUID eventID){
+        Event event = getEvent(eventID);
+        if(event.getVipOnlyStatus()) event.setVipOnlyStatus(false);
+        else event.setVipOnlyStatus(true);
+    }
+
+    /**
+     * @param eventID the UUID of the Event
+     * @return true if the Event is Vip only, false otherwise
+     */
+    public boolean getVipStatus(UUID eventID){
+        Event event = getEvent(eventID);
+        return event.getVipOnlyStatus();
+    }
 }
