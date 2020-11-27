@@ -55,16 +55,16 @@ public class OrganizerPresenter extends Presenter {
         return "Create Speaker";
     }
 
-    public String speakerListButtonText() {
-        return "View Speakers";
+    public String speakerManagerButtonText() {
+        return "Speakers";
     }
 
     public String createButtonText() {
         return "Create";
     }
 
-    public String viewRoomListButtonText() {
-        return "View Rooms";
+    public String reManagerButton() {
+        return "Rooms/Events";
     }
 
     public String createRoomFormButtonText() {
@@ -95,16 +95,16 @@ public class OrganizerPresenter extends Presenter {
         return "Organizer Panel: Create Speakers";
     }
 
-    public String speakerListTitle() {
-        return "Organizer Panel: View Speakers";
+    public String speakerManagerTitle() {
+        return "Organizer Panel: Speaker Management";
     }
 
     public String mainSceneTitle() {
         return "Organizer Panel: Main Menu";
     }
 
-    public String viewRoomListTitle() {
-        return "Organizer Panel: View Rooms";
+    public String reManagerTitle() {
+        return "Organizer Panel: Room & Event Management";
     }
 
     public String createRoomFormTitle() {
@@ -127,8 +127,24 @@ public class OrganizerPresenter extends Presenter {
         return "Room Capacity:";
     }
 
-    public String eventTitlePrompt() {
+    public String createEventTitlePrompt() {
         return "Event Title:";
+    }
+
+    public String createEventSpeakerPrompt() {
+        return "Event Speaker:";
+    }
+
+    public String createEventDatePrompt() {
+        return "Date [yyyy/mm/dd]:";
+    }
+
+    public String createEventTimePrompt() {
+        return "Time [hh:mm]:";
+    }
+
+    public String createEventCapacityPrompt() {
+        return "Event Capacity:";
     }
 
     public String createSpeakerStatus(boolean status) {
@@ -141,5 +157,25 @@ public class OrganizerPresenter extends Presenter {
         if (status) {
             return "Room " + rm.getNumRooms() + " created successfully.";
         } return "Invalid room capacity.";
+    }
+
+    public String createEventTitleStatus() {
+        return "Invalid event title.";
+    }
+
+    public String createEventSpeakerStatus() {
+        return "Speaker does not exist.";
+    }
+
+    public String createEventDateTimeStatus() {
+        return "Invalid date or time - may be in conflict.";
+    }
+
+    public String createEventCapacityStatus() {
+        return "Invalid event capacity.";
+    }
+
+    public String createEventStatus() {
+        return "Event created successfully.";
     }
 }
