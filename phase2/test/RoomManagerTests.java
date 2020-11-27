@@ -171,4 +171,14 @@ public class RoomManagerTests {
         assertEquals(rm.getEventAttendeeIDs(eventID1).size(), 0);
     }
 
+    @Test
+    public void testChangeGetVipStatus(){
+        rm.newRoom(20);
+        um.createSpeakerAccount("John");
+        UUID eventID1 = rm.newEvent("Speech 1", "John", startTime1, endTime1, 0, um, 1);
+        assertFalse(rm.getVipStatus(eventID1));
+        rm.changeVipStatus(eventID1);
+        assertTrue(rm.getVipStatus(eventID1));
+
+    }
 }
