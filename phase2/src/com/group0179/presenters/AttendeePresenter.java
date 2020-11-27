@@ -55,7 +55,6 @@ public class AttendeePresenter extends Presenter {
         if (!userExists(username)) {
             return "Recipient does not exist";
         }
-        UUID currUserID = this.userMan.getCurrentUser();
         UUID recipient = this.userMan.getUserID(username);
         this.msgMan.sendMessage(this.userMan, currUserID, recipient, content);
         return "Message sent successfully.";
@@ -69,7 +68,6 @@ public class AttendeePresenter extends Presenter {
      * TODO: Check fixes for UM
      */
     public String viewMessages(String input){
-        UUID currUserID = this.userMan.getCurrentUser();
         ArrayList<UUID> allUserIds = new ArrayList<>(this.userMan.getAttendeeUUIDs());
         // if want all messages, get a list of messages from each user and
         // write the sender name and message contents if user received at least 1 message from them
@@ -111,7 +109,6 @@ public class AttendeePresenter extends Presenter {
      * @return A string of all events the user signed up for
      */
     public String viewSignedUpEvents(){
-        UUID currUserID = this.userMan.getCurrentUser();
         return roomMan.stringEventInfoAttending(currUserID);
     }
 
@@ -119,37 +116,35 @@ public class AttendeePresenter extends Presenter {
      * Takes an eventID and the corrisponding roomID, and whether the user wants to join
      * or leave the event, returns a success message string or string explaining why action could
      * not be preformed.
-     * @param currUserID The current users UUID
-     * @param userMan The userManager class
-     * @param joinOrLeave A string either "joining" or "leaving" depending on what the user wants to do.
-     * @return Returns an integer if user wants to go back out of the command, null otherwise
+     * @param roomNum The room number of the event that user wants to join.
+     * @param eventName The event name
+     * @param joinOrLeave Whether the he wants to try 'joining' or 'leaving'. (Must be in that format
+     *                    or else invalid)
+     * @return Whether the action was a success.
      */
-    public Integer joinLeaveEvent(UUID currUserID, UserManager userMan, String joinOrLeave){
-
-        // keeps asking user to input room number until valid number or user wants to cancel
-        // if user wants to cancel, it'll return -1 and we will go back to attendee panel
-        this.ap.joinLeaveEventOrRoomPrompt(joinOrLeave, "room");
-        int inputRoomNum = this.attendeeFilter.inputRoom();
-        if (inputRoomNum==-1){return DefinitionsCLI.REMAIN_IN_STATE;}
-
-        // keeps asking user to input event number until valid number or user wants to cancel
-        // if user wants to cancel, it'll return -1 and we will go back to attendee panel
-        this.ap.joinLeaveEventOrRoomPrompt(joinOrLeave, "event");
-        int inputEventNum = this.attendeeFilter.inputEventNumber(inputRoomNum);
-        if (inputEventNum==-1){return DefinitionsCLI.REMAIN_IN_STATE;}
-
-        //Signs user up to event in room
-        if (joinOrLeave.equals("joining") && this.roomMan.addEventAttendee(currUserID, inputRoomNum,
-                inputEventNum, userMan, this.userMan.isUserVip(currUserID))){
-            this.ap.displayJoinLeaveSuccess(joinOrLeave);
-        } else if (joinOrLeave.equals("leaving") && this.roomMan.removeEventAttendee(currUserID, inputRoomNum, inputEventNum, userMan)){
-            this.ap.displayJoinLeaveSuccess(joinOrLeave);
-        } else {
-            this.ap.displayJoinLeaveError(joinOrLeave);
-            return DefinitionsCLI.REMAIN_IN_STATE;
+    public String joinLeaveEvent(String joinOrLeave, String roomNum, String eventName){
+        // Check if joinOrLeave is formatted right
+        if (!(joinOrLeave.equals("joining")||joinOrLeave.equals("leaving"))){
+            return "Please type either 'joining' or 'leaving'.";
         }
+        // Check if roomnNum valid and event can be found
+        if (!roomNum.matches("^[0-9]+$")){
+            System.out.println("invalid");
+            return "Invalid room number";}
+        int intRoomNum = Integer.parseInt(roomNum);
+        UUID eventID = this.roomMan.getEventUUIDfromNameandRoom(eventName, intRoomNum);
+        if (eventID==null){return "No event found";}
 
-        return null;
+        if (joinOrLeave.equals("joining") && this.roomMan.addEventAttendee(currUserID, eventID,
+                this.userMan, this.userMan.isUserVip(currUserID))){
+            //this.ap.displayJoinLeaveSuccess(joinOrLeave);
+            return "You've successfully joined the event.";
+        } else if (joinOrLeave.equals("leaving") && this.roomMan.removeEventAttendee(currUserID, eventID, userMan)){
+            //this.ap.displayJoinLeaveSuccess(joinOrLeave);
+            return "You've successfully left the event.";
+        }
+        //this.ap.displayJoinLeaveError(joinOrLeave);
+        return "Error " + joinOrLeave + " the event.";
     }
 
     /**

@@ -123,9 +123,10 @@ public class RoomManager implements Serializable {
      * UUID from a sepcific room.
      * @param eventName The name of the event
      * @param roomNumber The room's number
-     * @return A UUID of the event, null if event with that name not found.
+     * @return null if event with that name not found or room number not found. UUID of event otherwise.
      */
     public UUID getEventUUIDfromNameandRoom(String eventName, int roomNumber){
+        if (roomNumber>getNumRooms()){return null;}
         for (Event event : this.getEventsFromRoom(roomNumber)){
             if (event.getTitle().equals(eventName)){
                 return event.getEventID();
@@ -355,11 +356,27 @@ public class RoomManager implements Serializable {
      * @param roomNumber the room number of the room
      * @param eventNumber the event number of the event
      * @param um User Manager
-     * @return true if the event remove the Attendee successfully, otherwise return false.
+     * @return true if the event removed the Attendee successfully, otherwise return false.
      */
     public boolean removeEventAttendee(UUID attendeeID, int roomNumber, int eventNumber, UserManager um) {
         Event event = getEvent(roomNumber, eventNumber);
 
+        if (event.getAttendeeIDs().contains(attendeeID)) {
+            um.attendeeRemoveEvent(attendeeID, getEventRoom(event).getRoomID(), event.getEventID());
+            event.removeAttendee(attendeeID);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Removes the attendee from the event, given the event UUID.
+     * @param attendeeID the User ID of the Attendee
+     * @param um User Manager
+     * @return true if the event removed the Attendee successfully, otherwise return false.
+     */
+    public boolean removeEventAttendee(UUID attendeeID, UUID eventID, UserManager um) {
+        Event event = getEvent(eventID);
         if (event.getAttendeeIDs().contains(attendeeID)) {
             um.attendeeRemoveEvent(attendeeID, getEventRoom(event).getRoomID(), event.getEventID());
             event.removeAttendee(attendeeID);
