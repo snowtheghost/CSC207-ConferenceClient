@@ -68,14 +68,15 @@ public class OrganizerScene implements IScene{
 
         // Speaker Management Scenes
         GridPane speakerManagementMenu = new GridPane(); speakerManagementMenu.setVgap(2.5); speakerManagementMenu.setHgap(2.5);
-            // Create Speaker
-            GridPane createSpeakerForm = new GridPane(); createSpeakerForm.setVgap(2.5); createSpeakerForm.setHgap(2.5);
-                    Label createSpeakerSuccess = new Label(presenter.createSpeakerStatus(true));
-                    Label createSpeakerFailure = new Label(presenter.createSpeakerStatus(false));
-                    Label speakerNamePrompt = new Label(presenter.usernamePrompt());
-                    TextField speakerNameInput = new TextField();
             // View Speakers
-            ListView<String> speakerList = new ListView<>();
+            ListView<String> viewSpeakerList = new ListView<>();
+            HBox viewSpeakerListBottomMenu = new HBox(); viewSpeakerListBottomMenu.setSpacing(10); viewSpeakerListBottomMenu.setPadding(new Insets(10, 10, 10, 10));
+                // Create Speaker
+                GridPane createSpeakerForm = new GridPane(); createSpeakerForm.setVgap(2.5); createSpeakerForm.setHgap(2.5);
+                Label createSpeakerSuccess = new Label(presenter.createSpeakerStatus(true));
+                Label createSpeakerFailure = new Label(presenter.createSpeakerStatus(false));
+                Label createSpeakerNamePrompt = new Label(presenter.usernamePrompt());
+                TextField createSpeakerNameInput = new TextField();
 
         /*
          * Buttons and input process
@@ -172,24 +173,24 @@ public class OrganizerScene implements IScene{
                     createSpeakerForm.getChildren().remove(createSpeakerSuccess);
                     createSpeakerForm.getChildren().remove(createSpeakerFailure);
                     // Validate and respond to input
-                    if (filter.inputNewSpeakerUsername(speakerNameInput.getText())) {
+                    if (filter.inputNewSpeakerUsername(createSpeakerNameInput.getText())) {
                         createSpeakerForm.add(createSpeakerSuccess, 5, 7, 2, 1);
                     } else {
                         createSpeakerForm.add(createSpeakerFailure, 5, 7, 2, 1);
                     }
                 });
 
-            // Button that leads from speakerManagerMenu to speakerList
+            // Button that leads from speakerManagerMenu to viewSpeakerList
             // TODO: This could hold createSpeakerFormButton
             Button speakerListButton = new Button(presenter.speakerListButtonText());
             speakerListButton.setOnAction(actionEvent -> {
-                main.setCenter(speakerList);
-                main.setBottom(emptyBottomMenu);
+                main.setCenter(viewSpeakerList);
+                main.setBottom(viewSpeakerListBottomMenu);
                 MainView.getStage().setTitle(presenter.speakerListTitle());
                 // Add all speakers to the list
                 ObservableList<String> speakersList = FXCollections.observableArrayList();
                 speakersList.addAll(presenter.getSpeakerNames());
-                speakerList.setItems(speakersList);
+                viewSpeakerList.setItems(speakersList);
             });
 
         // Button that leads from top menu to the Login Scene
@@ -237,16 +238,19 @@ public class OrganizerScene implements IScene{
                 createRoomForm.add(createRoomButton, 7, 5);
                 // viewRoomList Elements
                 viewRoomListBottomMenu.getChildren().addAll(viewEventListButton);
-                viewEventListBottomMenu.getChildren().addAll(createEventButton);
-                    // createEventForm Elements
-                    createEventBottomMenu.getChildren().add(createNewEventButton);
+                    // viewEventList Elements
+                    viewEventListBottomMenu.getChildren().addAll(createEventButton);
+                        // createEventForm Elements
+                        createEventBottomMenu.getChildren().add(createNewEventButton);
 
             // speakerManagementMenu Elements
-            speakerManagementMenu.add(createSpeakerFormButton, 5, 5);
-            speakerManagementMenu.add(speakerListButton, 6, 5);
-                // createSpeakerForm Elements
-                createSpeakerForm.add(speakerNamePrompt, 5, 5);
-                createSpeakerForm.add(speakerNameInput, 6, 5);
-                createSpeakerForm.add(createSpeakerButton, 7, 5);
+            speakerManagementMenu.add(speakerListButton, 5, 5);
+                // viewSpeakerList Elements
+                viewSpeakerListBottomMenu.getChildren().addAll(createSpeakerFormButton);
+                    // createSpeakerForm Elements
+                    createSpeakerForm.add(createSpeakerNamePrompt, 5, 5);
+                    createSpeakerForm.add(createSpeakerNameInput, 6, 5);
+                    createSpeakerForm.add(createSpeakerButton, 7, 5);
+
     }
 }

@@ -98,15 +98,15 @@ public class AttendeePresenter extends Presenter {
     /**
      * Prints a list of commands that the user can input
      */
-    private void displayCommands(){
+    public String displayCommands(){
         // displays all possible commands
-        this.ap.displayCommands();
+        return "Logout|Message|View messages|View all events|View signed up events|Join event|Leave event";
     }
     /**
      * @param currUserID The current user's userid
      * @return Returns an Integer if user wants to exit, null otherwise
      */
-    private Integer Message(UUID currUserID){
+    public  Integer Message(UUID currUserID){
         this.ap.dmPrompt();
         String response = input.nextLine().toLowerCase();
         if (response.equals("back")){return DefinitionsCLI.REMAIN_IN_STATE;}
