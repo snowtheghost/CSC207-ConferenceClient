@@ -19,7 +19,7 @@ public class OrganizerFilter extends Filter {
     }
 
     public boolean inputNewSpeakerUsername(String input) {
-        if (!um.getUsernames().contains(input) || input.trim().length() > 0) {
+        if (!um.getUsernames().contains(input) && input.trim().length() > 0) {
             um.createSpeakerAccount(input);
             return true;
         } return false;

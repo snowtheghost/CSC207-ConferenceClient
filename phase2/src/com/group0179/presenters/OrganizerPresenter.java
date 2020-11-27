@@ -120,21 +120,21 @@ public class OrganizerPresenter extends Presenter {
     }
 
     public String usernamePrompt() {
-        return "Username: ";
+        return "Username:";
     }
 
     public String roomCapacityPrompt() {
-        return "Room Capacity: ";
+        return "Room Capacity:";
     }
 
     public String eventTitlePrompt() {
-        return "Event Title: ";
+        return "Event Title:";
     }
 
     public String createSpeakerStatus(boolean status) {
         if (status) {
             return "Speaker created successfully.";
-        } return "Username already taken.";
+        } return "Username exists/invalid.";
     }
 
     public String createRoomStatus(boolean status) {

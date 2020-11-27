@@ -39,7 +39,7 @@ public class OrganizerScene implements IScene{
          */
 
         Scene mainScene = new Scene(main, x, y);
-        topMenu.setSpacing(10);
+        topMenu.setSpacing(10); topMenu.setPadding(new Insets(10, 10, 10, 10));
         main.setTop(topMenu);
         MainView.getStage().setScene(mainScene);
         MainView.getStage().setTitle(presenter.mainSceneTitle());
@@ -49,9 +49,9 @@ public class OrganizerScene implements IScene{
          */
 
         // Room Event Scenes
-        GridPane reMenu = new GridPane(); reMenu.setVgap(2.5); reMenu.setHgap(2.5);
+        GridPane reMenu = new GridPane(); reMenu.setHgap(10); reMenu.setVgap(10); reMenu.setPadding(new Insets(10, 10, 10, 10));
             // Create Room
-            GridPane createRoomForm = new GridPane(); createRoomForm.setVgap(2.5); createRoomForm.setHgap(2.5);
+            GridPane createRoomForm = new GridPane(); createRoomForm.setVgap(10); createRoomForm.setHgap(10); createRoomForm.setPadding(new Insets(10, 10, 10, 10));
                     Label createRoomSuccess = new Label(presenter.createRoomStatus(true));
                     Label createRoomFailure = new Label(presenter.createRoomStatus(false));
                     Label roomCapacityPrompt = new Label(presenter.roomCapacityPrompt());
@@ -63,16 +63,16 @@ public class OrganizerScene implements IScene{
                 ListView<String> viewEventList = new ListView<>();
                 HBox viewEventListBottomMenu = new HBox(); viewEventListBottomMenu.setSpacing(10); viewEventListBottomMenu.setPadding(new Insets(10, 10, 10, 10));
                     // Create Event (given Room)
-                    GridPane createEventForm = new GridPane(); createEventForm.setVgap(2.5); createEventForm.setHgap(2.5);
+                    GridPane createEventForm = new GridPane(); createEventForm.setVgap(10); createEventForm.setHgap(10); createEventForm.setPadding(new Insets(10, 10, 10, 10));
                     HBox createEventBottomMenu = new HBox(); createEventBottomMenu.setSpacing(10); createEventBottomMenu.setPadding(new Insets(10, 10, 10, 10));
 
         // Speaker Management Scenes
-        GridPane speakerManagementMenu = new GridPane(); speakerManagementMenu.setVgap(2.5); speakerManagementMenu.setHgap(2.5);
+        GridPane speakerManagementMenu = new GridPane(); speakerManagementMenu.setVgap(10); speakerManagementMenu.setHgap(10); speakerManagementMenu.setPadding(new Insets(10, 10, 10, 10));
             // View Speakers
             ListView<String> viewSpeakerList = new ListView<>();
             HBox viewSpeakerListBottomMenu = new HBox(); viewSpeakerListBottomMenu.setSpacing(10); viewSpeakerListBottomMenu.setPadding(new Insets(10, 10, 10, 10));
                 // Create Speaker
-                GridPane createSpeakerForm = new GridPane(); createSpeakerForm.setVgap(2.5); createSpeakerForm.setHgap(2.5);
+                GridPane createSpeakerForm = new GridPane(); createSpeakerForm.setVgap(10); createSpeakerForm.setHgap(10); createSpeakerForm.setPadding(new Insets(10, 10, 10, 10));
                 Label createSpeakerSuccess = new Label(presenter.createSpeakerStatus(true));
                 Label createSpeakerFailure = new Label(presenter.createSpeakerStatus(false));
                 Label createSpeakerNamePrompt = new Label(presenter.usernamePrompt());
@@ -107,10 +107,10 @@ public class OrganizerScene implements IScene{
                     // Check and respond to valid/invalid input
                     if (filter.inputRoomCapacity(roomCapacityInput.getText())) {
                         createRoomSuccess.setText(presenter.createRoomStatus(true));
-                        createRoomForm.add(createRoomSuccess, 5, 7, 2, 1);
+                        createRoomForm.add(createRoomSuccess, 0, 1, 2, 1);
                     } else {
                         createRoomFailure.setText(presenter.createRoomStatus(false));
-                        createRoomForm.add(createRoomFailure, 5, 7, 2, 1);
+                        createRoomForm.add(createRoomFailure, 0, 1, 2, 1);
                     }
                 });
 
@@ -174,14 +174,13 @@ public class OrganizerScene implements IScene{
                     createSpeakerForm.getChildren().remove(createSpeakerFailure);
                     // Validate and respond to input
                     if (filter.inputNewSpeakerUsername(createSpeakerNameInput.getText())) {
-                        createSpeakerForm.add(createSpeakerSuccess, 5, 7, 2, 1);
+                        createSpeakerForm.add(createSpeakerSuccess, 0, 1, 2, 1);
                     } else {
-                        createSpeakerForm.add(createSpeakerFailure, 5, 7, 2, 1);
+                        createSpeakerForm.add(createSpeakerFailure, 0, 1, 2, 1);
                     }
                 });
 
             // Button that leads from speakerManagerMenu to viewSpeakerList
-            // TODO: This could hold createSpeakerFormButton
             Button speakerListButton = new Button(presenter.speakerListButtonText());
             speakerListButton.setOnAction(actionEvent -> {
                 main.setCenter(viewSpeakerList);
@@ -213,8 +212,8 @@ public class OrganizerScene implements IScene{
             main.setBottom(createEventBottomMenu);
             MainView.getStage().setTitle(presenter.createEventSceneTitle());
 
-            createEventForm.add(createEventTitleLabel, 5, 5);
-            createEventForm.add(createEventTitleInput, 6, 5);
+            createEventForm.add(createEventTitleLabel, 0, 0);
+            createEventForm.add(createEventTitleInput, 1, 0);
         });
 
 
@@ -230,12 +229,12 @@ public class OrganizerScene implements IScene{
         topMenu.getChildren().addAll(reMenuButton, speakerManagementButton, logoutButton);
 
             // reMenu Elements
-            reMenu.add(createRoomFormButton, 5, 5);
-            reMenu.add(viewRoomListButton, 6, 5);
+            reMenu.add(createRoomFormButton, 0, 0);
+            reMenu.add(viewRoomListButton, 1, 0);
                 // createRoomForm Elements
-                createRoomForm.add(roomCapacityPrompt, 5, 5);
-                createRoomForm.add(roomCapacityInput, 6, 5);
-                createRoomForm.add(createRoomButton, 7, 5);
+                createRoomForm.add(roomCapacityPrompt, 0, 0);
+                createRoomForm.add(roomCapacityInput, 1, 0);
+                createRoomForm.add(createRoomButton, 2, 0);
                 // viewRoomList Elements
                 viewRoomListBottomMenu.getChildren().addAll(viewEventListButton);
                     // viewEventList Elements
@@ -244,13 +243,13 @@ public class OrganizerScene implements IScene{
                         createEventBottomMenu.getChildren().add(createNewEventButton);
 
             // speakerManagementMenu Elements
-            speakerManagementMenu.add(speakerListButton, 5, 5);
+            speakerManagementMenu.add(speakerListButton, 0, 0);
                 // viewSpeakerList Elements
                 viewSpeakerListBottomMenu.getChildren().addAll(createSpeakerFormButton);
                     // createSpeakerForm Elements
-                    createSpeakerForm.add(createSpeakerNamePrompt, 5, 5);
-                    createSpeakerForm.add(createSpeakerNameInput, 6, 5);
-                    createSpeakerForm.add(createSpeakerButton, 7, 5);
+                    createSpeakerForm.add(createSpeakerNamePrompt, 0, 0);
+                    createSpeakerForm.add(createSpeakerNameInput, 1, 0);
+                    createSpeakerForm.add(createSpeakerButton, 2, 0);
 
     }
 }
