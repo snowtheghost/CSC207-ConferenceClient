@@ -75,11 +75,11 @@ public class LoginScene implements IScene {
             String accountType = presenter.loginUser(username);
             switch (accountType) {
                 case "attendee":
-                    MainView.setAttendeeScene();
+                    MainView.setAttendeeScene(); break;
                 case "organizer":
-                    MainView.setOrganizerScene();
+                    MainView.setOrganizerScene(); break;
                 case "speaker":
-                    MainView.setSpeakerScene();
+                    MainView.setSpeakerScene(); break;
             }
         } catch (InvalidCredentialsException e) {
             loginInfo.setText(e.getMessage());
@@ -161,5 +161,6 @@ public class LoginScene implements IScene {
     @Override
     public void setScene() {
         MainView.getStage().setScene(mainScene);
+        MainView.getStage().setTitle("Login or Create Account");
     }
 }
