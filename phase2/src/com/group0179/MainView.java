@@ -1,9 +1,6 @@
 package com.group0179;
 
-import com.group0179.scenes.AttendeeScene;
-import com.group0179.scenes.LoginScene;
-import com.group0179.scenes.OrganizerScene;
-import com.group0179.scenes.SpeakerScene;
+import com.group0179.scenes.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -17,12 +14,14 @@ public class MainView extends Application {
     static OrganizerScene organizerScene;
     static AttendeeScene attendeeScene;
     static SpeakerScene speakerScene;
+    static LanguageScene languageScene;
 
-    public static void setup(LoginScene loginScene, OrganizerScene organizerScene, AttendeeScene attendeeScene, SpeakerScene speakerScene) {
+    public static void setup(LoginScene loginScene, OrganizerScene organizerScene, AttendeeScene attendeeScene, SpeakerScene speakerScene, LanguageScene languageScene) {
         MainView.loginScene = loginScene;
         MainView.organizerScene = organizerScene;
         MainView.attendeeScene = attendeeScene;
         MainView.speakerScene = speakerScene;
+        MainView.languageScene = languageScene;
     }
 
     public static void main(String[] args) {
@@ -49,6 +48,8 @@ public class MainView extends Application {
         speakerScene.setScene();
     }
 
+    public static void setLanguageScene() { languageScene.setScene();}
+
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
@@ -56,8 +57,10 @@ public class MainView extends Application {
         attendeeScene.constructScene();
         organizerScene.constructScene();
         speakerScene.constructScene();
+        languageScene.constructScene();
         // setOrganizerScene(); // Should start on loginScene
-        setLoginScene();
+        //setLoginScene();
+        setLanguageScene();
         stage.show();
     }
 }

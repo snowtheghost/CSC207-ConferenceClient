@@ -41,9 +41,10 @@ public class AppMain {
         OrganizerScene organizerScene = new OrganizerScene(organizerFilter, organizerPresenter);
         AttendeeScene attendeeScene = new AttendeeScene(attendeeFilter, attendeePresenter);
         SpeakerScene speakerScene = new SpeakerScene(speakerFilter, speakerPresenter);
+        LanguageScene languageScene = new LanguageScene();
 
         // Set up MainView and launch
-        MainView.setup(loginScene, organizerScene, attendeeScene, speakerScene);
+        MainView.setup(loginScene, organizerScene, attendeeScene, speakerScene, languageScene);
         Application.launch(MainView.class);
 
         // Attempt to serialize all Use Case data to external file.
