@@ -52,7 +52,8 @@ public class MainView extends Application {
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
-        setOrganizerScene(); // Should start on loginScene
+        // setOrganizerScene(); // Should start on loginScene
+        setLoginScene();
         stage.show();
     }
 }
