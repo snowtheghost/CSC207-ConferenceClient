@@ -27,19 +27,26 @@ public class TemplateScene implements IScene {
     Presenter presenter;
 
     Scene mainPanel;
-    BorderPane main = new BorderPane();
-    HBox topMenu = new HBox();
-    HBox emptyBottomMenu = new HBox();
-    GridPane menu1 = new GridPane();
-    GridPane menu2 = new GridPane();
-    GridPane menu2sub1 = new GridPane();
+    BorderPane main;
+    HBox topMenu;
+    HBox emptyBottomMenu;
+    GridPane menu1;
+    GridPane menu2;
+    GridPane menu2sub1;
 
     public TemplateScene(Filter filter, Presenter presenter) {
         this.filter = filter;
         this.presenter = presenter;
     }
 
-    public void setScene() {
+    @Override
+    public void constructScene() {
+        main = new BorderPane();
+        topMenu = new HBox();
+        emptyBottomMenu = new HBox();
+        menu1 = new GridPane();
+        menu2 = new GridPane();
+        menu2sub1 = new GridPane();
         // Layout and scene for Full View
         mainPanel = new Scene(main, x, y);
 
@@ -83,7 +90,9 @@ public class TemplateScene implements IScene {
 
         // Add buttons to Top Menu
         topMenu.getChildren().addAll(button1, button2, logoutButton);
+    }
 
+    public void setScene() {
         MainView.getStage().setScene(mainPanel);
         MainView.getStage().setTitle("X Panel: Main Menu");
     }

@@ -37,7 +37,7 @@ public class SpeakerScene implements IScene {
         this.presenter = presenter;
     }
 
-    public void setScene() {
+    public void constructScene() {
         // Layout and scene for Full View
         mainPanel = new Scene(main, x, y);
 
@@ -86,7 +86,9 @@ public class SpeakerScene implements IScene {
 
         // Add buttons to Top Menu
         topMenu.getChildren().addAll(viewEventsButton, viewSpeakingEventsButton, logoutButton);
+    }
 
+    public void setScene() {
         MainView.getStage().setScene(mainPanel);
         MainView.getStage().setTitle("X Panel: Main Menu");
     }

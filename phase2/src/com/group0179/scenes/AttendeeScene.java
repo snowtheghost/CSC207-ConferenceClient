@@ -28,10 +28,11 @@ import javafx.scene.Group;
 public class AttendeeScene implements IScene{
     private final AttendeeFilter filter;
     private final AttendeePresenter presenter;
-    private final Text txtObj = new Text();
-    private final GridPane bottomMenu = new GridPane();
-    private final FlowPane topMenu = new FlowPane();
-    BorderPane main = new BorderPane();
+    private Text txtObj;
+    private GridPane bottomMenu;
+    private FlowPane topMenu;
+    private Scene mainPanel;
+    private BorderPane main;
 
     /**
      * The view responsible for what an attendee see's when they login.
@@ -70,14 +71,14 @@ public class AttendeeScene implements IScene{
 
     }
 
-
-    /**
-     * Sets the screen to attendee view.
-     */
     @Override
-    public void setScene() {
+    public void constructScene() {
+        txtObj = new Text();
+        bottomMenu = new GridPane();
+        topMenu = new FlowPane();
+        main = new BorderPane();
         // Layout and scene for Full View
-        Scene mainPanel = new Scene(main, x, y);
+        mainPanel = new Scene(main, x, y);
 
         // things buttons need to access
         AttendeeScene atScene = this;
@@ -228,7 +229,13 @@ public class AttendeeScene implements IScene{
 
         main.setTop(topMenu);
         main.setLeft(bottomMenu);
+    }
 
+    /**
+     * Sets the screen to attendee view.
+     */
+    @Override
+    public void setScene() {
         //Sets main scene as current scene.
         MainView.getStage().setScene(mainPanel);
         MainView.getStage().setTitle("Attendee Panel");

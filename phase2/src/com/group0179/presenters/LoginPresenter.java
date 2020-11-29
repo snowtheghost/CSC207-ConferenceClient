@@ -21,7 +21,7 @@ public class LoginPresenter extends Presenter {
     }
 
     /**
-     * @param accountType a string representing the type of account to create.
+     * @param accountType a string representing the type of account to create (not case sensitive).
      * @param username the desired username for the account.
      * @return True iff the account was created successfully.
      * @throws UsernameTakenException if the given username already exists in the system.
@@ -30,7 +30,7 @@ public class LoginPresenter extends Presenter {
         if (this.um.userExists(username)) {
             throw new UsernameTakenException("Username " + username + " has already been taken.");
         }
-        switch (accountType) {
+        switch (accountType.toLowerCase()) {
             case "organizer":
                 um.createOrganizerAccount(username); break;
             case "attendee":
@@ -45,16 +45,15 @@ public class LoginPresenter extends Presenter {
     /**
      * Attempts to login a user. Sets the current user iff the login was successful.
      * @param username the username of the user.
-     * @return True iff the login was successful.
+     * @return The logged in user's account type iff the user was logged in successfully.
      * @throws InvalidCredentialsException if the user could not be logged in with the given credentials.
      */
-    public boolean loginUser(String username) throws InvalidCredentialsException {
+    public String loginUser(String username) throws InvalidCredentialsException {
         if (!this.um.userExists(username)) {
             throw new InvalidCredentialsException("Username " + username + " does not exist.");
         }
         this.um.setCurrentUser(username);
-        // TODO: Figure out how to switch to the next set of scenes.
-        return true;
+        return this.um.userType(username);
     }
 
     /**

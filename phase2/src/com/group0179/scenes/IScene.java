@@ -11,5 +11,6 @@ public interface IScene {
     int x = 400;
     int y = 300;
 
+    void constructScene();
     void setScene();
 }
