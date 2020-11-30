@@ -157,16 +157,16 @@ public class OrganizerScene implements IScene {
         });
 
         // Button that leads from viewEventList to createEventForm
-        Button createEventButton = new Button(presenter.createEventButtonText());
-        createEventButton.setOnAction(actionEvent -> {
+        Button createEventFormButton = new Button(presenter.createEventFormButtonText());
+        createEventFormButton.setOnAction(actionEvent -> {
             main.setCenter(createEventForm);
             main.setBottom(createEventFormBottomMenu);
-            MainView.getStage().setTitle(presenter.createEventSceneTitle());
+            MainView.getStage().setTitle(presenter.createEventFormTitle());
         });
 
         // Button that creates an event if the inputs are correct
-        Button createNewEventButton = new Button(presenter.createButtonText());
-        createNewEventButton.setOnAction(actionEvent -> {
+        Button createEventButton = new Button(presenter.createButtonText());
+        createEventButton.setOnAction(actionEvent -> {
             createEventForm.getChildren().remove(createEventTitleFailure);
             createEventForm.getChildren().remove(createEventSpeakerFailure);
             createEventForm.getChildren().remove(createEventCapacityFailure);
@@ -250,9 +250,9 @@ public class OrganizerScene implements IScene {
         createRoomForm.add(roomCapacityInput, 1, 0);
         createRoomForm.add(createRoomButton, 2, 0);
         // viewEventList Elements
-        viewEventListBottomMenu.getChildren().addAll(createEventButton);
+        viewEventListBottomMenu.getChildren().addAll(createEventFormButton);
         // createEventForm Elements
-        createEventFormBottomMenu.getChildren().add(createNewEventButton);
+        createEventFormBottomMenu.getChildren().add(createEventButton);
         createEventForm.add(createEventTitleLabel, 0, 0);
         createEventForm.add(createEventTitleInput, 1, 0);
         createEventForm.add(createEventSpeakerLabel, 0, 1);

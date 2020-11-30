@@ -11,9 +11,6 @@ public class OrganizerPresenter extends Presenter {
     private final RoomManager rm;
     private final MessageManager mm;
 
-    private final int START_HOUR_EARLIEST = 9;
-    private final int START_HOUR_LATEST = 16;
-
     public OrganizerPresenter(UserManager um, RoomManager rm, MessageManager mm) {
         this.um = um;
         this.rm = rm;
@@ -75,7 +72,7 @@ public class OrganizerPresenter extends Presenter {
         return "View Events";
     }
 
-    public String createEventButtonText() {
+    public String createEventFormButtonText() {
         return "Create Event";
     }
 
@@ -115,7 +112,7 @@ public class OrganizerPresenter extends Presenter {
         return "Organizer Panel: View Events";
     }
 
-    public String createEventSceneTitle() {
+    public String createEventFormTitle() {
         return "Organizer Panel: Create Event";
     }
 
