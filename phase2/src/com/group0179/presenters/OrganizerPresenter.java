@@ -60,7 +60,7 @@ public class OrganizerPresenter extends Presenter {
         return "Create";
     }
 
-    public String reManagerButton() {
+    public String reManagerButtonText() {
         return "Rooms/Events";
     }
 
@@ -78,6 +78,18 @@ public class OrganizerPresenter extends Presenter {
 
     public String confirmButtonText() {
         return "Confirm";
+    }
+
+    public String removeEventButtonText() {
+        return "Remove Event";
+    }
+
+    public String rescheduleEventFormButtonText() {
+        return "Reschedule Event";
+    }
+
+    public String rescheduleEventButtonText() {
+        return "Reschedule";
     }
 
     public String reMenuTitle() {
@@ -109,11 +121,15 @@ public class OrganizerPresenter extends Presenter {
     }
 
     public String viewEventListTitle() {
-        return "Organizer Panel: View Events";
+        return "Organizer Panel: Manage Events";
     }
 
     public String createEventFormTitle() {
         return "Organizer Panel: Create Event";
+    }
+
+    public String rescheduleEventFormTitle() {
+        return "Organizer Panel: Reschedule Event";
     }
 
     public String usernamePrompt() {
@@ -132,11 +148,11 @@ public class OrganizerPresenter extends Presenter {
         return "Event Speaker:";
     }
 
-    public String createEventDatePrompt() {
+    public String eventDatePrompt() {
         return "Date [yyyy/mm/dd]:";
     }
 
-    public String createEventTimePrompt() {
+    public String eventTimePrompt() {
         return "Time [hh:mm]:";
     }
 
@@ -174,5 +190,13 @@ public class OrganizerPresenter extends Presenter {
 
     public String createEventStatus() {
         return "Event created successfully.";
+    }
+
+    public String rescheduleEventStatus(boolean status) {
+        if (status) {
+            return "Rescheduled event successfully.";
+        } else {
+            return "Could not reschedule event - may be in conflict";
+        }
     }
 }

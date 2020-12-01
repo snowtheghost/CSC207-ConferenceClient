@@ -22,11 +22,14 @@ import javafx.scene.layout.HBox;
 public class OrganizerScene implements IScene {
     OrganizerFilter filter;
     OrganizerPresenter presenter;
-    int currentRoomNumber = 0;
+
     BorderPane main;
     HBox topMenu;
     HBox emptyBottomMenu;
     Scene mainScene;
+
+    int currentRoomNumber = 0;
+    int currentEventNumber = 0;
 
     public OrganizerScene(OrganizerFilter filter, OrganizerPresenter presenter) {
         this.filter = filter;
@@ -76,10 +79,19 @@ public class OrganizerScene implements IScene {
                     TextField createEventSpeakerInput = new TextField();
                     Label createEventCapacityLabel = new Label(presenter.createEventCapacityPrompt());
                     TextField createEventCapacityInput = new TextField();
-                    Label createEventDateLabel = new Label(presenter.createEventDatePrompt());
+                    Label createEventDateLabel = new Label(presenter.eventDatePrompt());
                     TextField createEventDateInput = new TextField();
-                    Label createEventTimeLabel = new Label(presenter.createEventTimePrompt());
+                    Label createEventTimeLabel = new Label(presenter.eventTimePrompt());
                     TextField createEventTimeInput = new TextField();
+                    // Reschedule Event (given Room and Event)
+                    GridPane rescheduleEventForm = new GridPane(); rescheduleEventForm.setVgap(10); rescheduleEventForm.setHgap(10); rescheduleEventForm.setPadding(new Insets(0, 10, 0, 10));
+                    HBox rescheduleEventFormBottomMenu = new HBox(); rescheduleEventFormBottomMenu.setSpacing(10); rescheduleEventFormBottomMenu.setPadding(new Insets(10, 10, 10, 10));
+                    Label rescheduleEventDateLabel = new Label(presenter.eventDatePrompt());
+                    TextField rescheduleEventDateInput = new TextField();
+                    Label rescheduleEventTimeLabel = new Label(presenter.eventTimePrompt());
+                    TextField rescheduleEventTimeInput = new TextField();
+                    Label rescheduleEventSuccess = new Label(presenter.rescheduleEventStatus(true));
+                    Label rescheduleEventFailure = new Label(presenter.rescheduleEventStatus(false));
 
         // Speaker Manager
         ListView<String> speakerManager = new ListView<>();
@@ -97,7 +109,7 @@ public class OrganizerScene implements IScene {
          */
 
         // Button that leads from the Top Menu to the Room list (reManager)
-        Button reManagerButton = new Button(presenter.reManagerButton());
+        Button reManagerButton = new Button(presenter.reManagerButtonText());
         reManagerButton.setOnAction(actionEvent -> {
             main.setCenter(reManager);
             main.setBottom(reManagerBottomMenu);
@@ -178,12 +190,21 @@ public class OrganizerScene implements IScene {
                             createEventForm.add(createEventSpeakerFailure, 0, 5, 2, 1);
                         } else if (!filter.inputEventCapacity(createEventCapacityInput.getText(), currentRoomNumber)) {
                             createEventForm.add(createEventCapacityFailure, 0, 5, 2, 1);
-                        } else if (!filter.inputEventDate(createEventTitleInput.getText(), createEventSpeakerInput.getText(), createEventDateInput.getText(), createEventTimeInput.getText(), createEventCapacityInput.getText(), currentRoomNumber)) {
+                        } else if (!filter.createEvent(createEventTitleInput.getText(), createEventSpeakerInput.getText(), createEventDateInput.getText(), createEventTimeInput.getText(), createEventCapacityInput.getText(), currentRoomNumber)) {
                             createEventForm.add(createEventDateTimeFailure, 0, 5, 2, 1);
                         } else {
                             createEventForm.add(createEventSuccess, 0, 5, 2, 1);
                         }
                     });
+
+                Button removeEventButton = new Button(presenter.removeEventButtonText());
+                removeEventButton.setOnAction(actionEvent -> {
+                    try {
+                        int eventNumber = viewEventList.getSelectionModel().getSelectedIndex();
+                        filter.removeEvent(currentRoomNumber, eventNumber);
+                        viewEventList.getItems().remove(eventNumber);
+                    } catch (ArrayIndexOutOfBoundsException ignored) { }
+                });
 
         // Button that leads from Top Menu to speakerManager
         Button speakerManagerButton = new Button(presenter.speakerManagerButtonText());
@@ -231,8 +252,26 @@ public class OrganizerScene implements IScene {
 
 
 
+        Button rescheduleEventFormButton = new Button(presenter.rescheduleEventFormButtonText());
+        rescheduleEventFormButton.setOnAction(actionEvent -> {
+            currentEventNumber = viewEventList.getSelectionModel().getSelectedIndex();
+            if (currentEventNumber != -1) {
+                main.setCenter(rescheduleEventForm);
+                main.setBottom(rescheduleEventFormBottomMenu);
+                MainView.getStage().setTitle(presenter.rescheduleEventFormTitle());
+            }
+        });
 
-
+        Button rescheduleEventButton = new Button(presenter.rescheduleEventButtonText());
+        rescheduleEventButton.setOnAction(actionEvent -> {
+            rescheduleEventForm.getChildren().remove(rescheduleEventSuccess);
+            rescheduleEventForm.getChildren().remove(rescheduleEventFailure);
+            if (filter.rescheduleEvent(currentRoomNumber, currentEventNumber, rescheduleEventDateInput.getText(), rescheduleEventTimeInput.getText())) {
+                rescheduleEventForm.add(rescheduleEventSuccess, 0, 2, 2, 1);
+            } else {
+                rescheduleEventForm.add(rescheduleEventFailure, 0, 2, 2, 1);
+            }
+        });
 
 
 
@@ -250,7 +289,7 @@ public class OrganizerScene implements IScene {
                 createRoomForm.add(roomCapacityInput, 1, 0);
                 createRoomForm.add(createRoomButton, 2, 0);
                 // viewEventList Elements
-                viewEventListBottomMenu.getChildren().addAll(createEventFormButton);
+                viewEventListBottomMenu.getChildren().addAll(createEventFormButton, removeEventButton, rescheduleEventFormButton);
                     // createEventForm Elements
                     createEventFormBottomMenu.getChildren().add(createEventButton);
                     createEventForm.add(createEventTitleLabel, 0, 0);
@@ -263,6 +302,12 @@ public class OrganizerScene implements IScene {
                     createEventForm.add(createEventDateInput, 1, 3);
                     createEventForm.add(createEventTimeLabel, 0, 4);
                     createEventForm.add(createEventTimeInput, 1, 4);
+                    // rescheduleEventForm Elements
+                    rescheduleEventFormBottomMenu.getChildren().add(rescheduleEventButton);
+                    rescheduleEventForm.add(rescheduleEventDateLabel, 0, 0);
+                    rescheduleEventForm.add(rescheduleEventDateInput, 1, 0);
+                    rescheduleEventForm.add(rescheduleEventTimeLabel, 0, 1);
+                    rescheduleEventForm.add(rescheduleEventTimeInput, 1, 1);
 
             // speakerManagerBottomMenu Elements
             speakerManagerBottomMenu.getChildren().addAll(createSpeakerFormButton);

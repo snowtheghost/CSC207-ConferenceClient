@@ -10,6 +10,7 @@ import java.util.GregorianCalendar;
  * @author Justin Chan
  */
 
+@SuppressWarnings("MagicConstant")
 public class OrganizerFilter extends Filter {
     private final UserManager um;
     private final RoomManager rm;
@@ -63,7 +64,7 @@ public class OrganizerFilter extends Filter {
     }
 
     @SuppressWarnings("MagicConstant")
-    public boolean inputEventDate(String rawTitle, String rawSpeaker, String rawDate, String rawTime, String rawCapacity, int roomNumber) {
+    public boolean createEvent(String rawTitle, String rawSpeaker, String rawDate, String rawTime, String rawCapacity, int roomNumber) {
         String title = rawTitle.trim();
         String speaker = rawSpeaker.trim();
         String[] date = rawDate.trim().split("/");
@@ -83,6 +84,31 @@ public class OrganizerFilter extends Filter {
                 return true;
             }
             return false;
+        } catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    public boolean removeEvent(int roomNumber, int eventNumber) {
+        rm.removeEvent(um, roomNumber, eventNumber);
+        return true;
+    }
+
+    public boolean rescheduleEvent(int roomNumber, int eventNumber, String rawDate, String rawTime) {
+        String[] date = rawDate.trim().split("/");
+        String[] time = rawTime.trim().split(":");
+        try {
+            int year = Integer.parseInt(date[0]);
+            int month = Integer.parseInt(date[1]) - 1;
+            int day = Integer.parseInt(date[2]);
+            int hour = Integer.parseInt(time[0]);
+            int minute = Integer.parseInt(time[1]);
+
+            GregorianCalendar startTime = new GregorianCalendar(year, month, day, hour, minute, 0);
+            startTime.setLenient(false); startTime.getTime();
+            GregorianCalendar endTime = new GregorianCalendar(year, month, day, hour + 1, minute, 0);
+
+            return rm.rescheduleEvent(um, roomNumber, eventNumber, startTime, endTime);
         } catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
             return false;
         }
