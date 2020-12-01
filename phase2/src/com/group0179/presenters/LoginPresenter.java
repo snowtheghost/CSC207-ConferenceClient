@@ -28,7 +28,7 @@ public class LoginPresenter extends Presenter {
      */
     public boolean createAccount(String accountType, String username) throws UsernameTakenException {
         if (this.um.userExists(username)) {
-            throw new UsernameTakenException("Username " + username + " has already been taken.");
+            throw new UsernameTakenException(usernameTakenError(username));
         }
         switch (accountType.toLowerCase()) {
             case "organizer":
@@ -50,12 +50,11 @@ public class LoginPresenter extends Presenter {
      */
     public String loginUser(String username) throws InvalidCredentialsException {
         if (!this.um.userExists(username)) {
-            throw new InvalidCredentialsException("Username " + username + " does not exist.");
+            throw new InvalidCredentialsException(usernameNotFoundError(username));
         }
         this.um.setCurrentUser(username);
         return this.um.userType(username);
     }
-
     /**
      * @return a string representing a user's account creation success.
      */
@@ -95,4 +94,21 @@ public class LoginPresenter extends Presenter {
      * @return a string representing the speaker account choice.
      */
     public String speakerAccountChoice() { return "Speaker"; }
+
+    /**
+     * @param username the username.
+     * @return a string representing a username not found error.
+     */
+    public String usernameNotFoundError(String username) {
+        return "Username " + username + " does not exist.";
+    }
+
+    /**
+     * @param username the username.
+     * @return a string representing that a username was taken.
+     */
+    public String usernameTakenError(String username) {
+        return "Username " + username + " is already in use.";
+    }
+
 }
