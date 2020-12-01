@@ -5,6 +5,7 @@ package com.group0179.exceptions;
  * @author Zachariah Vincze
  */
 public class UsernameTakenException extends Exception {
+    public UsernameTakenException() { super(); }
     public UsernameTakenException(String message) {
         super(message);
     }

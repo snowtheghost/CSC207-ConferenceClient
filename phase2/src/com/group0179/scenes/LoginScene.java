@@ -1,24 +1,20 @@
 package com.group0179.scenes;
 
 import com.group0179.MainView;
+import com.group0179.controllers.LoginController;
 import com.group0179.exceptions.InvalidCredentialsException;
 import com.group0179.exceptions.UsernameTakenException;
 import com.group0179.filters.LoginFilter;
-import com.group0179.presenters.LoginPresenter;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import com.group0179.presenters.ILoginPresenter;
+import com.group0179.presenters.LoginPresenterEN;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-
-import javax.swing.*;
 
 /**
  * LoginScene implementation. Responsible
@@ -27,8 +23,10 @@ import javax.swing.*;
  */
 
 public class LoginScene implements IScene {
-    LoginFilter filter;
-    LoginPresenter presenter;
+    private final LoginFilter filter;
+    private final ILoginPresenter presenter;
+    private final LoginController controller;
+
     BorderPane borderPane;
     Scene mainScene;
 
@@ -47,7 +45,7 @@ public class LoginScene implements IScene {
     Label loginInfo;
     Label createAccountInfo;
 
-    ChoiceBox accountTypeChoiceBox;
+    ChoiceBox<String> accountTypeChoiceBox;
 
     // Grids
     GridPane loginGrid;
@@ -56,9 +54,10 @@ public class LoginScene implements IScene {
     // Top menu
     HBox topMenu;
 
-    public LoginScene(LoginFilter filter, LoginPresenter presenter) {
+    public LoginScene(LoginFilter filter, ILoginPresenter presenter, LoginController controller) {
         this.filter = filter;
         this.presenter = presenter;
+        this.controller = controller;
     }
 
     private void changeToLoginPane() {
@@ -74,7 +73,7 @@ public class LoginScene implements IScene {
     private void attemptLogin() {
         String username = loginTextField.getText();
         try {
-            String accountType = presenter.loginUser(username);
+            String accountType = controller.loginUser(username);
             switch (accountType) {
                 case "attendee":
                     MainView.setAttendeeScene(); break;
@@ -84,17 +83,18 @@ public class LoginScene implements IScene {
                     MainView.setSpeakerScene(); break;
             }
         } catch (InvalidCredentialsException e) {
-            loginInfo.setText(e.getMessage());
+            loginInfo.setText(presenter.usernameNotFoundError(username));
         }
     }
 
     private void attemptAccountCreate() {
         String username = createAccountTextField.getText();
-        String accountType = (String)accountTypeChoiceBox.getValue();
+        String accountType = accountTypeChoiceBox.getValue();
         try {
-            presenter.createAccount(accountType, username);
+            controller.createAccount(accountType, username);
         } catch (UsernameTakenException e) {
-            createAccountInfo.setText(e.getMessage());
+            createAccountInfo.setText(presenter.usernameTakenError(username));
+            return;
         }
         createAccountInfo.setText(presenter.accountCreationSuccess());
     }
@@ -103,9 +103,7 @@ public class LoginScene implements IScene {
         loginGrid = new GridPane();
         loginTextField = new TextField();
         loginBtn = new Button(presenter.loginButtonPrompt());
-        loginBtn.setOnAction(actionEvent -> {
-            attemptLogin();
-        });
+        loginBtn.setOnAction(actionEvent -> attemptLogin());
         loginInfo = new Label();
 
         // Layout components
@@ -116,15 +114,13 @@ public class LoginScene implements IScene {
 
     private void constructCreateAccountGrid() {
         createAccountGrid = new GridPane();
-        accountTypeChoiceBox = new ChoiceBox();
+        accountTypeChoiceBox = new ChoiceBox<>();
         accountTypeChoiceBox.getItems().addAll(presenter.attendeeAccountChoice(),
                 presenter.organizerAccountChoice(),
                 presenter.speakerAccountChoice());
         accountTypeChoiceBox.setValue(presenter.attendeeAccountChoice());
         createAccountBtn = new Button(presenter.createAccountButtonPrompt());
-        createAccountBtn.setOnAction(actionEvent -> {
-            attemptAccountCreate();
-        });
+        createAccountBtn.setOnAction(actionEvent -> attemptAccountCreate());
         createAccountTextField = new TextField();
         createAccountInfo = new Label();
 
@@ -138,13 +134,9 @@ public class LoginScene implements IScene {
     @Override
     public void constructScene() {
         loginScreenBtn = new Button(presenter.loginButtonPrompt());
-        loginScreenBtn.setOnAction(actionEvent -> {
-            changeToLoginPane();
-        });
+        loginScreenBtn.setOnAction(actionEvent -> changeToLoginPane());
         createAccountScreenBtn = new Button(presenter.createAccountButtonPrompt());
-        createAccountScreenBtn.setOnAction(actionEvent -> {
-            changeToCreateAccountPane();
-        });
+        createAccountScreenBtn.setOnAction(actionEvent -> changeToCreateAccountPane());
         topMenu = new HBox();
         topMenu.getChildren().addAll(loginScreenBtn, createAccountScreenBtn);
 

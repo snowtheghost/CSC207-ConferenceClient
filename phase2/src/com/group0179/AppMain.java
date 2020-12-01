@@ -1,5 +1,6 @@
 package com.group0179;
 
+import com.group0179.controllers.LoginController;
 import com.group0179.filters.*;
 import com.group0179.scenes.*;
 import com.group0179.presenters.*;
@@ -26,18 +27,23 @@ public class AppMain {
         RoomManager roomManager = roomManagerGateway.read("roommanager.ser");
         MessageManager messageManager = messageManagerGateway.read("messagemanager.ser");
 
-        // Helper classes
+        // Input filters
         LoginFilter loginFilter = new LoginFilter(userManager, roomManager, messageManager);
-        LoginPresenter loginPresenter = new LoginPresenter(userManager);
         AttendeeFilter attendeeFilter = new AttendeeFilter(userManager, roomManager, messageManager);
-        AttendeePresenter attendeePresenter = new AttendeePresenter(userManager, roomManager, messageManager);
         SpeakerFilter speakerFilter = new SpeakerFilter(userManager, roomManager, messageManager);
-        SpeakerPresenter speakerPresenter = new SpeakerPresenter(userManager, roomManager, messageManager);
         OrganizerFilter organizerFilter = new OrganizerFilter(userManager, roomManager, messageManager);
+
+        // Presenters
+        ILoginPresenter loginPresenter = new LoginPresenterEN(); // TODO: Figure out how to switch presenters.
+        AttendeePresenter attendeePresenter = new AttendeePresenter(userManager, roomManager, messageManager);
+        SpeakerPresenter speakerPresenter = new SpeakerPresenter(userManager, roomManager, messageManager);
         OrganizerPresenter organizerPresenter = new OrganizerPresenter(userManager, roomManager, messageManager);
 
+        // Controllers
+        LoginController loginController = new LoginController(userManager);
+
         // Scene Setup
-        LoginScene loginScene = new LoginScene(loginFilter, loginPresenter);
+        LoginScene loginScene = new LoginScene(loginFilter, loginPresenter, loginController);
         OrganizerScene organizerScene = new OrganizerScene(organizerFilter, organizerPresenter);
         AttendeeScene attendeeScene = new AttendeeScene(attendeeFilter, attendeePresenter);
         SpeakerScene speakerScene = new SpeakerScene(speakerFilter, speakerPresenter);

@@ -1,14 +1,8 @@
 package com.group0179.presenters;
 
-import com.group0179.exceptions.InvalidCredentialsException;
-import com.group0179.exceptions.UsernameTakenException;
 import com.group0179.use_cases.UserManager;
 
-public class LoginChinesePresenter extends LoginPresenter {
-    public LoginChinesePresenter(UserManager um) {
-        super(um);
-    }
-
+public class LoginPresenterCH implements ILoginPresenter {
     /**
      * @return a string representing a user's account creation success.
      */
@@ -73,5 +67,15 @@ public class LoginChinesePresenter extends LoginPresenter {
     @Override
     public String usernameTakenError(String username) {
         return "用户名" + username + "已被使用";
+    }
+
+    @Override
+    public String loginButtonPrompt() {
+        return "Login";
+    }
+
+    @Override
+    public String createAccountButtonPrompt() {
+        return "Create Account";
     }
 }
