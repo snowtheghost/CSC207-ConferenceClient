@@ -63,10 +63,12 @@ public class LoginScene implements IScene {
 
     private void changeToLoginPane() {
         borderPane.setCenter(loginGrid);
+        MainView.getStage().setTitle(presenter.loginButtonPrompt());
     }
 
     private void changeToCreateAccountPane() {
         borderPane.setCenter(createAccountGrid);
+        MainView.getStage().setTitle(presenter.createAccountButtonPrompt());
     }
 
     private void attemptLogin() {
@@ -100,7 +102,7 @@ public class LoginScene implements IScene {
     private void constructLoginGrid() {
         loginGrid = new GridPane();
         loginTextField = new TextField();
-        loginBtn = new Button("Login");
+        loginBtn = new Button(presenter.loginButtonPrompt());
         loginBtn.setOnAction(actionEvent -> {
             attemptLogin();
         });
@@ -119,7 +121,7 @@ public class LoginScene implements IScene {
                 presenter.organizerAccountChoice(),
                 presenter.speakerAccountChoice());
         accountTypeChoiceBox.setValue(presenter.attendeeAccountChoice());
-        createAccountBtn = new Button("Create Account");
+        createAccountBtn = new Button(presenter.createAccountButtonPrompt());
         createAccountBtn.setOnAction(actionEvent -> {
             attemptAccountCreate();
         });
@@ -135,11 +137,11 @@ public class LoginScene implements IScene {
 
     @Override
     public void constructScene() {
-        loginScreenBtn = new Button("Login");
+        loginScreenBtn = new Button(presenter.loginButtonPrompt());
         loginScreenBtn.setOnAction(actionEvent -> {
             changeToLoginPane();
         });
-        createAccountScreenBtn = new Button("Create Account");
+        createAccountScreenBtn = new Button(presenter.createAccountButtonPrompt());
         createAccountScreenBtn.setOnAction(actionEvent -> {
             changeToCreateAccountPane();
         });
@@ -153,7 +155,7 @@ public class LoginScene implements IScene {
         constructCreateAccountGrid();
 
         // Set the default main grid
-        borderPane.setCenter(loginGrid);
+        changeToLoginPane();
 
         mainScene = new Scene(borderPane, x, y);
     }
@@ -161,6 +163,6 @@ public class LoginScene implements IScene {
     @Override
     public void setScene() {
         MainView.getStage().setScene(mainScene);
-        MainView.getStage().setTitle("Login or Create Account");
+        MainView.getStage().setTitle(presenter.loginButtonPrompt());
     }
 }

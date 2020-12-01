@@ -111,4 +111,8 @@ public class LoginPresenter extends Presenter {
         return "Username " + username + " is already in use.";
     }
 
+    public String loginButtonPrompt() { return "Login"; }
+
+    public String createAccountButtonPrompt() { return "Create Account"; }
+
 }
