@@ -534,9 +534,11 @@ public class UserManager implements Serializable {
 
     //kaiyi
     /**
-     * Retrieve a map where the key is a string of the date and the value is an int containing the number of speakers
-     * that created an account on that day
-     * @return a map containing the number of speaker accounts created per day since launch of project
+     * Add a request given a request ID
+     * @param typeOfRequest
+     * @param urgency
+     * @param requestContent
+     * @return a UUID value which represents the ID of the created request
      */
     public UUID addUserRequest(String typeOfRequest, String urgency, String requestContent){
         Request userRequest = new Request(typeOfRequest, urgency, requestContent);
@@ -545,6 +547,11 @@ public class UserManager implements Serializable {
     }
 
     //kaiyi
+    /**
+     * Remove a request given a request ID
+     * @param requestID
+     * @return a boolean value which is true if request was deleted, otherwise it returns false
+     */
     public boolean removeUserRequest(UUID requestID){
         if(this.getRequestIDs().contains(requestID)){
             for(int i = 0; i < this.userRequests.size(); i++){
@@ -557,6 +564,10 @@ public class UserManager implements Serializable {
         return false;
     }
     //kaiyi
+    /**
+     * retrieve a list of request IDs for all requests in the system
+     * @return a List of request IDs
+     */
     public List<UUID> getRequestIDs(){
         List<UUID> requestIDs = new ArrayList<>();
         for(Request request : this.userRequests){
@@ -565,6 +576,11 @@ public class UserManager implements Serializable {
         return requestIDs;
     }
     //kaiyi
+    /**
+     * Retrieve type of request given request ID
+     * @param requestID
+     * @return a string which represents the type of request for given request ID or null if request ID doesn't exist
+     */
     public String getTypeOfRequestWithUUID(UUID requestID){
         Request foundRequest = this.getRequestWithUUID(requestID);
         if(foundRequest != null){
@@ -574,6 +590,11 @@ public class UserManager implements Serializable {
         }
     }
     //kaiyi
+    /**
+     * Retrieve urgency given request ID
+     * @param requestID
+     * @return a string which represents the urgency level for given request ID or null if request ID doesn't exist
+     */
     public String getUrgencyWithUUID(UUID requestID){
         Request foundRequest = this.getRequestWithUUID(requestID);
         if(foundRequest != null){
@@ -583,6 +604,11 @@ public class UserManager implements Serializable {
         }
     }
     //kaiyi
+    /**
+     * Retrieve content of request given request ID
+     * @param requestID
+     * @return a string which represents the request content for given request ID or null if request ID doesn't exist
+     */
     public String getRequestContentWithUUID(UUID requestID){
         Request foundRequest = this.getRequestWithUUID(requestID);
         if(foundRequest != null){
@@ -592,6 +618,11 @@ public class UserManager implements Serializable {
         }
     }
     //kaiyi
+    /**
+     * Retrieve pending value of request given request ID
+     * @param requestID
+     * @return true if request is pending or flse if request is not pending. Return null if request ID does not exist
+     */
     public Boolean getPendingWithUUID(UUID requestID){
         Request foundRequest = this.getRequestWithUUID(requestID);
         if(foundRequest != null){
@@ -601,6 +632,11 @@ public class UserManager implements Serializable {
         }
     }
     //kaiyi
+    /**
+     * Retrieve addressed value of request given request ID
+     * @param requestID
+     * @return true if request is addressed or false if request is not addressed. Return null if ID does not exist
+     */
     public Boolean getAddressedWithUUID(UUID requestID){
         Request foundRequest = this.getRequestWithUUID(requestID);
         if(foundRequest != null){
@@ -610,6 +646,12 @@ public class UserManager implements Serializable {
         }
     }
     //kaiyi
+    /**
+     * Set new pending value for request
+     * @param isPending
+     * @param requestID
+     * @return true if request's pending value was changed, otherwise return false
+     */
     public boolean setRequestPending(boolean isPending, UUID requestID){
         Request foundRequest = this.getRequestWithUUID(requestID);
         if(foundRequest != null){
@@ -621,6 +663,12 @@ public class UserManager implements Serializable {
     }
 
     //kaiyi
+    /**
+     * Set new addressed value for request
+     * @param isAddressed
+     * @param requestID
+     * @return true if request's addressed value was changed, otherwise return false
+     */
     public boolean setRequestAddressed(boolean isAddressed, UUID requestID){
         Request foundRequest = this.getRequestWithUUID(requestID);
         if(foundRequest != null){
@@ -632,6 +680,7 @@ public class UserManager implements Serializable {
     }
 
     //kaiyi
+    //helper function to retrieve request object with request id
     private Request getRequestWithUUID(UUID requestID){
         if(this.getRequestIDs().contains(requestID)){
             for(Request request : this.userRequests){
