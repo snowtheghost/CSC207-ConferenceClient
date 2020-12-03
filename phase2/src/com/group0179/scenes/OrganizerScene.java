@@ -180,7 +180,7 @@ public class OrganizerScene implements IScene {
                     eventList.addAll(presenter.getEvents(room));
                     viewEventList.setItems(eventList);
                     // Set the currentRoomNumber
-                    currentRoomNumber = presenter.getRoomNumber(room);
+                    currentRoomNumber = Integer.parseInt(room.split(" ")[1]) - 1;
                 } catch (NullPointerException e) {
                     // "Stay" in current view
                     main.setCenter(reManager);

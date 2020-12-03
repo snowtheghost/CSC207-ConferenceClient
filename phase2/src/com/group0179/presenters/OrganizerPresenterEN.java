@@ -6,7 +6,7 @@ import com.group0179.use_cases.UserManager;
 
 import java.util.ArrayList;
 
-public class OrganizerPresenterEN extends Presenter implements IOrganizerPresenter {
+public class OrganizerPresenterEN extends Presenter {
     private final UserManager um;
     private final RoomManager rm;
     private final MessageManager mm;
@@ -28,7 +28,7 @@ public class OrganizerPresenterEN extends Presenter implements IOrganizerPresent
         } return rooms;
     }
 
-    public int getRoomNumber(String roomsListSelection) {
+    private int getRoomNumber(String roomsListSelection) {
         return Integer.parseInt(roomsListSelection.split(" ")[1]) - 1;
     }
 
