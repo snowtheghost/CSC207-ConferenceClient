@@ -6,12 +6,12 @@ import com.group0179.use_cases.UserManager;
 
 import java.util.ArrayList;
 
-public class OrganizerPresenterEN extends Presenter implements IOrganizerPresenter {
+public class OrganizerPresenterCH extends Presenter implements IOrganizerPresenter{
     private final UserManager um;
     private final RoomManager rm;
     private final MessageManager mm;
 
-    public OrganizerPresenterEN(UserManager um, RoomManager rm, MessageManager mm) {
+    public OrganizerPresenterCH(UserManager um, RoomManager rm, MessageManager mm) {
         this.um = um;
         this.rm = rm;
         this.mm = mm;
@@ -24,7 +24,7 @@ public class OrganizerPresenterEN extends Presenter implements IOrganizerPresent
     public ArrayList<String> getRoomListArray() {
         ArrayList<String> rooms = new ArrayList<>();
         for (int n = 1; n <= rm.getNumRooms(); n++) {
-            rooms.add("Room " + n + " (Capacity: " + rm.getRoomCapacity(n - 1) + ")");
+            rooms.add("房间 " + n + " (容量: " + rm.getRoomCapacity(n - 1) + ")");
         } return rooms;
     }
 
@@ -37,83 +37,83 @@ public class OrganizerPresenterEN extends Presenter implements IOrganizerPresent
     }
 
     public String reMenuButtonText() {
-        return "Rooms/Events";
+        return "房间/活动";
     }
 
     public String speakerManagementButtonText() {
-        return "Speakers";
+        return "演讲者";
     }
 
     public String logoutButtonText() {
-        return "Log out";
+        return "退出";
     }
 
     public String createSpeakerFormButtonText() {
-        return "Create Speaker";
+        return "创建演讲者";
     }
 
     public String speakerManagerButtonText() {
-        return "Speakers";
+        return "演讲者列表";
     }
 
     public String createButtonText() {
-        return "Create";
+        return "创造";
     }
 
     public String reManagerButtonText() {
-        return "Rooms/Events";
+        return "房间/活动列表";
     }
 
     public String createRoomFormButtonText() {
-        return "Create Room";
+        return "创建房间";
     }
 
     public String viewEventListButtonText() {
-        return "View Events";
+        return "查看活动";
     }
 
     public String createEventFormButtonText() {
-        return "Create Event";
+        return "创建活动";
     }
 
     public String confirmButtonText() {
-        return "Confirm";
+        return "确认";
     }
 
     public String removeEventButtonText() {
-        return "Remove Event";
+        return "移除活动";
     }
 
     public String rescheduleEventFormButtonText() {
-        return "Reschedule Event";
+        return "重新安排活动";
     }
 
     public String rescheduleEventButtonText() {
-        return "Reschedule";
+        return "重新安排";
     }
 
     public String reMenuTitle() {
-        return "Organizer Panel: Rooms and Events";
+        return "组织者面板: 房间和活动列表";
     }
 
     public String speakerManagementMenuTitle() {
-        return "Organizer Panel: Speakers";
+        return "组织者面板: 演讲者";
     }
 
     public String createSpeakerFormTitle() {
-        return "Organizer Panel: Create Speakers";
+        return "组织者面板: 创建演讲者";
     }
 
     public String speakerManagerTitle() {
-        return "Organizer Panel: Speaker Management";
+        return "组织者面板: 管理演讲者";
     }
 
     public String mainSceneTitle() {
-        return "Organizer Panel: Main Menu";
+        return "组织者面板: 主菜单";
     }
 
     public String reManagerTitle() {
-        return "Organizer Panel: Room & Event Management";
+        return "组织者面板: 房间 & 活动管理";
     }
 
     public String createRoomFormTitle() {
@@ -240,3 +240,5 @@ public class OrganizerPresenterEN extends Presenter implements IOrganizerPresent
         return "Message sent successfully.";
     }
 }
+
+
