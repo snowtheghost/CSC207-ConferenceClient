@@ -28,7 +28,7 @@ public class OrganizerPresenterCH extends Presenter implements IOrganizerPresent
         } return rooms;
     }
 
-    public int getRoomNumber(String roomsListSelection) {
+    private int getRoomNumber(String roomsListSelection) {
         return Integer.parseInt(roomsListSelection.split(" ")[1]) - 1;
     }
 
@@ -117,127 +117,127 @@ public class OrganizerPresenterCH extends Presenter implements IOrganizerPresent
     }
 
     public String createRoomFormTitle() {
-        return "Organizer Panel: Create Room";
+        return "组织者面板: 创建房间";
     }
 
     public String viewEventListTitle() {
-        return "Organizer Panel: Manage Events";
+        return "组织者面板: 管理活动";
     }
 
     public String createEventFormTitle() {
-        return "Organizer Panel: Create Event";
+        return "组织者面板: 创建活动";
     }
 
     public String rescheduleEventFormTitle() {
-        return "Organizer Panel: Reschedule Event";
+        return "组织者面板: 重新安排活动";
     }
 
     public String usernamePrompt() {
-        return "Username:";
+        return "用户名:";
     }
 
     public String roomCapacityPrompt() {
-        return "Room Capacity:";
+        return "房间容量:";
     }
 
     public String createEventTitlePrompt() {
-        return "Event Title:";
+        return "活动名称:";
     }
 
     public String createEventSpeakerPrompt() {
-        return "Event Speaker:";
+        return "活动演讲者:";
     }
 
     public String eventDatePrompt() {
-        return "Date [yyyy/mm/dd]:";
+        return "日期 [yyyy/mm/dd]:";
     }
 
     public String eventTimePrompt() {
-        return "Time [hh:mm]:";
+        return "时间 [hh:mm]:";
     }
 
     public String createEventCapacityPrompt() {
-        return "Event Capacity:";
+        return "活动容量:";
     }
 
     public String createSpeakerStatus(boolean status) {
         if (status) {
-            return "Speaker created successfully.";
-        } return "Username exists/invalid.";
+            return "演讲者创建成功。";
+        } return "用户名已存在/无效.";
     }
 
     public String createRoomStatus(boolean status) {
         if (status) {
-            return "Room " + rm.getNumRooms() + " created successfully.";
-        } return "Invalid room capacity.";
+            return "房间 " + rm.getNumRooms() + " 创建成功.";
+        } return "无效的房间容量。";
     }
 
     public String createEventTitleStatus() {
-        return "Invalid event title.";
+        return "无效的活动名称";
     }
 
     public String createEventSpeakerStatus() {
-        return "Speaker does not exist.";
+        return "演讲者不存在";
     }
 
     public String createEventDateTimeStatus() {
-        return "Invalid date or time - may be in conflict.";
+        return "无效的日期或时间 - 可能有冲突.";
     }
 
     public String createEventCapacityStatus() {
-        return "Invalid event capacity.";
+        return "无效的活动容量.";
     }
 
     public String createEventStatus() {
-        return "Event created successfully.";
+        return "活动创建成功";
     }
 
     public String rescheduleEventStatus(boolean status) {
         if (status) {
-            return "Rescheduled event successfully.";
+            return "活动已重新安排";
         } else {
-            return "Could not reschedule event - may be in conflict";
+            return "无法重新安排活动 - 可能有冲突";
         }
     }
 
     public String messageMenuButtonText() {
-        return "Messages";
+        return "消息";
     }
 
     public String messageCustomRecipientsFormButtonText() {
-        return "Custom Recipients";
+        return "定制接收者";
     }
 
     public String messageAttendeesFormButtonText() {
-        return "All Attendees";
+        return "所有参与者";
     }
 
     public String messageSpeakersFormButtonText() {
-        return "All Speakers";
+        return "所有演讲者";
     }
 
     public String recipientsPrompt() {
-        return "Recipient:";
+        return "接受者:";
     }
 
     public String messagePrompt() {
-        return "Message:";
+        return "消息:";
     }
 
     public String messageSendButtonText() {
-        return "Send";
+        return "发送";
     }
 
     public String messageRecipientExistence() {
-        return "Recipient does not exist.";
+        return "接受者不存在。";
     }
 
     public String messageRecipientValidity() {
-        return "You can only send messages to speakers/attendees.";
+        return "你只能给参与者/演讲者发消息。";
     }
 
     public String messageRecipientStatus() {
-        return "Message sent successfully.";
+        return "消息成功发送。";
     }
 }
 
