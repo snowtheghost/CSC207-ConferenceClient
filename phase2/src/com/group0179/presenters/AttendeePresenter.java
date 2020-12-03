@@ -1,17 +1,11 @@
 package com.group0179.presenters;
 
-import com.group0179.cli.DefinitionsCLI;
-import com.group0179.cli.InputFilterCLI;
-import com.group0179.cli.presenters_cli.AttendeePresenterCLI;
-import com.group0179.entities.Attendee;
-import com.group0179.filters.AttendeeFilter;
 import com.group0179.use_cases.MessageManager;
 import com.group0179.use_cases.RoomManager;
 import com.group0179.use_cases.UserManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.UUID;
 
 public class AttendeePresenter extends Presenter {

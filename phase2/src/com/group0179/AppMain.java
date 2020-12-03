@@ -29,7 +29,6 @@ public class AppMain {
 
         // Input filters
         LoginFilter loginFilter = new LoginFilter(userManager, roomManager, messageManager);
-        AttendeeFilter attendeeFilter = new AttendeeFilter(userManager, roomManager, messageManager);
         SpeakerFilter speakerFilter = new SpeakerFilter(userManager, roomManager, messageManager);
         OrganizerFilter organizerFilter = new OrganizerFilter(userManager, roomManager, messageManager);
 
@@ -45,7 +44,7 @@ public class AppMain {
         // Scene Setup
         LoginScene loginScene = new LoginScene(loginFilter, loginPresenter, loginController);
         OrganizerScene organizerScene = new OrganizerScene(organizerFilter, organizerPresenter);
-        AttendeeScene attendeeScene = new AttendeeScene(attendeeFilter, attendeePresenter);
+        AttendeeScene attendeeScene = new AttendeeScene(attendeePresenter);
         SpeakerScene speakerScene = new SpeakerScene(speakerFilter, speakerPresenter);
         LanguageScene languageScene = new LanguageScene();
 
