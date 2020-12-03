@@ -6,12 +6,12 @@ import com.group0179.use_cases.UserManager;
 
 import java.util.ArrayList;
 
-public class OrganizerPresenter extends Presenter {
+public class OrganizerPresenterEN extends Presenter {
     private final UserManager um;
     private final RoomManager rm;
     private final MessageManager mm;
 
-    public OrganizerPresenter(UserManager um, RoomManager rm, MessageManager mm) {
+    public OrganizerPresenterEN(UserManager um, RoomManager rm, MessageManager mm) {
         this.um = um;
         this.rm = rm;
         this.mm = mm;
@@ -198,5 +198,45 @@ public class OrganizerPresenter extends Presenter {
         } else {
             return "Could not reschedule event - may be in conflict";
         }
+    }
+
+    public String messageMenuButtonText() {
+        return "Messages";
+    }
+
+    public String messageCustomRecipientsFormButtonText() {
+        return "Custom Recipients";
+    }
+
+    public String messageAttendeesFormButtonText() {
+        return "All Attendees";
+    }
+
+    public String messageSpeakersFormButtonText() {
+        return "All Speakers";
+    }
+
+    public String recipientsPrompt() {
+        return "Recipient:";
+    }
+
+    public String messagePrompt() {
+        return "Message:";
+    }
+
+    public String messageSendButtonText() {
+        return "Send";
+    }
+
+    public String messageRecipientExistence() {
+        return "Recipient does not exist.";
+    }
+
+    public String messageRecipientValidity() {
+        return "You can only send messages to speakers/attendees.";
+    }
+
+    public String messageRecipientStatus() {
+        return "Message sent successfully.";
     }
 }

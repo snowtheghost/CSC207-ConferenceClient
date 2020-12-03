@@ -113,4 +113,27 @@ public class OrganizerFilter extends Filter {
             return false;
         }
     }
+
+    public boolean recipientExists(String rawRecipient) {
+        String recipient = rawRecipient.trim();
+        return um.userExists(recipient);
+    }
+
+    public boolean recipientIsValid(String rawRecipient) {
+        String recipient = rawRecipient.trim();
+        return um.userType(recipient).equals("speaker") || um.userType(recipient).equals("attendee");
+    }
+
+    public void sendRecipientMessage(String rawRecipient, String message) {
+        String recipient = rawRecipient.trim();
+        mm.sendMessage(um, um.getCurrentUser(), um.getUserID(recipient), message);
+    }
+
+    public void sendAttendeesMessage(String message) {
+        mm.sendMessageToAllAttendees(um, um.getCurrentUser(), message);
+    }
+
+    public void sendSpeakersMessage(String message) {
+        mm.sendMessageToAllSpeakers(um, um.getCurrentUser(), message);
+    }
 }

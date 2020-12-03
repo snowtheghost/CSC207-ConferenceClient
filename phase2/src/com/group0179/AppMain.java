@@ -37,7 +37,7 @@ public class AppMain {
         ILoginPresenter loginPresenter = new LoginPresenterEN(); // TODO: Figure out how to switch presenters.
         AttendeePresenter attendeePresenter = new AttendeePresenter(userManager, roomManager, messageManager);
         SpeakerPresenter speakerPresenter = new SpeakerPresenter(userManager, roomManager, messageManager);
-        OrganizerPresenter organizerPresenter = new OrganizerPresenter(userManager, roomManager, messageManager);
+        OrganizerPresenterEN organizerPresenter = new OrganizerPresenterEN(userManager, roomManager, messageManager);
 
         // Controllers
         LoginController loginController = new LoginController(userManager);

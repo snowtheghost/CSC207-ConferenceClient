@@ -2,15 +2,12 @@ package com.group0179.scenes;
 
 import com.group0179.MainView;
 import com.group0179.filters.OrganizerFilter;
-import com.group0179.presenters.OrganizerPresenter;
+import com.group0179.presenters.OrganizerPresenterEN;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -21,7 +18,7 @@ import javafx.scene.layout.HBox;
 
 public class OrganizerScene implements IScene {
     OrganizerFilter filter;
-    OrganizerPresenter presenter;
+    OrganizerPresenterEN presenter;
 
     BorderPane main;
     HBox topMenu;
@@ -31,7 +28,7 @@ public class OrganizerScene implements IScene {
     int currentRoomNumber = 0;
     int currentEventNumber = 0;
 
-    public OrganizerScene(OrganizerFilter filter, OrganizerPresenter presenter) {
+    public OrganizerScene(OrganizerFilter filter, OrganizerPresenterEN presenter) {
         this.filter = filter;
         this.presenter = presenter;
     }
@@ -103,6 +100,30 @@ public class OrganizerScene implements IScene {
             Label createSpeakerNamePrompt = new Label(presenter.usernamePrompt());
             TextField createSpeakerNameInput = new TextField();
 
+        // Message Menu
+        HBox messageMenuBottomMenu = new HBox(); messageMenuBottomMenu.setSpacing(10); messageMenuBottomMenu.setPadding(new Insets(10, 10, 10, 10));
+            // Message Custom Recipients
+            GridPane messageCustomRecipientsForm = new GridPane(); messageCustomRecipientsForm.setVgap(10); messageCustomRecipientsForm.setHgap(10); messageCustomRecipientsForm.setPadding(new Insets(0, 10, 0, 10));
+            HBox messageCustomRecipientsFormBottomMenu = new HBox(); messageCustomRecipientsFormBottomMenu.setSpacing(10); messageCustomRecipientsFormBottomMenu.setPadding(new Insets(10, 10, 10, 10));
+            Label recipientsLabel = new Label(presenter.recipientsPrompt());
+            TextField recipientsInput = new TextField();
+            Label messageToRecipientsLabel = new Label(presenter.messagePrompt());
+            TextArea messageToRecipientsInput = new TextArea();
+            Label messageRecipientFailureDNE = new Label(presenter.messageRecipientExistence());
+            Label messageRecipientFailureInvalid = new Label(presenter.messageRecipientValidity());
+            Label messageRecipientSuccess = new Label(presenter.messageRecipientStatus());
+            // Message All Attendees
+            GridPane messageAttendeesForm = new GridPane(); messageAttendeesForm.setVgap(10); messageAttendeesForm.setHgap(10); messageAttendeesForm.setPadding(new Insets(0, 10, 0, 10));
+            HBox messageAttendeesFormBottomMenu = new HBox(); messageAttendeesFormBottomMenu.setSpacing(10); messageAttendeesFormBottomMenu.setPadding(new Insets(10, 10, 10, 10));
+            Label messageToAttendeesLabel = new Label(presenter.messagePrompt());
+            TextArea messageToAttendeesInput = new TextArea();
+            Label messageAttendeesSuccess = new Label(presenter.messageRecipientStatus());
+            // Message All Speakers
+            GridPane messageSpeakersForm = new GridPane(); messageSpeakersForm.setVgap(10); messageSpeakersForm.setHgap(10); messageSpeakersForm.setPadding(new Insets(0, 10, 0, 10));
+            HBox messageSpeakersFormBottomMenu = new HBox(); messageSpeakersFormBottomMenu.setSpacing(10); messageSpeakersFormBottomMenu.setPadding(new Insets(10, 10, 10, 10));
+            Label messageToSpeakersLabel = new Label(presenter.messagePrompt());
+            TextArea messageToSpeakersInput = new TextArea();
+            Label messageSpeakersSuccess = new Label(presenter.messageRecipientStatus());
 
         /*
          * Buttons and input process
@@ -206,6 +227,29 @@ public class OrganizerScene implements IScene {
                     } catch (ArrayIndexOutOfBoundsException ignored) { }
                 });
 
+                // Button that leads from viewEventList to rescheduleEventForm
+                Button rescheduleEventFormButton = new Button(presenter.rescheduleEventFormButtonText());
+                rescheduleEventFormButton.setOnAction(actionEvent -> {
+                    currentEventNumber = viewEventList.getSelectionModel().getSelectedIndex();
+                    if (currentEventNumber != -1) {
+                        main.setCenter(rescheduleEventForm);
+                        main.setBottom(rescheduleEventFormBottomMenu);
+                        MainView.getStage().setTitle(presenter.rescheduleEventFormTitle());
+                    }
+                });
+
+                    // Button that reschedules event
+                    Button rescheduleEventButton = new Button(presenter.rescheduleEventButtonText());
+                    rescheduleEventButton.setOnAction(actionEvent -> {
+                        rescheduleEventForm.getChildren().remove(rescheduleEventSuccess);
+                        rescheduleEventForm.getChildren().remove(rescheduleEventFailure);
+                        if (filter.rescheduleEvent(currentRoomNumber, currentEventNumber, rescheduleEventDateInput.getText(), rescheduleEventTimeInput.getText())) {
+                            rescheduleEventForm.add(rescheduleEventSuccess, 0, 2, 2, 1);
+                        } else {
+                            rescheduleEventForm.add(rescheduleEventFailure, 0, 2, 2, 1);
+                        }
+                    });
+
         // Button that leads from Top Menu to speakerManager
         Button speakerManagerButton = new Button(presenter.speakerManagerButtonText());
         speakerManagerButton.setOnAction(actionEvent -> {
@@ -240,47 +284,76 @@ public class OrganizerScene implements IScene {
                     }
                 });
 
+        // Button that leads from top menu to the Message Menu
+        Button messageMenuButton = new Button(presenter.messageMenuButtonText());
+        messageMenuButton.setOnAction(actionEvent -> {
+            main.setCenter(null);
+            main.setBottom(messageMenuBottomMenu);
+        });
+
+            // Button that leads from messageMenu to Custom Recipients
+            Button messageCustomRecipientsFormButton = new Button(presenter.messageCustomRecipientsFormButtonText());
+            messageCustomRecipientsFormButton.setOnAction(actionEvent -> {
+                main.setCenter(messageCustomRecipientsForm);
+                main.setBottom(messageCustomRecipientsFormBottomMenu);
+            });
+
+                // Button that sends message
+                Button sendToRecipientsButton = new Button(presenter.messageSendButtonText());
+                sendToRecipientsButton.setOnAction(actionEvent -> {
+                    messageCustomRecipientsForm.getChildren().remove(messageRecipientFailureDNE);
+                    messageCustomRecipientsForm.getChildren().remove(messageRecipientFailureInvalid);
+                    messageCustomRecipientsForm.getChildren().remove(messageRecipientSuccess);
+                    if (!filter.recipientExists(recipientsInput.getText())) {
+                        messageCustomRecipientsForm.add(messageRecipientFailureDNE, 0, 4);
+                    } else if (!filter.recipientIsValid(recipientsInput.getText())) {
+                        messageCustomRecipientsForm.add(messageRecipientFailureInvalid, 0, 4);
+                    } else {
+                        filter.sendRecipientMessage(recipientsInput.getText(), messageToRecipientsInput.getText());
+                        messageCustomRecipientsForm.add(messageRecipientSuccess, 0, 4);
+                    }
+                });
+
+            // Button that leads from messageMenuBottomMenu to Attendees
+            Button messageAttendeesFormButton = new Button(presenter.messageAttendeesFormButtonText());
+            messageAttendeesFormButton.setOnAction(actionEvent -> {
+                main.setCenter(messageAttendeesForm);
+                main.setBottom(messageAttendeesFormBottomMenu);
+            });
+
+                // Button that sends message
+                Button sendToAttendeesButton = new Button(presenter.messageSendButtonText());
+                sendToAttendeesButton.setOnAction(actionEvent -> {
+                    messageAttendeesForm.getChildren().remove(messageAttendeesSuccess);
+                    filter.sendAttendeesMessage(messageToAttendeesInput.getText());
+                    messageAttendeesForm.add(messageAttendeesSuccess, 0, 2);
+                });
+
+            // Button that leads from messageMenuBottomMenu to Speakers
+            Button messageSpeakersFormButton = new Button(presenter.messageSpeakersFormButtonText());
+            messageSpeakersFormButton.setOnAction(actionEvent -> {
+                main.setCenter(messageSpeakersForm);
+                main.setBottom(messageSpeakersFormBottomMenu);
+            });
+
+                // Button that sends message
+                Button sendToSpeakersButton = new Button(presenter.messageSendButtonText());
+                sendToSpeakersButton.setOnAction(actionEvent -> {
+                    messageSpeakersForm.getChildren().remove(messageSpeakersSuccess);
+                    filter.sendSpeakersMessage(messageToSpeakersInput.getText());
+                    messageSpeakersForm.add(messageSpeakersSuccess, 0, 2);
+                });
+
         // Button that leads from top menu to the Login Scene
         Button logoutButton = new Button(presenter.logoutButtonText());
         logoutButton.setOnAction(actionEvent -> MainView.setLoginScene());
-
-
-
-
-
-        // TODO: Working section
-
-
-
-        Button rescheduleEventFormButton = new Button(presenter.rescheduleEventFormButtonText());
-        rescheduleEventFormButton.setOnAction(actionEvent -> {
-            currentEventNumber = viewEventList.getSelectionModel().getSelectedIndex();
-            if (currentEventNumber != -1) {
-                main.setCenter(rescheduleEventForm);
-                main.setBottom(rescheduleEventFormBottomMenu);
-                MainView.getStage().setTitle(presenter.rescheduleEventFormTitle());
-            }
-        });
-
-        Button rescheduleEventButton = new Button(presenter.rescheduleEventButtonText());
-        rescheduleEventButton.setOnAction(actionEvent -> {
-            rescheduleEventForm.getChildren().remove(rescheduleEventSuccess);
-            rescheduleEventForm.getChildren().remove(rescheduleEventFailure);
-            if (filter.rescheduleEvent(currentRoomNumber, currentEventNumber, rescheduleEventDateInput.getText(), rescheduleEventTimeInput.getText())) {
-                rescheduleEventForm.add(rescheduleEventSuccess, 0, 2, 2, 1);
-            } else {
-                rescheduleEventForm.add(rescheduleEventFailure, 0, 2, 2, 1);
-            }
-        });
-
-
 
         /*
          * Element inclusion
          */
 
         // topMenu Elements
-        topMenu.getChildren().addAll(reManagerButton, speakerManagerButton, logoutButton);
+        topMenu.getChildren().addAll(reManagerButton, speakerManagerButton, messageMenuButton, logoutButton);
 
             // reManager Elements
             reManagerBottomMenu.getChildren().addAll(createRoomFormButton, viewEventListButton);
@@ -315,6 +388,23 @@ public class OrganizerScene implements IScene {
                 createSpeakerForm.add(createSpeakerNamePrompt, 0, 0);
                 createSpeakerForm.add(createSpeakerNameInput, 1, 0);
                 createSpeakerForm.add(createSpeakerButton, 2, 0);
+
+            // messageMenuBottomMenu Elements
+            messageMenuBottomMenu.getChildren().addAll(messageCustomRecipientsFormButton, messageAttendeesFormButton, messageSpeakersFormButton);
+                // messageCustomRecipientsMenu Elements
+                messageCustomRecipientsForm.add(recipientsLabel, 0, 0);
+                messageCustomRecipientsForm.add(recipientsInput, 0, 1);
+                messageCustomRecipientsForm.add(messageToRecipientsLabel, 0, 2);
+                messageCustomRecipientsForm.add(messageToRecipientsInput, 0, 3);
+                messageCustomRecipientsFormBottomMenu.getChildren().add(sendToRecipientsButton);
+                // messageAttendeesMenu Elements
+                messageAttendeesForm.add(messageToAttendeesLabel, 0, 0);
+                messageAttendeesForm.add(messageToAttendeesInput, 0, 1);
+                messageAttendeesFormBottomMenu.getChildren().add(sendToAttendeesButton);
+                // messageSpeakersMenu Elements
+                messageSpeakersForm.add(messageToSpeakersLabel, 0, 0);
+                messageSpeakersForm.add(messageToSpeakersInput, 0, 1);
+                messageSpeakersFormBottomMenu.getChildren().add(sendToSpeakersButton);
     }
 
     /**
