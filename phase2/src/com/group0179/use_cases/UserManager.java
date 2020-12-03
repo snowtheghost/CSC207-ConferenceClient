@@ -533,6 +533,11 @@ public class UserManager implements Serializable {
     }
 
     //kaiyi
+    /**
+     * Retrieve a map where the key is a string of the date and the value is an int containing the number of speakers
+     * that created an account on that day
+     * @return a map containing the number of speaker accounts created per day since launch of project
+     */
     public UUID addUserRequest(String typeOfRequest, String urgency, String requestContent){
         Request userRequest = new Request(typeOfRequest, urgency, requestContent);
         this.userRequests.add(userRequest);
