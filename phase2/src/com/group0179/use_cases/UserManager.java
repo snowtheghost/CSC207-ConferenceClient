@@ -373,7 +373,8 @@ public class UserManager implements Serializable {
     //kaiyi
 
     /**
-     * @return a list of length of logged in time of the current User as minutes.
+     * Retrieve a list containing a list of all the times users were logged in as minutes
+     * @return a list of lengths of logged in time of the current User as minutes.
      */
     public List<Double> getLengthsOfTimeLoggedInAsMinutesForCurrentUser(){ //need
         return this.currentUser.getLengthsOfTimeLoggedIn();
@@ -405,7 +406,7 @@ public class UserManager implements Serializable {
 
     //kaiyi
     /**
-     * @return the maximum and minimum length of logged in time of the current User as a list.
+     * @return the maximum and minimum length of logged in time of the current User as an array.
      */
     public double[] getMaximumAndMinimumMinutesLoggedInForCurrentUser(){ //need
         return this.currentUser.getMaximumAndMinimumMinutesLoggedIn();
@@ -413,6 +414,11 @@ public class UserManager implements Serializable {
 
     //kaiyi - get data on each Attendee/Speaker in the system for organizer given
     //currently using a nested private class but we can change this to an array actually!
+    /**
+     * Retrieve a map where the key is the attendee's user name and the value is an object containing
+     * info on how long speaker was logged in for
+     * @return a map containing logged in information for each attendee in the system.
+     */
     public Map<String, UserTimeData> getTimeElapsedStatisticsForAllAttendees(){
         Map<String, UserTimeData> attendeeData = new HashMap<>();
         for(Attendee attendee: this.getAttendees()){
@@ -431,6 +437,11 @@ public class UserManager implements Serializable {
         return attendeeData;
     }
 //kaiyi
+    /**
+     * Retrieve a map where the key is the speaker's user name and the value is an object containing
+     * info on how long speaker was logged in for
+     * @return a map containing logged in information for each speaker in the system.
+     */
     public Map<String, UserTimeData> getTimeElapsedStatisticsForAllSpeakers(){
         Map<String, UserTimeData> speakerData = new HashMap<>();
         for(Speaker speaker: this.getSpeakers()){
@@ -449,7 +460,8 @@ public class UserManager implements Serializable {
         }
         return speakerData;
     }
-//kaiyi
+    //Kaiyi: This is a strut for storing user time data. This makes it much easier to get important info for
+    // each user in terms of how long they were logged in form for each login
     public class UserTimeData {
         public Calendar lastLoggedIn;
         public double averageLengthOfTimeLoggedIn;
@@ -471,13 +483,20 @@ public class UserManager implements Serializable {
 
     }
     //kaiyi
+    /**
+     * Retrieve a map where the key is a string of the date and the value is an int containing the number of attendees
+     * that created an account on that day
+     * @return a map containing the number of attendees logged in per day since launch of project
+     */
     public Map<String, Integer> getTimeLineOfAttendeeCreation(){
         Map<String, Integer> historyOfAttendeeCreation = new HashMap<>();
         for(Attendee attendee : this.getAttendees()){
             String yearOfCreation = String.valueOf(attendee.getTimeOfAccountCreation().get(Calendar.YEAR));
-            String monthOfCreation = String.valueOf(attendee.getTimeOfAccountCreation().get(Calendar.MONTH) + 1);
-            String dayOfCreation = String.valueOf(attendee.getTimeOfAccountCreation().get(Calendar.DAY_OF_MONTH));
-            String date = dayOfCreation + "/" + monthOfCreation + "/" + yearOfCreation;
+            int monthOfCreation = (attendee.getTimeOfAccountCreation().get(Calendar.MONTH) + 1);
+            int dayOfCreation = (attendee.getTimeOfAccountCreation().get(Calendar.DAY_OF_MONTH));
+            String month = String.format("%02d", monthOfCreation);
+            String day = String.format("%02d", dayOfCreation);
+            String date = yearOfCreation + "/" + month + "/" + day;
             if(historyOfAttendeeCreation.containsKey(date)){
                 int numberOfAttendeesCreated = historyOfAttendeeCreation.get(date);
                 historyOfAttendeeCreation.put(date, numberOfAttendeesCreated + 1);
@@ -489,13 +508,20 @@ public class UserManager implements Serializable {
     }
 
     //kaiyi
+    /**
+     * Retrieve a map where the key is a string of the date and the value is an int containing the number of speakers
+     * that created an account on that day
+     * @return a map containing the number of speaker accounts created per day since launch of project
+     */
     public Map<String, Integer> getTimeLineOfSpeakerCreation(){
         Map<String, Integer> historyOfSpeakerCreation = new HashMap<>();
         for(Speaker speaker : this.getSpeakers()){
             String yearOfCreation = String.valueOf(speaker.getTimeOfAccountCreation().get(Calendar.YEAR));
-            String monthOfCreation = String.valueOf(speaker.getTimeOfAccountCreation().get(Calendar.MONTH) + 1);
-            String dayOfCreation = String.valueOf(speaker.getTimeOfAccountCreation().get(Calendar.DAY_OF_MONTH));
-            String date = dayOfCreation + "/" + monthOfCreation + "/" + yearOfCreation;
+            int monthOfCreation = (speaker.getTimeOfAccountCreation().get(Calendar.MONTH) + 1);
+            int dayOfCreation = (speaker.getTimeOfAccountCreation().get(Calendar.DAY_OF_MONTH));
+            String month = String.format("%02d", monthOfCreation);
+            String day = String.format("%02d", dayOfCreation);
+            String date = yearOfCreation + "/" + month + "/" + day;
             if(historyOfSpeakerCreation.containsKey(date)){
                 int numberOfSpeakersCreated = historyOfSpeakerCreation.get(date);
                 historyOfSpeakerCreation.put(date, numberOfSpeakersCreated + 1);
