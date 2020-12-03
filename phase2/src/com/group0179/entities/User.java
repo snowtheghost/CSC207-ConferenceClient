@@ -97,14 +97,27 @@ public abstract class User implements Serializable {
         this.conversations.get(sender).add(messageID);
     }
     //kaiyi
+    /**
+     * Sets last logged in time stamp for this user
+     * @param calendar
+     */
     public void setLastLoggedIn(Calendar calendar){
         this.lastLoggedIn = calendar;
     }
     //kaiyi
+    /**
+     * Get last logged in time stamp for this user
+     * @return a Calendar object which is the timestamp for last logged in time
+     */
     public Calendar getLastLoggedIn(){
         return (Calendar) this.lastLoggedIn.clone();
     }
     //kaiyi
+    /**
+     * Adds a time period to this user which indicates amount of time user was logged in for
+     * @param timeElapsed
+     * @return boolean value to indicate whether time was added successfully
+     */
     public boolean addNewTimeLoggedIn(double timeElapsed){
         if(timeElapsed > 0){
             this.lengthsOfTimeLoggedInAsMinutes.add(timeElapsed);
@@ -113,10 +126,17 @@ public abstract class User implements Serializable {
         return false;
     }
     //kaiyi
+    /**
+     * @return a List containing each logged in time period for the user since account creation
+     */
     public List<Double> getLengthsOfTimeLoggedIn(){
         return new ArrayList<>(this.lengthsOfTimeLoggedInAsMinutes);
     }
     //kaiyi
+    /**
+     * Get average amount of time this user is logged in for
+     * @return a double which represents the average amount of time this user is logged in for
+     */
     public double getAverageLengthOfTimeLoggedIn(){
         double totalTimeLoggedInAsMinutes = 0;
         for(double timeElapsed : this.lengthsOfTimeLoggedInAsMinutes){
@@ -128,6 +148,10 @@ public abstract class User implements Serializable {
         return totalTimeLoggedInAsMinutes;
     }
     //kaiyi
+    /**
+     * Get total amount of time this user is logged in for
+     * @return a double which represents the total amount of time this user is logged in for
+     */
     public double getTotalMinutesLoggedIn(){
         double totalTimeLoggedInAsMinutes = 0;
         for(double timeElapsed : this.lengthsOfTimeLoggedInAsMinutes){
@@ -136,6 +160,10 @@ public abstract class User implements Serializable {
         return totalTimeLoggedInAsMinutes;
     }
     //kaiyi
+    /**
+     * Get maximum and minimum amount of time this user is logged in for
+     * @return an array which contains the maximum and minimum amount of time this user is logged in for
+     */
     public double[] getMaximumAndMinimumMinutesLoggedIn(){
         double maximum = 0;
         double minimum = 0;
