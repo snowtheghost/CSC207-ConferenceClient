@@ -3,8 +3,7 @@ package com.group0179.scenes;
 import com.group0179.MainView;
 import com.group0179.entities.Attendee;
 import com.group0179.filters.AttendeeFilter;
-import com.group0179.presenters.AttendeePresenter;
-import com.group0179.presenters.Presenter;
+import com.group0179.presenters.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -26,8 +25,8 @@ import javafx.scene.Group;
 
 
 public class AttendeeScene implements IScene{
-    private final AttendeeFilter filter;
     private final AttendeePresenter presenter;
+    private IAttendeePresenter langPresenter = new AttendeePresenterEN();
     private Text txtObj;
     private GridPane bottomMenu;
     private FlowPane topMenu;
@@ -40,8 +39,14 @@ public class AttendeeScene implements IScene{
      * @param presenter Takes user inputs and talks to the backend with it.
      */
     public AttendeeScene(AttendeeFilter filter, AttendeePresenter presenter) {
-        this.filter = filter;
         this.presenter = presenter;
+    }
+
+    public void changePresenter(String languageType){
+        if (languageType.equals("Chinese")){
+            this.langPresenter = new AttendeePresenterCH();
+            this.presenter.changeLangPresenter(this.langPresenter);
+        }
     }
 
     /**
@@ -86,15 +91,15 @@ public class AttendeeScene implements IScene{
         Text txtObj = this.txtObj;
         txtObj.setWrappingWidth(x);
 
-        Button button1 = new Button("Send message");
+        Button button1 = new Button(langPresenter.sendMessage());
         button1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 bottomMenu.getChildren().clear();
 
                 // Creates labels and input space for form
-                Text label1 = atScene.txtObjCreater("Enter username of who you would like to message.", x/1.6);
-                Text label2 = atScene.txtObjCreater("Enter message content", x/1.5);
+                Text label1 = atScene.txtObjCreater(langPresenter.enterUsername(), x/1.6);
+                Text label2 = atScene.txtObjCreater(langPresenter.enterMsgContent(), x/1.5);
                 TextField textField1 = new TextField();
                 TextField textField2 = new TextField();
 
@@ -103,7 +108,7 @@ public class AttendeeScene implements IScene{
                 displayForm(label2, textField2, bottomMenu, 2);
 
                 // adds send button and result message to pane
-                Button submitButton = new Button("Send");
+                Button submitButton = new Button(langPresenter.send());
                 Text result = atScene.txtObjCreater("", x/1.5);
                 submitButton.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
@@ -119,7 +124,7 @@ public class AttendeeScene implements IScene{
         });
 
 
-        Button button2 = new Button("View messages");
+        Button button2 = new Button(langPresenter.viewMessages());
         button2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -127,13 +132,13 @@ public class AttendeeScene implements IScene{
 
 
                 // adds input box
-                Text label = atScene.txtObjCreater("Enter username of who's messages you would like to see, enter 'all' for all.", x/1.5);
+                Text label = atScene.txtObjCreater(langPresenter.usersToSee(), x/1.5);
                 TextField textField = new TextField();
                 displayForm(label, textField, bottomMenu, 0);
 
                 // adds submit button and result
                 Text result = atScene.txtObjCreater("", x/1.5);
-                Button submitButton = new Button("Submit");
+                Button submitButton = new Button(langPresenter.submit());
                 submitButton.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
@@ -150,7 +155,7 @@ public class AttendeeScene implements IScene{
             }
         });
 
-        Button button3 = new Button("View all events");
+        Button button3 = new Button(langPresenter.viewAllEvents());
         button3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -160,7 +165,7 @@ public class AttendeeScene implements IScene{
             }
         });
 
-        Button button4 = new Button("View signed up events");
+        Button button4 = new Button(langPresenter.viewAllSignedUpevents());
         button4.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -170,16 +175,15 @@ public class AttendeeScene implements IScene{
             }
         });
 
-        Button button5 = new Button("Join/Leave Event");
+        Button button5 = new Button(langPresenter.joinLeaveButtonText());
         button5.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 bottomMenu.getChildren().clear();
                 // adds input prompts
-                Text label0 = atScene.txtObjCreater("Would you like to join or leave the event? " +
-                        "Type 'joining' to join or 'leaving' to leave.", x/1.4);
-                Text label1 = atScene.txtObjCreater("Enter room number of event:",x/1.5);
-                Text label2 = atScene.txtObjCreater("Enter name of event:",x/1.5);
+                Text label0 = atScene.txtObjCreater(langPresenter.joinOrLeaveLabel(), x/1.4);
+                Text label1 = atScene.txtObjCreater(langPresenter.enterRoomNumberLabel(),x/1.5);
+                Text label2 = atScene.txtObjCreater(langPresenter.enterEventNameLabel(),x/1.5);
 
                 // adds the input boxes for those to pane
                 TextField textField0 = new TextField();
@@ -193,7 +197,7 @@ public class AttendeeScene implements IScene{
                 displayForm(label2, textField2, bottomMenu, 4);
 
                 // adds send button and result label to pane
-                Button submitButton = new Button("Attempt join");
+                Button submitButton = new Button(langPresenter.attemptJoinButton());
                 Text result = atScene.txtObjCreater("", x/1.5);
                 submitButton.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
@@ -208,7 +212,7 @@ public class AttendeeScene implements IScene{
             }
         });
 
-        Button logoutButton = new Button("Log out");
+        Button logoutButton = new Button(langPresenter.logoutButton());
         logoutButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {

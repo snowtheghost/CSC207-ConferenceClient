@@ -18,10 +18,8 @@ public class AttendeePresenter extends Presenter {
     private final UserManager userMan;
     private final MessageManager msgMan;
     private final RoomManager roomMan;
-    private final AttendeePresenterCLI ap;
-    private final Scanner input = new Scanner(System.in);
-    private final AttendeeFilter attendeeFilter;
     private final UUID currUserID;
+    private IAttendeePresenter langPresneter= new AttendeePresenterEN();
 
 
     /**
@@ -34,18 +32,17 @@ public class AttendeePresenter extends Presenter {
         this.userMan = userMan;
         this.msgMan = msgMan;
         this.roomMan = roomMan;
-        this.ap = new AttendeePresenterCLI(userMan, msgMan);
-        this.attendeeFilter = new AttendeeFilter(userMan, roomMan, msgMan);
         this.currUserID = this.userMan.getCurrentUser();
     }
 
     /**
-     * Prints a list of commands that the user can input
+     * Changes the language presenter so the returned texts will be in a different language.
+     * @param newPresenter The new type of language presenter.
      */
-    public String displayCommands(){
-        // displays all possible commands
-        return "Logout|Message|View messages|View all events|View signed up events|Join event|Leave event";
+    public void changeLangPresenter(IAttendeePresenter newPresenter){
+        this.langPresneter = newPresenter;
     }
+
     /**
      * @param username The username of the person the user wants to message
      * @param content The content of the message.
@@ -53,26 +50,24 @@ public class AttendeePresenter extends Presenter {
      */
     public String message(String username, String content){
         if (!userExists(username)) {
-            return "Recipient does not exist";
+            return langPresneter.recipientDNE();
         }
         UUID recipient = this.userMan.getUserID(username);
         this.msgMan.sendMessage(this.userMan, currUserID, recipient, content);
-        return "Message sent successfully.";
+        return langPresneter.sentSuccess();
     }
 
     /**
      * Prints the messages from a specific user or all users who sent him at least one message.
      * @param input The username of the user we want to get all messages of.
      * @return Returns the messages from that user, all users, or No users found.
-     *
-     * TODO: Check fixes for UM
      */
     public String viewMessages(String input){
         ArrayList<UUID> allUserIds = new ArrayList<>(this.userMan.getAttendeeUUIDs());
         // if want all messages, get a list of messages from each user and
         // write the sender name and message contents if user received at least 1 message from them
         if (input.equals("all")){
-            StringBuilder allMsgs = new StringBuilder("Messages:\n");
+            StringBuilder allMsgs = new StringBuilder(langPresneter.messageWord() + "\n");
             for (UUID uuid : allUserIds){
                 List<String> msgsFromPerson = this.msgMan.getMessageContentsFromUser(this.userMan, currUserID, uuid);
                 if (msgsFromPerson.size()!=0){
@@ -88,7 +83,7 @@ public class AttendeePresenter extends Presenter {
         }
         // if user wants message from specific user
         UUID recipient = this.userMan.getUserID(input);
-        if (recipient == null) {return "User not found";}
+        if (recipient == null) {return langPresneter.userNotFound();}
         List<String> msgContent = this.msgMan.getMessageContentsFromUser(this.userMan, currUserID, recipient);
         return String.join(",", msgContent);
     }
@@ -100,7 +95,7 @@ public class AttendeePresenter extends Presenter {
     public String viewAllEvents(){
         String allEvents = roomMan.stringEventInfoAll();
         if (allEvents.equals("")){
-            return "No events available";
+            return langPresneter.noEventsAvailiable();
         }
         return allEvents;
     }
@@ -124,27 +119,26 @@ public class AttendeePresenter extends Presenter {
      */
     public String joinLeaveEvent(String joinOrLeave, String roomNum, String eventName){
         // Check if joinOrLeave is formatted right
-        if (!(joinOrLeave.equals("joining")||joinOrLeave.equals("leaving"))){
-            return "Please type either 'joining' or 'leaving'.";
+        if (!(joinOrLeave.equals("j")||joinOrLeave.equals("l"))){
+            return langPresneter.joinOrLeave();
         }
         // Check if roomnNum valid and event can be found
         if (!roomNum.matches("^[0-9]+$")){
-            System.out.println("invalid");
-            return "Invalid room number";}
+            return langPresneter.invalidRoom();}
         int intRoomNum = Integer.parseInt(roomNum);
         UUID eventID = this.roomMan.getEventUUIDfromNameandRoom(eventName, intRoomNum);
-        if (eventID==null){return "No event found";}
+        if (eventID==null){return langPresneter.noEventsFound();}
 
-        if (joinOrLeave.equals("joining") && this.roomMan.addEventAttendee(currUserID, eventID,
+        if (joinOrLeave.equals("j") && this.roomMan.addEventAttendee(currUserID, eventID,
                 this.userMan, this.userMan.isUserVip(currUserID))){
             //this.ap.displayJoinLeaveSuccess(joinOrLeave);
-            return "You've successfully joined the event.";
-        } else if (joinOrLeave.equals("leaving") && this.roomMan.removeEventAttendee(currUserID, eventID, userMan)){
+            return langPresneter.joinEventSuccess();
+        } else if (joinOrLeave.equals("l") && this.roomMan.removeEventAttendee(currUserID, eventID, userMan)){
             //this.ap.displayJoinLeaveSuccess(joinOrLeave);
-            return "You've successfully left the event.";
+            return langPresneter.leaveEventSuccess();
         }
         //this.ap.displayJoinLeaveError(joinOrLeave);
-        return "Error " + joinOrLeave + " the event.";
+       return joinOrLeave.equals("j") ? langPresneter.joinEventFail() : langPresneter.leaveEventFail();
     }
 
     /**
@@ -154,10 +148,6 @@ public class AttendeePresenter extends Presenter {
      * @return Whether the username is from an existing user
      */
     private boolean userExists(String username) {
-        if (this.userMan.getUsernames().contains(username)) {
-            return true;
-        }
-        ap.displayUserDoesNotExistError();
-        return false;
+        return this.userMan.getUsernames().contains(username);
     }
 }
