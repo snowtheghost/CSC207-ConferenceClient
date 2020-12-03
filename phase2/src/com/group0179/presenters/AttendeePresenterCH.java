@@ -90,7 +90,7 @@ public class AttendeePresenterCH implements IAttendeePresenter{
      */
     @Override
     public String joinEventFail() {
-        return "Unable to join the event";
+        return "无法参加活动";
     }
 
     /**
