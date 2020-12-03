@@ -7,8 +7,6 @@ public interface IOrganizerPresenter {
 
     ArrayList<String> getRoomListArray();
 
-    int getRoomNumber(String roomsListSelection);
-
     ArrayList<String> getEvents(String roomsListSelection);
 
     String reMenuButtonText();
