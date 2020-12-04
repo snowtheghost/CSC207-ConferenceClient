@@ -43,9 +43,9 @@ public class AppMain {
 
         // Scene Setup
         LoginScene loginScene = new LoginScene(loginFilter, loginPresenter, loginController);
-        OrganizerScene organizerScene = new OrganizerScene(organizerFilter, organizerPresenter);
-        AttendeeScene attendeeScene = new AttendeeScene(attendeePresenter);
-        SpeakerScene speakerScene = new SpeakerScene(speakerFilter, speakerPresenter);
+        OrganizerScene organizerScene = new OrganizerScene(organizerFilter, organizerPresenter, loginController);
+        AttendeeScene attendeeScene = new AttendeeScene(attendeePresenter, loginController);
+        SpeakerScene speakerScene = new SpeakerScene(speakerFilter, speakerPresenter, loginController);
         LanguageScene languageScene = new LanguageScene();
 
         // Set up MainView and launch
