@@ -371,7 +371,6 @@ public class UserManager implements Serializable {
     }
 
     //kaiyi
-
     /**
      * Retrieve a list containing a list of all the times users were logged in as minutes
      * @return a list of lengths of logged in time of the current User as minutes.
