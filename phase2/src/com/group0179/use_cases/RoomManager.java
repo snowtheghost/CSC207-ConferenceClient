@@ -480,4 +480,43 @@ public class RoomManager implements Serializable {
         Event event = getEvent(eventID);
         return event.getVipOnlyStatus();
     }
+
+    //kaiyi
+    // for querying events. simple implementation
+    /**
+     * retrieve a list of events given attendee id and string query
+     * @param attendeeID
+     * @param query
+     * @return a list containing a string of event titles
+     */
+    public List<String> queryEventTitles(UUID attendeeID, String query){
+        if(query.length() <= 1 ){
+            List<String> retrievedEvents = this.retrieveEventTitlesAttendedByAnAttendee(attendeeID, query);
+            if(retrievedEvents.size() > 0){
+                return retrievedEvents;
+            }
+        }
+        List<String> queriedEvents = new ArrayList<>();
+        for(Event event : this.getEvents()){
+            if(event.getTitle().startsWith(query)){
+                queriedEvents.add(event.getTitle());
+            }
+        }
+        return queriedEvents;
+    }
+
+    private List<String> retrieveEventTitlesAttendedByAnAttendee(UUID attendeeID, String query){
+        List<String> eventsAttendedByAttendee = new ArrayList<>();
+        for(Event event : this.getEvents()){
+            if(event.getTitle().startsWith(query)) {
+                List<UUID> attendees = event.getAttendeeIDs();
+                if (attendees.contains(attendeeID)) {
+                    eventsAttendedByAttendee.add(event.getTitle());
+                }
+            }
+        }
+        return eventsAttendedByAttendee;
+    }
+
+
 }
