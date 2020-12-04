@@ -484,12 +484,20 @@ public class RoomManager implements Serializable {
     //kaiyi
     // for querying events. simple implementation
     /**
-     * retrieve a list of events given attendee id and string query
+     * retrieve a list of events that match string query
      * @param query
      * @return a list containing a string of event titles
      */
     public List<String> queryEventTitles(String query){
-        return new ArrayList<>();
+        List<String> queriedEventTitles = new ArrayList<>();
+        for(Event event : this.getEvents()){
+            if(event.getTitle().startsWith(query)){
+                queriedEventTitles.add(event.getTitle());
+            } else if (query.startsWith(event.getTitle())){
+                queriedEventTitles.add(event.getTitle());
+            }
+        }
+        return queriedEventTitles;
     }
 
 

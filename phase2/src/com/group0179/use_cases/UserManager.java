@@ -777,4 +777,22 @@ public class UserManager implements Serializable {
             speakerNames.add(speaker.getUsername());
         } return speakerNames;
     }
+
+    /**
+     * return a list of usernames given a string query
+     * @param query
+     * @return a list of usernames queried using the query string
+     */
+    public List<String> retrieveUserNamesGivenQuery(String query){
+        List<String> queriedUserNames = new ArrayList<>();
+        for(User user : this.getUsers()){
+            if(user.getUsername().startsWith(query)){
+                queriedUserNames.add(user.getUsername());
+            } else if (query.startsWith(user.getUsername())){
+                queriedUserNames.add(user.getUsername());
+            }
+        }
+        return queriedUserNames;
+    }
+
 }
