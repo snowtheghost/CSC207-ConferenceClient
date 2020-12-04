@@ -1,6 +1,7 @@
 package com.group0179.scenes;
 
 import com.group0179.MainView;
+import com.group0179.controllers.LoginController;
 import com.group0179.presenters.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,6 +14,7 @@ import javafx.scene.text.Text;
 
 public class AttendeeScene implements IScene{
     private final AttendeePresenter presenter;
+    private final LoginController lc;
     private IAttendeePresenter langPresenter = new AttendeePresenterEN();
     private GridPane bottomMenu;
     private Scene mainPanel;
@@ -21,8 +23,9 @@ public class AttendeeScene implements IScene{
      * The view responsible for what an attendee see's when they login.
      * @param presenter Takes user inputs and talks to the backend with it.
      */
-    public AttendeeScene(AttendeePresenter presenter) {
+    public AttendeeScene(AttendeePresenter presenter, LoginController lc) {
         this.presenter = presenter;
+        this.lc = lc;
     }
 
     public void changePresenter(String languageType){
@@ -169,7 +172,10 @@ public class AttendeeScene implements IScene{
         });
 
         Button logoutButton = new Button(langPresenter.logoutButton());
-        logoutButton.setOnAction(actionEvent -> MainView.setLoginScene());
+        logoutButton.setOnAction(actionEvent -> {
+            lc.logoutUser();
+            MainView.setLoginScene();
+        });
 
         // Add buttons to Top Menu and sets properties
         topMenu.getChildren().addAll(button1, button2, button3, button4, button5, logoutButton);

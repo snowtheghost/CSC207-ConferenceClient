@@ -1,6 +1,7 @@
 package com.group0179.scenes;
 
 import com.group0179.MainView;
+import com.group0179.controllers.LoginController;
 import com.group0179.filters.SpeakerFilter;
 import com.group0179.presenters.SpeakerPresenter;
 import javafx.collections.FXCollections;
@@ -32,6 +33,7 @@ import java.util.UUID;
 public class SpeakerScene implements IScene {
     SpeakerFilter filter;
     SpeakerPresenter presenter;
+    LoginController lc;
 
     Scene mainPanel;
     GridPane menu1 = new GridPane();
@@ -46,12 +48,12 @@ public class SpeakerScene implements IScene {
 
 
 
-    public SpeakerScene(SpeakerFilter filter, SpeakerPresenter presenter) {
+    public SpeakerScene(SpeakerFilter filter, SpeakerPresenter presenter, LoginController lc) {
         //bottomMenu = new GridPane();
         //topMenu = new FlowPane();
         this.filter = filter;
         this.presenter = presenter;
-
+        this.lc = lc;
     }
 
     private Text txtObjCreator(String text, double objectLength){
@@ -240,6 +242,7 @@ public class SpeakerScene implements IScene {
         logoutButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                lc.logoutUser();
                 MainView.setLoginScene();
             }
         });

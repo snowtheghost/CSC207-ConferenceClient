@@ -1,6 +1,7 @@
 package com.group0179.scenes;
 
 import com.group0179.MainView;
+import com.group0179.controllers.LoginController;
 import com.group0179.filters.OrganizerFilter;
 import com.group0179.presenters.OrganizerPresenterEN;
 import javafx.collections.FXCollections;
@@ -19,6 +20,7 @@ import javafx.scene.layout.HBox;
 public class OrganizerScene implements IScene {
     OrganizerFilter filter;
     OrganizerPresenterEN presenter;
+    LoginController lc;
 
     BorderPane main;
     HBox topMenu;
@@ -28,9 +30,10 @@ public class OrganizerScene implements IScene {
     int currentRoomNumber = 0;
     int currentEventNumber = 0;
 
-    public OrganizerScene(OrganizerFilter filter, OrganizerPresenterEN presenter) {
+    public OrganizerScene(OrganizerFilter filter, OrganizerPresenterEN presenter, LoginController lc) {
         this.filter = filter;
         this.presenter = presenter;
+        this.lc = lc;
     }
 
     public void constructScene() {
@@ -346,7 +349,10 @@ public class OrganizerScene implements IScene {
 
         // Button that leads from top menu to the Login Scene
         Button logoutButton = new Button(presenter.logoutButtonText());
-        logoutButton.setOnAction(actionEvent -> MainView.setLoginScene());
+        logoutButton.setOnAction(actionEvent -> {
+            lc.logoutUser();
+            MainView.setLoginScene();
+        });
 
         /*
          * Element inclusion
