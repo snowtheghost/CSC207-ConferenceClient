@@ -1,6 +1,7 @@
 package com.group0179.scenes;
 
 import com.group0179.MainView;
+import com.group0179.controllers.AttendeePresenter;
 import com.group0179.controllers.LoginController;
 import com.group0179.presenters.*;
 import javafx.geometry.Pos;
@@ -171,6 +172,19 @@ public class AttendeeScene implements IScene{
             bottomMenu.getChildren().add(result);
         });
 
+        Button button6 = new Button("User Stats");
+        button6.setOnAction(actionEvent -> {
+            bottomMenu.getChildren().clear();
+            // adds input prompts
+            Text label0 = atScene.txtObjCreater(presenter.getUserStats(), x/1.5);
+            //Text label1 = atScene.txtObjCreater(langPresenter.avgLoginTime(),x/1.5);
+
+            GridPane.setConstraints(label0, 0, 0);
+            bottomMenu.getChildren().add(label0);
+            //GridPane.setConstraints(label1, 0, 1);
+            //bottomMenu.getChildren().add(label1);
+        });
+
         Button logoutButton = new Button(langPresenter.logoutButton());
         logoutButton.setOnAction(actionEvent -> {
             lc.logoutUser();
@@ -178,7 +192,7 @@ public class AttendeeScene implements IScene{
         });
 
         // Add buttons to Top Menu and sets properties
-        topMenu.getChildren().addAll(button1, button2, button3, button4, button5, logoutButton);
+        topMenu.getChildren().addAll(button1, button2, button3, button4, button5, button6, logoutButton);
 
         // Set properties of the bottom menu
         bottomMenu.setAlignment(Pos.TOP_LEFT);

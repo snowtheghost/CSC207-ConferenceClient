@@ -218,4 +218,36 @@ public class AttendeePresenterCH implements IAttendeePresenter{
     public String logoutButton() {
         return "退出";
     }
+
+    /**
+     * @return Last login info
+     */
+    @Override
+    public String lastLogin() {
+        return null;
+    }
+
+    /**
+     * @return Average login time
+     */
+    @Override
+    public String avgLoginTime() {
+        return null;
+    }
+
+    /**
+     * @return Total login time
+     */
+    @Override
+    public String totalLoginTime() {
+        return null;
+    }
+
+    /**
+     * @return Max and min login times
+     */
+    @Override
+    public String maxMinLoginTimes() {
+        return null;
+    }
 }

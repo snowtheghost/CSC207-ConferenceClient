@@ -1,10 +1,14 @@
-package com.group0179.presenters;
+package com.group0179.controllers;
 
+import com.group0179.presenters.AttendeePresenterEN;
+import com.group0179.presenters.IAttendeePresenter;
+import com.group0179.presenters.Presenter;
 import com.group0179.use_cases.MessageManager;
 import com.group0179.use_cases.RoomManager;
 import com.group0179.use_cases.UserManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -133,6 +137,15 @@ public class AttendeePresenter extends Presenter {
         }
         //this.ap.displayJoinLeaveError(joinOrLeave);
        return joinOrLeave.equals("j") ? langPresneter.joinEventFail() : langPresneter.leaveEventFail();
+    }
+
+    /**
+     * @return a string containing user stats.
+     */
+    public String getUserStats(){
+        return String.valueOf(userMan.getLastLoggedInForCurrentUser());
+                //userMan.getTotalMinutesLoggedInForCurrentUser() +
+                //Arrays.toString(userMan.getMaximumAndMinimumMinutesLoggedInForCurrentUser());
     }
 
     /**

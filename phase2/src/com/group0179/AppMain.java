@@ -1,5 +1,6 @@
 package com.group0179;
 
+import com.group0179.controllers.AttendeePresenter;
 import com.group0179.controllers.LoginController;
 import com.group0179.filters.*;
 import com.group0179.scenes.*;

@@ -138,6 +138,27 @@ public interface IAttendeePresenter {
      */
     String logoutButton();
 
+    /**
+     * @return Last login info
+     */
+    String lastLogin();
+
+    /**
+     * @return Average login time
+     */
+    String avgLoginTime();
+
+    /**
+     * @return Total login time
+     */
+    String totalLoginTime();
+
+    /**
+     * @return Max and min login times
+     */
+    String maxMinLoginTimes();
+
+
 
 
 

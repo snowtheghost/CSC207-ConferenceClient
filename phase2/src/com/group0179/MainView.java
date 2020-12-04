@@ -59,8 +59,7 @@ public class MainView extends Application {
         speakerScene.constructScene();
         languageScene.constructScene();
         // setOrganizerScene(); // Should start on loginScene
-        //setLoginScene();
-        setLanguageScene();
+        setLoginScene();
         stage.show();
     }
 }
