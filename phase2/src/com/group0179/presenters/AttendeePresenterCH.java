@@ -1,9 +1,6 @@
 package com.group0179.presenters;
 
 public class AttendeePresenterCH implements IAttendeePresenter{
-    /*
-     * TODO: Turn these all return statements into Chinese (javadoc can stay english)
-     */
 
     /**
      * @return Recipient does not exist.

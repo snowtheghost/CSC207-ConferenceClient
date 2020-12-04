@@ -71,14 +71,14 @@ public class LoginPresenterCH implements ILoginPresenter {
 
     @Override
     public String loginButtonPrompt() {
-        return "Login";
+        return "登录";
     }
 
     @Override
     public String createAccountButtonPrompt() {
-        return "Create Account";
+        return "创建账号";
     }
 
     @Override
-    public String vipAttendeeAccountChoice() { return "Attendee (VIP)"; }
+    public String vipAttendeeAccountChoice() { return "参与者(VIP)"; }
 }
