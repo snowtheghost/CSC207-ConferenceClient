@@ -4,6 +4,11 @@ import com.group0179.exceptions.InvalidCredentialsException;
 import com.group0179.exceptions.UsernameTakenException;
 import com.group0179.use_cases.UserManager;
 
+import java.util.Calendar;
+
+/**
+ * Handles user login based logic.
+ */
 public class LoginController {
     private final UserManager um;
 
@@ -12,12 +17,13 @@ public class LoginController {
     }
 
     /**
+     * Precondition: accountType is a valid account type.
      * @param accountType a string representing the type of account to create (not case sensitive).
      * @param username the desired username for the account.
      * @return True iff the account was created successfully.
      * @throws UsernameTakenException if the given username already exists in the system.
      */
-    public boolean createAccount(String accountType, String username) throws UsernameTakenException {
+    public void createAccount(String accountType, String username) throws UsernameTakenException {
         if (this.um.userExists(username)) {
             throw new UsernameTakenException();
         }
@@ -25,12 +31,12 @@ public class LoginController {
             case "organizer":
                 um.createOrganizerAccount(username); break;
             case "attendee":
-                um.createAttendeeAccount(username, false); break; // TODO: Figure out VIP system
+                um.createAttendeeAccount(username, false); break;
+            case "vipattendee":
+                um.createAttendeeAccount(username, true); break;
             case "speaker":
                 um.createSpeakerAccount(username); break;
-            default: return false;
         }
-        return true;
     }
 
     /**
@@ -44,6 +50,20 @@ public class LoginController {
             throw new InvalidCredentialsException();
         }
         this.um.setCurrentUser(username);
+        this.um.addLastLoggedInForCurrentUser(Calendar.getInstance());
         return this.um.userType(username);
+    }
+
+    /**
+     * Logs the user out of the system and adds their new login duration.
+     * @return True iff the user has been logged out successfully.
+     */
+    public boolean logoutUser() {
+        if (this.um.getCurrentUser() == null) return false;
+        long beginEpoch = this.um.getLastLoggedInForCurrentUser().getTimeInMillis();
+        long endEpoch = Calendar.getInstance().getTimeInMillis();
+        double elapsedMinutes = (double)(endEpoch - beginEpoch) / 1000 / 60;
+        this.um.addNewTimeLoggedInForCurrentUser(elapsedMinutes);
+        return true;
     }
 }

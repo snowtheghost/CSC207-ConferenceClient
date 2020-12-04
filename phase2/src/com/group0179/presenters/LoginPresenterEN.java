@@ -82,4 +82,7 @@ public class LoginPresenterEN implements ILoginPresenter {
 
     @Override
     public String createAccountButtonPrompt() { return "Create Account"; }
+
+    @Override
+    public String vipAttendeeAccountChoice() { return "Attendee (VIP)"; }
 }

@@ -41,6 +41,11 @@ public interface ILoginPresenter {
     String attendeeAccountChoice();
 
     /**
+     * @return a string representing a vip attendee account choice.
+     */
+    String vipAttendeeAccountChoice();
+
+    /**
      * @return a string representing the speaker account choice.
      */
     String speakerAccountChoice();

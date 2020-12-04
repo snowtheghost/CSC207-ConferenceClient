@@ -90,8 +90,13 @@ public class LoginScene implements IScene {
     private void attemptAccountCreate() {
         String username = createAccountTextField.getText();
         String accountType = accountTypeChoiceBox.getValue();
+        String accountChoice;
+        if (accountType.equals(presenter.attendeeAccountChoice())) accountChoice = "attendee";
+        else if (accountType.equals(presenter.organizerAccountChoice())) accountChoice = "organizer";
+        else if (accountType.equals(presenter.speakerAccountChoice())) accountChoice = "speaker";
+        else accountChoice = "vipattendee";
         try {
-            controller.createAccount(accountType, username);
+            controller.createAccount(accountChoice, username);
         } catch (UsernameTakenException e) {
             createAccountInfo.setText(presenter.usernameTakenError(username));
             return;
@@ -117,7 +122,8 @@ public class LoginScene implements IScene {
         accountTypeChoiceBox = new ChoiceBox<>();
         accountTypeChoiceBox.getItems().addAll(presenter.attendeeAccountChoice(),
                 presenter.organizerAccountChoice(),
-                presenter.speakerAccountChoice());
+                presenter.speakerAccountChoice(),
+                presenter.vipAttendeeAccountChoice());
         accountTypeChoiceBox.setValue(presenter.attendeeAccountChoice());
         createAccountBtn = new Button(presenter.createAccountButtonPrompt());
         createAccountBtn.setOnAction(actionEvent -> attemptAccountCreate());

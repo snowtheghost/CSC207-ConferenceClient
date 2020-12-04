@@ -25,7 +25,9 @@ public class UserManager implements Serializable {
      * Created a new UserManager.
      * Last modified: Justin Chan
      */
-    public UserManager() { }
+    public UserManager() {
+        currentUser = null;
+    }
 
     /**
      * Created: Zachariah Vincze
