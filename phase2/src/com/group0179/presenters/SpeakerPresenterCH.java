@@ -271,4 +271,10 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
 
     @Override
     public String eventDNE(){return "That event doesn't seem to exist";}
+
+    @Override
+    public String sendmessagetouser(){return "Send a message to a specific user";}
+
+    @Override
+    public String sendmessagetoEvent(){return "Send a message all attendees of an event";}
 }

@@ -223,7 +223,7 @@ public class SpeakerPresenterEN implements ISpeakerPresenter{
      */
     @Override
     public String lastLogin() {
-        return null;
+        return "Last Login:";
     }
 
     /**
@@ -231,7 +231,7 @@ public class SpeakerPresenterEN implements ISpeakerPresenter{
      */
     @Override
     public String avgLoginTime() {
-        return null;
+        return "Average Login Time (minutes):";
     }
 
     /**
@@ -239,7 +239,7 @@ public class SpeakerPresenterEN implements ISpeakerPresenter{
      */
     @Override
     public String totalLoginTime() {
-        return null;
+        return "Total Login Time (minutes):";
     }
 
     /**
@@ -271,4 +271,10 @@ public class SpeakerPresenterEN implements ISpeakerPresenter{
 
     @Override
     public String eventDNE(){return "That event doesn't seem to exist";}
+
+    @Override
+    public String sendmessagetouser(){return "Send a message to a specific user";}
+
+    @Override
+    public String sendmessagetoEvent(){return "Send a message all attendees of an event";}
 }

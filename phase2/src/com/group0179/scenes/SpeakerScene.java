@@ -23,7 +23,7 @@ public class SpeakerScene implements IScene{
     private Scene mainPanel;
 
     /**
-     * The view responsible for what an attendee see's when they login.
+     * The view responsible for what a speaker sees when they login.
      * @param speakerPresenterController Takes user inputs and talks to the backend with it.
      */
     public SpeakerScene(SpeakerPresenterController speakerPresenterController, LoginController lc, SpeakerPresenterFactory factory) {
@@ -73,6 +73,7 @@ public class SpeakerScene implements IScene{
         bottomMenu = new GridPane();
         FlowPane topMenu = new FlowPane();
         BorderPane main = new BorderPane();
+        GridPane msgview = new GridPane();
         // Layout and scene for Full View
         mainPanel = new Scene(main, x, y);
 
@@ -81,6 +82,83 @@ public class SpeakerScene implements IScene{
         SpeakerPresenterController presenter = this.presenter;
         txtObj.setWrappingWidth(x);
 
+
+        Button sendMessageToUser = new Button(this.langPresenter.sendmessagetouser());
+        sendMessageToUser.setOnAction(actionEvent -> {
+            bottomMenu.getChildren().clear();
+
+            // Creates labels and input space for form
+            Text label1 = atScene.txtObjCreater(langPresenter.enterUsername(), x/1.6);
+            Text label2 = atScene.txtObjCreater(langPresenter.enterMsgContent(), x/1.5);
+            TextField textField1 = new TextField();
+            TextField textField2 = new TextField();
+
+            // adds those to pane so it can be displayed
+            displayForm(label1, textField1, bottomMenu, 0);
+            displayForm(label2, textField2, bottomMenu, 2);
+
+            // adds send button and result message to pane
+            Button submitButton = new Button(langPresenter.send());
+            Text result = atScene.txtObjCreater("", x/1.5);
+            submitButton.setOnAction(actionEvent1 ->
+                    result.setText(presenter.message(textField1.getText(), textField2.getText())));
+            GridPane.setConstraints(submitButton, 0, 5);
+            bottomMenu.getChildren().add(submitButton);
+            GridPane.setConstraints(result, 0, 6);
+            bottomMenu.getChildren().add(result);
+        });
+
+        Button sendMessageToEvent = new Button(this.langPresenter.sendmessagetoEvent());
+        sendMessageToEvent.setOnAction(actionEvent -> {
+            bottomMenu.getChildren().clear();
+
+            // Creates labels and input space for form
+            Text label1 = atScene.txtObjCreater(langPresenter.enterEventNameLabel(), x/1.6);
+            Text label2 = atScene.txtObjCreater(langPresenter.enterRoomNumberLabel(), x/1.5);
+            Text label3 = atScene.txtObjCreater(langPresenter.enterMsgContent(), x/1.5);
+            TextField textField1 = new TextField();
+            TextField textField2 = new TextField();
+            TextField textField3 = new TextField();
+
+            // adds those to pane so it can be displayed
+            displayForm(label1, textField1, bottomMenu, 0);
+            displayForm(label2, textField2, bottomMenu, 2);
+            displayForm(label3, textField3, bottomMenu, 4);
+
+            // adds send button and result message to pane
+            Button submitButton = new Button(langPresenter.send());
+            Text result = atScene.txtObjCreater("", x/1.5);
+            submitButton.setOnAction(actionEvent1 -> {
+                    //result.setText(presenter.message(textField1.getText(), textField2.getText())));
+                    try {
+                        result.setText(presenter.messageEvent(textField1.getText(),
+                                Integer.parseInt(textField2.getText()), textField3.getText()));
+                    }
+                    catch(NumberFormatException e){
+                        result.setText("enter a valid room number");
+                    }});
+
+            GridPane.setConstraints(submitButton, 0, 6);
+            bottomMenu.getChildren().add(submitButton);
+            GridPane.setConstraints(result, 0, 7);
+            bottomMenu.getChildren().add(result);
+        });
+
+
+
+
+        Button sendMessage = new Button(langPresenter.sendMessage());
+        sendMessage.setOnAction(actionEvent -> {
+            bottomMenu.getChildren().clear();
+
+            GridPane.setConstraints(sendMessageToEvent, 0, 5);
+            bottomMenu.getChildren().add(sendMessageToEvent);
+            GridPane.setConstraints(sendMessageToUser, 0, 6);
+            bottomMenu.getChildren().add(sendMessageToUser);
+        });
+
+
+        /*
         Button sendMessage = new Button(langPresenter.sendMessage());
         sendMessage.setOnAction(actionEvent -> {
             bottomMenu.getChildren().clear();
@@ -105,6 +183,15 @@ public class SpeakerScene implements IScene{
             GridPane.setConstraints(result, 0, 6);
             bottomMenu.getChildren().add(result);
         });
+         */
+
+
+
+
+
+
+
+
 
 
         Button viewMessages = new Button(langPresenter.viewMessages());
@@ -183,11 +270,30 @@ public class SpeakerScene implements IScene{
         userStats.setOnAction(actionEvent -> {
             bottomMenu.getChildren().clear();
             // adds input prompts
-            Text label0 = atScene.txtObjCreater(presenter.getUserStats(), x/1.5);
+            Text label1 = atScene.txtObjCreater(langPresenter.lastLogin(), x/1.5);
+            Text label2 = atScene.txtObjCreater(presenter.getLastLogin(), x/1.5);
+
+            Text label3 = atScene.txtObjCreater(langPresenter.avgLoginTime(), x/1.5);
+            Text label4 = atScene.txtObjCreater(presenter.getavgLoginTime(), x/1.5);
+
+            Text label5 = atScene.txtObjCreater(langPresenter.totalLoginTime(), x/1.5);
+            Text label6 = atScene.txtObjCreater(presenter.getaTotalLoginTime(), x/1.5);
             //Text label1 = atScene.txtObjCreater(langPresenter.avgLoginTime(),x/1.5);
 
-            GridPane.setConstraints(label0, 0, 0);
-            bottomMenu.getChildren().add(label0);
+            GridPane.setConstraints(label1, 0, 0);
+            bottomMenu.getChildren().add(label1);
+            GridPane.setConstraints(label2, 0, 1);
+            bottomMenu.getChildren().add(label2);
+
+            GridPane.setConstraints(label3, 0, 2);
+            bottomMenu.getChildren().add(label3);
+            GridPane.setConstraints(label4, 0, 3);
+            bottomMenu.getChildren().add(label4);
+
+            GridPane.setConstraints(label5, 0, 4);
+            bottomMenu.getChildren().add(label5);
+            GridPane.setConstraints(label6, 0, 5);
+            bottomMenu.getChildren().add(label6);
             //GridPane.setConstraints(label1, 0, 1);
             //bottomMenu.getChildren().add(label1);
         });

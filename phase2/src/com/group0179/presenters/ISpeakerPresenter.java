@@ -168,4 +168,8 @@ public interface ISpeakerPresenter {
     String noSpeakingEvents();
 
     String eventDNE();
+
+    String sendmessagetouser();
+
+    String sendmessagetoEvent();
 }

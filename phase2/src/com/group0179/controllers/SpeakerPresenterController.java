@@ -7,6 +7,7 @@ import com.group0179.use_cases.MessageManager;
 import com.group0179.use_cases.RoomManager;
 import com.group0179.use_cases.UserManager;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -166,6 +167,24 @@ public class SpeakerPresenterController extends Presenter {
         return String.valueOf(userMan.getLastLoggedInForCurrentUser());
                 //userMan.getTotalMinutesLoggedInForCurrentUser() +
                 //Arrays.toString(userMan.getMaximumAndMinimumMinutesLoggedInForCurrentUser());
+    }
+
+    public String getLastLogin(){
+        return userMan.getLastLoggedInForCurrentUser().getTime().toString();
+        //userMan.getTotalMinutesLoggedInForCurrentUser() +
+        //Arrays.toString(userMan.getMaximumAndMinimumMinutesLoggedInForCurrentUser());
+    }
+
+    public String getavgLoginTime(){
+        DecimalFormat df = new DecimalFormat("###.##");
+        return df.format(userMan.getAverageLengthOfTimeLoggedInForCurrentUser());
+        //return String.valueOf(Math.round(userMan.getAverageLengthOfTimeLoggedInForCurrentUser()));
+    }
+
+    public String getaTotalLoginTime(){
+        DecimalFormat df = new DecimalFormat("###.##");
+        return df.format(userMan.getTotalMinutesLoggedInForCurrentUser());
+        //return String.valueOf(Math.round(userMan.getAverageLengthOfTimeLoggedInForCurrentUser()));
     }
 
     /**
