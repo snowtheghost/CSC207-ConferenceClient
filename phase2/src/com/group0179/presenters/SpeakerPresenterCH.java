@@ -6,7 +6,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String recipientDNE() {
-        return "The recipient does not exist";
+        return "接收者不存在";
     }
 
     /**
@@ -14,7 +14,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String sentSuccess() {
-        return "Message sent successfully";
+        return "消息发送成功";
     }
 
     /**
@@ -22,7 +22,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String messageWord() {
-        return "Message";
+        return "消息";
     }
 
     /**
@@ -30,7 +30,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String userNotFound() {
-        return "User not found";
+        return "未找到用户";
     }
 
     /**
@@ -38,7 +38,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String noEventsAvailiable() {
-        return "no events availiable";
+        return "无可加入活动";
     }
 
     /**
@@ -46,7 +46,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String joinOrLeave() {
-        return "Please type either j for joining or l for leaving.";
+        return "输入'j'加入或者'l'退出。";
     }
 
     /**
@@ -54,7 +54,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String invalidRoom() {
-        return "Invalid room number";
+        return "无效的房间号";
     }
 
     /**
@@ -62,7 +62,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String noEventsFound() {
-        return "No events found";
+        return "未找到活动";
     }
 
     /**
@@ -70,7 +70,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String joinEventSuccess() {
-        return "Successfully joined the event";
+        return "成功加入活动";
     }
 
     /**
@@ -78,7 +78,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String leaveEventSuccess() {
-        return "Successfully left the event";
+        return "成功退出活动";
     }
 
     /**
@@ -86,7 +86,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String joinEventFail() {
-        return "Unable to join the event";
+        return "无法加入该活动";
     }
 
     /**
@@ -94,7 +94,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String leaveEventFail() {
-        return "Unable to leave the event.";
+        return "无法退出该活动";
     }
 
     /**
@@ -103,7 +103,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String sendMessage() {
-        return "Send Message";
+        return "发消息";
     }
 
     /**
@@ -111,7 +111,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String enterUsername() {
-        return "Enter username of who you would like to message.";
+        return "输入你想发送消息的用户名";
     }
 
     /**
@@ -119,7 +119,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String enterMsgContent() {
-        return "Enter message content";
+        return "输入消息内容";
     }
 
     /**
@@ -127,7 +127,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String send() {
-        return "Send";
+        return "发送";
     }
 
     /**
@@ -135,7 +135,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String viewMessages() {
-        return "View Messages";
+        return "查看消息";
     }
 
     /**
@@ -143,7 +143,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String usersToSee() {
-        return "Enter username of who's messages you would like to see, enter 'all' for all.";
+        return "请输入你想查看消息的用户名, 输入 'all' 以查看全部消息。";
     }
 
     /**
@@ -151,7 +151,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String submit() {
-        return "Submit";
+        return "提交";
     }
 
     /**
@@ -159,7 +159,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String viewAllEvents() {
-        return "View All Events";
+        return "查看所有活动";
     }
 
     /**
@@ -167,7 +167,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String viewAllSignedUpevents() {
-        return "View All Signed Up Events";
+        return "查看所有加入的活动";
     }
 
     /**
@@ -175,7 +175,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String joinLeaveButtonText() {
-        return "Join/Leave Event";
+        return "加入或退出活动";
     }
 
     /**
@@ -183,7 +183,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String joinOrLeaveLabel() {
-        return "Would you like to join or leave the event? ";
+        return "你想要加入还是退出这个活动? ";
     }
 
     /**
@@ -191,7 +191,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String enterRoomNumberLabel() {
-        return "Enter room number of event:";
+        return "输入活动的房间号:";
     }
 
     /**
@@ -199,7 +199,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String enterEventNameLabel() {
-        return "Enter name of event:";
+        return "请输入活动名称:";
     }
 
     /**
@@ -207,7 +207,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String attemptJoinButton() {
-        return "Attempt Join";
+        return "尝试加入";
     }
 
     /**
@@ -215,7 +215,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String logoutButton() {
-        return "Logout";
+        return "退出";
     }
 
     /**
@@ -251,30 +251,30 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
     }
 
     @Override
-    public String userStats() {return "User Stats";
+    public String userStats() {return "用户数据";
     }
 
     @Override
     public String SpeakerPanel() {
-        return "Speaker Panel";
+        return "演讲者面板";
     }
 
     @Override
     public String viewSpeakingEventsButton() {
-        return "View Spekaing Events";
+        return "查看演讲者的活动";
     }
 
     @Override
     public String noSpeakingEvents() {
-        return "You are not speaking at any events";
+        return "你暂时没有活动演讲";
     }
 
     @Override
-    public String eventDNE(){return "That event doesn't seem to exist";}
+    public String eventDNE(){return "活动不存在";}
 
     @Override
-    public String sendmessagetouser(){return "Send a message to a specific user";}
+    public String sendmessagetouser(){return "发消息给特定的用户";}
 
     @Override
-    public String sendmessagetoEvent(){return "Send a message all attendees of an event";}
+    public String sendmessagetoEvent(){return "发消息给改活动的所有参与者。";}
 }
