@@ -53,7 +53,7 @@ public class MainView extends Application {
     public static void setLanguage(String language){
         loginScene.setLanguage(language);
         organizerScene.setLanguage(language);
-        //attendeeScene.setLanguage(language);
+        attendeeScene.setLanguage(language);
         //speakerScene.setLanguage(language);
     }
 

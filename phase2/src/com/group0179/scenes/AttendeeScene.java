@@ -1,6 +1,7 @@
 package com.group0179.scenes;
 
 import com.group0179.MainView;
+import com.group0179.PresenterFactory.AttendeePresenterFactory;
 import com.group0179.controllers.AttendeePresenter;
 import com.group0179.controllers.LoginController;
 import com.group0179.presenters.*;
@@ -16,7 +17,8 @@ import javafx.scene.text.Text;
 public class AttendeeScene implements IScene{
     private final AttendeePresenter presenter;
     private final LoginController lc;
-    private IAttendeePresenter langPresenter = new AttendeePresenterEN();
+    private final AttendeePresenterFactory factory;
+    private IAttendeePresenter langPresenter;
     private GridPane bottomMenu;
     private Scene mainPanel;
 
@@ -24,14 +26,16 @@ public class AttendeeScene implements IScene{
      * The view responsible for what an attendee see's when they login.
      * @param presenter Takes user inputs and talks to the backend with it.
      */
-    public AttendeeScene(AttendeePresenter presenter, LoginController lc) {
+    public AttendeeScene(AttendeePresenter presenter, LoginController lc, AttendeePresenterFactory factory) {
         this.presenter = presenter;
+        this.factory = factory;
+        this.langPresenter = factory.getAttendeePresenterEN();
         this.lc = lc;
     }
 
-    public void changePresenter(String languageType){
+    public void setLanguage(String languageType){
         if (languageType.equals("Chinese")){
-            this.langPresenter = new AttendeePresenterCH();
+            this.langPresenter = factory.getAttendeePresenterCH();
             this.presenter.changeLangPresenter(this.langPresenter);
         }
     }
@@ -172,7 +176,7 @@ public class AttendeeScene implements IScene{
             bottomMenu.getChildren().add(result);
         });
 
-        Button button6 = new Button("User Stats");
+        Button button6 = new Button(langPresenter.userStats());
         button6.setOnAction(actionEvent -> {
             bottomMenu.getChildren().clear();
             // adds input prompts
@@ -213,6 +217,6 @@ public class AttendeeScene implements IScene{
     public void setScene() {
         //Sets main scene as current scene.
         MainView.getStage().setScene(mainPanel);
-        MainView.getStage().setTitle("Attendee Panel");
+        MainView.getStage().setTitle(langPresenter.AttendeePanel());
     }
 }

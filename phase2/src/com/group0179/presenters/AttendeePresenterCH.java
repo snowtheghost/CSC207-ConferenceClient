@@ -250,4 +250,13 @@ public class AttendeePresenterCH implements IAttendeePresenter{
     public String maxMinLoginTimes() {
         return null;
     }
+
+    @Override
+    public String userStats() {return "用户数据";
+    }
+
+    @Override
+    public String AttendeePanel() {
+        return "参与者面板";
+    }
 }

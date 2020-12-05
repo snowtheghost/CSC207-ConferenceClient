@@ -158,6 +158,9 @@ public interface IAttendeePresenter {
      */
     String maxMinLoginTimes();
 
+    String userStats();
+
+    String AttendeePanel();
 
 
 

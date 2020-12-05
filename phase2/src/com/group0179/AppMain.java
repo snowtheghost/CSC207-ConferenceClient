@@ -54,7 +54,7 @@ public class AppMain {
         // Scene Setup
         LoginScene loginScene = new LoginScene(loginFilter, loginPresenterFactory, loginController);
         OrganizerScene organizerScene = new OrganizerScene(organizerFilter, organizerPresenterFactory, loginController);
-        AttendeeScene attendeeScene = new AttendeeScene(attendeePresenter, loginController);
+        AttendeeScene attendeeScene = new AttendeeScene(attendeePresenter, loginController, attendeePresenterFactory);
         SpeakerScene speakerScene = new SpeakerScene(speakerFilter, speakerPresenter, loginController);
         LanguageScene languageScene = new LanguageScene();
 

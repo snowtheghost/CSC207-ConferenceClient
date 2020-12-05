@@ -250,4 +250,12 @@ public class AttendeePresenterEN implements IAttendeePresenter{
         return null;
     }
 
+    @Override
+    public String userStats() {return "User Stats";
+    }
+
+    @Override
+    public String AttendeePanel() {
+        return "Attendee Panel";
+    }
 }
