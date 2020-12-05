@@ -23,10 +23,7 @@ public class LanguageScene implements IScene{
         });
         ChineseButton = new Button("中文");
         ChineseButton.setOnAction(actionEvent ->{
-            MainView.setLoginSceneLanguageCH();
-            MainView.setOrganizerSceneLanguageCH();
-            //Mainview.setAttendeeSceneLanguageCH();
-            //Mainview.setSpeakerSceneLanguageCH();
+            MainView.setLanguage("Chinese");
             MainView.constructScenes();
             MainView.setLoginScene();
         });

@@ -6,7 +6,7 @@ import com.group0179.use_cases.MessageManager;
 import com.group0179.use_cases.RoomManager;
 import com.group0179.use_cases.UserManager;
 
-public class OrganizerPresenterFactory {
+public class OrganizerPresenterFactory extends PresenterFactory{
 
     private final UserManager um;
     private final RoomManager rm;

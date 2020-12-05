@@ -40,7 +40,7 @@ public class OrganizerScene implements IScene {
         this.lc = lc;
     }
 
-    public void setLanguageCH(){this.presenter = this.factory.getOrganizerPresenterCH();}
+    public void setLanguage(String language){if(language == "Chinese") this.presenter = this.factory.getOrganizerPresenterCH();}
 
     public void constructScene() {
         /*

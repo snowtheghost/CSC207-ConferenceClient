@@ -62,7 +62,8 @@ public class LoginScene implements IScene {
         this.controller = controller;
     }
 
-    public void setLanguageCH(){this.presenter = factory.getLoginPresenterCH();}
+    public void setLanguage(String language){
+        if(language == "Chinese")this.presenter = factory.getLoginPresenterCH();}
 
     private void changeToLoginPane() {
         borderPane.setCenter(loginGrid);

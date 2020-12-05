@@ -50,11 +50,12 @@ public class MainView extends Application {
 
     public static void setLanguageScene() { languageScene.setScene();}
 
-    public static void setLoginSceneLanguageCH(){loginScene.setLanguageCH();}
-
-    public static void setOrganizerSceneLanguageCH(){organizerScene.setLanguageCH();}
-    //public static void setAttendeeSceneLanguageCH(){attendeeScene.setLanguageCH();}
-    //public static void setSpeakerSceneLanguageCH(){speakerScene.setLanguageCH();}
+    public static void setLanguage(String language){
+        loginScene.setLanguage(language);
+        organizerScene.setLanguage(language);
+        //attendeeScene.setLanguage(language);
+        //speakerScene.setLanguage(language);
+    }
 
     public static void constructScenes(){loginScene.constructScene();
     organizerScene.constructScene();
