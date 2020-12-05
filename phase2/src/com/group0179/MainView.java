@@ -54,13 +54,13 @@ public class MainView extends Application {
         loginScene.setLanguage(language);
         organizerScene.setLanguage(language);
         attendeeScene.setLanguage(language);
-        //speakerScene.setLanguage(language);
+        speakerScene.setLanguage(language);
     }
 
     public static void constructScenes(){loginScene.constructScene();
     organizerScene.constructScene();
     attendeeScene.constructScene();
-    speakerScene.constructScene();};
+    speakerScene.constructScene();}
 
 
     @Override
