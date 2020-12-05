@@ -223,7 +223,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String lastLogin() {
-        return null;
+        return "上次登录：";
     }
 
     /**
@@ -231,7 +231,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String avgLoginTime() {
-        return null;
+        return "平均登录时间（分钟）：";
     }
 
     /**
@@ -239,7 +239,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String totalLoginTime() {
-        return null;
+        return "总登录时间：";
     }
 
     /**
@@ -277,4 +277,6 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
 
     @Override
     public String sendmessagetoEvent(){return "发消息给改活动的所有参与者。";}
+
+
 }
