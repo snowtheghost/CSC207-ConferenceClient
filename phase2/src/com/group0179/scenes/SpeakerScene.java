@@ -25,7 +25,6 @@ public class SpeakerScene implements IScene{
     private ISpeakerPresenter langPresenter;
     private GridPane bottomMenu;
     private Scene mainPanel;
-    private final Scanner input = new Scanner(System.in);
 
     /**
      * The view responsible for what a speaker sees when they login.
@@ -118,7 +117,6 @@ public class SpeakerScene implements IScene{
                     }
                 }
 
-                System.out.println(input1);
                 List<String> auto = presenter.autofillUsername(input1);
                 result.setText(auto.toString());
             });
@@ -167,7 +165,6 @@ public class SpeakerScene implements IScene{
                     }
                 }
 
-                System.out.println(input1);
                 List<String> auto = presenter.autofillEvents(input1);
                 result.setText(auto.toString());
             });
