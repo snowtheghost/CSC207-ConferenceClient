@@ -1,7 +1,12 @@
 package com.group0179.PresenterFactory;
 
-import com.group0179.entities.Speaker;
-import com.group0179.presenters.SpeakerPresenter;
+import com.group0179.presenters.SpeakerPresenterCH;
+import com.group0179.presenters.SpeakerPresenterEN;
 
-public class SpeakerPresenterFactory extends PresenterFactory{
+public class SpeakerPresenterFactory extends PresenterFactory {
+
+    public SpeakerPresenterEN getSpeakerPresenterEN(){return new SpeakerPresenterEN();}
+
+    public SpeakerPresenterCH getSpeakerPresenterCH(){ return new SpeakerPresenterCH();
+    }
 }
