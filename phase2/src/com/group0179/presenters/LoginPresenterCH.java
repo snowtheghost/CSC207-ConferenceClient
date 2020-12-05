@@ -37,19 +37,19 @@ public class LoginPresenterCH implements ILoginPresenter {
      * @return a string representing the organizer account choice.
      */
     @Override
-    public String organizerAccountChoice() { return "Organizer"; }
+    public String organizerAccountChoice() { return "组织者"; }
 
     /**
      * @return a string representing the attendee account choice.
      */
     @Override
-    public String attendeeAccountChoice() { return "Attendee"; }
+    public String attendeeAccountChoice() { return "参与者"; }
 
     /**
      * @return a string representing the speaker account choice.
      */
     @Override
-    public String speakerAccountChoice() { return "Speaker"; }
+    public String speakerAccountChoice() { return "演讲者"; }
 
     /**
      * @param username the username.

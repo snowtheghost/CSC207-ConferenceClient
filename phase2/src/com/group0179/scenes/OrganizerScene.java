@@ -1,8 +1,10 @@
 package com.group0179.scenes;
 
 import com.group0179.MainView;
+import com.group0179.PresenterFactory.OrganizerPresenterFactory;
 import com.group0179.controllers.LoginController;
 import com.group0179.filters.OrganizerFilter;
+import com.group0179.presenters.IOrganizerPresenter;
 import com.group0179.presenters.OrganizerPresenterEN;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,8 +21,9 @@ import javafx.scene.layout.HBox;
 
 public class OrganizerScene implements IScene {
     OrganizerFilter filter;
-    OrganizerPresenterEN presenter;
+    IOrganizerPresenter presenter;
     LoginController lc;
+    OrganizerPresenterFactory factory;
 
     BorderPane main;
     HBox topMenu;
@@ -30,11 +33,14 @@ public class OrganizerScene implements IScene {
     int currentRoomNumber = 0;
     int currentEventNumber = 0;
 
-    public OrganizerScene(OrganizerFilter filter, OrganizerPresenterEN presenter, LoginController lc) {
+    public OrganizerScene(OrganizerFilter filter, OrganizerPresenterFactory factory, LoginController lc) {
         this.filter = filter;
-        this.presenter = presenter;
+        this.factory = factory;
+        this.presenter = factory.getOrganizerPresenterEN();
         this.lc = lc;
     }
+
+    public void setLanguageCH(){this.presenter = this.factory.getOrganizerPresenterCH();}
 
     public void constructScene() {
         /*

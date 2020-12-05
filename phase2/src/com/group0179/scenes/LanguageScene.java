@@ -18,14 +18,16 @@ public class LanguageScene implements IScene{
     public void constructScene() {
         EnglishButton = new Button("English");
         EnglishButton.setOnAction(actionEvent -> {
+            MainView.constructScenes();
             MainView.setLoginScene();
         });
         ChineseButton = new Button("中文");
         ChineseButton.setOnAction(actionEvent ->{
-            /*LoginScene.changePresenter();
-            AttendeeScene.changePresenter();
-            OrganizerScene.changePresenter();
-             */
+            MainView.setLoginSceneLanguageCH();
+            MainView.setOrganizerSceneLanguageCH();
+            //Mainview.setAttendeeSceneLanguageCH();
+            //Mainview.setSpeakerSceneLanguageCH();
+            MainView.constructScenes();
             MainView.setLoginScene();
         });
         topMenu = new HBox();

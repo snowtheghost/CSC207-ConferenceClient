@@ -1,12 +1,12 @@
 package com.group0179.scenes;
 
 import com.group0179.MainView;
+import com.group0179.PresenterFactory.LoginPresenterFactory;
 import com.group0179.controllers.LoginController;
 import com.group0179.exceptions.InvalidCredentialsException;
 import com.group0179.exceptions.UsernameTakenException;
 import com.group0179.filters.LoginFilter;
 import com.group0179.presenters.ILoginPresenter;
-import com.group0179.presenters.LoginPresenterEN;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -24,8 +24,9 @@ import javafx.scene.layout.HBox;
 
 public class LoginScene implements IScene {
     private final LoginFilter filter;
-    private final ILoginPresenter presenter;
+    private  ILoginPresenter presenter;
     private final LoginController controller;
+    private final LoginPresenterFactory factory;
 
     BorderPane borderPane;
     Scene mainScene;
@@ -54,11 +55,14 @@ public class LoginScene implements IScene {
     // Top menu
     HBox topMenu;
 
-    public LoginScene(LoginFilter filter, ILoginPresenter presenter, LoginController controller) {
+    public LoginScene(LoginFilter filter, LoginPresenterFactory factory, LoginController controller) {
         this.filter = filter;
-        this.presenter = presenter;
+        this.factory = factory;
+        this.presenter = factory.getLoginPresenterEN();
         this.controller = controller;
     }
+
+    public void setLanguageCH(){this.presenter = factory.getLoginPresenterCH();}
 
     private void changeToLoginPane() {
         borderPane.setCenter(loginGrid);

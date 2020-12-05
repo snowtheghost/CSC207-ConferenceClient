@@ -50,16 +50,23 @@ public class MainView extends Application {
 
     public static void setLanguageScene() { languageScene.setScene();}
 
+    public static void setLoginSceneLanguageCH(){loginScene.setLanguageCH();}
+
+    public static void setOrganizerSceneLanguageCH(){organizerScene.setLanguageCH();}
+    //public static void setAttendeeSceneLanguageCH(){attendeeScene.setLanguageCH();}
+    //public static void setSpeakerSceneLanguageCH(){speakerScene.setLanguageCH();}
+
+    public static void constructScenes(){loginScene.constructScene();
+    organizerScene.constructScene();
+    attendeeScene.constructScene();
+    speakerScene.constructScene();};
+
+
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
-        loginScene.constructScene();
-        attendeeScene.constructScene();
-        organizerScene.constructScene();
-        speakerScene.constructScene();
         languageScene.constructScene();
-        // setOrganizerScene(); // Should start on loginScene
-        setLoginScene();
+        setLanguageScene();
         stage.show();
     }
 }
