@@ -14,6 +14,10 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
+import java.util.List;
+import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicReference;
+
 public class SpeakerScene implements IScene{
     private final SpeakerPresenterController presenter;
     private final LoginController lc;
@@ -21,6 +25,7 @@ public class SpeakerScene implements IScene{
     private ISpeakerPresenter langPresenter;
     private GridPane bottomMenu;
     private Scene mainPanel;
+    private final Scanner input = new Scanner(System.in);
 
     /**
      * The view responsible for what a speaker sees when they login.
@@ -100,6 +105,25 @@ public class SpeakerScene implements IScene{
             // adds send button and result message to pane
             Button submitButton = new Button(langPresenter.send());
             Text result = atScene.txtObjCreater("", x/1.5);
+
+            AtomicReference<String> input1 = new AtomicReference<>("");
+            textField1.setOnKeyPressed(event -> {
+                String codeString = event.getCode().toString();
+                if (codeString.length() < 2  | codeString == "BACK_SPACE"){
+                    if (codeString == "BACK_SPACE" & input1.toString() != ""){
+                        input1.set(input1.toString().substring(0, input1.toString().length() - 1));
+                    }
+                    else {
+                        input1.set(input1 + codeString);
+                    }
+                }
+
+                System.out.println(input1);
+                List<String> auto = presenter.autofillUsername(input1);
+                result.setText(auto.toString());
+            });
+
+
             submitButton.setOnAction(actionEvent1 ->
                     result.setText(presenter.message(textField1.getText(), textField2.getText())));
             GridPane.setConstraints(submitButton, 0, 5);
@@ -127,7 +151,29 @@ public class SpeakerScene implements IScene{
 
             // adds send button and result message to pane
             Button submitButton = new Button(langPresenter.send());
+
             Text result = atScene.txtObjCreater("", x/1.5);
+
+            //All hail the autocomplete widget
+            AtomicReference<String> input1 = new AtomicReference<>("");
+            textField1.setOnKeyPressed(event -> {
+                String codeString = event.getCode().toString();
+                if (codeString.length() < 2  | codeString == "BACK_SPACE"){
+                    if (codeString == "BACK_SPACE" & input1.toString() != ""){
+                        input1.set(input1.toString().substring(0, input1.toString().length() - 1));
+                    }
+                    else {
+                        input1.set(input1 + codeString);
+                    }
+                }
+
+                System.out.println(input1);
+                List<String> auto = presenter.autofillEvents(input1);
+                result.setText(auto.toString());
+            });
+
+
+            //Text result = atScene.txtObjCreater("", x/1.5);
             submitButton.setOnAction(actionEvent1 -> {
                     //result.setText(presenter.message(textField1.getText(), textField2.getText())));
                     try {
@@ -142,6 +188,7 @@ public class SpeakerScene implements IScene{
             bottomMenu.getChildren().add(submitButton);
             GridPane.setConstraints(result, 0, 7);
             bottomMenu.getChildren().add(result);
+            GridPane.setConstraints(result, 0, 8);
         });
 
 

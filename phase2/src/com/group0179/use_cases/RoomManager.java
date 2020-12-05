@@ -491,7 +491,7 @@ public class RoomManager implements Serializable {
     public List<String> queryEventTitles(String query){
         List<String> queriedEventTitles = new ArrayList<>();
         for(Event event : this.getEvents()){
-            if(event.getTitle().startsWith(query)){
+            if(event.getTitle().toUpperCase().startsWith(query)){
                 queriedEventTitles.add(event.getTitle());
             } else if (query.startsWith(event.getTitle())){
                 queriedEventTitles.add(event.getTitle());

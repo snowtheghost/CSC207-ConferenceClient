@@ -788,7 +788,7 @@ public class UserManager implements Serializable {
     public List<String> retrieveUserNamesGivenQuery(String query){
         List<String> queriedUserNames = new ArrayList<>();
         for(User user : this.getUsers()){
-            if(user.getUsername().startsWith(query)){
+            if(user.getUsername().toUpperCase().startsWith(query)){
                 queriedUserNames.add(user.getUsername());
             } else if (query.startsWith(user.getUsername())){
                 queriedUserNames.add(user.getUsername());

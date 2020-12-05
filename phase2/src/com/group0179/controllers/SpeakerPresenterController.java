@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SpeakerPresenterController extends Presenter {
     private final UserManager userMan;
@@ -185,6 +186,14 @@ public class SpeakerPresenterController extends Presenter {
         DecimalFormat df = new DecimalFormat("###.##");
         return df.format(userMan.getTotalMinutesLoggedInForCurrentUser());
         //return String.valueOf(Math.round(userMan.getAverageLengthOfTimeLoggedInForCurrentUser()));
+    }
+
+    public List<String> autofillUsername(AtomicReference<String> input1){
+        return userMan.retrieveUserNamesGivenQuery(input1.toString());
+    }
+
+    public List<String> autofillEvents(AtomicReference<String> input1){
+        return roomMan.queryEventTitles(input1.toString());
     }
 
     /**
