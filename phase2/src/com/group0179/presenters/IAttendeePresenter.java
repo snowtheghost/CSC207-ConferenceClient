@@ -65,6 +65,35 @@ public interface IAttendeePresenter {
      * @return unable to leave the event.
      */
     String leaveEventFail();
+    /**
+     * @return Last login info
+     */
+    String lastLogin();
+
+    /**
+     * @return Average login time
+     */
+    String avgLoginTime();
+
+    /**
+     * @return Total login time
+     */
+    String totalLoginTime();
+
+    /**
+     * @return Max login time
+     */
+    String maxLoginTime();
+
+    /**
+     * @return Min login time
+     */
+    String minLoginTime();
+
+    /**
+     * @return Last updated on login.
+     */
+    String updateInfo();
 
     /**
      * AttendeeScene strings.
@@ -138,44 +167,29 @@ public interface IAttendeePresenter {
     String attemptJoinButton();
 
     /**
-     * @return Logout
-     */
-    String logoutButton();
-
-    /**
-     * @return Last login info
-     */
-    String lastLogin();
-
-    /**
-     * @return Average login time
-     */
-    String avgLoginTime();
-
-    /**
-     * @return Total login time
-     */
-    String totalLoginTime();
-
-    /**
-     * @return Max login time
-     */
-    String maxLoginTime();
-
-    /**
-     * @return Min login time
-     */
-    String minLoginTime();
-
-    /**
      * @return User stats label
      */
     String userStats();
 
     /**
-     * @return Last updated on login.
+     * @return How many logins ago
      */
-    String updateInfo();
+    String howManyLoginsAgo();
+
+    /**
+     * @return Logged in time
+     */
+    String loggedInTime();
+
+    /**
+     * @return Past login durations
+     */
+    String pastLoginDurations();
+
+    /**
+     * @return Logout
+     */
+    String logoutButton();
 
 
 

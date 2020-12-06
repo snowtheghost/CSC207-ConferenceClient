@@ -144,18 +144,31 @@ public class AttendeePresenter extends Presenter {
      */
     public String getUserStats(){
         // User stats label
-        String userStats = langPresneter.userStats() + langPresneter.updateInfo() + "\n\n";
+        String userStats = langPresneter.userStats() + "\n" + langPresneter.updateInfo() + "\n\n";
+
         // Last login label and datetime.
         String lastLoginTime = String.valueOf(userMan.getLastLoggedInForCurrentUser().getTime().toString());
-        String lastLoginMsg = langPresneter.lastLogin() + lastLoginTime + "\n";
+        String lastLoginMsg = langPresneter.lastLogin() + lastLoginTime + "\n\n";
+
+        // Average login time.
+        String avgLoginTime = langPresneter.avgLoginTime() + userMan.getAverageLengthOfTimeLoggedInForCurrentUser() + "\n\n";
+
         // Total login label and datetime.
-        String totalLoginMsg = langPresneter.totalLoginTime() + userMan.getTotalMinutesLoggedInForCurrentUser() + "\n";
+        String totalLoginMsg = langPresneter.totalLoginTime() + userMan.getTotalMinutesLoggedInForCurrentUser() + "\n\n";
+
         // Record max and min logged in label and time.
         double[] maxMinTimes = userMan.getMaximumAndMinimumMinutesLoggedInForCurrentUser();
-        String maxLogintimeMsg = langPresneter.maxLoginTime() + maxMinTimes[0] + "\n";
-        String minLoginTimeMsg = langPresneter.minLoginTime() + maxMinTimes[1] + "\n";
+        String maxLogintimeMsg = langPresneter.maxLoginTime() + maxMinTimes[0] + "\n\n";
+        String minLoginTimeMsg = langPresneter.minLoginTime() + maxMinTimes[1] + "\n\n";
 
-        return userStats + lastLoginMsg + totalLoginMsg + maxLogintimeMsg + minLoginTimeMsg;
+        return userStats + lastLoginMsg + totalLoginMsg + avgLoginTime + maxLogintimeMsg + minLoginTimeMsg;
+    }
+
+    /**
+     * @return array of past login times for the current user.
+     */
+    public List<Double> getPastLoginTimes(){
+        return userMan.getLengthsOfTimeLoggedInAsMinutesForCurrentUser();
     }
 
     /**

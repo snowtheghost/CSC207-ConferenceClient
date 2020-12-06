@@ -270,10 +270,34 @@ public class AttendeePresenterEN implements IAttendeePresenter{
     }
 
     /**
+     * @return How many logins ago
+     */
+    @Override
+    public String howManyLoginsAgo() {
+        return "How many logins ago";
+    }
+
+    /**
+     * @return Logged in time
+     */
+    @Override
+    public String loggedInTime() {
+        return "Logged in time";
+    }
+
+    /**
+     * @return Past login durations
+     */
+    @Override
+    public String pastLoginDurations() {
+        return "Past login durations";
+    }
+
+    /**
      * @return Last updated on login.
      */
     @Override
     public String updateInfo() {
-        return "(updated on login)";
+        return "(updated on login)(all time in seconds)";
     }
 }

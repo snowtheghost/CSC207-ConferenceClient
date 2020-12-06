@@ -7,12 +7,17 @@ import com.group0179.controllers.LoginController;
 import com.group0179.presenters.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import sun.awt.SunHints;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AttendeeScene implements IScene{
     private final AttendeePresenter presenter;
@@ -179,18 +184,34 @@ public class AttendeeScene implements IScene{
         Button button6 = new Button(langPresenter.userStats());
         button6.setOnAction(actionEvent -> {
             bottomMenu.getChildren().clear();
-            // adds input prompts
+            // displays user stats info
             Text label0 = atScene.txtObjCreater(presenter.getUserStats(), x/1.5);
-            //Text label1 = atScene.txtObjCreater(langPresenter.avgLoginTime(),x/1.5);
-
             GridPane.setConstraints(label0, 0, 0);
             bottomMenu.getChildren().add(label0);
-            //GridPane.setConstraints(label1, 0, 1);
-            //bottomMenu.getChildren().add(label1);
+            // displays average login chart
+            NumberAxis xAxis = new NumberAxis();
+            NumberAxis yAxis = new NumberAxis();
+            xAxis.setLabel(langPresenter.howManyLoginsAgo());
+            yAxis.setLabel(langPresenter.loggedInTime());
+            LineChart<Number, Number> pastLoginTimesChart = new LineChart<>(xAxis, yAxis);
+            pastLoginTimesChart.setTitle(langPresenter.pastLoginDurations());
+                // create and load values into chart
+            XYChart.Series<Number, Number> series = new XYChart.Series<>();
+            List<Double> times = presenter.getPastLoginTimes();
+            int xLoginsAgo = times.size();
+            for (Double time : times){
+                series.getData().add(new XYChart.Data<>(xLoginsAgo, time*60));
+                xLoginsAgo = xLoginsAgo - 1;
+            }
+            pastLoginTimesChart.getData().add(series);
+            GridPane.setConstraints(pastLoginTimesChart, 0, 1);
+            bottomMenu.getChildren().add(pastLoginTimesChart);
+
         });
 
         Button logoutButton = new Button(langPresenter.logoutButton());
         logoutButton.setOnAction(actionEvent -> {
+            bottomMenu.getChildren().clear();
             lc.logoutUser();
             MainView.setLoginScene();
         });
