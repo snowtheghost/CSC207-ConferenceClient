@@ -230,15 +230,14 @@ public class AttendeePresenterCH implements IAttendeePresenter{
      */
     @Override
     public String lastLogin() {
-        return null;
-    }
+        return "上次登录：";}
 
     /**
      * @return Average login time
      */
     @Override
     public String avgLoginTime() {
-        return null;
+        return "平均登录时间：";
     }
 
     /**
@@ -246,7 +245,7 @@ public class AttendeePresenterCH implements IAttendeePresenter{
      */
     @Override
     public String totalLoginTime() {
-        return null;
+        return "总登录时间：";
     }
 
     /**
@@ -254,7 +253,7 @@ public class AttendeePresenterCH implements IAttendeePresenter{
      */
     @Override
     public String maxLoginTime() {
-        return null;
+        return "最长登录时间：";
     }
 
     /**
@@ -262,7 +261,7 @@ public class AttendeePresenterCH implements IAttendeePresenter{
      */
     @Override
     public String minLoginTime() {
-        return null;
+        return "最短登录时间：";
     }
 
     @Override
@@ -274,7 +273,7 @@ public class AttendeePresenterCH implements IAttendeePresenter{
      */
     @Override
     public String howManyLoginsAgo() {
-        return null;
+        return "此前登录次数";
     }
 
     /**
@@ -282,7 +281,7 @@ public class AttendeePresenterCH implements IAttendeePresenter{
      */
     @Override
     public String loggedInTime() {
-        return null;
+        return "登录时间";
     }
 
     /**
@@ -290,7 +289,7 @@ public class AttendeePresenterCH implements IAttendeePresenter{
      */
     @Override
     public String pastLoginDurations() {
-        return null;
+        return "上次登录时长";
     }
 
     /**
@@ -298,6 +297,5 @@ public class AttendeePresenterCH implements IAttendeePresenter{
      */
     @Override
     public String updateInfo() {
-        return null;
-    }
+        return "(登录更新)(以秒计算)";}
 }
