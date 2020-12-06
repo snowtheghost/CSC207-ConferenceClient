@@ -298,6 +298,6 @@ public class AttendeePresenterEN implements IAttendeePresenter{
      */
     @Override
     public String updateInfo() {
-        return "(updated on login)(all time in seconds)";
+        return "(updated on login)\n(all time in seconds)";
     }
 }

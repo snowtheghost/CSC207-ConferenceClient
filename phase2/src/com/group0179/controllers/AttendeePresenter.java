@@ -151,15 +151,15 @@ public class AttendeePresenter extends Presenter {
         String lastLoginMsg = langPresneter.lastLogin() + lastLoginTime + "\n\n";
 
         // Average login time.
-        String avgLoginTime = langPresneter.avgLoginTime() + userMan.getAverageLengthOfTimeLoggedInForCurrentUser() + "\n\n";
+        String avgLoginTime = langPresneter.avgLoginTime() + Math.round(userMan.getAverageLengthOfTimeLoggedInForCurrentUser()) + "\n\n";
 
         // Total login label and datetime.
-        String totalLoginMsg = langPresneter.totalLoginTime() + userMan.getTotalMinutesLoggedInForCurrentUser() + "\n\n";
+        String totalLoginMsg = langPresneter.totalLoginTime() + Math.round(userMan.getTotalMinutesLoggedInForCurrentUser()) + "\n\n";
 
         // Record max and min logged in label and time.
         double[] maxMinTimes = userMan.getMaximumAndMinimumMinutesLoggedInForCurrentUser();
-        String maxLogintimeMsg = langPresneter.maxLoginTime() + maxMinTimes[0] + "\n\n";
-        String minLoginTimeMsg = langPresneter.minLoginTime() + maxMinTimes[1] + "\n\n";
+        String maxLogintimeMsg = langPresneter.maxLoginTime() + Math.round(maxMinTimes[0]) + "\n\n";
+        String minLoginTimeMsg = langPresneter.minLoginTime() + Math.round(maxMinTimes[1]) + "\n\n";
 
         return userStats + lastLoginMsg + totalLoginMsg + avgLoginTime + maxLogintimeMsg + minLoginTimeMsg;
     }
