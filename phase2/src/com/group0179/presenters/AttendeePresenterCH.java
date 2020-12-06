@@ -297,5 +297,5 @@ public class AttendeePresenterCH implements IAttendeePresenter{
      */
     @Override
     public String updateInfo() {
-        return "(登录更新)(以秒计算)";}
+        return "(登录更新)\n(以秒计算)";}
 }
