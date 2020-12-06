@@ -2,6 +2,13 @@ package com.group0179.presenters;
 
 public class AttendeePresenterEN implements IAttendeePresenter{
     /**
+     * @return Attendee Panel label
+     */
+    @Override
+    public String AttendeePanel() {
+        return "Attendee Panel";
+    }
+    /**
      * @return Recipient does not exist.
      */
     @Override
@@ -219,19 +226,19 @@ public class AttendeePresenterEN implements IAttendeePresenter{
     }
 
     /**
-     * @return Last login info
+     * @return Last login label
      */
     @Override
     public String lastLogin() {
-        return null;
+        return "Last login: ";
     }
 
     /**
-     * @return Average login time
+     * @return Average login time label
      */
     @Override
     public String avgLoginTime() {
-        return null;
+        return "Average login time: ";
     }
 
     /**
@@ -239,23 +246,34 @@ public class AttendeePresenterEN implements IAttendeePresenter{
      */
     @Override
     public String totalLoginTime() {
-        return null;
+        return "Total time logged in: ";
     }
 
     /**
      * @return Max and min login times
      */
     @Override
-    public String maxMinLoginTimes() {
-        return null;
+    public String maxLoginTime() {
+        return "Longest time logged in: ";
+    }
+
+    /**
+     * @return Min login time
+     */
+    @Override
+    public String minLoginTime() {
+        return "Shortest time logged in: ";
     }
 
     @Override
     public String userStats() {return "User Stats";
     }
 
+    /**
+     * @return Last updated on login.
+     */
     @Override
-    public String AttendeePanel() {
-        return "Attendee Panel";
+    public String updateInfo() {
+        return "(updated on login)";
     }
 }

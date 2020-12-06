@@ -143,9 +143,19 @@ public class AttendeePresenter extends Presenter {
      * @return a string containing user stats.
      */
     public String getUserStats(){
-        return String.valueOf(userMan.getLastLoggedInForCurrentUser());
-                //userMan.getTotalMinutesLoggedInForCurrentUser() +
-                //Arrays.toString(userMan.getMaximumAndMinimumMinutesLoggedInForCurrentUser());
+        // User stats label
+        String userStats = langPresneter.userStats() + langPresneter.updateInfo() + "\n\n";
+        // Last login label and datetime.
+        String lastLoginTime = String.valueOf(userMan.getLastLoggedInForCurrentUser().getTime().toString());
+        String lastLoginMsg = langPresneter.lastLogin() + lastLoginTime + "\n";
+        // Total login label and datetime.
+        String totalLoginMsg = langPresneter.totalLoginTime() + userMan.getTotalMinutesLoggedInForCurrentUser() + "\n";
+        // Record max and min logged in label and time.
+        double[] maxMinTimes = userMan.getMaximumAndMinimumMinutesLoggedInForCurrentUser();
+        String maxLogintimeMsg = langPresneter.maxLoginTime() + maxMinTimes[0] + "\n";
+        String minLoginTimeMsg = langPresneter.minLoginTime() + maxMinTimes[1] + "\n";
+
+        return userStats + lastLoginMsg + totalLoginMsg + maxLogintimeMsg + minLoginTimeMsg;
     }
 
     /**

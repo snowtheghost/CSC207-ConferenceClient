@@ -3,6 +3,10 @@ package com.group0179.presenters;
 public interface IAttendeePresenter {
     /**
      * AttendePresenter strings.
+     * @return Attendee Panel label
+     */
+    String AttendeePanel();
+    /**
      * @return Recipient does not exist.
      */
     String recipientDNE();
@@ -154,13 +158,24 @@ public interface IAttendeePresenter {
     String totalLoginTime();
 
     /**
-     * @return Max and min login times
+     * @return Max login time
      */
-    String maxMinLoginTimes();
+    String maxLoginTime();
 
+    /**
+     * @return Min login time
+     */
+    String minLoginTime();
+
+    /**
+     * @return User stats label
+     */
     String userStats();
 
-    String AttendeePanel();
+    /**
+     * @return Last updated on login.
+     */
+    String updateInfo();
 
 
 

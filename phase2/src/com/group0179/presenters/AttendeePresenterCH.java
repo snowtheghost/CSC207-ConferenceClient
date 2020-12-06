@@ -1,7 +1,13 @@
 package com.group0179.presenters;
 
 public class AttendeePresenterCH implements IAttendeePresenter{
-
+    /**
+     * @return Attendee Panel Label.
+     */
+    @Override
+    public String AttendeePanel() {
+        return "参与者面板";
+    }
     /**
      * @return Recipient does not exist.
      */
@@ -244,10 +250,18 @@ public class AttendeePresenterCH implements IAttendeePresenter{
     }
 
     /**
-     * @return Max and min login times
+     * @return Max login time
      */
     @Override
-    public String maxMinLoginTimes() {
+    public String maxLoginTime() {
+        return null;
+    }
+
+    /**
+     * @return Min login time
+     */
+    @Override
+    public String minLoginTime() {
         return null;
     }
 
@@ -255,8 +269,11 @@ public class AttendeePresenterCH implements IAttendeePresenter{
     public String userStats() {return "用户数据";
     }
 
+    /**
+     * @return Last updated on login.
+     */
     @Override
-    public String AttendeePanel() {
-        return "参与者面板";
+    public String updateInfo() {
+        return null;
     }
 }
