@@ -124,7 +124,7 @@ public class AttendeePresenter extends Presenter {
         if (!roomNum.matches("^[0-9]+$")){
             return langPresneter.invalidRoom();}
         int intRoomNum = Integer.parseInt(roomNum);
-        UUID eventID = this.roomMan.getEventUUIDfromNameandRoom(eventName, intRoomNum);
+        UUID eventID = this.roomMan.getEventUUIDfromNameandRoom(eventName, intRoomNum-1);
         if (eventID==null){return langPresneter.noEventsFound();}
 
         if (joinOrLeave.equals("j") && this.roomMan.addEventAttendee(currUserID, eventID,

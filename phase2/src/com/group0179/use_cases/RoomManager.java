@@ -106,7 +106,10 @@ public class RoomManager implements Serializable {
     }
 
     private ArrayList<Event> getEventsFromRoom(int roomNumber) {
-        return getEventsFromRoom(getRooms().get(roomNumber));
+        if (0 <= roomNumber && roomNumber < getRooms().size()) {
+            return getEventsFromRoom(getRooms().get(roomNumber));
+        }
+        return null;
     }
 
     private ArrayList<Event> eventIDsToEvents(ArrayList<UUID> eventIDs) {
@@ -126,8 +129,9 @@ public class RoomManager implements Serializable {
      * @return null if event with that name not found or room number not found. UUID of event otherwise.
      */
     public UUID getEventUUIDfromNameandRoom(String eventName, int roomNumber){
-        if (roomNumber>getNumRooms()){return null;}
-        for (Event event : this.getEventsFromRoom(roomNumber)){
+        ArrayList<Event> events = this.getEventsFromRoom(roomNumber);
+        if (events==null){return null;}
+        for (Event event : events){
             if (event.getTitle().equals(eventName)){
                 return event.getEventID();
             }

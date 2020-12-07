@@ -190,7 +190,7 @@ public class AttendeePresenterEN implements IAttendeePresenter{
      */
     @Override
     public String joinOrLeaveLabel() {
-        return "Would you like to join or leave the event? ";
+        return "Would you like to join 'j' or leave 'l' the event? ";
     }
 
     /**
