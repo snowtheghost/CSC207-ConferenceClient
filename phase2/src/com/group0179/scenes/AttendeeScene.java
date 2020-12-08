@@ -3,6 +3,7 @@ package com.group0179.scenes;
 import com.group0179.MainView;
 import com.group0179.PresenterFactory.AttendeePresenterFactory;
 import com.group0179.controllers.AttendeePresenter;
+import com.group0179.controllers.AutofillController;
 import com.group0179.controllers.LoginController;
 import com.group0179.presenters.*;
 import javafx.geometry.Pos;
@@ -18,11 +19,13 @@ import sun.awt.SunHints;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class AttendeeScene implements IScene{
     private final AttendeePresenter presenter;
     private final LoginController lc;
     private final AttendeePresenterFactory factory;
+    private final AutofillController autofill;
     private IAttendeePresenter langPresenter;
     private GridPane bottomMenu;
     private Scene mainPanel;
@@ -30,12 +33,14 @@ public class AttendeeScene implements IScene{
     /**
      * The view responsible for what an attendee see's when they login.
      * @param presenter Takes user inputs and talks to the backend with it.
+     * @param autofill
      */
-    public AttendeeScene(AttendeePresenter presenter, LoginController lc, AttendeePresenterFactory factory) {
+    public AttendeeScene(AttendeePresenter presenter, LoginController lc, AttendeePresenterFactory factory, AutofillController autofill) {
         this.presenter = presenter;
         this.factory = factory;
         this.langPresenter = factory.getAttendeePresenterEN();
         this.lc = lc;
+        this.autofill = autofill;
     }
 
     public void setLanguage(String languageType){
@@ -96,13 +101,32 @@ public class AttendeeScene implements IScene{
             TextField textField1 = new TextField();
             TextField textField2 = new TextField();
 
+            Text result = atScene.txtObjCreater("", x/1.5);
+
+            //autocomplete baby lets gooooo
+            AtomicReference<String> input1 = new AtomicReference<>("");
+            textField1.setOnKeyPressed(event -> {
+                String codeString = event.getCode().toString();
+                if (codeString.length() < 2  | codeString == "BACK_SPACE"){
+                    if (codeString == "BACK_SPACE" & input1.toString() != ""){
+                        input1.set(input1.toString().substring(0, input1.toString().length() - 1));
+                    }
+                    else {
+                        input1.set(input1 + codeString);
+                    }
+                }
+
+                List<String> auto = autofill.autofillUsername(input1);
+                result.setText(auto.toString());
+            });
+
             // adds those to pane so it can be displayed
             displayForm(label1, textField1, bottomMenu, 0);
             displayForm(label2, textField2, bottomMenu, 2);
 
             // adds send button and result message to pane
             Button submitButton = new Button(langPresenter.send());
-            Text result = atScene.txtObjCreater("", x/1.5);
+
             submitButton.setOnAction(actionEvent1 ->
                     result.setText(presenter.message(textField1.getText(), textField2.getText())));
             GridPane.setConstraints(submitButton, 0, 5);
@@ -122,8 +146,27 @@ public class AttendeeScene implements IScene{
             TextField textField = new TextField();
             displayForm(label, textField, bottomMenu, 0);
 
+
+
             // adds submit button and result
             Text result = atScene.txtObjCreater("", x/1.5);
+
+            AtomicReference<String> input1 = new AtomicReference<>("");
+            textField.setOnKeyPressed(event -> {
+                String codeString = event.getCode().toString();
+                if (codeString.length() < 2  | codeString == "BACK_SPACE"){
+                    if (codeString == "BACK_SPACE" & input1.toString() != ""){
+                        input1.set(input1.toString().substring(0, input1.toString().length() - 1));
+                    }
+                    else {
+                        input1.set(input1 + codeString);
+                    }
+                }
+
+                List<String> auto = autofill.autofillUsername(input1);
+                result.setText(auto.toString());
+            });
+
             Button submitButton = new Button(langPresenter.submit());
             submitButton.setOnAction(actionEvent13 -> {
                 // adds result when button pressed
@@ -173,6 +216,24 @@ public class AttendeeScene implements IScene{
             // adds send button and result label to pane
             Button submitButton = new Button(langPresenter.attemptJoinButton());
             Text result = atScene.txtObjCreater("", x/1.5);
+
+            AtomicReference<String> input1 = new AtomicReference<>("");
+            textField2.setOnKeyPressed(event -> {
+                String codeString = event.getCode().toString();
+                if (codeString.length() < 2  | codeString == "BACK_SPACE"){
+                    if (codeString == "BACK_SPACE" & input1.toString() != ""){
+                        input1.set(input1.toString().substring(0, input1.toString().length() - 1));
+                    }
+                    else {
+                        input1.set(input1 + codeString);
+                    }
+                }
+
+                List<String> auto = autofill.autofillEvents(input1);
+                result.setText(auto.toString());
+            });
+
+
             submitButton.setOnAction(actionEvent12 ->
                     result.setText(presenter.joinLeaveEvent(textField0.getText(), textField1.getText(), textField2.getText())));
             GridPane.setConstraints(submitButton, 0, 6);

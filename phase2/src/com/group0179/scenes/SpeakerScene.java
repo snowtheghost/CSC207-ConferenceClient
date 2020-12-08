@@ -2,6 +2,7 @@ package com.group0179.scenes;
 
 import com.group0179.MainView;
 import com.group0179.PresenterFactory.SpeakerPresenterFactory;
+import com.group0179.controllers.AutofillController;
 import com.group0179.controllers.LoginController;
 import com.group0179.controllers.SpeakerPresenterController;
 import com.group0179.presenters.*;
@@ -25,16 +26,18 @@ public class SpeakerScene implements IScene{
     private ISpeakerPresenter langPresenter;
     private GridPane bottomMenu;
     private Scene mainPanel;
+    private AutofillController autofill;
 
     /**
      * The view responsible for what a speaker sees when they login.
      * @param speakerPresenterController Takes user inputs and talks to the backend with it.
      */
-    public SpeakerScene(SpeakerPresenterController speakerPresenterController, LoginController lc, SpeakerPresenterFactory factory) {
+    public SpeakerScene(SpeakerPresenterController speakerPresenterController, LoginController lc, SpeakerPresenterFactory factory, AutofillController autofill) {
         this.presenter = speakerPresenterController;
         this.factory = factory;
         this.langPresenter = factory.getSpeakerPresenterEN();
         this.lc = lc;
+        this.autofill = autofill;
     }
 
     public void setLanguage(String languageType){
@@ -117,7 +120,7 @@ public class SpeakerScene implements IScene{
                     }
                 }
 
-                List<String> auto = presenter.autofillUsername(input1);
+                List<String> auto = autofill.autofillUsername(input1);
                 result.setText(auto.toString());
             });
 
@@ -165,7 +168,7 @@ public class SpeakerScene implements IScene{
                     }
                 }
 
-                List<String> auto = presenter.autofillEvents(input1);
+                List<String> auto = autofill.autofillEvents(input1);
                 result.setText(auto.toString());
             });
 

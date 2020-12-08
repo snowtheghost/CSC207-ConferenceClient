@@ -5,6 +5,7 @@ import com.group0179.PresenterFactory.LoginPresenterFactory;
 import com.group0179.PresenterFactory.OrganizerPresenterFactory;
 import com.group0179.PresenterFactory.SpeakerPresenterFactory;
 import com.group0179.controllers.AttendeePresenter;
+import com.group0179.controllers.AutofillController;
 import com.group0179.controllers.LoginController;
 import com.group0179.controllers.SpeakerPresenterController;
 import com.group0179.entities.Organizer;
@@ -54,12 +55,13 @@ public class AppMain {
         LoginController loginController = new LoginController(userManager);
         AttendeePresenter attendeePresenter = new AttendeePresenter(userManager, roomManager, messageManager);
         SpeakerPresenterController speakerPresenterController = new SpeakerPresenterController(userManager, roomManager, messageManager);
+        AutofillController autofill = new AutofillController(userManager, roomManager, messageManager);
 
         // Scene Setup
         LoginScene loginScene = new LoginScene(loginFilter, loginPresenterFactory, loginController);
-        OrganizerScene organizerScene = new OrganizerScene(organizerFilter, organizerPresenterFactory, loginController);
-        AttendeeScene attendeeScene = new AttendeeScene(attendeePresenter, loginController, attendeePresenterFactory);
-        SpeakerScene speakerScene = new SpeakerScene(speakerPresenterController, loginController, speakerPresenterFactory);
+        OrganizerScene organizerScene = new OrganizerScene(organizerFilter, organizerPresenterFactory, loginController, autofill);
+        AttendeeScene attendeeScene = new AttendeeScene(attendeePresenter, loginController, attendeePresenterFactory, autofill);
+        SpeakerScene speakerScene = new SpeakerScene(speakerPresenterController, loginController, speakerPresenterFactory, autofill);
         LanguageScene languageScene = new LanguageScene();
 
         // Set up MainView and launch
