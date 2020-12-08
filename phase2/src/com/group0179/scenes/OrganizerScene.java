@@ -11,6 +11,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -403,6 +406,19 @@ public class OrganizerScene implements IScene {
                     messageSpeakersForm.add(messageSpeakersSuccess, 0, 2);
                 });
 
+        // Button that displays user statistics
+        GridPane statsBottomMenu = new GridPane();
+        Button statsButton = new Button("Statistics");
+        statsButton.setOnAction(actionEvent -> {
+            main.setCenter(statsBottomMenu);
+            // displays user stats info
+            Text label0 = new Text("getUserstats");//presenter.getUserStats());
+            GridPane.setConstraints(label0, 0, 0);
+            statsBottomMenu.getChildren().add(label0);
+            // displays average login chart
+
+        });
+
         // Button that leads from top menu to the Login Scene
         Button logoutButton = new Button(presenter.logoutButtonText());
         logoutButton.setOnAction(actionEvent -> {
@@ -415,7 +431,7 @@ public class OrganizerScene implements IScene {
          */
 
         // topMenu Elements
-        topMenu.getChildren().addAll(reManagerButton, speakerManagerButton, messageMenuButton, logoutButton);
+        topMenu.getChildren().addAll(reManagerButton, speakerManagerButton, messageMenuButton, statsButton, logoutButton);
 
             // reManager Elements
             reManagerBottomMenu.getChildren().addAll(createRoomFormButton, viewEventListButton);
