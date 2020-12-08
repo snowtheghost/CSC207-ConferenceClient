@@ -7,6 +7,9 @@ import com.group0179.controllers.SpeakerPresenterController;
 import com.group0179.presenters.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -313,33 +316,28 @@ public class SpeakerScene implements IScene{
         Button userStats = new Button(langPresenter.userStats());
         userStats.setOnAction(actionEvent -> {
             bottomMenu.getChildren().clear();
-            // adds input prompts
-            Text label1 = atScene.txtObjCreater(langPresenter.lastLogin(), x/1.5);
-            Text label2 = atScene.txtObjCreater(presenter.getLastLogin(), x/1.5);
-
-            Text label3 = atScene.txtObjCreater(langPresenter.avgLoginTime(), x/1.5);
-            Text label4 = atScene.txtObjCreater(presenter.getavgLoginTime(), x/1.5);
-
-            Text label5 = atScene.txtObjCreater(langPresenter.totalLoginTime(), x/1.5);
-            Text label6 = atScene.txtObjCreater(presenter.getaTotalLoginTime(), x/1.5);
-            //Text label1 = atScene.txtObjCreater(langPresenter.avgLoginTime(),x/1.5);
-
-            GridPane.setConstraints(label1, 0, 0);
-            bottomMenu.getChildren().add(label1);
-            GridPane.setConstraints(label2, 0, 1);
-            bottomMenu.getChildren().add(label2);
-
-            GridPane.setConstraints(label3, 0, 2);
-            bottomMenu.getChildren().add(label3);
-            GridPane.setConstraints(label4, 0, 3);
-            bottomMenu.getChildren().add(label4);
-
-            GridPane.setConstraints(label5, 0, 4);
-            bottomMenu.getChildren().add(label5);
-            GridPane.setConstraints(label6, 0, 5);
-            bottomMenu.getChildren().add(label6);
-            //GridPane.setConstraints(label1, 0, 1);
-            //bottomMenu.getChildren().add(label1);
+            // displays user stats info
+            Text label0 = atScene.txtObjCreater(presenter.getUserStats(), x/1.5);
+            GridPane.setConstraints(label0, 0, 0);
+            bottomMenu.getChildren().add(label0);
+            // displays average login chart
+            NumberAxis xAxis = new NumberAxis();
+            NumberAxis yAxis = new NumberAxis();
+            xAxis.setLabel(langPresenter.howManyLoginsAgo());
+            yAxis.setLabel(langPresenter.loggedInTime());
+            LineChart<Number, Number> pastLoginTimesChart = new LineChart<>(xAxis, yAxis);
+            pastLoginTimesChart.setTitle(langPresenter.pastLoginDurations());
+            // create and load values into chart
+            XYChart.Series<Number, Number> series = new XYChart.Series<>();
+            List<Double> times = presenter.getPastLoginTimes();
+            int xLoginsAgo = times.size();
+            for (Double time : times){
+                series.getData().add(new XYChart.Data<>(xLoginsAgo, time*60));
+                xLoginsAgo = xLoginsAgo - 1;
+            }
+            pastLoginTimesChart.getData().add(series);
+            GridPane.setConstraints(pastLoginTimesChart, 0, 1);
+            bottomMenu.getChildren().add(pastLoginTimesChart);
         });
 
         Button logoutButton = new Button(langPresenter.logoutButton());

@@ -278,5 +278,52 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
     @Override
     public String sendmessagetoEvent(){return "发消息给改活动的所有参与者。";}
 
+    /**
+     * @return how many logins ago string
+     */
+    @Override
+    public String howManyLoginsAgo() {
+        return null;
+    }
+
+    /**
+     * @return past login durations
+     */
+    @Override
+    public String pastLoginDurations() {
+        return null;
+    }
+
+    /**
+     * @return logged in times
+     */
+    public String loggedInTime(){
+        return null;
+    }
+
+    /**
+     * @return Last updated on login.
+     */
+    @Override
+    public String updateInfo() {
+        return null;
+    }
+
+    /**
+     * @return Max login time
+     */
+    @Override
+    public String maxLoginTime() {
+        return null;
+    }
+
+    /**
+     * @return Min login time
+     */
+    @Override
+    public String minLoginTime() {
+        return null;
+    }
+
 
 }

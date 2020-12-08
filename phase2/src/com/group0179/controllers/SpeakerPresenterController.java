@@ -162,12 +162,35 @@ public class SpeakerPresenterController extends Presenter {
     }
 
     /**
+     * @return array of past login times for the current user.
+     */
+    public List<Double> getPastLoginTimes(){
+        return userMan.getLengthsOfTimeLoggedInAsMinutesForCurrentUser();
+    }
+
+    /**
      * @return a string containing user stats.
      */
     public String getUserStats(){
-        return String.valueOf(userMan.getLastLoggedInForCurrentUser());
-                //userMan.getTotalMinutesLoggedInForCurrentUser() +
-                //Arrays.toString(userMan.getMaximumAndMinimumMinutesLoggedInForCurrentUser());
+        // User stats label
+        String userStats = langPresenter.userStats() + "\n" + langPresenter.updateInfo() + "\n\n";
+
+        // Last login label and datetime.
+        String lastLoginTime = String.valueOf(userMan.getLastLoggedInForCurrentUser().getTime().toString());
+        String lastLoginMsg = langPresenter.lastLogin() + lastLoginTime + "\n\n";
+
+        // Average login time.
+        String avgLoginTime = langPresenter.avgLoginTime() + Math.round(userMan.getAverageLengthOfTimeLoggedInForCurrentUser()) + "\n\n";
+
+        // Total login label and datetime.
+        String totalLoginMsg = langPresenter.totalLoginTime() + Math.round(userMan.getTotalMinutesLoggedInForCurrentUser()) + "\n\n";
+
+        // Record max and min logged in label and time.
+        double[] maxMinTimes = userMan.getMaximumAndMinimumMinutesLoggedInForCurrentUser();
+        String maxLogintimeMsg = langPresenter.maxLoginTime() + Math.round(maxMinTimes[0]) + "\n\n";
+        String minLoginTimeMsg = langPresenter.minLoginTime() + Math.round(maxMinTimes[1]) + "\n\n";
+
+        return userStats + lastLoginMsg + totalLoginMsg + avgLoginTime + maxLogintimeMsg + minLoginTimeMsg;
     }
 
     public String getLastLogin(){

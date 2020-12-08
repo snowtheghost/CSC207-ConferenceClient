@@ -277,4 +277,51 @@ public class SpeakerPresenterEN implements ISpeakerPresenter{
 
     @Override
     public String sendmessagetoEvent(){return "Send a message all attendees of an event";}
+
+    /**
+     * @return how many logins ago string
+     */
+    @Override
+    public String howManyLoginsAgo() {
+        return "How many logins ago";
+    }
+
+    /**
+     * @return past login durations
+     */
+    @Override
+    public String pastLoginDurations() {
+        return "Past login durations";
+    }
+    /**
+     * @return logged in times
+     */
+    @Override
+    public String loggedInTime() {
+        return "Logged in time";
+    }
+
+    /**
+     * @return Last updated on login.
+     */
+    @Override
+    public String updateInfo() {
+        return "(updated on login)\n(all time in seconds)";
+    }
+
+    /**
+     * @return Max login time
+     */
+    @Override
+    public String maxLoginTime() {
+        return "Longest time logged in: ";
+    }
+
+    /**
+     * @return Min login time
+     */
+    @Override
+    public String minLoginTime() {
+        return "Shortest time logged in: ";
+    }
 }

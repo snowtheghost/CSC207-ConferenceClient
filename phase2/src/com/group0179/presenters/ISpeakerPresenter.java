@@ -158,18 +158,66 @@ public interface ISpeakerPresenter {
      */
     String maxMinLoginTimes();
 
+    /**
+     * @return user stats label
+     */
     String userStats();
 
+    /**
+     * @return speaker panel label
+     */
     String SpeakerPanel();
 
-
+    /**
+     * @return view speaking events button
+     */
     String viewSpeakingEventsButton();
 
+    /**
+     * @return no speaking events
+     */
     String noSpeakingEvents();
 
+    /**
+     * @return event does not exist
+     */
     String eventDNE();
 
+    /**
+     * @return send message to user label
+     */
     String sendmessagetouser();
 
+    /**
+     * @return send message to event label
+     */
     String sendmessagetoEvent();
+
+    /**
+     * @return how many logins ago string
+     */
+    String howManyLoginsAgo();
+
+    /**
+     * @return past login durations
+     */
+    String pastLoginDurations();
+
+    /**
+     * @return logged in times
+     */
+    String loggedInTime();
+    /**
+     * @return Last updated on login.
+     */
+    String updateInfo();
+    /**
+     * @return Max login time
+     */
+    String maxLoginTime();
+
+    /**
+     * @return Min login time
+     */
+    String minLoginTime();
 }
