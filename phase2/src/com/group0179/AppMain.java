@@ -17,6 +17,8 @@ import com.group0179.use_cases.*;
 import javafx.application.Application;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Application entrypoint
@@ -34,6 +36,17 @@ public class AppMain {
         UserManager userManager = userManagerGateway.read("usermanager.ser");
         RoomManager roomManager = roomManagerGateway.read("roommanager.ser");
         MessageManager messageManager = messageManagerGateway.read("messagemanager.ser");
+
+        // Add some dummy variables for now
+        // TODO: Remove this once we're finished testing
+        userManager.createSpeakerAccount("DummySpeaker");
+        userManager.createOrganizerAccount("DummyOrganizer");
+        roomManager.newRoom(10);
+        roomManager.newEvent("DummyEvent", "DummySpeaker",
+                new GregorianCalendar(2020, 12, 25, 12, 0),
+                new GregorianCalendar(2020, 12, 25, 14, 00),
+                0, userManager,
+                10);
 
         // Input filters
         LoginFilter loginFilter = new LoginFilter(userManager, roomManager, messageManager);
