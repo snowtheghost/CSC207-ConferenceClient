@@ -5,6 +5,7 @@ import com.group0179.PresenterFactory.LoginPresenterFactory;
 import com.group0179.PresenterFactory.OrganizerPresenterFactory;
 import com.group0179.PresenterFactory.SpeakerPresenterFactory;
 import com.group0179.controllers.AttendeePresenter;
+import com.group0179.controllers.AutofillController;
 import com.group0179.controllers.LoginController;
 import com.group0179.controllers.SpeakerPresenterController;
 import com.group0179.entities.Organizer;
@@ -16,6 +17,8 @@ import com.group0179.use_cases.*;
 import javafx.application.Application;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Application entrypoint
@@ -33,6 +36,17 @@ public class AppMain {
         UserManager userManager = userManagerGateway.read("usermanager.ser");
         RoomManager roomManager = roomManagerGateway.read("roommanager.ser");
         MessageManager messageManager = messageManagerGateway.read("messagemanager.ser");
+
+        // Add some dummy variables for now
+        // TODO: Remove this once we're finished testing
+        userManager.createSpeakerAccount("DummySpeaker");
+        userManager.createOrganizerAccount("DummyOrganizer");
+        roomManager.newRoom(10);
+        roomManager.newEvent("DummyEvent", "DummySpeaker",
+                new GregorianCalendar(2020, 12, 25, 12, 0),
+                new GregorianCalendar(2020, 12, 25, 14, 00),
+                0, userManager,
+                10);
 
         // Input filters
         LoginFilter loginFilter = new LoginFilter(userManager, roomManager, messageManager);
@@ -54,12 +68,13 @@ public class AppMain {
         LoginController loginController = new LoginController(userManager);
         AttendeePresenter attendeePresenter = new AttendeePresenter(userManager, roomManager, messageManager);
         SpeakerPresenterController speakerPresenterController = new SpeakerPresenterController(userManager, roomManager, messageManager);
+        AutofillController autofill = new AutofillController(userManager, roomManager, messageManager);
 
         // Scene Setup
         LoginScene loginScene = new LoginScene(loginFilter, loginPresenterFactory, loginController);
-        OrganizerScene organizerScene = new OrganizerScene(organizerFilter, organizerPresenterFactory, loginController);
-        AttendeeScene attendeeScene = new AttendeeScene(attendeePresenter, loginController, attendeePresenterFactory);
-        SpeakerScene speakerScene = new SpeakerScene(speakerPresenterController, loginController, speakerPresenterFactory);
+        OrganizerScene organizerScene = new OrganizerScene(organizerFilter, organizerPresenterFactory, loginController, autofill);
+        AttendeeScene attendeeScene = new AttendeeScene(attendeePresenter, loginController, attendeePresenterFactory, autofill);
+        SpeakerScene speakerScene = new SpeakerScene(speakerPresenterController, loginController, speakerPresenterFactory, autofill);
         LanguageScene languageScene = new LanguageScene();
 
         // Set up MainView and launch

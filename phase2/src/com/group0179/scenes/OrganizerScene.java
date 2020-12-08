@@ -2,6 +2,7 @@ package com.group0179.scenes;
 
 import com.group0179.MainView;
 import com.group0179.PresenterFactory.OrganizerPresenterFactory;
+import com.group0179.controllers.AutofillController;
 import com.group0179.controllers.LoginController;
 import com.group0179.filters.OrganizerFilter;
 import com.group0179.presenters.IOrganizerPresenter;
@@ -14,12 +15,17 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author Justin Chan
  */
 
 public class OrganizerScene implements IScene {
+    AutofillController autofill;
     OrganizerFilter filter;
     IOrganizerPresenter presenter;
     LoginController lc;
@@ -33,11 +39,12 @@ public class OrganizerScene implements IScene {
     int currentRoomNumber = 0;
     int currentEventNumber = 0;
 
-    public OrganizerScene(OrganizerFilter filter, OrganizerPresenterFactory factory, LoginController lc) {
+    public OrganizerScene(OrganizerFilter filter, OrganizerPresenterFactory factory, LoginController lc, AutofillController autofill) {
         this.filter = filter;
         this.factory = factory;
         this.presenter = factory.getOrganizerPresenterEN();
         this.lc = lc;
+        this.autofill = autofill;
     }
 
     public void setLanguage(String language){if(language == "Chinese") this.presenter = this.factory.getOrganizerPresenterCH();}
@@ -120,7 +127,25 @@ public class OrganizerScene implements IScene {
             TextArea messageToRecipientsInput = new TextArea();
             Label messageRecipientFailureDNE = new Label(presenter.messageRecipientExistence());
             Label messageRecipientFailureInvalid = new Label(presenter.messageRecipientValidity());
-            Label messageRecipientSuccess = new Label(presenter.messageRecipientStatus());
+            Label messageRecipientSuccess = new Label("");
+
+            //autocomplete baby lets gooooo
+            //also it hijacks messageRecipientSuccess sorrynotsorry @Justin
+            AtomicReference<String> input1 = new AtomicReference<>("");
+            recipientsInput.setOnKeyPressed(event -> {
+                String codeString = event.getCode().toString();
+                if (codeString.length() < 2  | codeString == "BACK_SPACE"){
+                    if (codeString == "BACK_SPACE" & input1.toString() != ""){
+                        input1.set(input1.toString().substring(0, input1.toString().length() - 1));
+                    }
+                    else {
+                        input1.set(input1 + codeString);
+                    }
+                }
+
+                List<String> auto = autofill.autofillUsername(input1);
+                messageRecipientSuccess.setText(auto.toString());
+            });
             // Message All Attendees
             GridPane messageAttendeesForm = new GridPane(); messageAttendeesForm.setVgap(10); messageAttendeesForm.setHgap(10); messageAttendeesForm.setPadding(new Insets(0, 10, 0, 10));
             HBox messageAttendeesFormBottomMenu = new HBox(); messageAttendeesFormBottomMenu.setSpacing(10); messageAttendeesFormBottomMenu.setPadding(new Insets(10, 10, 10, 10));
@@ -309,6 +334,30 @@ public class OrganizerScene implements IScene {
 
                 // Button that sends message
                 Button sendToRecipientsButton = new Button(presenter.messageSendButtonText());
+
+                /*
+                Label result = new Label("");
+                messageCustomRecipientsForm.getChildren().add(result);
+                //autocomplete baby lets gooooo
+                AtomicReference<String> input1 = new AtomicReference<>("");
+                messageCustomRecipientsForm.setOnKeyPressed(event -> {
+                    String codeString = event.getCode().toString();
+                    if (codeString.length() < 2  | codeString == "BACK_SPACE"){
+                        if (codeString == "BACK_SPACE" & input1.toString() != ""){
+                            input1.set(input1.toString().substring(0, input1.toString().length() - 1));
+                        }
+                        else {
+                            input1.set(input1 + codeString);
+                        }
+                    }
+
+                    List<String> auto = autofill.autofillUsername(input1);
+                    result.setText(auto.toString());
+                    System.out.println(auto.toString());
+                });
+
+                 */
+                messageCustomRecipientsForm.add(messageRecipientSuccess, 0, 4);
                 sendToRecipientsButton.setOnAction(actionEvent -> {
                     messageCustomRecipientsForm.getChildren().remove(messageRecipientFailureDNE);
                     messageCustomRecipientsForm.getChildren().remove(messageRecipientFailureInvalid);
@@ -319,6 +368,7 @@ public class OrganizerScene implements IScene {
                         messageCustomRecipientsForm.add(messageRecipientFailureInvalid, 0, 4);
                     } else {
                         filter.sendRecipientMessage(recipientsInput.getText(), messageToRecipientsInput.getText());
+                        messageRecipientSuccess.setText(presenter.messageRecipientStatus());
                         messageCustomRecipientsForm.add(messageRecipientSuccess, 0, 4);
                     }
                 });

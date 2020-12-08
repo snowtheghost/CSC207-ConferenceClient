@@ -211,13 +211,6 @@ public class SpeakerPresenterController extends Presenter {
         //return String.valueOf(Math.round(userMan.getAverageLengthOfTimeLoggedInForCurrentUser()));
     }
 
-    public List<String> autofillUsername(AtomicReference<String> input1){
-        return userMan.retrieveUserNamesGivenQuery(input1.toString());
-    }
-
-    public List<String> autofillEvents(AtomicReference<String> input1){
-        return roomMan.queryEventTitles(input1.toString());
-    }
 
     /**
      * Takes a username and returns true iff username is from an existing user

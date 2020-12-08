@@ -29,7 +29,7 @@ import java.util.UUID;
  * @author Justin Chan
  */
 
-public class Event implements Comparable<Event> {
+public class Event implements Comparable<Event>, Serializable {
 
 
     /**
