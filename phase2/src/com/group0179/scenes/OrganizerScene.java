@@ -145,7 +145,6 @@ public class OrganizerScene implements IScene {
 
                 List<String> auto = autofill.autofillUsername(input1);
                 messageRecipientSuccess.setText(auto.toString());
-                System.out.println(auto.toString());
             });
             // Message All Attendees
             GridPane messageAttendeesForm = new GridPane(); messageAttendeesForm.setVgap(10); messageAttendeesForm.setHgap(10); messageAttendeesForm.setPadding(new Insets(0, 10, 0, 10));
