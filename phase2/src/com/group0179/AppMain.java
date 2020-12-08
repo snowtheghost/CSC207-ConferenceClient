@@ -39,6 +39,7 @@ public class AppMain {
 
         // Add some dummy variables for now
         // TODO: Remove this once we're finished testing
+        userManager.createAttendeeAccount("a", false);
         userManager.createSpeakerAccount("DummySpeaker");
         userManager.createOrganizerAccount("DummyOrganizer");
         roomManager.newRoom(10);

@@ -230,6 +230,10 @@ public class RoomManager implements Serializable {
 
         Event newEvent = new Event(eventTitle, speakerName, startTime, endTime, 0);
         for (UUID existingEventID : um.getSpeakerEventIDs(speakerName)) {
+
+            UUID x = rooms.get(0).getEvents().get(0).getEventID();
+            System.out.println(x + "<-event, speaker's->" + existingEventID);
+
             if (room.eventOverlapping(newEvent, getEvent(existingEventID))) { // TODO: Method does not require room!
                 return false;
             }
@@ -402,6 +406,7 @@ public class RoomManager implements Serializable {
         for (int eventNumber = 0; eventNumber < events.size(); eventNumber++) {
             Event event = events.get(eventNumber);
             s.append("(").append(eventNumber + 1).append(") ").append(event.toString()).append("\n");
+            if (event.getVipOnlyStatus()){s.append("(VIP)");}
         }
         return s.toString();
     }
@@ -416,7 +421,9 @@ public class RoomManager implements Serializable {
         for (int i = 0; i < events.size(); i++) {
             Event event = events.get(i);
             int eventNumber = i + 1;
-            s.append("(").append(eventNumber).append(") ").append(event.toString()).append("\n");
+            s.append("(").append(eventNumber).append(") ").append(event.toString());
+            if (event.getVipOnlyStatus()){s.append("VIP");}
+            s.append("\n");
         }
         return s.toString();
     }

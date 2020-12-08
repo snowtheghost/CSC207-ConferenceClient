@@ -16,7 +16,7 @@ public class AttendeePresenter extends Presenter {
     private final UserManager userMan;
     private final MessageManager msgMan;
     private final RoomManager roomMan;
-    private final UUID currUserID;
+    private UUID currUserID;
     private IAttendeePresenter langPresneter= new AttendeePresenterEN();
 
 
@@ -116,6 +116,7 @@ public class AttendeePresenter extends Presenter {
      * @return Whether the action was a success.
      */
     public String joinLeaveEvent(String joinOrLeave, String roomNum, String eventName){
+        this.currUserID = userMan.getCurrentUser();
         // Check if joinOrLeave is formatted right
         if (!(joinOrLeave.equals("j")||joinOrLeave.equals("l"))){
             return langPresneter.joinOrLeave();
