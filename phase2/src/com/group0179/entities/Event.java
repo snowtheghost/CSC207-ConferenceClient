@@ -41,6 +41,12 @@ public class Event implements Comparable<Event>, Serializable {
      *                 Precondition: startTime.before(endTime)
      *                 Precondition: startTime has the same date as endTime
      */
+
+    /**
+     * There are 3 constructors to account for the 3 different possible types of events:
+     * single speaker event(like a talk), multispeakerevent(like a panel), no speaker(like a party)
+     * Depending on user input, the relevant Event would be initiated.
+     */
     private final String title;
     private final UUID eventID;
     private Calendar startTime;
@@ -156,7 +162,11 @@ public class Event implements Comparable<Event>, Serializable {
         return title + " at " + startTime.getTime() + " to " + endTime.getTime();
     }
 
-
+    /**
+     * Compares events to determine the event with the higher number of attendees
+     * @param o
+     * @return 1 if this is the bigger event, -1 if smaller, 0 if same size.
+     */
     public int compareTo(Event o) {
         if(this.getAttendeeIDs().size() > o.getAttendeeIDs().size()){
             return 1;
