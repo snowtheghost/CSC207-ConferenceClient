@@ -157,7 +157,9 @@ public class Event implements Comparable<Event>, Serializable {
         return attendeeIDs.remove(attendeeID);
     }
 
-
+    /**
+     * Returns a string representation of the details of an event.
+     */
     public String toString() {
         return title + " at " + startTime.getTime() + " to " + endTime.getTime();
     }
@@ -172,8 +174,7 @@ public class Event implements Comparable<Event>, Serializable {
             return 1;
         } else if (this.getAttendeeIDs().size() < o.getAttendeeIDs().size()){
             return -1;
-        } else {
-            return 0;
+        } else { return 0;
         }
     }
 }
