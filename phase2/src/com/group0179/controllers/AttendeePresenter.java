@@ -191,6 +191,6 @@ public class AttendeePresenter extends Presenter {
         if (eventID==null){return langPresneter.noEventsFound();}
         UUID requestID = userMan.addUserRequest("Standard", "Normal", requestContent);
         roomMan.addEventRequest(eventID, requestID);
-        return "Request successfully sent";
+        return langPresneter.requestSuccSent();
     }
 }

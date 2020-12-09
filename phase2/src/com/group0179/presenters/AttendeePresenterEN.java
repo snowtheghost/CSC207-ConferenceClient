@@ -226,6 +226,46 @@ public class AttendeePresenterEN implements IAttendeePresenter{
     }
 
     /**
+     * @return Requests
+     */
+    @Override
+    public String requestsButton() {
+        return "Requests";
+    }
+
+    /**
+     * @return "Send a short request to event"
+     */
+    @Override
+    public String sendShortRequest() {
+        return "Send a short request to event";
+    }
+
+    /**
+     * @return "Request content
+     */
+    @Override
+    public String requestContent() {
+        return "Request content";
+    }
+
+    /**
+     * @return Send request
+     */
+    @Override
+    public String sendRequest() {
+        return "Send request";
+    }
+
+    /**
+     * @return Request successfully sent
+     */
+    @Override
+    public String requestSuccSent() {
+        return "Request successfully sent";
+    }
+
+    /**
      * @return Last login label
      */
     @Override

@@ -248,10 +248,10 @@ public class AttendeeScene implements IScene{
         Button requestsButton = new Button("Requests");
         requestsButton.setOnAction(actionEvent -> {
                     bottomMenu.getChildren().clear();
-                    Text buttonInfoLabel = atScene.txtObjCreater("Send a short request to event", x/1.5);
+                    Text buttonInfoLabel = atScene.txtObjCreater(langPresenter.sendShortRequest(), x/1.5);
                     Text enterRoomLabel = atScene.txtObjCreater(langPresenter.enterRoomNumberLabel(),x/1.5);
                     Text enterEventLabel = atScene.txtObjCreater(langPresenter.enterEventNameLabel(),x/1.5);
-                    Text requestContentLabel = atScene.txtObjCreater("Request content",x/1.5);
+                    Text requestContentLabel = atScene.txtObjCreater(langPresenter.requestContent(),x/1.5);
 
                     // adds the input boxes for those to pane
                     TextField roomInput = new TextField();
@@ -266,7 +266,7 @@ public class AttendeeScene implements IScene{
                     displayForm(requestContentLabel, requestContentInput, bottomMenu, 6);
 
                     // adds send button and result label to pane
-                    Button sendRequestButton = new Button("Send request to event");
+                    Button sendRequestButton = new Button(langPresenter.sendRequest());
                     Text result = atScene.txtObjCreater("", x/1.5);
                     sendRequestButton.setOnAction(actionEvent13 ->
                             result.setText(presenter.sendRequest(roomInput.getText(), eventInput.getText(), requestContentInput.getText())));

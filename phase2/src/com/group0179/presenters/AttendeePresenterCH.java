@@ -226,6 +226,46 @@ public class AttendeePresenterCH implements IAttendeePresenter{
     }
 
     /**
+     * @return Requests
+     */
+    @Override
+    public String requestsButton() {
+        return null;
+    }
+
+    /**
+     * @return "Send a short request to event"
+     */
+    @Override
+    public String sendShortRequest() {
+        return null;
+    }
+
+    /**
+     * @return "Request content
+     */
+    @Override
+    public String requestContent() {
+        return null;
+    }
+
+    /**
+     * @return Send request
+     */
+    @Override
+    public String sendRequest() {
+        return null;
+    }
+
+    /**
+     * @return Request successfully sent
+     */
+    @Override
+    public String requestSuccSent() {
+        return null;
+    }
+
+    /**
      * @return Last login info
      */
     @Override

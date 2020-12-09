@@ -191,7 +191,30 @@ public interface IAttendeePresenter {
      */
     String logoutButton();
 
+    /**
+     * @return Requests
+     */
+    String requestsButton();
 
+    /**
+     * @return "Send a short request to event"
+     */
+    String sendShortRequest();
+
+    /**
+     * @return "Request content
+     */
+    String requestContent();
+
+    /**
+     * @return Send request
+     */
+    String sendRequest();
+
+    /**
+     * @return Request successfully sent
+     */
+    String requestSuccSent();
 
 
 }
