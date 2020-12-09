@@ -205,6 +205,13 @@ public class Event implements Comparable<Event>, Serializable {
         } else { return 0;
         }
     }
+
+    /**
+     * @return the event requests uuids
+     */
+    public ArrayList<UUID> getEventRequests(){
+        return this.eventRequests;
+    }
 }
 
 

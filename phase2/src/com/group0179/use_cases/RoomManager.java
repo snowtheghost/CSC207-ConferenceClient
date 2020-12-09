@@ -531,4 +531,13 @@ public class RoomManager implements Serializable {
         return getEvent(eventID).removeRequest(requestID);
     }
 
+    /**
+     * @param eventID takes in an event uuid
+     * @return all event requests
+     * Precondition: EventID must be a valid event UUID
+     */
+    public ArrayList<UUID> getEventRequests(UUID eventID){
+        return getEvent(eventID).getEventRequests();
+    }
+
 }
