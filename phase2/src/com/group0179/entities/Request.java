@@ -1,8 +1,9 @@
 package com.group0179.entities;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Request {
+public class Request implements Serializable {
     private UUID requestID;
     private String typeOfRequest; //make this a combobox
     private String urgency; //make this a combobox

@@ -510,7 +510,25 @@ public class RoomManager implements Serializable {
         }
         return queriedEventTitles;
     }
+    /**
+     * Adds request UUID to event
+     * @param eventID the UUID of the event
+     * @param requestID the request UUID
+     * Precondition: eventID and requestID must be real
+     */
+    public void addEventRequest(UUID eventID, UUID requestID){
+        getEvent(eventID).addRequest(requestID);
+    }
 
-
+    /**
+     * Removes request UUID from event
+     * @param eventID the UUID of the event
+     * @param requestID the request UUID
+     * @return True iff requestID is in the event and is removed
+     * Precondition: eventID must be real
+     */
+    public boolean removeEventRequest(UUID eventID, UUID requestID){
+        return getEvent(eventID).removeRequest(requestID);
+    }
 
 }

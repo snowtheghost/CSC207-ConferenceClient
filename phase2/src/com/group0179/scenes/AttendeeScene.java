@@ -245,6 +245,37 @@ public class AttendeeScene implements IScene{
             bottomMenu.getChildren().add(result);
         });
 
+        Button requestsButton = new Button("Requests");
+        requestsButton.setOnAction(actionEvent -> {
+                    bottomMenu.getChildren().clear();
+                    Text buttonInfoLabel = atScene.txtObjCreater("Send a short request to event", x/1.5);
+                    Text enterRoomLabel = atScene.txtObjCreater(langPresenter.enterRoomNumberLabel(),x/1.5);
+                    Text enterEventLabel = atScene.txtObjCreater(langPresenter.enterEventNameLabel(),x/1.5);
+                    Text requestContentLabel = atScene.txtObjCreater("Request content",x/1.5);
+
+                    // adds the input boxes for those to pane
+                    TextField roomInput = new TextField();
+                    TextField eventInput = new TextField();
+                    TextField requestContentInput = new TextField();
+                    // adds everything to grid plane
+
+                    GridPane.setConstraints(buttonInfoLabel ,0, 0);
+                    bottomMenu.getChildren().add(buttonInfoLabel);
+                    displayForm(enterRoomLabel, roomInput, bottomMenu, 2);
+                    displayForm(enterEventLabel, eventInput, bottomMenu, 4);
+                    displayForm(requestContentLabel, requestContentInput, bottomMenu, 6);
+
+                    // adds send button and result label to pane
+                    Button sendRequestButton = new Button("Send request to event");
+                    Text result = atScene.txtObjCreater("", x/1.5);
+                    sendRequestButton.setOnAction(actionEvent13 ->
+                            result.setText(presenter.sendRequest(roomInput.getText(), eventInput.getText(), requestContentInput.getText())));
+                    GridPane.setConstraints(sendRequestButton ,0, 8);
+                    bottomMenu.getChildren().add(sendRequestButton);
+                    GridPane.setConstraints(result, 0, 9);
+                    bottomMenu.getChildren().add(result);
+        });
+
         Button button6 = new Button(langPresenter.userStats());
         button6.setOnAction(actionEvent -> {
             bottomMenu.getChildren().clear();
@@ -281,7 +312,7 @@ public class AttendeeScene implements IScene{
         });
 
         // Add buttons to Top Menu and sets properties
-        topMenu.getChildren().addAll(button1, button2, button3, button4, button5, button6, logoutButton);
+        topMenu.getChildren().addAll(button1, button2, button3, button4, button5, button6, requestsButton, logoutButton);
 
         // Set properties of the bottom menu
         bottomMenu.setAlignment(Pos.TOP_LEFT);

@@ -167,11 +167,30 @@ public class AttendeePresenter extends Presenter {
 
     /**
      * Takes a username and returns true iff username is from an existing user
-     * also prints a message telling user if username does not exist.
+     also prints a message telling user if username does not exist.
      * @param username the given username as a string
      * @return Whether the username is from an existing user
      */
     private boolean userExists(String username) {
         return this.userMan.getUsernames().contains(username);
+    }
+
+    /**
+     * @param roomNum room number of event
+     * @param eventName event name
+     * @return Whether a request was successfully sent to an event.
+     */
+    public String sendRequest(String roomNum, String eventName, String requestContent){
+        this.currUserID = userMan.getCurrentUser();
+        // Check if roomnNum valid and event can be found
+        if (!roomNum.matches("^[0-9]+$")){
+            return langPresneter.invalidRoom();
+        }
+        int intRoomNum = Integer.parseInt(roomNum);
+        UUID eventID = this.roomMan.getEventUUIDfromNameandRoom(eventName, intRoomNum-1);
+        if (eventID==null){return langPresneter.noEventsFound();}
+        UUID requestID = userMan.addUserRequest("Standard", "Normal", requestContent);
+        roomMan.addEventRequest(eventID, requestID);
+        return "Request successfully sent";
     }
 }

@@ -56,6 +56,7 @@ public class Event implements Comparable<Event>, Serializable {
     private int capacity;
     private int occupiedCapacity = 0;
     private ArrayList<String> speakers;
+    private ArrayList<UUID> eventRequests = new ArrayList<>();
 
     public Event(String eventTitle, String speakerName,  Calendar startTime, Calendar endTime, int capacity) {
         eventID = UUID.randomUUID();
@@ -106,9 +107,36 @@ public class Event implements Comparable<Event>, Serializable {
         return endTime;
     }
 
+    /**
+     * @return Vip status of event
+     */
     public boolean getVipOnlyStatus(){ return this.isVipOnly; }
 
+    /**
+     * Sets event vip status
+     * @param status whether the event is vip only
+     */
     public void setVipOnlyStatus(boolean status) { this.isVipOnly = status; }
+
+    /**
+     * Adds request uuid to event
+     * @param requestUUID the request's UUID
+     */
+    public void addRequest(UUID requestUUID){
+        this.eventRequests.add(requestUUID);
+    }
+
+    /**
+     * @param requestUUID request uuid to be removed
+     * @return returns whether the event has the uuid to be removed.
+     */
+    public boolean removeRequest(UUID requestUUID){
+        if (this.eventRequests.contains(requestUUID)){
+            this.eventRequests.remove(requestUUID);
+            return true;
+        }
+        return false;
+    }
 
     /**
      * @param startTime the start time of the event
