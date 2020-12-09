@@ -239,4 +239,9 @@ public class OrganizerPresenterEN extends Presenter implements IOrganizerPresent
     public String messageRecipientStatus() {
         return "Message sent successfully.";
     }
+
+    @Override
+    public String isVipOnlyPrompt() {
+        return "Event Vip only";
+    }
 }

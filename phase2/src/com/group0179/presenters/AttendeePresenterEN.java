@@ -53,7 +53,7 @@ public class AttendeePresenterEN implements IAttendeePresenter{
      */
     @Override
     public String joinOrLeave() {
-        return "Please type either j for joining or l for leaving.";
+        return "Check box to join the event, uncheck to leave the event.";
     }
 
     /**
@@ -190,7 +190,7 @@ public class AttendeePresenterEN implements IAttendeePresenter{
      */
     @Override
     public String joinOrLeaveLabel() {
-        return "Would you like to join 'j' or leave 'l' the event? ";
+        return "Check box to join event, uncheck to leave event.";
     }
 
     /**

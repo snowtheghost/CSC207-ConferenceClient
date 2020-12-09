@@ -5,6 +5,7 @@ import com.group0179.use_cases.RoomManager;
 import com.group0179.use_cases.UserManager;
 
 import java.util.GregorianCalendar;
+import java.util.UUID;
 
 /**
  * @author Justin Chan
@@ -64,7 +65,8 @@ public class OrganizerFilter extends Filter {
     }
 
     @SuppressWarnings("MagicConstant")
-    public boolean createEvent(String rawTitle, String rawSpeaker, String rawDate, String rawTime, String rawCapacity, int roomNumber) {
+    public boolean createEvent(String rawTitle, String rawSpeaker, String rawDate, String rawTime, String rawCapacity, int roomNumber,
+                               Boolean isVipOnly) {
         String title = rawTitle.trim();
         String speaker = rawSpeaker.trim();
         String[] date = rawDate.trim().split("/");
@@ -80,7 +82,8 @@ public class OrganizerFilter extends Filter {
             startTime.setLenient(false); startTime.getTime();
             GregorianCalendar endTime = new GregorianCalendar(year, month, day, hour + 1, minute, 0);
             if (rm.newEventValid(title, speaker, startTime, endTime, roomNumber, um)) {
-                rm.newEvent(title, speaker, startTime, endTime, roomNumber, um, capacity);
+                UUID newEvent = rm.newEvent(title, speaker, startTime, endTime, roomNumber, um, capacity);
+                if (isVipOnly){rm.updateVipStatus(isVipOnly, newEvent);}
                 return true;
             }
             return false;

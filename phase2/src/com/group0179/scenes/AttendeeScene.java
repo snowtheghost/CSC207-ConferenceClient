@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -203,13 +204,15 @@ public class AttendeeScene implements IScene{
             Text label2 = atScene.txtObjCreater(langPresenter.enterEventNameLabel(),x/1.5);
 
             // adds the input boxes for those to pane
-            TextField textField0 = new TextField();
+            CheckBox joinOrLeaveBox = new CheckBox();
             TextField textField1 = new TextField();
             TextField textField2 = new TextField();
-
             // adds everything to grid plane
 
-            displayForm(label0, textField0, bottomMenu, 0);
+            GridPane.setConstraints(label0 ,0, 0);
+            bottomMenu.getChildren().add(label0);
+            GridPane.setConstraints(joinOrLeaveBox, 0, 1);
+            bottomMenu.getChildren().add(joinOrLeaveBox);
             displayForm(label1, textField1, bottomMenu, 2);
             displayForm(label2, textField2, bottomMenu, 4);
 
@@ -235,7 +238,7 @@ public class AttendeeScene implements IScene{
 
 
             submitButton.setOnAction(actionEvent12 ->
-                    result.setText(presenter.joinLeaveEvent(textField0.getText(), textField1.getText(), textField2.getText())));
+                    result.setText(presenter.joinLeaveEvent(joinOrLeaveBox.isSelected(), textField1.getText(), textField2.getText())));
             GridPane.setConstraints(submitButton, 0, 6);
             bottomMenu.getChildren().add(submitButton);
             GridPane.setConstraints(result, 0, 7);

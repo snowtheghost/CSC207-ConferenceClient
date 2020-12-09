@@ -106,5 +106,7 @@ public interface IOrganizerPresenter {
     String messageRecipientValidity();
 
     String messageRecipientStatus();
+
+    String isVipOnlyPrompt();
 }
 

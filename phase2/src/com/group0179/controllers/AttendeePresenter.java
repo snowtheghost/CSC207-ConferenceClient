@@ -109,18 +109,13 @@ public class AttendeePresenter extends Presenter {
      * Takes an eventID and the corrisponding roomID, and whether the user wants to join
      * or leave the event, returns a success message string or string explaining why action could
      * not be preformed.
+     * @param join Whether the user wants to try join or not.
      * @param roomNum The room number of the event that user wants to join.
      * @param eventName The event name
-     * @param joinOrLeave Whether the he wants to try 'joining' or 'leaving'. (Must be in that format
-     *                    or else invalid)
      * @return Whether the action was a success.
      */
-    public String joinLeaveEvent(String joinOrLeave, String roomNum, String eventName){
+    public String joinLeaveEvent(boolean join, String roomNum, String eventName){
         this.currUserID = userMan.getCurrentUser();
-        // Check if joinOrLeave is formatted right
-        if (!(joinOrLeave.equals("j")||joinOrLeave.equals("l"))){
-            return langPresneter.joinOrLeave();
-        }
         // Check if roomnNum valid and event can be found
         if (!roomNum.matches("^[0-9]+$")){
             return langPresneter.invalidRoom();}
@@ -128,16 +123,14 @@ public class AttendeePresenter extends Presenter {
         UUID eventID = this.roomMan.getEventUUIDfromNameandRoom(eventName, intRoomNum-1);
         if (eventID==null){return langPresneter.noEventsFound();}
 
-        if (joinOrLeave.equals("j") && this.roomMan.addEventAttendee(currUserID, eventID,
+        if (join && this.roomMan.addEventAttendee(currUserID, eventID,
                 this.userMan, this.userMan.isUserVip(currUserID))){
-            //this.ap.displayJoinLeaveSuccess(joinOrLeave);
             return langPresneter.joinEventSuccess();
-        } else if (joinOrLeave.equals("l") && this.roomMan.removeEventAttendee(currUserID, eventID, userMan)){
-            //this.ap.displayJoinLeaveSuccess(joinOrLeave);
+        } else if (!join && this.roomMan.removeEventAttendee(currUserID, eventID, userMan)){
             return langPresneter.leaveEventSuccess();
         }
         //this.ap.displayJoinLeaveError(joinOrLeave);
-       return joinOrLeave.equals("j") ? langPresneter.joinEventFail() : langPresneter.leaveEventFail();
+       return join ? langPresneter.joinEventFail() : langPresneter.leaveEventFail();
     }
 
     /**

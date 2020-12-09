@@ -99,6 +99,8 @@ public class OrganizerScene implements IScene {
                     TextField createEventDateInput = new TextField();
                     Label createEventTimeLabel = new Label(presenter.eventTimePrompt());
                     TextField createEventTimeInput = new TextField();
+                    Label isVipOnlyLabel = new Label(presenter.isVipOnlyPrompt());
+                    CheckBox isVipOnlyInput = new CheckBox();
                     // Reschedule Event (given Room and Event)
                     GridPane rescheduleEventForm = new GridPane(); rescheduleEventForm.setVgap(10); rescheduleEventForm.setHgap(10); rescheduleEventForm.setPadding(new Insets(0, 10, 0, 10));
                     HBox rescheduleEventFormBottomMenu = new HBox(); rescheduleEventFormBottomMenu.setSpacing(10); rescheduleEventFormBottomMenu.setPadding(new Insets(10, 10, 10, 10));
@@ -243,15 +245,17 @@ public class OrganizerScene implements IScene {
                         createEventForm.getChildren().remove(createEventDateTimeFailure);
                         createEventForm.getChildren().remove(createEventSuccess);
                         if (!filter.inputEventTitle(createEventTitleInput.getText())) {
-                            createEventForm.add(createEventTitleFailure, 0, 5, 2, 1);
+                            createEventForm.add(createEventTitleFailure, 0, 6, 2, 1);
                         } else if (!filter.inputEventSpeaker(createEventSpeakerInput.getText())) {
-                            createEventForm.add(createEventSpeakerFailure, 0, 5, 2, 1);
+                            createEventForm.add(createEventSpeakerFailure, 0, 6, 2, 1);
                         } else if (!filter.inputEventCapacity(createEventCapacityInput.getText(), currentRoomNumber)) {
-                            createEventForm.add(createEventCapacityFailure, 0, 5, 2, 1);
-                        } else if (!filter.createEvent(createEventTitleInput.getText(), createEventSpeakerInput.getText(), createEventDateInput.getText(), createEventTimeInput.getText(), createEventCapacityInput.getText(), currentRoomNumber)) {
-                            createEventForm.add(createEventDateTimeFailure, 0, 5, 2, 1);
+                            createEventForm.add(createEventCapacityFailure, 0, 6, 2, 1);
+                        } else if (!filter.createEvent(createEventTitleInput.getText(), createEventSpeakerInput.getText(),
+                                createEventDateInput.getText(), createEventTimeInput.getText(), createEventCapacityInput.getText(),
+                                currentRoomNumber, isVipOnlyInput.isSelected())) {
+                            createEventForm.add(createEventDateTimeFailure, 0, 6, 2, 1);
                         } else {
-                            createEventForm.add(createEventSuccess, 0, 5, 2, 1);
+                            createEventForm.add(createEventSuccess, 0, 6, 2, 1);
                         }
                     });
 
@@ -453,6 +457,8 @@ public class OrganizerScene implements IScene {
                     createEventForm.add(createEventDateInput, 1, 3);
                     createEventForm.add(createEventTimeLabel, 0, 4);
                     createEventForm.add(createEventTimeInput, 1, 4);
+                    createEventForm.add(isVipOnlyLabel, 0, 5);
+                    createEventForm.add(isVipOnlyInput, 1, 5);
                     // rescheduleEventForm Elements
                     rescheduleEventFormBottomMenu.getChildren().add(rescheduleEventButton);
                     rescheduleEventForm.add(rescheduleEventDateLabel, 0, 0);

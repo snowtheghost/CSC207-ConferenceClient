@@ -239,6 +239,11 @@ public class OrganizerPresenterCH extends Presenter implements IOrganizerPresent
     public String messageRecipientStatus() {
         return "消息成功发送。";
     }
+
+    @Override
+    public String isVipOnlyPrompt() {
+        return null;
+    }
 }
 
 
