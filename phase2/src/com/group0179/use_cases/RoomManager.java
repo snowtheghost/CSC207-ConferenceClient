@@ -230,14 +230,53 @@ public class RoomManager implements Serializable {
 
         Event newEvent = new Event(eventTitle, speakerName, startTime, endTime, 0);
         for (UUID existingEventID : um.getSpeakerEventIDs(speakerName)) {
-
-            UUID x = rooms.get(0).getEvents().get(0).getEventID();
-            System.out.println(x + "<-event, speaker's->" + existingEventID);
-
-            if (room.eventOverlapping(newEvent, getEvent(existingEventID))) { // TODO: Method does not require room!
+            if (room.eventOverlapping(newEvent, getEvent(existingEventID))) {
                 return false;
             }
         }
+        return room.eventIsValid(newEvent);
+    }
+
+    /**
+     * @param eventTitle  the title of the event
+     * @param speakerNames the speakers of the event
+     * @param startTime   the start time of the event
+     * @param endTime     the end time of the event
+     * @param roomNumber  the room of the event
+     * @return true if the event can be added and false if the event cannot be added. An event may not be added if
+     * the time is out of bounds, is overlapping another event in the same room, or the speaker is giving a talk
+     * at the same time.
+     * <p>
+     * Preconditions: room exists
+     */
+    public boolean newMultiSpeakerEventValid(String eventTitle, ArrayList<String> speakerNames, Calendar startTime, Calendar endTime, int roomNumber, UserManager um) {
+        Room room = getRoom(roomNumber);
+
+        Event newEvent = new Event(eventTitle, speakerNames, startTime, endTime, 0);
+        for (String speakerName : speakerNames) {
+            for (UUID existingEventID : um.getSpeakerEventIDs(speakerName)) {
+                if (room.eventOverlapping(newEvent, getEvent(existingEventID))) {
+                    return false;
+                }
+            }
+        }
+        return room.eventIsValid(newEvent);
+    }
+
+    /**
+     * @param eventTitle  the title of the event
+     * @param startTime   the start time of the event
+     * @param endTime     the end time of the event
+     * @param roomNumber  the room of the event
+     * @return true if the event can be added and false if the event cannot be added. An event may not be added if
+     * the time is out of bounds, is overlapping another event in the same room, or the speaker is giving a talk
+     * at the same time.
+     * <p>
+     * Preconditions: room exists
+     */
+    public boolean newNonSpeakerEventValid(String eventTitle, Calendar startTime, Calendar endTime, int roomNumber, UserManager um) {
+        Room room = getRoom(roomNumber);
+        Event newEvent = new Event(eventTitle, startTime, endTime, 0);
         return room.eventIsValid(newEvent);
     }
 
@@ -258,6 +297,43 @@ public class RoomManager implements Serializable {
         Event newEvent = new Event(eventTitle, speakerName, startTime, endTime, capacity);
         room.addEvent(newEvent);
         um.speakerAddEvent(speakerName, room.getRoomID(), newEvent.getEventID());
+        return newEvent.getEventID();
+    }
+
+    /**
+     * Creates an event with no speakers attached to it.
+     * @param eventTitle  the title of the event
+     * @param startTime   the start time of the event
+     * @param endTime     the end time of the event
+     * @param roomNumber  the roomNumber of the room that the event should be added to
+     * @param capacity the events capacity
+     * @return the UUID of the created event
+     */
+    public UUID newNonSpeakerEvent(String eventTitle, Calendar startTime, Calendar endTime, int roomNumber, UserManager um, int capacity) {
+        Room room = getRoom(roomNumber);
+        Event newEvent = new Event(eventTitle, startTime, endTime, capacity);
+        room.addEvent(newEvent);
+        return newEvent.getEventID();
+    }
+
+    /**
+     * Creates an event with multiple speakers.
+     * @param eventTitle  the title of the event
+     * @param speakerNames the speakers of the event
+     * @param startTime   the start time of the event
+     * @param endTime     the end time of the event
+     * @param roomNumber  the roomNumber of the room that the event should be added to
+     * @param capacity the events capacity
+     * @return the UUID of the created event
+     */
+    public UUID newMultiSpeakerEvent(String eventTitle, ArrayList<String> speakerNames, Calendar startTime,
+                                     Calendar endTime, int roomNumber, UserManager um, int capacity) {
+        Room room = getRoom(roomNumber);
+        Event newEvent = new Event(eventTitle, speakerNames, startTime, endTime, capacity);
+        room.addEvent(newEvent);
+        for (String speakerName : speakerNames) {
+            um.speakerAddEvent(speakerName, room.getRoomID(), newEvent.getEventID());
+        }
         return newEvent.getEventID();
     }
 

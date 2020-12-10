@@ -1,11 +1,5 @@
 package com.group0179.presenters;
 
-import com.group0179.exceptions.InvalidCredentialsException;
-import com.group0179.use_cases.MessageManager;
-import com.group0179.use_cases.RoomManager;
-import com.group0179.use_cases.UserManager;
-import com.group0179.exceptions.UsernameTakenException;
-
 /**
  * Login presenter class for bridging GUI layer and Use Cases.
  * @author Zachariah Vincze

@@ -1,7 +1,5 @@
 package com.group0179.presenters;
 
-import com.group0179.use_cases.UserManager;
-
 public class LoginPresenterCH implements ILoginPresenter {
     /**
      * @return a string representing a user's account creation success.
