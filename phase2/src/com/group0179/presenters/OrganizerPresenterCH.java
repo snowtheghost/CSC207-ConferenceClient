@@ -242,7 +242,7 @@ public class OrganizerPresenterCH extends Presenter implements IOrganizerPresent
 
     @Override
     public String isVipOnlyPrompt() {
-        return null;
+        return "vip活动";
     }
 
     /**
@@ -250,7 +250,7 @@ public class OrganizerPresenterCH extends Presenter implements IOrganizerPresent
      */
     @Override
     public String staistics() {
-        return null;
+        return "统计";
     }
 
     /**
@@ -258,7 +258,7 @@ public class OrganizerPresenterCH extends Presenter implements IOrganizerPresent
      */
     @Override
     public String zuckerbergPowers() {
-        return null;
+        return "Zuckerberg powers";
     }
 
     /**
@@ -266,7 +266,7 @@ public class OrganizerPresenterCH extends Presenter implements IOrganizerPresent
      */
     @Override
     public String accountsCreatedOnDate() {
-        return null;
+        return "账户在此日期创建";
     }
 
     /**
@@ -274,7 +274,7 @@ public class OrganizerPresenterCH extends Presenter implements IOrganizerPresent
      */
     @Override
     public String enterAttendeeUsernames() {
-        return null;
+        return "输入参与者用户名";
     }
 
     /**
@@ -282,7 +282,7 @@ public class OrganizerPresenterCH extends Presenter implements IOrganizerPresent
      */
     @Override
     public String getTheirInfo() {
-        return null;
+        return "得到他们的信息";
     }
 
     /**
@@ -290,7 +290,7 @@ public class OrganizerPresenterCH extends Presenter implements IOrganizerPresent
      */
     @Override
     public String averageLoginTime() {
-        return null;
+        return "平均";
     }
 
     /**
@@ -298,7 +298,7 @@ public class OrganizerPresenterCH extends Presenter implements IOrganizerPresent
      */
     @Override
     public String lastLogin() {
-        return null;
+        return "上次登录";
     }
 
     /**
@@ -306,7 +306,7 @@ public class OrganizerPresenterCH extends Presenter implements IOrganizerPresent
      */
     @Override
     public String userNotFound() {
-        return null;
+        return "未找到用户";
     }
 }
 
