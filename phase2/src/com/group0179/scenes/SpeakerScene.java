@@ -326,6 +326,22 @@ public class SpeakerScene implements IScene{
                 result.setText(auto.toString());
             });
 
+            AtomicReference<String> input2 = new AtomicReference<>("");
+            requestContentInput.setOnKeyPressed(event -> {
+                String codeString = event.getCode().toString();
+                if (codeString.length() < 2  | codeString == "BACK_SPACE"){
+                    if (codeString == "BACK_SPACE" & input2.toString() != ""){
+                        input2.set(input2.toString().substring(0, input2.toString().length() - 1));
+                    }
+                    else {
+                        input2.set(input2 + codeString);
+                    }
+                }
+
+                List<String> auto = autofill.autofillRequests(input2, roomInput.getText(), eventInput.getText());
+                result.setText(auto.toString());
+            });
+
             sendRequestButton.setOnAction(actionEvent13 ->
                     result.setText(presenter.removeRequest(roomInput.getText(), eventInput.getText(), requestContentInput.getText())));
             GridPane.setConstraints(sendRequestButton ,0, 8);

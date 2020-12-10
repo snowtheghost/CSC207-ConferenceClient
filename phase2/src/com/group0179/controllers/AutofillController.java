@@ -42,14 +42,30 @@ public class AutofillController {
         return roomMan.queryEventTitles(input1.toString());
     }
 
-
     /**
      * @param input1 the first several characters of an event
      * @return a list of events that start with those characters
      */
-    /*
-    public List<String> autofillRequests(AtomicReference<String> input1) {
-        return roomMan.queryRequests(input1.toString());
+    public List<String> autofillRequests(AtomicReference<String> input1, String roomNum, String eventName){
+        String query = input1.toString();
+        if (!roomNum.matches("^[0-9]+$")){
+            return new ArrayList<>();
+        }
+        int intRoomNum = Integer.parseInt(roomNum);
+        UUID eventid = this.roomMan.getEventUUIDfromNameandRoom(eventName, intRoomNum-1);
+        if (eventid==null){return new ArrayList<>();}
+        List<String> queriedRequests = new ArrayList<>();
+
+        //System.out.println(query);
+        for(UUID request : roomMan.getEventRequests(eventid)){
+            System.out.println(userMan.getRequestContentWithUUID(request).toUpperCase());
+            //if(request .getTitle().toUpperCase().startsWith(query)){
+            if(userMan.getRequestContentWithUUID(request).toUpperCase().startsWith(query)){
+                queriedRequests.add(userMan.getRequestContentWithUUID(request));
+            } else if (query.startsWith(userMan.getRequestContentWithUUID(request))){
+                queriedRequests.add(userMan.getRequestContentWithUUID(request));
+            }
+        }
+        return queriedRequests;
     }
-    */
 }
