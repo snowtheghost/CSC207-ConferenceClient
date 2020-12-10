@@ -4,10 +4,7 @@ import com.group0179.use_cases.MessageManager;
 import com.group0179.use_cases.RoomManager;
 import com.group0179.use_cases.UserManager;
 
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Justin Chan, Kerry
@@ -54,7 +51,16 @@ public class OrganizerFilter extends Filter {
     }
 
     public boolean inputEventSpeaker(String rawInput) {
-        return um.userExists(rawInput.trim()) && um.isSpeaker(rawInput.trim());
+        if (rawInput.trim().isEmpty()) return true;
+        String[] speakers = rawInput.trim().split(",");
+        boolean speakersExist = true;
+        for (String speaker : speakers) {
+            if (!um.userExists(speaker.trim()) || !um.isSpeaker(speaker.trim())) {
+                System.out.println(speaker + " does not exist.");
+                speakersExist = false;
+            }
+        }
+        return speakersExist;
     }
 
     public boolean inputEventCapacity(String rawInput, int roomNumber) {
@@ -83,12 +89,28 @@ public class OrganizerFilter extends Filter {
             GregorianCalendar startTime = new GregorianCalendar(year, month, day, hour, minute, 0);
             startTime.setLenient(false); startTime.getTime();
             GregorianCalendar endTime = new GregorianCalendar(year, month, day, hour + 1, minute, 0);
-            if (rm.newEventValid(title, speaker, startTime, endTime, roomNumber, um)) {
-                UUID newEvent = rm.newEvent(title, speaker, startTime, endTime, roomNumber, um, capacity);
-                if (isVipOnly){rm.updateVipStatus(isVipOnly, newEvent);}
-                return true;
+
+            // Determine event type based on the speaker name input
+            ArrayList<String> speakerNames = new ArrayList<>(Arrays.asList(rawSpeaker.split(",")));
+            for (int i = 0; i < speakerNames.size(); i++) {
+                speakerNames.set(i, speakerNames.get(i).trim());
             }
-            return false;
+            UUID newEvent;
+            if (rawSpeaker.isEmpty()) {
+                if (rm.newNonSpeakerEventValid(title, startTime, endTime, roomNumber, um))
+                    newEvent = rm.newNonSpeakerEvent(title, startTime, endTime, roomNumber, um, capacity);
+                else return false;
+            } else if (speakerNames.size() == 1) {
+                if (rm.newEventValid(title, speakerNames.get(0), startTime, endTime, roomNumber, um))
+                    newEvent = rm.newEvent(title, speaker, startTime, endTime, roomNumber, um, capacity);
+                else return false;
+            } else {
+                if (rm.newMultiSpeakerEventValid(title, speakerNames, startTime, endTime, roomNumber, um))
+                    newEvent = rm.newMultiSpeakerEvent(title, speakerNames, startTime, endTime, roomNumber, um, capacity);
+                else return false;
+            }
+            if (isVipOnly) rm.updateVipStatus(isVipOnly, newEvent);
+            return true;
         } catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
             return false;
         }
