@@ -7,6 +7,7 @@ import com.group0179.exceptions.InvalidCredentialsException;
 import com.group0179.exceptions.UsernameTakenException;
 import com.group0179.filters.LoginFilter;
 import com.group0179.presenters.ILoginPresenter;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -63,7 +64,7 @@ public class LoginScene implements IScene {
     }
 
     public void setLanguage(String language){
-        if(language == "Chinese")this.presenter = factory.getLoginPresenterCH();}
+        if(language.equals("Chinese"))this.presenter = factory.getLoginPresenterCH();}
 
     private void changeToLoginPane() {
         borderPane.setCenter(loginGrid);
@@ -111,19 +112,22 @@ public class LoginScene implements IScene {
 
     private void constructLoginGrid() {
         loginGrid = new GridPane();
+        loginGrid.setAlignment(Pos.CENTER);
         loginTextField = new TextField();
         loginBtn = new Button(presenter.loginButtonPrompt());
         loginBtn.setOnAction(actionEvent -> attemptLogin());
         loginInfo = new Label();
+        loginInfo.setWrapText(true);
 
         // Layout components
         loginGrid.add(loginTextField, 0, 0);
         loginGrid.add(loginBtn, 1, 0);
-        loginGrid.add(loginInfo, 0, 1);
+        loginGrid.add(loginInfo, 0, 1, 2, 1);
     }
 
     private void constructCreateAccountGrid() {
         createAccountGrid = new GridPane();
+        createAccountGrid.setAlignment(Pos.CENTER);
         accountTypeChoiceBox = new ChoiceBox<>();
         accountTypeChoiceBox.getItems().addAll(presenter.attendeeAccountChoice(),
                 presenter.organizerAccountChoice(),
@@ -134,12 +138,13 @@ public class LoginScene implements IScene {
         createAccountBtn.setOnAction(actionEvent -> attemptAccountCreate());
         createAccountTextField = new TextField();
         createAccountInfo = new Label();
+        createAccountInfo.setWrapText(true);
 
         // Layout components
         createAccountGrid.add(accountTypeChoiceBox, 0, 0);
         createAccountGrid.add(createAccountTextField, 1, 0);
         createAccountGrid.add(createAccountBtn, 0, 1);
-        createAccountGrid.add(createAccountInfo, 1, 1);
+        createAccountGrid.add(createAccountInfo, 0, 2, 2, 1);
     }
 
     @Override
