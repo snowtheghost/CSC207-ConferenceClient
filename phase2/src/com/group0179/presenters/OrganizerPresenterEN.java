@@ -244,4 +244,68 @@ public class OrganizerPresenterEN extends Presenter implements IOrganizerPresent
     public String isVipOnlyPrompt() {
         return "Event Vip only";
     }
+
+    /**
+     * @return Statistics
+     */
+    @Override
+    public String staistics() {
+        return "Statistics";
+    }
+
+    /**
+     * @return Zuckerberg powers
+     */
+    @Override
+    public String zuckerbergPowers() {
+        return "Zuckerberg powers";
+    }
+
+    /**
+     * @return "Accounts created on date:"
+     */
+    @Override
+    public String accountsCreatedOnDate() {
+        return "Accounts created on date:";
+    }
+
+    /**
+     * @return Enter attendee usernames
+     */
+    @Override
+    public String enterAttendeeUsernames() {
+        return "Enter attendee usernames:";
+    }
+
+    /**
+     * @return Get their info
+     */
+    @Override
+    public String getTheirInfo() {
+        return "Get their info";
+    }
+
+    /**
+     * @return Average login time
+     */
+    @Override
+    public String averageLoginTime() {
+        return "Average login time: ";
+    }
+
+    /**
+     * @return Last login:
+     */
+    @Override
+    public String lastLogin() {
+        return "Last login: ";
+    }
+
+    /**
+     * @return User not found
+     */
+    @Override
+    public String userNotFound() {
+        return "User not found";
+    }
 }

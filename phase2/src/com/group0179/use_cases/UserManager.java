@@ -10,8 +10,7 @@ import java.util.*;
  *
  * Get a list of all usernames in existence
  *
- * @author Zihan Wang, Justin Chan, Kaiyi Liu
- * Last modified: Justin Chan
+ * @author Zihan Wang, Justin Chan, Kaiyi Liu, Kerry
  */
 
 public class UserManager implements Serializable {

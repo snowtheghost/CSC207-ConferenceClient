@@ -108,5 +108,38 @@ public interface IOrganizerPresenter {
     String messageRecipientStatus();
 
     String isVipOnlyPrompt();
+
+    /**
+     * @return Statistics
+     */
+    String staistics();
+    /**
+     * @return Zuckerberg powers
+     */
+    String zuckerbergPowers();
+    /**
+     * @return "Accounts created on date:"
+     */
+    String accountsCreatedOnDate();
+    /**
+     * @return Enter attendee usernames
+     */
+    String enterAttendeeUsernames();
+    /**
+     * @return Get their info
+     */
+    String getTheirInfo();
+    /**
+     * @return Average login time
+     */
+    String averageLoginTime();
+    /**
+     * @return Last login:
+     */
+    String lastLogin();
+    /**
+     * @return User not found
+     */
+    String userNotFound();
 }
 
