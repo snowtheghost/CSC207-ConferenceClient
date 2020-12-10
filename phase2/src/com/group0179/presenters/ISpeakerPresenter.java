@@ -220,4 +220,24 @@ public interface ISpeakerPresenter {
      * @return Min login time
      */
     String minLoginTime();
+
+    /**
+     * @return requests button
+     */
+    String viewrequestsButton();
+
+    /**
+     * @return request button
+     */
+    String requestsButton();
+
+    String removeRequestsButton();
+
+    String noRequestsWithThisContent();
+
+    String SuccessfullyRemoved();
+
+    String thisEventDoesNotContainThatRequest();
+
+    String requestContent();
 }

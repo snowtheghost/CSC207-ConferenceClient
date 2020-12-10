@@ -11,7 +11,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class SpeakerPresenterController extends Presenter {
     private final UserManager userMan;
@@ -120,46 +119,7 @@ public class SpeakerPresenterController extends Presenter {
         return allEvents;
     }
 
-    /**
-     * @return A string of all events the user signed up for
-     */
-    public String viewSignedUpEvents(){
-        return roomMan.stringEventInfoAttending(currUserID);
-    }
 
-    /**
-     * Takes an eventID and the corrisponding roomID, and whether the user wants to join
-     * or leave the event, returns a success message string or string explaining why action could
-     * not be preformed.
-     * @param roomNum The room number of the event that user wants to join.
-     * @param eventName The event name
-     * @param joinOrLeave Whether the he wants to try 'joining' or 'leaving'. (Must be in that format
-     *                    or else invalid)
-     * @return Whether the action was a success.
-     */
-    public String joinLeaveEvent(String joinOrLeave, String roomNum, String eventName){
-        // Check if joinOrLeave is formatted right
-        if (!(joinOrLeave.equals("j")||joinOrLeave.equals("l"))){
-            return langPresenter.joinOrLeave();
-        }
-        // Check if roomnNum valid and event can be found
-        if (!roomNum.matches("^[0-9]+$")){
-            return langPresenter.invalidRoom();}
-        int intRoomNum = Integer.parseInt(roomNum);
-        UUID eventID = this.roomMan.getEventUUIDfromNameandRoom(eventName, intRoomNum);
-        if (eventID==null){return langPresenter.noEventsFound();}
-
-        if (joinOrLeave.equals("j") && this.roomMan.addEventAttendee(currUserID, eventID,
-                this.userMan, this.userMan.isUserVip(currUserID))){
-            //this.ap.displayJoinLeaveSuccess(joinOrLeave);
-            return langPresenter.joinEventSuccess();
-        } else if (joinOrLeave.equals("l") && this.roomMan.removeEventAttendee(currUserID, eventID, userMan)){
-            //this.ap.displayJoinLeaveSuccess(joinOrLeave);
-            return langPresenter.leaveEventSuccess();
-        }
-        //this.ap.displayJoinLeaveError(joinOrLeave);
-       return joinOrLeave.equals("j") ? langPresenter.joinEventFail() : langPresenter.leaveEventFail();
-    }
 
     /**
      * @return array of past login times for the current user.
@@ -191,6 +151,37 @@ public class SpeakerPresenterController extends Presenter {
         String minLoginTimeMsg = langPresenter.minLoginTime() + Math.round(maxMinTimes[1]) + "\n\n";
 
         return userStats + lastLoginMsg + totalLoginMsg + avgLoginTime + maxLogintimeMsg + minLoginTimeMsg;
+    }
+
+    public String viewRequests(){
+        String requests = "";
+        for (UUID eventid : this.userMan.getSpeakerEventIDs(this.userMan.getCurrentUser())){
+            requests += this.roomMan.stringEvent(eventid) + ":";
+            for (UUID requestid : this.roomMan.getEventRequests(eventid)){
+                requests += this.userMan.getRequestContentWithUUID(requestid)+"\n";
+            }
+        }
+        return requests;
+    }
+
+    public String removeRequest(String roomNum, String eventName, String requestContent){
+        // Check if roomNum valid and event can be found
+        if (!roomNum.matches("^[0-9]+$")){
+            return langPresenter.invalidRoom();
+        }
+        int intRoomNum = Integer.parseInt(roomNum);
+        UUID eventID = this.roomMan.getEventUUIDfromNameandRoom(eventName, intRoomNum-1);
+        if (eventID==null){return langPresenter.noEventsFound();}
+        ArrayList<UUID> requestUUIDS = userMan.getRequestUUIDWithContent(requestContent);
+        //System.out.println(requestUUIDS);
+        if (requestUUIDS.isEmpty()){return langPresenter.noRequestsWithThisContent();}
+        for (UUID requestID : requestUUIDS){
+            if (this.roomMan.getEventRequests(eventID).contains(requestID)){
+                this.roomMan.removeEventRequest(eventID, requestID);
+                return langPresenter.SuccessfullyRemoved();
+            }
+        }
+        return langPresenter.thisEventDoesNotContainThatRequest();
     }
 
     public String getLastLogin(){

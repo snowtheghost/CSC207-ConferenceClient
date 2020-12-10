@@ -41,4 +41,15 @@ public class AutofillController {
     public List<String> autofillEvents(AtomicReference<String> input1) {
         return roomMan.queryEventTitles(input1.toString());
     }
+
+
+    /**
+     * @param input1 the first several characters of an event
+     * @return a list of events that start with those characters
+     */
+    /*
+    public List<String> autofillRequests(AtomicReference<String> input1) {
+        return roomMan.queryRequests(input1.toString());
+    }
+    */
 }

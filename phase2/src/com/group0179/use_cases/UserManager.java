@@ -692,6 +692,16 @@ public class UserManager implements Serializable {
         return null;
     }
 
+    public ArrayList<UUID> getRequestUUIDWithContent(String requestContent){
+        ArrayList<UUID> requestUUIDs = new ArrayList<UUID>();
+        for(Request request : this.userRequests){
+            if(request.getRequestContent().equals(requestContent)){
+                requestUUIDs.add(request.getRequestID());
+            }
+        }
+        return requestUUIDs;
+    }
+
     /**
      * @param username the username of a User
      * @return true if the User with the username exists, false otherwise.

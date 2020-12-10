@@ -236,14 +236,6 @@ public class SpeakerScene implements IScene{
          */
 
 
-
-
-
-
-
-
-
-
         Button viewMessages = new Button(langPresenter.viewMessages());
         viewMessages.setOnAction(actionEvent -> {
             bottomMenu.getChildren().clear();
@@ -282,6 +274,77 @@ public class SpeakerScene implements IScene{
             bottomMenu.getChildren().add(txtObj);
             txtObj.setText(presenter.viewAllSpeakingEvents());
         });
+
+
+
+
+
+        Button viewRequests = new Button(langPresenter.viewrequestsButton());
+        viewRequests.setOnAction(actionEvent -> {
+            bottomMenu.getChildren().clear();
+            bottomMenu.getChildren().add(txtObj);
+            txtObj.setText(presenter.viewRequests());
+        });
+
+        Button removeRequests = new Button(langPresenter.removeRequestsButton());
+        removeRequests.setOnAction(actionEvent -> {
+            bottomMenu.getChildren().clear();
+            Text buttonInfoLabel = atScene.txtObjCreater(langPresenter.removeRequestsButton(), x/1.5);
+            Text enterRoomLabel = atScene.txtObjCreater(langPresenter.enterRoomNumberLabel(),x/1.5);
+            Text enterEventLabel = atScene.txtObjCreater(langPresenter.enterEventNameLabel(),x/1.5);
+            Text requestContentLabel = atScene.txtObjCreater(langPresenter.requestContent(),x/1.5);
+
+            // adds the input boxes for those to pane
+            TextField roomInput = new TextField();
+            TextField eventInput = new TextField();
+            TextField requestContentInput = new TextField();
+            // adds everything to grid plane
+
+            GridPane.setConstraints(buttonInfoLabel ,0, 0);
+            bottomMenu.getChildren().add(buttonInfoLabel);
+            displayForm(enterRoomLabel, roomInput, bottomMenu, 2);
+            displayForm(enterEventLabel, eventInput, bottomMenu, 4);
+            displayForm(requestContentLabel, requestContentInput, bottomMenu, 6);
+
+            // adds send button and result label to pane
+            Button sendRequestButton = new Button("langPresenter.removeRequest");
+            Text result = atScene.txtObjCreater("", x/1.5);
+
+            AtomicReference<String> input1 = new AtomicReference<>("");
+            eventInput.setOnKeyPressed(event -> {
+                String codeString = event.getCode().toString();
+                if (codeString.length() < 2  | codeString == "BACK_SPACE"){
+                    if (codeString == "BACK_SPACE" & input1.toString() != ""){
+                        input1.set(input1.toString().substring(0, input1.toString().length() - 1));
+                    }
+                    else {
+                        input1.set(input1 + codeString);
+                    }
+                }
+
+                List<String> auto = autofill.autofillEvents(input1);
+                result.setText(auto.toString());
+            });
+
+            sendRequestButton.setOnAction(actionEvent13 ->
+                    result.setText(presenter.removeRequest(roomInput.getText(), eventInput.getText(), requestContentInput.getText())));
+            GridPane.setConstraints(sendRequestButton ,0, 8);
+            bottomMenu.getChildren().add(sendRequestButton);
+            GridPane.setConstraints(result, 0, 9);
+            bottomMenu.getChildren().add(result);
+        });
+
+        Button requests = new Button(langPresenter.requestsButton());
+        requests.setOnAction(actionEvent -> {
+            bottomMenu.getChildren().clear();
+
+            GridPane.setConstraints(viewRequests, 0, 5);
+            bottomMenu.getChildren().add(viewRequests);
+            GridPane.setConstraints(removeRequests, 0, 6);
+            bottomMenu.getChildren().add(removeRequests);
+        });
+
+
 
         /*
         Button button5 = new Button(langPresenter.joinLeaveButtonText());
@@ -350,7 +413,7 @@ public class SpeakerScene implements IScene{
         });
 
         // Add buttons to Top Menu and sets properties
-        topMenu.getChildren().addAll(sendMessage, viewMessages, viewAllEvents, viewSpeakingEvents, userStats, logoutButton);
+        topMenu.getChildren().addAll(sendMessage, viewMessages, viewAllEvents, viewSpeakingEvents, requests, userStats, logoutButton);
 
         // Set properties of the bottom menu
         bottomMenu.setAlignment(Pos.TOP_LEFT);

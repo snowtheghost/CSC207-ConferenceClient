@@ -268,6 +268,23 @@ public class AttendeeScene implements IScene{
                     // adds send button and result label to pane
                     Button sendRequestButton = new Button(langPresenter.sendRequest());
                     Text result = atScene.txtObjCreater("", x/1.5);
+
+                    AtomicReference<String> input1 = new AtomicReference<>("");
+                    eventInput.setOnKeyPressed(event -> {
+                        String codeString = event.getCode().toString();
+                        if (codeString.length() < 2  | codeString == "BACK_SPACE"){
+                            if (codeString == "BACK_SPACE" & input1.toString() != ""){
+                                input1.set(input1.toString().substring(0, input1.toString().length() - 1));
+                            }
+                            else {
+                                input1.set(input1 + codeString);
+                            }
+                        }
+
+                        List<String> auto = autofill.autofillEvents(input1);
+                        result.setText(auto.toString());
+                    });
+
                     sendRequestButton.setOnAction(actionEvent13 ->
                             result.setText(presenter.sendRequest(roomInput.getText(), eventInput.getText(), requestContentInput.getText())));
                     GridPane.setConstraints(sendRequestButton ,0, 8);
