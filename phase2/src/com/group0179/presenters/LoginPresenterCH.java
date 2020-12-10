@@ -66,17 +66,25 @@ public class LoginPresenterCH implements ILoginPresenter {
     public String usernameTakenError(String username) {
         return "用户名" + username + "已被使用";
     }
-
+    /**
+     * @return a string representing login
+     */
     @Override
     public String loginButtonPrompt() {
         return "登录";
     }
 
+    /**
+     * @return a string representing create account
+     */
     @Override
     public String createAccountButtonPrompt() {
         return "创建账号";
     }
 
+    /**
+     * @return a string representing attendee(VIP)
+     */
     @Override
     public String vipAttendeeAccountChoice() { return "参与者(VIP)"; }
 }
