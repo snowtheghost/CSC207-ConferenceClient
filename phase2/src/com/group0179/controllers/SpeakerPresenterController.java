@@ -16,7 +16,7 @@ public class SpeakerPresenterController extends Presenter {
     private final UserManager userMan;
     private final MessageManager msgMan;
     private final RoomManager roomMan;
-    private final UUID currUserID;
+    private UUID currUserID;
     private ISpeakerPresenter langPresenter= new SpeakerPresenterEN();
 
 
@@ -47,6 +47,7 @@ public class SpeakerPresenterController extends Presenter {
      * @return Returns a string saying the user either does not exist or message sent success.
      */
     public String message(String username, String content){
+        this.currUserID = this.userMan.getCurrentUser();
         if (!userExists(username)) {
             return langPresenter.recipientDNE();
         }
@@ -56,6 +57,7 @@ public class SpeakerPresenterController extends Presenter {
     }
 
     public String messageEvent(String eventname, int roomNumber, String content){
+        this.currUserID = this.userMan.getCurrentUser();
         if (!eventExists(eventname, roomNumber)) {
             return langPresenter.eventDNE();
         }
@@ -72,6 +74,7 @@ public class SpeakerPresenterController extends Presenter {
      * @return Returns the messages from that user, all users, or No users found.
      */
     public String viewMessages(String input){
+        this.currUserID = this.userMan.getCurrentUser();
         ArrayList<UUID> allUserIds = new ArrayList<>(this.userMan.getAttendeeUUIDs());
         // if want all messages, get a list of messages from each user and
         // write the sender name and message contents if user received at least 1 message from them
