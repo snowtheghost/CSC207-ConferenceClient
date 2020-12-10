@@ -325,5 +325,41 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
         return null;
     }
 
+    /**
+     * @return view requests
+     */
+    @Override
+    public String viewrequestsButton() {
+        return "View Requests";
+    }
+
+    /**
+     * @return request
+     */
+    @Override
+    public String requestsButton() {
+        return "Requests";
+    }
+
+    /**
+     * @return remove request
+     */
+    @Override
+    public String removeRequestsButton() { return "Requests"; }
+
+    @Override
+    public String noRequestsWithThisContent(){return "There are no requests with this content";}
+
+    @Override
+    public String SuccessfullyRemoved(){return "Request successfully removed";}
+
+    @Override
+    public String thisEventDoesNotContainThatRequest(){return "That event does not contain that request";}
+
+    @Override
+    public String requestContent(){return "Enter the request content";}
+
+
+
 
 }
