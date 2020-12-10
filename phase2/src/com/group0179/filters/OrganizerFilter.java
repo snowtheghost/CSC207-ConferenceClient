@@ -4,11 +4,13 @@ import com.group0179.use_cases.MessageManager;
 import com.group0179.use_cases.RoomManager;
 import com.group0179.use_cases.UserManager;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Map;
 import java.util.UUID;
 
 /**
- * @author Justin Chan
+ * @author Justin Chan, Kerry
  */
 
 @SuppressWarnings("MagicConstant")
@@ -138,5 +140,33 @@ public class OrganizerFilter extends Filter {
 
     public void sendSpeakersMessage(String message) {
         mm.sendMessageToAllSpeakers(um, um.getCurrentUser(), message);
+    }
+
+    /**
+     * Gets user info for user if user exists
+     * @param userName user name of user
+     * @return [] if no user found/user never logged in, else ['avg login time', 'last login date']
+     */
+    public ArrayList<String> getUserInfo(String userName){
+        UUID userid = um.getUserID(userName);
+        if (userid == null){
+            return new ArrayList<String>();
+        }
+        UserManager.UserTimeData userInfo = um.getTimeElapsedStatisticsForAllAttendees().get(userName);
+        ArrayList<String> infoList = new ArrayList<>();
+        infoList.add(String.valueOf(userInfo.averageLengthOfTimeLoggedIn));
+        if (userInfo.lastLoggedIn != null){
+         infoList.add(userInfo.lastLoggedIn.getTime().toString());
+        } else {
+            infoList.add("");
+        }
+        return infoList;
+    }
+
+    /**
+     * @return Dates with number of attendee accounts created on date.
+     */
+    public Map<String, Integer> getActCreations(){
+        return this.um.getTimeLineOfAttendeeCreation();
     }
 }

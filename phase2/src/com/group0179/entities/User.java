@@ -104,12 +104,16 @@ public abstract class User implements Serializable {
     public void setLastLoggedIn(Calendar calendar){
         this.lastLoggedIn = calendar;
     }
-    //kaiyi
+    //kaiyi, kerry
     /**
      * Get last logged in time stamp for this user
      * @return a Calendar object which is the timestamp for last logged in time
+     * if there is one, otherwise null
      */
     public Calendar getLastLoggedIn(){
+        if (this.lastLoggedIn == null){
+            return null;
+        }
         return (Calendar) this.lastLoggedIn.clone();
     }
     //kaiyi

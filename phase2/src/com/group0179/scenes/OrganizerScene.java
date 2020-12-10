@@ -20,11 +20,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * @author Justin Chan
+ * @author Justin Chan, kerry
  */
 
 public class OrganizerScene implements IScene {
@@ -412,14 +413,44 @@ public class OrganizerScene implements IScene {
 
         // Button that displays user statistics
         GridPane statsBottomMenu = new GridPane();
-        Button statsButton = new Button("Statistics");
+        Button statsButton = new Button(presenter.staistics());
         statsButton.setOnAction(actionEvent -> {
             main.setCenter(statsBottomMenu);
             // displays user stats info
-            Text label0 = new Text("getUserstats");//presenter.getUserStats());
-            GridPane.setConstraints(label0, 0, 0);
-            statsBottomMenu.getChildren().add(label0);
-            // displays average login chart
+            Text desc = new Text(presenter.zuckerbergPowers() + "\n");
+            GridPane.setConstraints(desc, 0, 0);
+            statsBottomMenu.getChildren().add(desc);
+
+            Text actCreationsLabel = new Text(presenter.accountsCreatedOnDate()); actCreationsLabel.setWrappingWidth(x/1.5);
+            Text timeLine = new Text(this.filter.getActCreations().toString()+'\n'); timeLine.setWrappingWidth(x/1.5);
+            GridPane.setConstraints(actCreationsLabel, 0, 1); statsBottomMenu.getChildren().add(actCreationsLabel);
+            GridPane.setConstraints(timeLine, 0, 2); statsBottomMenu.getChildren().add(timeLine);
+
+            Text attendeeInfo = new Text(presenter.enterAttendeeUsernames()); attendeeInfo.setWrappingWidth(x/1.5);
+            GridPane.setConstraints(attendeeInfo, 0, 4);
+            statsBottomMenu.getChildren().add(attendeeInfo);
+            TextField atName = new TextField();
+            GridPane.setConstraints(atName, 0, 5);
+            statsBottomMenu.getChildren().add(atName);
+
+            // get info button and results
+            Button getInfo = new Button(presenter.getTheirInfo());
+            Text results = new Text(""); results.setWrappingWidth(x/1.5);
+            getInfo.setOnAction(actionEvent2->{
+                ArrayList<String> info = filter.getUserInfo(atName.getText());
+                if (info.size()>0){
+                    results.setText(presenter.averageLoginTime() + info.get(0) + "\n" +
+                            presenter.lastLogin() + info.get(1));
+                } else {
+                    results.setText(presenter.userNotFound());
+                }
+            });
+            GridPane.setConstraints(getInfo, 0, 6);
+            statsBottomMenu.getChildren().add(getInfo);
+            GridPane.setConstraints(results, 0, 7);
+            statsBottomMenu.getChildren().add(results);
+
+
 
         });
 

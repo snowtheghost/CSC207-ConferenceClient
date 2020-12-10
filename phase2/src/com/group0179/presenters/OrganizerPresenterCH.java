@@ -244,6 +244,70 @@ public class OrganizerPresenterCH extends Presenter implements IOrganizerPresent
     public String isVipOnlyPrompt() {
         return null;
     }
+
+    /**
+     * @return Statistics
+     */
+    @Override
+    public String staistics() {
+        return null;
+    }
+
+    /**
+     * @return Zuckerberg powers
+     */
+    @Override
+    public String zuckerbergPowers() {
+        return null;
+    }
+
+    /**
+     * @return "Accounts created on date:"
+     */
+    @Override
+    public String accountsCreatedOnDate() {
+        return null;
+    }
+
+    /**
+     * @return Enter attendee usernames
+     */
+    @Override
+    public String enterAttendeeUsernames() {
+        return null;
+    }
+
+    /**
+     * @return Get their info
+     */
+    @Override
+    public String getTheirInfo() {
+        return null;
+    }
+
+    /**
+     * @return Average login time
+     */
+    @Override
+    public String averageLoginTime() {
+        return null;
+    }
+
+    /**
+     * @return Last login:
+     */
+    @Override
+    public String lastLogin() {
+        return null;
+    }
+
+    /**
+     * @return User not found
+     */
+    @Override
+    public String userNotFound() {
+        return null;
+    }
 }
 
 
