@@ -230,7 +230,7 @@ public class AttendeePresenterCH implements IAttendeePresenter{
      */
     @Override
     public String requestsButton() {
-        return null;
+        return "请求";
     }
 
     /**
@@ -238,7 +238,7 @@ public class AttendeePresenterCH implements IAttendeePresenter{
      */
     @Override
     public String sendShortRequest() {
-        return null;
+        return "给活动发送短请求";
     }
 
     /**
@@ -246,7 +246,7 @@ public class AttendeePresenterCH implements IAttendeePresenter{
      */
     @Override
     public String requestContent() {
-        return null;
+        return "请求内容";
     }
 
     /**
@@ -254,7 +254,7 @@ public class AttendeePresenterCH implements IAttendeePresenter{
      */
     @Override
     public String sendRequest() {
-        return null;
+        return "发送请求";
     }
 
     /**
@@ -262,7 +262,7 @@ public class AttendeePresenterCH implements IAttendeePresenter{
      */
     @Override
     public String requestSuccSent() {
-        return null;
+        return "请求已成功发送";
     }
 
     /**

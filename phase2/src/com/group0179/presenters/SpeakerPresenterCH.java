@@ -247,7 +247,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String maxMinLoginTimes() {
-        return null;
+        return "最大登录时长";
     }
 
     @Override
@@ -283,7 +283,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String howManyLoginsAgo() {
-        return null;
+        return "此前多少登录";
     }
 
     /**
@@ -291,14 +291,14 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String pastLoginDurations() {
-        return null;
+        return "此前登录时长";
     }
 
     /**
      * @return logged in times
      */
     public String loggedInTime(){
-        return null;
+        return "登录时长";
     }
 
     /**
@@ -306,7 +306,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String updateInfo() {
-        return null;
+        return "（登录更新）\n(秒)";
     }
 
     /**
@@ -314,7 +314,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String maxLoginTime() {
-        return null;
+        return "最大登录时长";
     }
 
     /**
@@ -322,7 +322,7 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
      */
     @Override
     public String minLoginTime() {
-        return null;
+        return "最小登录时长";
     }
 
     /**
