@@ -73,22 +73,31 @@ public class OrganizerFilter extends Filter {
     }
 
     @SuppressWarnings("MagicConstant")
-    public boolean createEvent(String rawTitle, String rawSpeaker, String rawDate, String rawTime, String rawCapacity, int roomNumber,
+    public boolean createEvent(String rawTitle, String rawSpeaker, String rawDate, String rawTime, String rawEndDate, String rawEndTime, String rawCapacity, int roomNumber,
                                Boolean isVipOnly) {
         String title = rawTitle.trim();
         String speaker = rawSpeaker.trim();
         String[] date = rawDate.trim().split("/");
         String[] time = rawTime.trim().split(":");
+        String[] endDate = rawEndDate.trim().split("/");
+        String[] endedTime = rawEndTime.trim().split(":");
+
         try {
             int year = Integer.parseInt(date[0]);
             int month = Integer.parseInt(date[1]) - 1;
             int day = Integer.parseInt(date[2]);
             int hour = Integer.parseInt(time[0]);
             int minute = Integer.parseInt(time[1]);
+            int endYear = Integer.parseInt(endDate[0]);
+            int endMonth = Integer.parseInt(endDate[1]) - 1;
+            int endDay = Integer.parseInt(endDate[2]);
+            int endHour = Integer.parseInt(endedTime[0]);
+            int endMinute = Integer.parseInt(endedTime[1]);
+
             int capacity = Integer.parseInt(rawCapacity.trim());
             GregorianCalendar startTime = new GregorianCalendar(year, month, day, hour, minute, 0);
             startTime.setLenient(false); startTime.getTime();
-            GregorianCalendar endTime = new GregorianCalendar(year, month, day, hour + 1, minute, 0);
+            GregorianCalendar endTime = new GregorianCalendar(endYear, endMonth, endDay, endHour, endMinute, 0);
 
             // Determine event type based on the speaker name input
             ArrayList<String> speakerNames = new ArrayList<>(Arrays.asList(rawSpeaker.split(",")));

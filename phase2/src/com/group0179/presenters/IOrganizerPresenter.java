@@ -67,6 +67,16 @@ public interface IOrganizerPresenter {
 
     String eventDatePrompt();
 
+    /**
+     * @return End date [yyyy/mm/dd]:
+     */
+    String eventEndDatePrompt();
+
+    /**
+     * @return End time [hh:mm]:
+     */
+    String eventEndTimePrompt();
+
     String eventTimePrompt();
 
     String createEventCapacityPrompt();

@@ -250,6 +250,22 @@ public class OrganizerPresenterCH extends Presenter implements IOrganizerPresent
     }
 
     /**
+     * @return End date [yyyy/mm/dd]:
+     */
+    @Override
+    public String eventEndDatePrompt() {
+        return null;
+    }
+
+    /**
+     * @return End time [hh:mm]:
+     */
+    @Override
+    public String eventEndTimePrompt() {
+        return null;
+    }
+
+    /**
      * @return a string representing "time [hh:mm]".
      */
     public String eventTimePrompt() {
