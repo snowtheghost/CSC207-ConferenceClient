@@ -61,6 +61,10 @@ public class OrganizerPresenterEN extends Presenter implements IOrganizerPresent
     }
 
     /**
+     * @return Create Account
+     */
+    public String createAccountButtonText(){return "Create Account";}
+    /**
      * @return a string representing "logout".
      */
     public String logoutButtonText() {
@@ -483,5 +487,54 @@ public class OrganizerPresenterEN extends Presenter implements IOrganizerPresent
     @Override
     public String userNotFound() {
         return "User not found";
+    }
+
+    /**
+     * @return Attendee Account
+     */
+    @Override
+    public String AttendeeAccountPrompt() {
+        return "Attendee Account";
+    }
+
+    /**
+     * @return Organizer Account
+     */
+    @Override
+    public String OrganizerAccountPrompt() {
+        return "Organizer Account";
+    }
+
+    /**
+     * @return Speaker Account
+     */
+    @Override
+    public String SpeakerAccountPrompt() {
+        return "Speaker Account";
+    }
+
+    /**
+     * @return Vip Attendee Account
+     */
+    @Override
+    public String VipAttendeeAccountPrompt() {
+        return "Vip Attendee Account";
+    }
+
+    /**
+     * @param username the username of user
+     * @return the user name is taken
+     */
+    @Override
+    public String usernameTaken(String username) {
+        return "username" + username +"is taken";
+    }
+
+    /**
+     * @return account created successfully.
+     */
+    @Override
+    public String accountCreatedSuccess() {
+        return "Account created successfully";
     }
 }

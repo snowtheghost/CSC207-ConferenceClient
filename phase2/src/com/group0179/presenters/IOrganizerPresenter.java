@@ -151,5 +151,42 @@ public interface IOrganizerPresenter {
      * @return User not found
      */
     String userNotFound();
+
+    /**
+     * @return Attendee Account
+     */
+    String AttendeeAccountPrompt();
+
+    /**
+     * @return Organizer Account
+     */
+    String OrganizerAccountPrompt();
+
+    /**
+     * @return Speaker Account
+     */
+    String SpeakerAccountPrompt();
+
+    /**
+     * @return Vip Attendee Account
+     */
+    String VipAttendeeAccountPrompt();
+
+    /**
+     * @return Create Account
+     */
+    String createAccountButtonText();
+
+    /**
+     * @param username the username of user
+     * @return the user name is taken
+     */
+    String usernameTaken(String username);
+
+    /**
+     * @return account created successfully.
+     */
+    String accountCreatedSuccess();
+
 }
 

@@ -484,6 +484,60 @@ public class OrganizerPresenterCH extends Presenter implements IOrganizerPresent
     public String userNotFound() {
         return "未找到用户";
     }
+
+    /**
+     * @return Attendee Account
+     */
+    @Override
+    public String AttendeeAccountPrompt() {
+        return "参与者账户";
+    }
+
+    /**
+     * @return Organizer Account
+     */
+    @Override
+    public String OrganizerAccountPrompt() {
+        return "组织者账户";
+    }
+
+    /**
+     * @return Speaker Account
+     */
+    @Override
+    public String SpeakerAccountPrompt() {
+        return "演讲者账户";
+    }
+
+    /**
+     * @return Vip Attendee Account
+     */
+    @Override
+    public String VipAttendeeAccountPrompt() {
+        return "Vip 参与者账户";
+    }
+
+    /**
+     * @return Create Account
+     */
+    public String createAccountButtonText(){return "创建账户";}
+
+    /**
+     * @param username the username of user
+     * @return the user name is taken
+     */
+    @Override
+    public String usernameTaken(String username) {
+        return "用户名"+username+"已被使用";
+    }
+
+    /**
+     * @return account created successfully.
+     */
+    @Override
+    public String accountCreatedSuccess() {
+        return "账户成功创建";
+    }
 }
 
 

@@ -417,36 +417,36 @@ public class OrganizerScene implements IScene {
 
 
         GridPane createActBottomMenu = new GridPane();
-        Button createActButton = new Button("Create account");
+        Button createActButton = new Button(presenter.createButtonText());
         createActButton.setOnAction(actionEvent -> {
             main.setCenter(createActBottomMenu);
-            Text enterUsername = new Text("\n\n\n Enter Username: "); enterUsername.setWrappingWidth(x/2.1);
+            Text enterUsername = new Text("\n\n\n" + presenter.usernamePrompt()); enterUsername.setWrappingWidth(x/2.1);
             TextField createAccountTextField = new TextField();
             Label createAccountStatus = new Label("");
             createAccountStatus.setWrapText(true);
 
             ChoiceBox<String> accountTypeChoiceBox = new ChoiceBox<>();
-            accountTypeChoiceBox.getItems().addAll("Attendee Account",
-                    "Organizer Account",
-                    "Speaker Account",
-                    "Vip Attendee Account");
-            accountTypeChoiceBox.setValue("Attendee Account");
-            Button createAccountBtn = new Button("Create Account");
+            accountTypeChoiceBox.getItems().addAll(presenter.AttendeeAccountPrompt(),
+                    presenter.OrganizerAccountPrompt(),
+                    presenter.SpeakerAccountPrompt(),
+                    presenter.VipAttendeeAccountPrompt());
+            accountTypeChoiceBox.setValue(presenter.AttendeeAccountPrompt());
+            Button createAccountBtn = new Button(presenter.createAccountButtonText());
             createAccountBtn.setOnAction(actionEvent1 -> {
                 String username = createAccountTextField.getText();
                 String accountType = accountTypeChoiceBox.getValue();
                 String accountChoice;
-                if (accountType.equals("Attendee Account")) accountChoice = "attendee";
-                else if (accountType.equals("Organizer Account")) accountChoice = "organizer";
-                else if (accountType.equals("Vip Attendee Account")) accountChoice = "speaker";
+                if (accountType.equals(presenter.AttendeeAccountPrompt())) accountChoice = "attendee";
+                else if (accountType.equals(presenter.OrganizerAccountPrompt())) accountChoice = "organizer";
+                else if (accountType.equals(presenter.SpeakerAccountPrompt())) accountChoice = "speaker";
                 else accountChoice = "vipattendee";
                 try {
                     filter.createAccount(accountChoice, username);
                 } catch (UsernameTakenException e) {
-                    createAccountStatus.setText("Username " + username + " is taken.");
+                    createAccountStatus.setText(presenter.usernameTaken(username));
                     return;
                 }
-                createAccountStatus.setText("Account created successfully");
+                createAccountStatus.setText(presenter.accountCreatedSuccess());
             });
 
             // Layout components
