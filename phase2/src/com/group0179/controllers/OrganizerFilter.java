@@ -1,4 +1,4 @@
-package com.group0179.filters;
+package com.group0179.controllers;
 
 import com.group0179.exceptions.UsernameTakenException;
 import com.group0179.use_cases.MessageManager;
@@ -12,7 +12,7 @@ import java.util.*;
  */
 
 @SuppressWarnings("MagicConstant")
-public class OrganizerFilter extends Filter {
+public class OrganizerFilter {
     private final UserManager um;
     private final RoomManager rm;
     private final MessageManager mm;

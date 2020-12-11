@@ -5,7 +5,6 @@ import com.group0179.PresenterFactory.LoginPresenterFactory;
 import com.group0179.controllers.LoginController;
 import com.group0179.exceptions.InvalidCredentialsException;
 import com.group0179.exceptions.UsernameTakenException;
-import com.group0179.filters.LoginFilter;
 import com.group0179.presenters.ILoginPresenter;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -24,7 +23,6 @@ import javafx.scene.layout.HBox;
  */
 
 public class LoginScene implements IScene {
-    private final LoginFilter filter;
     private  ILoginPresenter presenter;
     private final LoginController controller;
     private final LoginPresenterFactory factory;
@@ -56,8 +54,7 @@ public class LoginScene implements IScene {
     // Top menu
     HBox topMenu;
 
-    public LoginScene(LoginFilter filter, LoginPresenterFactory factory, LoginController controller) {
-        this.filter = filter;
+    public LoginScene(LoginPresenterFactory factory, LoginController controller) {
         this.factory = factory;
         this.presenter = factory.getLoginPresenterEN();
         this.controller = controller;

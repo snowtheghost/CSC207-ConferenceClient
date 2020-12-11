@@ -22,6 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Responsible for attendee's can see and do once they log in.
+ * @author Kerry Zhu
+ */
+
 public class AttendeeScene implements IScene{
     private final AttendeePresenter presenter;
     private final LoginController lc;
@@ -44,6 +49,10 @@ public class AttendeeScene implements IScene{
         this.autofill = autofill;
     }
 
+    /**
+     * Sets language for scene
+     * @param languageType: The type of language to use.
+     */
     public void setLanguage(String languageType){
         if (languageType.equals("Chinese")){
             this.langPresenter = factory.getAttendeePresenterCH();
@@ -79,6 +88,9 @@ public class AttendeeScene implements IScene{
     }
 
     @Override
+    /**
+     * Constructs Scene to view
+     */
     public void constructScene() {
         Text txtObj = new Text();
         bottomMenu = new GridPane();

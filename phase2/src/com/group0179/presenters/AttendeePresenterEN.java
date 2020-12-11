@@ -214,7 +214,7 @@ public class AttendeePresenterEN implements IAttendeePresenter{
      */
     @Override
     public String attemptJoinButton() {
-        return "Attempt Join";
+        return "Attempt Join/Leave";
     }
 
     /**
