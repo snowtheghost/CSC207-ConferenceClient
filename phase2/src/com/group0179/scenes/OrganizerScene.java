@@ -4,18 +4,21 @@ import com.group0179.MainView;
 import com.group0179.PresenterFactory.OrganizerPresenterFactory;
 import com.group0179.controllers.AutofillController;
 import com.group0179.controllers.LoginController;
+import com.group0179.exceptions.UsernameTakenException;
 import com.group0179.filters.OrganizerFilter;
 import com.group0179.presenters.IOrganizerPresenter;
 import com.group0179.presenters.OrganizerPresenterEN;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -36,7 +39,7 @@ public class OrganizerScene implements IScene {
     OrganizerPresenterFactory factory;
 
     BorderPane main;
-    HBox topMenu;
+    FlowPane topMenu;
     HBox emptyBottomMenu;
     Scene mainScene;
 
@@ -59,10 +62,9 @@ public class OrganizerScene implements IScene {
          */
 
         main = new BorderPane();
-        topMenu = new HBox();
+        topMenu = new FlowPane();
         emptyBottomMenu = new HBox();
         mainScene = new Scene(main, x, y);
-        topMenu.setSpacing(10); topMenu.setPadding(new Insets(10, 10, 10, 10));
         main.setTop(topMenu);
 
 
@@ -418,6 +420,49 @@ public class OrganizerScene implements IScene {
                     messageSpeakersForm.add(messageSpeakersSuccess, 0, 2);
                 });
 
+
+        GridPane createActBottomMenu = new GridPane();
+        Button createActButton = new Button("Create account");
+        createActButton.setOnAction(actionEvent -> {
+            main.setCenter(createActBottomMenu);
+            Text enterUsername = new Text("\n\n\n Enter Username: "); enterUsername.setWrappingWidth(x/2.1);
+            TextField createAccountTextField = new TextField();
+            Label createAccountStatus = new Label("");
+            createAccountStatus.setWrapText(true);
+
+            ChoiceBox<String> accountTypeChoiceBox = new ChoiceBox<>();
+            accountTypeChoiceBox.getItems().addAll("Attendee Account",
+                    "Organizer Account",
+                    "Speaker Account",
+                    "Vip Attendee Account");
+            accountTypeChoiceBox.setValue("Attendee Account");
+            Button createAccountBtn = new Button("Create Account");
+            createAccountBtn.setOnAction(actionEvent1 -> {
+                String username = createAccountTextField.getText();
+                String accountType = accountTypeChoiceBox.getValue();
+                String accountChoice;
+                if (accountType.equals("Attendee Account")) accountChoice = "attendee";
+                else if (accountType.equals("Organizer Account")) accountChoice = "organizer";
+                else if (accountType.equals("Vip Attendee Account")) accountChoice = "speaker";
+                else accountChoice = "vipattendee";
+                try {
+                    filter.createAccount(accountChoice, username);
+                } catch (UsernameTakenException e) {
+                    createAccountStatus.setText("Username " + username + " is taken.");
+                    return;
+                }
+                createAccountStatus.setText("Account created successfully");
+            });
+
+            // Layout components
+            createActBottomMenu.add(enterUsername, 0, 1);
+            createActBottomMenu.add(accountTypeChoiceBox, 0, 2);
+            createActBottomMenu.add(createAccountTextField, 1, 2);
+            createActBottomMenu.add(createAccountBtn, 0, 3);
+            createActBottomMenu.add(createAccountStatus, 0, 4, 2, 1);
+        });
+
+
         // Button that displays user statistics
         GridPane statsBottomMenu = new GridPane();
         Button statsButton = new Button(presenter.staistics());
@@ -456,9 +501,6 @@ public class OrganizerScene implements IScene {
             statsBottomMenu.getChildren().add(getInfo);
             GridPane.setConstraints(results, 0, 7);
             statsBottomMenu.getChildren().add(results);
-
-
-
         });
 
         // Button that leads from top menu to the Login Scene
@@ -473,7 +515,7 @@ public class OrganizerScene implements IScene {
          */
 
         // topMenu Elements
-        topMenu.getChildren().addAll(reManagerButton, speakerManagerButton, messageMenuButton, statsButton, logoutButton);
+        topMenu.getChildren().addAll(reManagerButton, speakerManagerButton, messageMenuButton, createActButton, statsButton, logoutButton);
 
             // reManager Elements
             reManagerBottomMenu.getChildren().addAll(createRoomFormButton, viewEventListButton);
@@ -542,4 +584,5 @@ public class OrganizerScene implements IScene {
         MainView.getStage().setScene(mainScene);
         MainView.getStage().setTitle(presenter.mainSceneTitle());
     }
+
 }

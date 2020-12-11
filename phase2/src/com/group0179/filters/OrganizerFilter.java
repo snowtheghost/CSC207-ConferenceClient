@@ -1,5 +1,6 @@
 package com.group0179.filters;
 
+import com.group0179.exceptions.UsernameTakenException;
 import com.group0179.use_cases.MessageManager;
 import com.group0179.use_cases.RoomManager;
 import com.group0179.use_cases.UserManager;
@@ -199,5 +200,27 @@ public class OrganizerFilter extends Filter {
      */
     public Map<String, Integer> getActCreations(){
         return this.um.getTimeLineOfAttendeeCreation();
+    }
+
+    /**
+     * Precondition: accountType is a valid account type.
+     * @param accountType a string representing the type of account to create (not case sensitive).
+     * @param username the desired username for the account.
+     * @throws UsernameTakenException if the given username already exists in the system.
+     */
+    public void createAccount(String accountType, String username) throws UsernameTakenException {
+        if (this.um.userExists(username)) {
+            throw new UsernameTakenException();
+        }
+        switch (accountType.toLowerCase()) {
+            case "organizer":
+                um.createOrganizerAccount(username); break;
+            case "attendee":
+                um.createAttendeeAccount(username, false); break;
+            case "vipattendee":
+                um.createAttendeeAccount(username, true); break;
+            case "speaker":
+                um.createSpeakerAccount(username); break;
+        }
     }
 }
