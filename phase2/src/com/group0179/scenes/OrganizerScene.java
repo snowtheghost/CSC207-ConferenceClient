@@ -41,6 +41,13 @@ public class OrganizerScene implements IScene {
     int currentRoomNumber = 0;
     int currentEventNumber = 0;
 
+    /**
+     * contructor of OrganizerScene
+     * @param filter the filter of the OrganizerScene
+     * @param factory the factory of the OrganizerScene
+     * @param lc LoginController
+     * @param autofill autofill of the OrganizerScene
+     */
     public OrganizerScene(OrganizerFilter filter, OrganizerPresenterFactory factory, LoginController lc, AutofillController autofill) {
         this.filter = filter;
         this.factory = factory;
@@ -49,8 +56,15 @@ public class OrganizerScene implements IScene {
         this.autofill = autofill;
     }
 
+    /**
+     * set language for this scene
+     * @param language the language of the scene.
+     */
     public void setLanguage(String language){if(language == "Chinese") this.presenter = this.factory.getOrganizerPresenterCH();}
 
+    /**
+     * construct an organizer scene
+     */
     public void constructScene() {
         /*
          * Main setup
