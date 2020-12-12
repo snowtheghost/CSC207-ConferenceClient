@@ -347,15 +347,27 @@ public class SpeakerPresenterCH implements ISpeakerPresenter{
     @Override
     public String removeRequestsButton() { return "Requests"; }
 
+    /**
+     * @return a string representing no requests with this content.
+     */
     @Override
     public String noRequestsWithThisContent(){return "There are no requests with this content";}
 
+    /**
+     * @return a string representing requests removed successfully.
+     */
     @Override
     public String SuccessfullyRemoved(){return "Request successfully removed";}
 
+    /**
+     * @return a string representing the event doesn't contain that request.
+     */
     @Override
     public String thisEventDoesNotContainThatRequest(){return "That event does not contain that request";}
 
+    /**
+     * @return a string representing enter the request content.
+     */
     @Override
     public String requestContent(){return "Enter the request content";}
 

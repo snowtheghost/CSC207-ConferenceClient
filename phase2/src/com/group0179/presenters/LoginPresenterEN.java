@@ -71,12 +71,21 @@ public class LoginPresenterEN implements ILoginPresenter {
         return "Username " + username + " is already in use.";
     }
 
+    /**
+     * @return a string representing login
+     */
     @Override
     public String loginButtonPrompt() { return "Login"; }
 
+    /**
+     * @return a string representing create account
+     */
     @Override
     public String createAccountButtonPrompt() { return "Create Account"; }
 
+    /**
+     * @return a string representing attendee(VIP).
+     */
     @Override
     public String vipAttendeeAccountChoice() { return "Attendee (VIP)"; }
 }
