@@ -14,6 +14,9 @@ public class LanguageScene implements IScene{
     HBox topMenu;
 
 
+    /**
+     * construct language scene.
+     */
     @Override
     public void constructScene() {
         EnglishButton = new Button("English");
@@ -34,6 +37,9 @@ public class LanguageScene implements IScene{
         mainScene = new Scene(borderPane, x, y);
     }
 
+    /**
+     * set language scene.
+     */
     @Override
     public void setScene() {
         MainView.getStage().setScene(mainScene);
