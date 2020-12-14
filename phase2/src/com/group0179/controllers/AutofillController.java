@@ -58,7 +58,7 @@ public class AutofillController {
 
         //System.out.println(query);
         for(UUID request : roomMan.getEventRequests(eventid)){
-            System.out.println(userMan.getRequestContentWithUUID(request).toUpperCase());
+            //System.out.println(userMan.getRequestContentWithUUID(request).toUpperCase());
             //if(request .getTitle().toUpperCase().startsWith(query)){
             if(userMan.getRequestContentWithUUID(request).toUpperCase().startsWith(query)){
                 queriedRequests.add(userMan.getRequestContentWithUUID(request));

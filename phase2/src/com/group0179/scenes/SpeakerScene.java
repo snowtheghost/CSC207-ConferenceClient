@@ -307,7 +307,7 @@ public class SpeakerScene implements IScene{
             displayForm(requestContentLabel, requestContentInput, bottomMenu, 6);
 
             // adds send button and result label to pane
-            Button sendRequestButton = new Button("langPresenter.removeRequest");
+            Button sendRequestButton = new Button("Remove request");
             Text result = atScene.txtObjCreater("", x/1.5);
 
             AtomicReference<String> input1 = new AtomicReference<>("");
