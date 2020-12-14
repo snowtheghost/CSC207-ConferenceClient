@@ -262,11 +262,11 @@ public class OrganizerScene implements IScene {
                         createEventForm.getChildren().remove(createEventDateTimeFailure);
                         createEventForm.getChildren().remove(createEventSuccess);
                         if (!filter.inputEventTitle(createEventTitleInput.getText())) {
-                            createEventForm.add(createEventTitleFailure, 0, 6, 2, 1);
+                            createEventForm.add(createEventTitleFailure, 0, 9, 2, 1);
                         } else if (!filter.inputEventSpeaker(createEventSpeakerInput.getText())) {
-                            createEventForm.add(createEventSpeakerFailure, 0, 6, 2, 1);
+                            createEventForm.add(createEventSpeakerFailure, 0, 9, 2, 1);
                         } else if (!filter.inputEventCapacity(createEventCapacityInput.getText(), currentRoomNumber)) {
-                            createEventForm.add(createEventCapacityFailure, 0, 6, 2, 1);
+                            createEventForm.add(createEventCapacityFailure, 0, 9, 2, 1);
                         } else if (!filter.createEvent(createEventTitleInput.getText(), createEventSpeakerInput.getText(),
                                 createEventDateInput.getText(), createEventTimeInput.getText(),
                                 endEventDateInput.getText(), endEventTimeInput.getText(),
